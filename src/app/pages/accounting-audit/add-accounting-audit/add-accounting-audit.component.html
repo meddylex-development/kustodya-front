@@ -1,0 +1,172 @@
+<div class="col-12" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="row">
+    <div class="col mt-3 mb-3">
+      <span style="position: absolute;">
+        <i class="fas fa-arrow-left text-left" style="font-size: 1.5rem; cursor: pointer;" (click)="fnShowGoBackList(1)"></i>&nbsp;
+        <span style="font-size: 1.2rem; vertical-align: text-bottom; cursor: pointer;" (click)="fnShowGoBackList(1)">Atras</span>
+      </span>
+      <h4 class="text-center">Crear depuraci&oacute;n contable</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+      <div class="row">
+        <form novalidate style="width: 100%;">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="label" for="documentType">
+                  Fecha de elaboraci&oacute;n
+                </label>
+                <input nbInput
+                  fullWidth
+                  autofocus 
+                  type="text"
+                  class="kstdy-input-accounting-audit" 
+                  placeholder="Seleccione fecha de elaboraci&oacute;n"
+                  id="date_incapacity"  
+                  name="date_incapacity" 
+                  (focus)="data_accounting_basic_info.fechaElaboracion = '';"
+                  [(ngModel)]="data_accounting_basic_info.fechaElaboracion" 
+                  [ngModelOptions]="{standalone: true}"
+                  #date_incapacity="ngModel"
+                  bsDatepicker 
+                  [maxDate]="maxDate"
+                  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputCodeName" class="label">C&oacute;digo y nombre de la cuenta a depurar</label>
+                <input 
+                  type="text"
+                  class="kstdy-input-accounting-audit" 
+                  nbInput 
+                  fullWidth 
+                  id="inputCodeName" 
+                  disabled
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="data_accounting_basic_info.subcuenta" 
+                  placeholder="Digite el c&oacute;digo y nombre de la cuenta a depurar">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputbalance" class="label">Contabilidad</label>
+                  <ng-select
+                    [items]="collection_accounting"
+                    bindLabel="codigo"
+                    bindValue="codigo"
+                    id="documentType"
+                    name="documentType"
+                    #documentType="ngModel"
+                    placeholder="Seleccione la contabilidad"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="data_accounting_basic_info.contabilidad"
+                    required
+                    appendTo="body"
+                    (scrollToEnd)="onScrollToEnd()"
+                    (search)="fnSearchAccounting($event)"
+                    (change)="fnGetDefaultValues($event.codigo)"
+                    [disabled]="false"
+                    [clearable]="false"
+                    class="col-12 p-0 m-0">
+                  </ng-select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputDescripcion" class="label">Descripci&oacute;n de la ficha</label>
+                <input 
+                  type="text"
+                  class="kstdy-input-accounting-audit" 
+                  nbInput 
+                  fullWidth 
+                  id="inputDescripcion" 
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="data_accounting_basic_info.descripcionFicha"
+                  placeholder="Descripci&oacute;n de la ficha">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputNFicha" class="label">No. Ficha t&eacute;cnica</label>
+                <input 
+                  type="text"
+                  class="kstdy-input-accounting-audit" 
+                  nbInput 
+                  fullWidth 
+                  id="inputNFicha" 
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="data_accounting_basic_info.fichaTecnica" 
+                  placeholder="No. Ficha t&eacute;cnica">
+              </div>
+            </div> -->
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="documentType" class="label">Clase de documento</label>
+                <ng-select
+                [items]="collection_document_types"
+                bindLabel="descripcion"
+                bindValue="descripcion"
+                id="documentType"
+                name="documentType"
+                #documentType="ngModel"
+                placeholder="Seleccione clase de documento"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="data_accounting_basic_info.claseDocumento"
+                required
+                [disabled]="false"
+                [clearable]="false"
+                class="col-12 p-0 m-0">
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputFichaAprobada" class="label">Ficha t&eacute;cnica aprobada en el comite t&eacute;cnico depuraci&oacute;n de:</label>
+                <input 
+                  type="text"
+                  class="kstdy-input-accounting-audit" 
+                  nbInput 
+                  fullWidth 
+                  disabled
+                  id="inputFichaAprobada" 
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="data_accounting_basic_info.fichaTecnicaAprobada" 
+                  placeholder="Espacio para la ficha t&eacute;cnica aprobada en el comite t&eacute;cnico">
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-between"> 
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputCantidadFolios" class="label">Cantidad folios:</label>
+                <input 
+                  type="number"
+                  class="kstdy-input-accounting-audit" 
+                  nbInput 
+                  fullWidth 
+                  id="inputCantidadFolios" 
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="data_accounting_basic_info.folios" 
+                  placeholder="Cantidad folios">
+              </div>
+            </div>
+            <div class="col-3 text-right">
+              <!-- <button class="btn kstdy-btns_actions kstdy-btn_action_save font_family_roboto" [disabled]="!data_accounting_basic_info.claseDocumento || !data_accounting_basic_info.folios || !data_accounting_basic_info.descripcionFicha || !data_accounting_basic_info.fichaTecnica || !data_accounting_basic_info.fechaElaboracion" [class.btn-pulse]="submitted" fullwidth (click)="fnSendFormBasicInfoAccountingAudit(data_accounting_basic_info)">Guardar</button> -->
+              <button class="btn kstdy-btns_actions kstdy-btn_action_save font_family_roboto" [disabled]="false" [class.btn-pulse]="submitted" fullwidth (click)="fnSendFormBasicInfoAccountingAudit(data_accounting_basic_info)">Guardar</button>
+            </div>
+          </div>
+          <!-- <div class="row justify-content-end">
+            
+          </div> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

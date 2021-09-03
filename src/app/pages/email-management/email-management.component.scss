@@ -1,0 +1,17 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  
+  .table thead th {
+    border-bottom: 1px solid #dee2e6;
+    margin: 0px;
+    background-color: #edf6ff;
+  }
+
+  .table tbody tr:first-child td{
+    border-top: 0;
+  }
+
+}

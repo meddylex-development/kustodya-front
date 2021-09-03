@@ -1,0 +1,72 @@
+@import '../@theme/styles/themes';
+
+@include nb-install-component() {
+  /deep/ router-outlet + * {
+    display: block;
+    animation: fade 1s;
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  ::ng-deep .menu-item .menu-icon {
+    font-size: 2rem;
+    width: 2.5rem;
+    margin: 0 0.25rem 0;
+    text-align: center;
+    color: #a4abb3;
+    margin: 0rem -0.4rem;
+  }
+
+  ::ng-deep .menu-items > .menu-item:first-child{
+    border-top: 0px;
+  }
+  
+  ::ng-deep nb-menu{
+    border-top: 30px !important;
+  }
+  
+  ::ng-deep nb-sidebar{
+    z-index: 1 !important;
+    box-shadow: none !important;
+    display: none !important;
+  }
+
+  .font_family_roboto {
+    font-family: 'Roboto';
+  }
+
+  .font_family_exo {
+    font-family: 'Exo';
+  }
+  
+  ::ng-deep .menu-title{
+    margin: 0rem 0.5rem;
+  }
+
+  ::ng-deep nb-sidebar.menu-sidebar{
+    margin-top: 0rem !important;
+  }
+
+  ::ng-deep .fixed{
+    box-shadow: none;
+  }
+
+  // ::ng-deep .main-container-fixed{
+  //   height: calc(104vh - 4.75rem - 2rem) !important;
+  // }
+
+
+
+::ng-deep nb-layout-column {
+  padding: 0rem !important;
+}
+
+}

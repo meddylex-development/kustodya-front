@@ -1,0 +1,163 @@
+@import '../../../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+
+  button:focus {
+    outline: 0;
+    cursor: pointer;
+  }
+
+  .font_family_roboto {
+    font-family: 'Roboto';
+  }
+
+  .label {
+    color: #3D3D3D;
+    font-size: 1.1rem;
+  }
+
+  #kstdy-btn_edit_profile {
+    text-transform: none;
+    background: linear-gradient(to right, #1C93FF, #01BDFF);
+    color: white;
+    width: 9rem;
+  }
+
+  #kstdy-input_group_name:focus {
+    border-color: #1e90ff;
+  }
+  
+  #kstdy-btn_cancel_send_invite_user {
+    text-transform: none;
+    background-color: nb-theme(kstdy-color-11);   
+    width: nb-theme(kstdy-width-btn-crud);
+  }
+  
+  .kstdy-btn_success {
+    background-color: nb-theme(kstdy-color-1);
+    cursor: pointer;
+  }
+
+  #kstdy-input_group_name:focus {
+    border-color: nb-theme(kstdy-color-1);
+  }
+
+  #kstdy-input_group_name {
+    background-color: #F8FCFC;
+    border-color: #E9EEEF;
+  }
+
+  .kstdy-fs_icon_list {
+    font-size: 1.2rem;
+    vertical-align: sub;
+    color: #1e90ff;
+  }
+
+  .kstdy-fs_icon_caret {
+    font-size: 1.3rem;
+    position: absolute;
+    right: 1rem;
+    color: #8d9194 !important;
+  }
+
+  .kstdy-fs_icon_right_list {
+    font-size: 1.5rem;
+    position: absolute;
+    right: 3rem;
+    color: #a4abb3;
+  }
+
+  .kstdy-check {
+    color: #007bff !important;
+  }
+
+  .list-group-item {
+    background-color: #edf6ff;
+    border-color: white;
+  }
+
+  .kstdy-pointer {
+    cursor: pointer;
+  }
+
+  ::ng-deep nb-dialog-container {
+    height: 80vw;
+    max-width: 95vw;
+    max-height: 81vh;
+  }
+
+  .kstdy-title_item_list {
+    display: inline-block;
+    color: #212529 !important;
+  }
+
+  ::ng-deep nb-card-header {
+    display: block !important;
+  }
+  ::ng-deep nb-card-body {
+    box-shadow: none !important;
+  }
+
+  ::ng-deep nb-card {
+    max-width: 765px;
+    height: 34rem !important;
+  }
+
+  .kstdy-card_li {
+    border-color: white;
+  }
+
+  ::ng-deep {
+    .tooltip-inner {
+        width: 12rem;
+        background-color: #ff4c6a;
+        color: #fff;
+        text-align: left;
+    }
+
+    .tooltip-arrow {
+        border-right-color: #ff4c6a !important;
+    }
+    
+    .tooltip-arrow::before {
+        border-right-color: #ff4c6a !important;
+    }
+  }
+
+  .icon-blue {
+    color: #1e90ff;
+  }
+
+   
+  /********** START - nb-checkbox custom css style  **********/
+
+  ::ng-deep nb-checkbox .customised-control-input:checked + .customised-control-indicator {
+    border-color: #ccc;
+  }
+
+  ::ng-deep nb-checkbox .customised-control {
+    padding: 0 1.5rem 0 0;
+  }
+
+  ::ng-deep nb-checkbox .customised-control-input:checked + .customised-control-indicator:hover {
+    border-color: #1e90ff;
+  }
+
+  ::ng-deep nb-checkbox .customised-control-input:hover {
+    border-color: #1e90ff;
+  }
+
+  ::ng-deep nb-checkbox .customised-control-input:checked + .customised-control-indicator::before {
+    border-color: #1e90ff;
+  }
+
+  ::ng-deep nb-checkbox:hover .customised-control-input:enabled + .customised-control-indicator, ::ng-deep nb-checkbox .customised-control-input:focus:enabled + .customised-control-indicator {
+    border-color: #1e90ff;
+  }
+
+  /********** END - nb-checkbox custom css style  **********/
+  
+
+}

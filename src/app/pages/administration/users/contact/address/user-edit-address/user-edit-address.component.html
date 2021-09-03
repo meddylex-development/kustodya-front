@@ -1,0 +1,229 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center">
+          <span style="color: #1e90ff;font-weight: 500;">Actualizar direcci&oacute;n</span>
+          <i class="fas fa-times" (click)="fnCancelEditAddressUser()" style="position: absolute; right: 2rem; cursor: pointer;"></i>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnEditAddressUser(user_data)" #editAddressUser="ngForm" aria-labelledby="title" style="width: 600px">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row">
+                    <div class="col">
+                      <label for="kstdya-new_address">Ingrese nueva direcci&oacute;n: *</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3 pr-2">
+                      <div class="form-group">
+                        <ng-select 
+                            [items]="data_list_routes" 
+                            bindLabel="name" 
+                            bindValue="value" 
+                            id="address_type"
+                            name="address_type"
+                            #address_type="ngModel" 
+                            placeholder="Seleccione tipo de dirección" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="user_data.address_type" 
+                            required 
+                            [disabled]="false" 
+                            [clearable]="false" 
+                            class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col pl-2 pr-2">
+                      <div class="form-group">
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.address_first_number" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_address_first_number" 
+                          name="address_first_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder=""
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col-2 pl-2 pr-2">
+                      <div class="form-group">
+                        <ng-select 
+                            [items]="collection_address_letters_location" 
+                            bindLabel="descripcion" 
+                            id="address_first_letter"
+                            name="address_first_letter"
+                            #address_first_letter="ngModel" 
+                            placeholder="" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="user_data.address_first_letter" 
+                            required 
+                            [disabled]="false" 
+                            [clearable]="false" 
+                            class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <!-- <div class="col">
+                      <div class="form-group">
+                        #
+                      </div>
+                    </div> -->
+                    <div class="col pl-2 pr-2">
+                      <div class="form-group">
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.address_second_number" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_address_second_number" 
+                          name="address_second_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder=""
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col-2 pl-2 pr-2">
+                      <div class="form-group">
+                        <ng-select 
+                            [items]="collection_address_letters_location" 
+                            bindLabel="descripcion" 
+                            id="address_second_letter"
+                            name="address_second_letter"
+                            #address_second_letter="ngModel" 
+                            placeholder="" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="user_data.address_second_letter" 
+                            required 
+                            [disabled]="false" 
+                            [clearable]="false" 
+                            class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <!-- <div class="col">
+                      <div class="form-group">
+                        -
+                      </div>
+                    </div> -->
+                    <div class="col pl-2">
+                      <div class="form-group">
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.address_third_number" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_address_third_number" 
+                          name="address_third_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder=""
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="kstdya-indications">Indicaciones: </label>
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.address_indications" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_indications_address" 
+                          name="indications_address" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese indicaciones. Ej: Apto xxx, Edificio xxxxx, etc."
+                          style="height: 45px;">
+                      </div>  
+                    </div>
+                    
+                  </div>
+                  <div class="row">
+                    <!-- <div class="col-6">
+                      <div class="form-group">
+                        <label for="kstdya-address_depto">Departamento: </label>
+                        <ng-select 
+                            [items]="collection_address_types" 
+                            bindLabel="descripcion" 
+                            id="address_depto"
+                            name="address_depto"
+                            #address_depto="ngModel" 
+                            appendTo="body"
+                            placeholder="Seleccione departamento" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="user_data.address_depto" 
+                            required 
+                            [disabled]="false" 
+                            [clearable]="false" 
+                            class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div> -->
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="kstdya-input_city">Ciudad: </label>
+                        <ng-select 
+                            [items]="data_list_cities" 
+                            bindLabel="ciudad" 
+                            bindValue="id" 
+                            id="input_city"
+                            name="input_city"
+                            #input_city="ngModel" 
+                            appendTo="body"
+                            placeholder="Seleccione ciudad" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="user_data.address_city" 
+                            required 
+                            [disabled]="false" 
+                            [clearable]="false" 
+                            class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col text-center pl-0 pr-0">
+
+                  <button nbButton 
+                    fullWidth 
+                    type="submit"  
+                    class="kstdy-button_action_form" 
+                    id="kstdya-btn_save_new_address_user" 
+                    nbButton 
+                    [disabled]="
+                      !user_data.address_indications ||
+                      !user_data.address_city || submitted"
+                    [class.btn-pulse]="submitted">
+                    Guardar
+                  </button>
+                  
+                  <!-- &nbsp;&nbsp;&nbsp;
+
+                  <button 
+                    nbButton 
+                    type="button" 
+                    class="kstdy-button_action_form_cancel" 
+                    id="kstdya-btn_cancel_save_new_address_user"
+                    [disabled]="submitted"
+                    [class.btn-pulse]="submitted"
+                    (click)="fnCancelEditAddressUser()"
+                    status="basic">Cancelar</button> -->
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="row p-4" style="background-color: #ffffff;">
+  <div class="col-12" *ngIf="show_profiles_state == 1">
+    <ngx-profiles-list (id_profile)="fnGetProfileId($event)" (show_profiles_state)="fnShowOptionsProfiles($event)"></ngx-profiles-list>
+  </div>
+  <div class="col-12" *ngIf="show_profiles_state == 2">
+    <ngx-add-profile (show_profiles_state)="fnShowOptionsProfiles($event)"></ngx-add-profile>
+  </div>
+  <div class="col-12" *ngIf="show_profiles_state == 3">
+    <ngx-edit-profile [id_profile]="id_profile" (show_profiles_state)="fnShowOptionsProfiles($event)"></ngx-edit-profile>
+  </div>
+</div>

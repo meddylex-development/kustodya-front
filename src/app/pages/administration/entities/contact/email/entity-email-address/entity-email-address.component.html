@@ -1,0 +1,47 @@
+<div class="col" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="row">
+    <div class="col">
+      <h3 class="semi-bold text-center font_family_roboto">Correos electr&oacute;nicos</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="text-center">
+        <button  class="btn font_family_roboto" style="color: #1e90ff; text-transform: none;" (click)="showModalAddEntityDataEmail(data_object)">
+          <i class="fa fa-plus fa-lg"></i>&nbsp;
+          A&ntilde;adir correo electr&oacute;nico
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mt-5">
+      <table class="table" class="table" *ngIf="data_list.length > 0">
+        <thead>
+          <tr>
+            <th scope="col" class="" style="width: 40%;">Correo</th>
+            <th scope="col" class="" style="width: 40%;">Descripci&oacute;n</th>
+            <th scope="col" class="" style="width: 10%;">&nbsp;</th>
+            <th scope="col" class="" style="width: 10%;">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data_list; let ind_address = index;">
+            <td class="">{{ item.correoElectronico }}</td>
+            <td class="">{{ item.descripcion }}</td>
+            <td class="text-right">
+              <i style="color: #1e90ff; cursor: pointer;" class="fa fa-edit fa-lg" (click)="showModalEditEntityDataEmail(ind_address, item)"></i>
+            </td>
+            <td class="">
+              <i style="color: #1e90ff; cursor: pointer;" class="fa fa-trash-alt fa-lg" (click)="showModalDeleteEntityDataEmail(ind_address, item)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center" *ngIf="data_list.length < 1">
+        <i class="far fa-folder-open fa-7x"></i>
+        <h4 class="font_family_roboto" style="color:#A7ABB3;">No hay correos electronicos agregados</h4>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,109 @@
+ul {
+    list-style-type: none;
+}
+
+.pgp-backgroud_layout {
+    background-color: #FFF;
+    min-height: 83vh;
+}
+
+.font_family_roboto {
+    font-family: 'Roboto';
+}
+
+.kstdy-content-image-error {
+    border: dashed 2px #9a0110; 
+    height: 100px; 
+    text-align: center; 
+    cursor: pointer;
+}
+
+.kstdy-content-image-valid {
+    border: dashed 2px #9c9a9a; 
+    height: 100px; 
+    text-align: center; 
+    cursor: pointer;
+}
+
+.kstdy-radio-button{
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: #309CFC;
+}
+
+.kstdy-border_dash_error{
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%2387C2EAFF' stroke-width='11' stroke-dasharray='21' stroke-dashoffset='23' stroke-linecap='square'/%3e%3c/svg%3e");
+    height: 50vh;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.kstdy-border_dash{
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%2387C2EAFF' stroke-width='11' stroke-dasharray='21' stroke-dashoffset='23' stroke-linecap='square'/%3e%3c/svg%3e");
+    height: 50vh;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.kstdy-tab_menu_selected {
+    color: #545454;
+    margin-bottom: 5px;
+    border-bottom: 3px solid #545454;
+}
+
+/* ********** START - Media query resolution screen width devices ********** */
+/* Very very small devices (landscape phones,from 319px to 321px) */
+@media (min-width: 319.98px) and (max-width: 321px) {
+
+}
+/* Very very small devices (landscape phones,from 319px to 321px) */
+@media (min-width: 322px) and (max-width: 400px) {
+    
+}
+/* Very very small devices (landscape phones,from 319px to 321px) */
+@media (min-width: 400px) and (max-width: 500px) {
+
+}
+/* Extra small devices (portrait phones, less than 576px) */
+@media (min-width: 570px) and (max-width: 575.98px) {
+    
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+
+}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+}
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .kstdy-tab_menu {
+        width: 95% !important;
+    }
+}
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1299.98px) {
+    .kstdy-tab_menu {
+        width: 78% !important;
+    }
+}
+/* Extra large devices (large desktops, 1300px and up) */
+@media (min-width: 1300px) and (max-width: 1399.98px) {
+    .kstdy-tab_menu {
+        width: 79% !important;
+    }
+}
+/* Extra large devices (large desktops, 1300px and up) */
+@media (min-width: 1400px) and (max-width: 1499.98px) {
+    .kstdy-tab_menu {
+        width: 81% !important;
+    }
+}
+@media (min-width: 1500px) {
+    .kstdy-tab_menu {
+        // width: 100% !important;
+    }
+}
+
+/* *********** END - Media query resolution screen width devices *********** */

@@ -1,0 +1,64 @@
+@import '../../../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+
+  button:focus {
+    outline: 0;
+    cursor: pointer;
+  }
+  
+  .title {
+    text-align: center;
+  }
+
+  .font_family_roboto {
+    font-family: 'Roboto';
+  }
+
+  .font_family_exo {
+    font-family: 'exo';
+  }
+  
+  .kstdy-backgroud_layout {
+    background-color: #FFF;
+  }
+
+  .kstdy-pointer {
+    cursor: pointer;
+  }
+
+  .kstdy-modal_header {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .kstdy-card_content {
+    background-color: #FFF;
+    border-radius: 5px;
+  }
+
+  ::ng-deep nb-dialog-container {
+    height: 80vw;
+    max-width: 95vw;
+    max-height: 81vh;
+  }
+
+  .kstdy-title_item_list {
+    display: inline-block;
+  }
+
+  ::ng-deep nb-card-header {
+    display: block !important;
+  }
+
+  #kstdy-btn_delete_profile{
+    text-transform: none;
+    background-color: #1e90ff;
+  }
+  
+  #kstdy-btn_cancel_delete_profile{
+    text-transform: none;
+    background-color: #828282;
+  }
+}

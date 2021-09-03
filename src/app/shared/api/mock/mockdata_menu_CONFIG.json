@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Versiones",
+    "icon": "nb-e-commerce",
+    "link": "/pages/base",
+    "home": true
+  }, 
+  {
+    "title": "Proyectos",
+    "icon": "nb-e-commerce",
+    "link": "/pages/base",
+    "home": true
+  }, 
+  {
+    "title": "Miembros",
+    "icon": "nb-e-commerce",
+    "link": "/pages/base",
+    "home": true
+  }, 
+  {
+    "title": "Configuracion",
+    "icon": "nb-e-commerce",
+    "link": "/pages/base",
+    "home": true
+  }
+]

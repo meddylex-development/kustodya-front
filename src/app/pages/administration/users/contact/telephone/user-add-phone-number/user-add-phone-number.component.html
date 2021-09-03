@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center">
+          <span style="color: #1e90ff;font-weight: 500;">Agregar nuevo tel&eacute;fono</span>
+          <i class="fas fa-times" (click)="fnCancelCreateNewPhoneUser()" style="position: absolute; right: 2rem; cursor: pointer;"></i>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnCreateNewPhoneUser(user_data)" #addNewPhoneUser="ngForm" aria-labelledby="title" style="width: 600px">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="kstdya-input_phone_number">N&uacute;mero de t&eacute;lefono: *</label>                                         
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.phone_number" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_phone_number" 
+                          name="phone_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese número de télefono"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="kstdya-input_extension_number">Extensi&oacute;n: </label>                                         
+                        <input 
+                          nbInput 
+                          [(ngModel)]="user_data.extension_number" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_extension_number" 
+                          name="extension_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese extension (opcional)"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="kstdya-input_description_number">Descripci&oacute;n: *</label>                                         
+                    <input 
+                      nbInput 
+                      [(ngModel)]="user_data.description_number" 
+                      #groupName="ngModel" 
+                      id="kstdya-input_description_number" 
+                      name="description_number" 
+                      autofocus  
+                      type="text" 
+                      class="form-control kstdya-input_focus"
+                      placeholder="Ingrese descripción del número telefonico"
+                      style="height: 45px;">
+                  </div>
+                </div>
+                <div class="col text-center pl-0 pr-0">
+
+                  <button nbButton 
+                    fullWidth 
+                    type="submit"  
+                    class="kstdy-button_action_form" 
+                    id="kstdya-btn_save_new_phone_user" 
+                    nbButton 
+                    [disabled]="
+                      !user_data.phone_number ||
+                      !user_data.description_number || submitted"
+                    [class.btn-pulse]="submitted">
+                    Guardar
+                  </button>
+                  
+                  <!-- &nbsp;&nbsp;&nbsp;
+
+                  <button 
+                    nbButton 
+                    type="button" 
+                    class="kstdy-button_action_form_cancel" 
+                    id="kstdya-btn_cancel_save_new_phone_user"
+                    [disabled]="submitted"
+                    [class.btn-pulse]="submitted"
+                    (click)="fnCancelCreateNewPhoneUser()"
+                    status="basic">Cancelar</button> -->
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>
+  

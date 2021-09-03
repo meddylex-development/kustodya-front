@@ -1,0 +1,72 @@
+<div class="row kstdy-backgroud_layout p-0" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto mt-4">Tipo de ajuste</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <i class="fas fa-info-circle"></i>&nbsp;Por favor agregue todos los tipos de ajuste que se requieran.
+          </div>
+          <div class="col-3 text-right">
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_add_adjustment_type" (click)="fnShowModalNewAdjustmentType()">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - Adjustment type ********** -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="border-0" colspan="2" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-left border-0">
+                C&oacute;digo
+              </th>
+              <th scope="col" class="text-left border-0">
+                Contabilidad
+              </th>
+              <th scope="col" class="text-left border-0">
+                Descripci&oacute;n
+              </th>
+              <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                Por defecto
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let adjustment_type_data of list_adjustment_type | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-left p-3">
+                  <i class="fas fa-trash kstdy-pointer kstdy-icon_color" (click)="fnShowModalDeleteAdjustmentType(adjustment_type_data)"></i>
+                </td>
+                <td class="kstdy-table-actions text-center p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color" (click)="fnShowModalUpdateAdjustmentType(adjustment_type_data)"></i>
+                </td>
+                <td class="text-left p-3">{{ adjustment_type_data.codigoContabilidad }}</td>
+                <td class="text-left p-3">{{ adjustment_type_data.contabilidad }}</td>
+                <td class="text-left p-3">{{ adjustment_type_data.descripcion }}</td>
+                <td class="text-center p-3"><nb-checkbox status="info" readonly [value]="adjustment_type_data.esTipoAjustePorDefecto"></nb-checkbox></td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - Adjustment type *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_adjustment_type?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_adjustment_type.length) ? (list_adjustment_type.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

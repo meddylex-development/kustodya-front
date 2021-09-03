@@ -1,0 +1,64 @@
+<div class="row pgp-backgroud_layout font_family_roboto pr-4" style="overflow: hidden;">
+  <div class="col-12">
+
+      <div class="row">
+        <div class="col-12 kstdy-tab_menu" style="position: fixed; z-index: 1; background-color: #FFF; width: 86%;">
+          <div class="row mt-4" style="margin-left: -10px;">
+            <div id="kstdy-test" class="col text-center" [ngClass]="{'kstdy-tab_menu_selected': content_tab_basic_info}" (click)="content_tab_basic_info = true; content_tab_contact = false; content_tab_admin = false; content_tab_logo = false; content_tab_others = false" style="border-right: 3px solid #ececec; margin-bottom: 10px; cursor: pointer;">
+              <i class="fas fa-chevron-left" style="color: #1e90ff; font-size: 1.5rem; cursor: pointer;position: absolute;left: 4px;" (click)="fnShowGoBackList()"></i>
+              <i class="fas fa-user" style="font-size: 1rem; color: #A6A6A6;" [ngStyle]="{'color': (content_tab_basic_info ? '#545454' : '#A6A6A6')}"></i>&nbsp;
+              <label class="d-inline-block font_family_roboto" style="color: #A6A6A6; font-size: 1.1rem;" [ngStyle]="{'color': (content_tab_basic_info ? '#545454' : '#A6A6A6')}">Información Básica</label>
+            </div>
+            <div id="kstdy-bulk_upload" class="col text-center" [ngClass]="{'kstdy-tab_menu_selected': content_tab_contact}" (click)="content_tab_basic_info = false; content_tab_contact = true; content_tab_admin = false; content_tab_logo = false; content_tab_others = false" style="border-right: 3px solid #ececec; margin-bottom: 10px; cursor: pointer;">
+              <i class="fas fa-address-card" style="font-size: 1rem; color: #A6A6A6;" [ngStyle]="{'color': (content_tab_contact ? '#545454' : '#A6A6A6')}"></i>&nbsp;
+              <label class="d-inline-block font_family_roboto" style="color: #A6A6A6; font-size: 1.1rem;" [ngStyle]="{'color': (content_tab_contact ? '#545454' : '#A6A6A6')}">Contacto</label>
+            </div>
+            <div id="kstdy-history" class="col text-center" [ngClass]="{'kstdy-tab_menu_selected': content_tab_admin}" (click)="content_tab_basic_info = false; content_tab_contact = false; content_tab_admin = true; content_tab_logo = false; content_tab_others = false" style="border-right: 3px solid #ececec; margin-bottom: 10px; cursor: pointer;">
+              <i class="fas fa-users" style="font-size: 1rem; color: #A6A6A6;" [ngStyle]="{'color': (content_tab_admin ? '#545454' : '#A6A6A6')}"></i>&nbsp;
+              <label class="d-inline-block font_family_roboto" style="color: #A6A6A6; font-size: 1.1rem;" [ngStyle]="{'color': (content_tab_admin ? '#545454' : '#A6A6A6')}">Admin</label>
+            </div>
+            <div id="kstdy-history" class="col text-center" [ngClass]="{'kstdy-tab_menu_selected': content_tab_logo}" (click)="content_tab_basic_info = false; content_tab_contact = false; content_tab_admin = false; content_tab_logo = true; content_tab_others = false" style="border-right: 3px solid #ececec; margin-bottom: 10px; cursor: pointer;">
+              <i class="fas fa-image" style="font-size: 1rem; color: #A6A6A6;" [ngStyle]="{'color': (content_tab_logo ? '#545454' : '#A6A6A6')}"></i>&nbsp;
+              <label class="d-inline-block font_family_roboto" style="color: #A6A6A6; font-size: 1.1rem;" [ngStyle]="{'color': (content_tab_logo ? '#545454' : '#A6A6A6')}">Logo</label>
+            </div>
+            <div id="kstdy-report" class="col text-center" [ngClass]="{'kstdy-tab_menu_selected': content_tab_others}" (click)="content_tab_basic_info = false; content_tab_contact = false; content_tab_admin = false; content_tab_logo = false; content_tab_others = true" style="border-right: 3px solid #ececec; margin-bottom: 10px; cursor: pointer;">
+              <i class="fas fa-cubes" style="font-size: 1rem; color: #A6A6A6;" [ngStyle]="{'color': (content_tab_others ? '#545454' : '#A6A6A6')}"></i>&nbsp;
+              <label class="d-inline-block font_family_roboto" style="color: #A6A6A6; font-size: 1.1rem;" [ngStyle]="{'color': (content_tab_others ? '#545454' : '#A6A6A6')}">Otros</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12" style="margin-top: 60px;">
+          <div class="row mt-4 ml-3 mr-3" *ngIf="content_tab_basic_info">
+            <div class="col-12">
+              <ngx-entity-basic-info [dataEntityTab]="dataEntity"></ngx-entity-basic-info>
+            </div>
+          </div>
+          <div class="row mt-4 ml-3 mr-3" *ngIf="content_tab_contact">
+            <div class="col-12">
+              <ngx-contact-entity [dataEntityTab]="dataEntity"></ngx-contact-entity>
+            </div>
+          </div>
+          <div class="row mt-4 ml-3 mr-3" *ngIf="content_tab_admin">
+            <div class="col-12">
+              <ngx-entity-administrator-list [dataEntityTab]="dataEntity"></ngx-entity-administrator-list>
+            </div>
+          </div>
+          <div class="row m-0 p-0" *ngIf="content_tab_logo">
+            <div class="col-12 m-0 p-0">
+              <ngx-entity-logo [dataEntityTab]="dataEntity"></ngx-entity-logo>
+            </div>
+          </div>
+          <div class="row m-0 p-0" *ngIf="content_tab_others">
+            <div class="col-12 m-0 p-0">
+              <ngx-entity-other-info [dataEntityTab]="dataEntity"></ngx-entity-other-info>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+</div>

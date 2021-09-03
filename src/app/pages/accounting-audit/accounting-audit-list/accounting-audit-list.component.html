@@ -1,0 +1,123 @@
+<div class="row kstdy-backgroud_layout p-4" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto">Depurac&iacute;on contable</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row" *ngIf="true">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 pl-0">
+            <input (input)="fnFilter(search_input);" fullWidth nbInput
+              [(ngModel)]="search_input" #search_AccountingAudit="ngModel"
+              class="kstdy-text_input_search form-control d-inline-block" id="kstdy-input_search_AccountingAudit"
+              name="search_AccountingAudit" type="text" placeholder="Buscar">
+            <i class="fas fa-search kstdy-icon_input_search fa-rotate-90"></i>
+          </div>
+          <div class="col mt-2 mt-sm-2 mt-md-2 mt-lg-0 float-left text-lg-right text-xl-right text-md-center text-sm-center text-center">
+            <!-- <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_create_categories">Crear</button> -->
+            <ng-select 
+              [items]="collection_data" 
+              bindLabel="name" 
+              bindValue="value" 
+              id="documentType" 
+              name="documentType"
+              #documentType="ngModel" 
+              placeholder="Seleccione estado" 
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="state" 
+              (change)="fnChangeStatusList($event);"
+              required 
+              [disabled]="false" 
+              [clearable]="false" 
+              class="col-5 p-0 m-0 text-left float-left">
+            </ng-select>
+            &nbsp;
+            <button 
+              class="btn kstdy-btns_actions kstdy-btn_clear_filter font_family_roboto float-left" 
+              id="kstdy-button_create_categories" 
+              alt="Limpiar filtro"
+              (click)="fnClearFilter()">
+              <i class="fas fa-sync-alt" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div *ngIf="!show_btn_create" class="col-xl-2 col-lg-2 float-right col-md-12 col-sm-12 mt-2 mt-sm-2 mt-md-2 mt-lg-0 text-lg-right text-xl-right text-md-center text-sm-center text-center">
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_create_categories"
+              (click)="fnCreateAccountingAudit(2)">Crear</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - AccountingAudit ********** -->
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th colspan="3" class="border-0" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-center border-0">
+                No. Ficha t&eacute;cnica
+              </th>
+              <th scope="col" class="text-center border-0">
+                Fecha de elaboraci&oacute;n
+              </th>
+              <th scope="col" class="text-center border-0">
+                C&oacute;digo y nombre cuenta
+              </th>
+              <th scope="col" class="text-center border-0">
+                Descripci&oacute;n de la ficha
+              </th>
+              <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                Estado del registro
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data_accounting_audit of list_accounting_audit | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-right p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color"
+                    (click)="fnShowEditAccountingAudit(data_accounting_audit)"></i>
+                </td>
+                <td class="kstdy-table-actions text-left p-3">
+                  <i class="fas fa-trash kstdy-pointer kstdy-icon_color"
+                    (click)="fnShowModalDeleteAccountingAudit(data_accounting_audit)"></i>
+                </td>
+                <td class="kstdy-table-actions text-left p-3">
+                  <i class="far fa-eye kstdy-pointer kstdy-icon_color"
+                    (click)="fnShowModalViewPDFAccountingAudit(data_accounting_audit)"></i>
+                </td>
+                <td class="text-center p-3">{{ data_accounting_audit.noFichaTecnica }}</td>
+                <td class="text-center p-3">{{ data_accounting_audit.fechaElaboracion | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center p-3">{{ data_accounting_audit.codyNombreCuenta }}</td>
+                <td class="text-center p-3">{{ data_accounting_audit.descripcionFicha }}</td>
+                <td class="text-center p-3">
+                  <span class="badge badge-pill badge-primary" style="cursor: pointer;" (click)="fnShowModalChangeStateAccountingAudit(data_accounting_audit)" *ngIf="data_accounting_audit.accion">{{ data_accounting_audit.accion }}</span>
+                  <span class="badge badge-pill badge-secondary" *ngIf="!data_accounting_audit.accion">{{ data_accounting_audit.estado }}</span>
+                  <!-- {{ data_accounting_audit.estado }} -->
+                </td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - AccountingAudit *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_accounting_audit?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_accounting_audit.length) ? (list_accounting_audit.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+          <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+            <div class="text-center">
+              
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

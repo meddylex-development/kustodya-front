@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="font_family_roboto kstdy-card_content">
+        <div class="kstdy-modal_header pt-3 pb-2">
+          <h6 class="font_family_roboto text-center">Eliminar contabilidad</h6>
+        </div>
+        <div class="p-3">
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (submit)="fnSetDeleteAdjustmentType(adjustment_type_data)" #deleteAdjustmentType="ngForm" aria-labelledby="title" style="width: 18rem;">
+                <div class="col-12 pl-0 pr-0">
+                  <p class="mb-3 mt-1 font_family_roboto">Esta seguro que desea eliminar el tipo de ajuste: <strong>"{{ adjustment_type_data.descripcion }}"</strong>?</p>
+                </div>
+                <button type="submit" class="kstdy-pointer btn btn-primary kstdy-btn_success font_family_roboto" id="kstdy-btn_delete_adjustment_type"
+                  nbButton [disabled]="!adjustment_type_data.codigoContabilidad" [class.btn-pulse]="submitted" status="info">Eliminar</button>
+                &nbsp;&nbsp;&nbsp;
+                <button class="kstdy-pointer font_family_roboto" type="button" id="kstdy-btn_cancel_delete_adjustment_type" nbButton [class.btn-pulse]="submitted"
+                  (click)="fnCancelDeleteAdjustmentType()" status="danger">Cancelar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

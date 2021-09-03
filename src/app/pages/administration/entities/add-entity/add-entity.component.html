@@ -1,0 +1,476 @@
+<!-- ********** START - Content - Add entity ********** -->
+<div class="container-fluid" style="background-color: #fff;">
+  <!-- ********** START - Content - Button Go Back ********** -->
+  <div class="row">
+    <div class="col mt-3 mb-5">
+      <span style="position: absolute;">
+        <i class="fas fa-chevron-left text-left" style="font-size: 1.5rem; cursor: pointer; color: #369DFB;" (click)="fnShowGoBackList()"></i>&nbsp;
+        <span style="font-size: 1.2rem; vertical-align: text-bottom; cursor: pointer; color: #369DFB;" (click)="fnShowGoBackList()">Atras</span>
+      </span>
+      <h4 class="text-center font_family_roboto">Crear nueva entidad</h4>
+    </div>
+  </div>
+  <!-- *********** END - Content - Button Go Back *********** -->
+  <div class="row justify-content-center">
+    <form #f="ngForm" (ngSubmit)="fnSendFormAddEntity(data_new_entity)" novalidate style="width: 95%;">
+      <div class="row">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="correo">
+              Correo principal
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.correoPrincipal" 
+              [ngModelOptions]="{standalone: true}" 
+              #correo="ngModel" 
+              name="correo"
+              [status]="correo.dirty ? (correo.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="correo.invalid && correo.touched ? true : null"
+              id="correo" 
+              placeholder="gerencia@famisanar.com">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="documentType">
+              Tipo de identificacion
+            </label>
+            <ng-select 
+              [items]="collection_document_types"
+              bindLabel="name"
+              bindValue="value"
+              id="documentType"
+              name="documentType"
+              #documentType="ngModel"
+              placeholder="Seleccione tipo de documento"
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.tipoId"
+              required
+              (change)="document_type = $event.value"
+              [disabled]="false"
+              [clearable]="false"
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="numberId">
+              N&uacute;mero de identificacion
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.numeroId" 
+              [ngModelOptions]="{standalone: true}" 
+              #numberId="ngModel" 
+              name="numberId"
+              [status]="numberId.dirty ? (numberId.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="numberId.invalid && numberId.touched ? true : null"
+              id="numberId" 
+              placeholder="Digite el n&uacute;mero de identificacion">
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="row" *ngIf="document_type != 10 && document_type != 11">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="firstName">
+              Primer nombre
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.primerNombre" 
+              [ngModelOptions]="{standalone: true}" 
+              #firstName="ngModel" 
+              name="firstName"
+              [status]="firstName.dirty ? (firstName.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="firstName.invalid && firstName.touched ? true : null"
+              id="firstName" 
+              placeholder="Primer nombre">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="secondName">
+              Segundo nombre
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.segundoNombre" 
+              [ngModelOptions]="{standalone: true}" 
+              #secondName="ngModel" 
+              name="secondName"
+              [status]="secondName.dirty ? (secondName.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="secondName.invalid && secondName.touched ? true : null"
+              id="secondName" 
+              placeholder="Segundo nombre">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="firstSurname">
+              Primer apellido
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.primerApellido" 
+              [ngModelOptions]="{standalone: true}" 
+              #firstSurname="ngModel" 
+              name="firstSurname"
+              [status]="firstSurname.dirty ? (firstSurname.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="firstSurname.invalid && firstSurname.touched ? true : null"
+              id="firstSurname" 
+              placeholder="Primer apellido">
+          </div>
+        </div>
+        
+      </div>
+      <!--  -->
+      <div class="row" *ngIf="document_type == 10 || document_type == 11">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="socialReason">
+              Raz&oacute;n social
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.razonSocial" 
+              [ngModelOptions]="{standalone: true}" 
+              #socialReason="ngModel" 
+              name="socialReason"
+              [status]="socialReason.dirty ? (socialReason.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="socialReason.invalid && socialReason.touched ? true : null"
+              id="socialReason" 
+              placeholder="Raz&oacute;n social">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="verificationDigit">
+              D&iacute;gito de verificaci&oacute;n
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.digitoVerificacion" 
+              [ngModelOptions]="{standalone: true}" 
+              #verificationDigit="ngModel" 
+              name="verificationDigit"
+              [status]="verificationDigit.dirty ? (verificationDigit.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="verificationDigit.invalid && verificationDigit.touched ? true : null"
+              id="verificationDigit" 
+              placeholder="D&iacute;gito de verificaci&oacute;n">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="typeSociety">
+              Tipo sociedad
+            </label>
+            <ng-select 
+              [items]="collection_type_society"
+              bindLabel="name"
+              bindValue="value"
+              id="typeSociety"
+              name="typeSociety"
+              #typeSociety="ngModel"
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.tipoSociedad"
+              required 
+              placeholder="Seleccione el tipo sociedad"
+              [disabled]="false"
+              [clearable]="false"
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto" *ngIf="document_type != 10 && document_type != 11">
+          <div class="form-group">
+            <label class="label" for="secondSurname">
+              Segundo apellido
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.segundoApellido" 
+              [ngModelOptions]="{standalone: true}" 
+              #secondSurname="ngModel" 
+              name="secondSurname"
+              [status]="secondSurname.dirty ? (secondSurname.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="secondSurname.invalid && secondSurname.touched ? true : null"
+              id="secondSurname" 
+              placeholder="Segundo apellido">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto" *ngIf="document_type == 10 || document_type == 11">
+          <div class="form-group">
+            <label class="label" for="companyName">
+              Nombre de la compañia
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.nombreCompania" 
+              [ngModelOptions]="{standalone: true}" 
+              #companyName="ngModel" 
+              name="companyName"
+              [status]="companyName.dirty ? (companyName.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="companyName.invalid && companyName.touched ? true : null"
+              id="companyName" 
+              placeholder="Nombre de la compañia">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="regime">
+              Regimen
+            </label>
+            <ng-select 
+              [items]="collection_regime"
+              bindLabel="name"
+              bindValue="value"
+              id="regime"
+              name="regime"
+              #regime="ngModel"
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.regimen"
+              required 
+              placeholder="Seleccione el Regimen"
+              [disabled]="false"
+              [clearable]="false"
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="character">
+              Naturaleza
+            </label>
+            <ng-select 
+              [items]="collection_character"
+              bindLabel="name"
+              bindValue="value"
+              id="character"
+              name="character"
+              #character="ngModel"
+              placeholder="naturaleza"
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.naturaleza"
+              required 
+              [disabled]="false"
+              [clearable]="false"
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label class="label" for="passwordDays">
+              D&iacute;as contraseña
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.diasContrasena" 
+              [ngModelOptions]="{standalone: true}" 
+              #passwordDays="ngModel" 
+              name="passwordDays"
+              [status]="passwordDays.dirty ? (passwordDays.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="passwordDays.invalid && passwordDays.touched ? true : null"
+              id="passwordDays" 
+              placeholder="D&iacute;as contraseña">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto" *ngIf="document_type == 10 || document_type == 11">
+          <div class="form-group">
+            <label class="label" for="externalCode">
+              C&oacute;digo externo
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.codigoExterno" 
+              [ngModelOptions]="{standalone: true}" 
+              #externalCode="ngModel" 
+              name="externalCode"
+              [status]="externalCode.dirty ? (externalCode.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="externalCode.invalid && externalCode.touched ? true : null"
+              id="externalCode" 
+              placeholder="C&oacute;digo externo">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto" *ngIf="document_type == 10 || document_type == 11">
+          <div class="form-group">
+            <label class="label" for="documentType">
+              Tipo de relaci&oacute;n
+            </label>
+            <ng-select 
+              [items]="collection_relation_types" 
+              bindLabel="name" 
+              bindValue="value" 
+              id="documentType" 
+              name="documentType"
+              #documentType="ngModel" 
+              placeholder="Tipo de relaci&oacute;n" 
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.tipoRelacion" 
+              required 
+              [disabled]="false" 
+              [clearable]="false" 
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="document_type == 10 || document_type == 11">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="qualificationCode">
+              C&oacute;digo habilitaci&oacute;n
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.codigoHabilitacion" 
+              [ngModelOptions]="{standalone: true}" 
+              #qualificationCode="ngModel" 
+              name="qualificationCode"
+              [status]="qualificationCode.dirty ? (qualificationCode.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="qualificationCode.invalid && qualificationCode.touched ? true : null"
+              id="qualificationCode" 
+              placeholder="C&oacute;digo habilitaci&oacute;n">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="ciuuCode">
+              C&oacute;digo CIIU
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.codigoCIIU" 
+              [ngModelOptions]="{standalone: true}" 
+              #ciuuCode="ngModel" 
+              name="ciuuCode"
+              [status]="ciuuCode.dirty ? (ciuuCode.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="ciuuCode.invalid && ciuuCode.touched ? true : null"
+              id="ciuuCode" 
+              placeholder="C&oacute;digo CIIU">
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 m-auto">
+          <div class="form-group">
+            <label class="label" for="entityRelation">
+              Entidad con relaci&oacute;n
+            </label>
+            <ng-select 
+              [items]="collection_entity_relation" 
+              bindLabel="nombre"
+              bindValue="id"
+              id="entityRelation" 
+              name="entityRelation"
+              #entityRelation="ngModel" 
+              placeholder="Entidad con relaci&oacute;n" 
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="data_new_entity.entidadRelacionId" 
+              required 
+              [disabled]="false" 
+              [clearable]="false" 
+              class="col-12 p-0 m-0">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-end">
+        <div class="col-xl-4 col-md-4 col-sm-6 col-xs-12" *ngIf="document_type == 10 || document_type == 11">
+          <div class="form-group">
+            <label class="label" for="branchOffice">
+              Sucursal
+            </label>
+            <input 
+              type="text" 
+              nbInput 
+              fullWidth 
+              [(ngModel)]="data_new_entity.sucursal" 
+              [ngModelOptions]="{standalone: true}" 
+              #branchOffice="ngModel" 
+              name="branchOffice"
+              [status]="branchOffice.dirty ? (branchOffice.invalid  ? 'danger' : 'basic') : ''" 
+              [required]="required"
+              [attr.aria-invalid]="branchOffice.invalid && branchOffice.touched ? true : null"
+              id="branchOffice" 
+              placeholder="Sucursal">
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-3" *ngIf="false">
+          <button nbButton 
+          fullWidth 
+          type="button"  
+          class="kstdy-button_signin font_family_roboto pgp-pointer" 
+          style="margin: 25px 0px; font-size: 12px; cursor: pointer; font-family: 'Roboto'; text-transform: none; background-color: #535353;"
+          [disabled]="submitted" 
+          (click)="fnShowGoBackList(1)"
+          [class.btn-pulse]="submitted">
+          Cancelar
+          </button>  
+        </div>
+        <div class="col-4 align-self-center">
+        <button 
+          nbButton 
+          fullWidth 
+          type="submit" 
+          class="kstdy-button_signin font_family_roboto pgp-pointer" 
+          id="kstdy-button_add_entity" 
+          [class.btn-pulse]="submitted">
+          Guardar
+        </button> 
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<!-- ********** END - Content - Add entity ********** -->

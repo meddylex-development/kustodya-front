@@ -1,0 +1,18 @@
+
+.iframeContainer {
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    padding: 0px;
+    clear: both;
+}
+
+.desktop-view {
+    background: #FFFFFF;
+    height: 80vh;
+}
+
+
+.desktop-view iframe{
+    border: none !important;
+}

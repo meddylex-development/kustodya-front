@@ -1,0 +1,14 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+
+    // ngx-incapacity-issuance {
+    //     display: block;
+    //     width: 100%;
+    //     max-width: 35rem;
+    //     margin: 10% auto;
+    // }
+
+}

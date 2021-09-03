@@ -1,0 +1,230 @@
+<div class="col-12 p-4" style="background-color: #1e90ff; color: white;" *ngIf="option==1" id="divSearch">
+  <h1 id="title" class="title font_family_roboto text-center" style="color: white;">Ingrese los datos del
+    afiliado</h1>
+  <form (ngSubmit)="fnSearchUser()" #form="ngForm" aria-labelledby="title">
+    <!-- [nbSpinner]="submitted" nbSpinnerStatus="info" -->
+    <div class="col pb-4 form-control-group animate fadeIn">
+      <label class="label" for="documentType"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">Tipo
+        de documento <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">*</span></label>
+      <ng-select [items]="list_documentType" bindLabel="tTipoIdentificacion" id="documentType" name="documentType"
+        #documentType="ngModel" placeholder="Seleccione tipo de documento" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="user.documenttype" required [disabled]="readOnly" [clearable]="false" class="col-12 p-0 m-0"
+        (blur)="fnValidField('documentType', user.documenttype);">
+      </ng-select>
+    </div>
+    <div class="col pb-4 form-control-group animate fadeIn" style="margin-bottom: 2rem;">
+      <!-- <label class="label" for="przss-input-documentNumber">No. documento Usuario</label> -->
+      <label class="label" for="przss-input-documentNumber"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">No.
+        documento afiliado <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">*</span></label>
+      <input nbInput fullWidth [(ngModel)]="user.documentNumber" #documentNumber="ngModel" name="documentNumber"
+        id="przss-input-documentNumber" placeholder="Número documento" (focus)="errors = []" autofocus
+        [status]="documentNumber.dirty ? (documentNumber.invalid  ? 'danger' : 'info') : ''" [required]="required"
+        [attr.aria-invalid]="documentNumber.invalid && documentNumber.touched ? true : null"
+        (blur)="fnValidField('documentNumber', user.documentNumber);">
+      <ng-container *ngIf="documentNumber.invalid && documentNumber.touched">
+        <p class="error-message" *ngIf="documentNumber.errors?.required">
+          El número de documento es requerido!
+        </p>
+        <p class="error-message" *ngIf="documentNumber.errors?.pattern">
+          Document number should be the real one!
+        </p>
+      </ng-container>
+    </div>
+    <button nbButton fullWidth status="success" class="przss-button_signin font_family_roboto pgp-pointer" [disabled]="
+      user == null ||
+      user.documenttype == null ||
+      user.documentNumber == null ||
+      submitted || 
+      !form.valid" [class.btn-pulse]="submitted">
+      SIGUIENTE
+    </button>
+  </form>
+</div>
+
+<div class="col-12 contentHistory" *ngIf="option==2">
+  <div *ngIf="false" class="col-12 card cardsMenus pgp-pointer">
+    <div class="container-fluid p-0">
+      <div class="row p-0 m-0">
+        <div class="col-2 p-0 pgp-content_start pgp-card_first_content">
+          <div class="pgp-div-card_icon">
+            <i class="fas fa-building" style="font-size: 2rem;"></i>
+          </div>
+        </div>
+        <div class="col-8 p-0 pgp-card_second_content">
+          <div class="text-center">
+            <h6 class="d-inline-block" style="margin-top: 4%;">Colsubsidio IPS Sura</h6>
+          </div>
+        </div>
+        <div class="col-2 p-0 pgp-card_third_content">
+          <div class="pgp-div-card_help">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-control-group" *ngIf="false" style="width: 100%;">
+      <div class="table-responsive text-nowrap row col-12 m-0 p-0" style="padding-top: 20px !important">
+        <div class="col-12 p-0 pb-4">
+          <div class="col-3 row" style="color: #1e90ff;">
+            <div class="col-12">
+              {{paciente?.tPrimerNombre}} {{paciente?.tSegundoNombre}} {{paciente?.tPrimerApellido}}
+              {{paciente?.tSegundoApellido}}
+            </div>
+            <div class="col-12">
+              {{paciente?.tipoDocumento?.tTipoDocumento}} {{paciente?.tNumeroDocumento}}
+            </div>
+          </div>
+          <div class="col-9"></div>
+        </div>
+        <table class="table">
+          <!-- table-borderless -->
+          <thead>
+            <tr>
+              <th scope="col" class="border-0" style="border-top-left-radius: 10px;">Codigo Unico</th>
+              <th scope="col" class="border-0">Fecha de Inicio</th>
+              <th scope="col" class="border-0">Fecha Final</th>
+              <th scope="col" class="border-0">CIE10</th>
+              <th scope="col" class="border-0">Días Otorgados</th>
+              <th scope="col" class="border-0" style="border-top-right-radius: 10px;">Descripción Sintomatolgica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of incapacidades; let i = index;" class="cursor:pointer;"
+              (click)="fnShowIncapacity(item)">
+              <td class="text-left">
+                <div class="d-inline-block text-truncate">
+                  {{ item.uiCodigoDiagnostico }}
+                </div>
+              </td>
+              <td class="text-left">
+                <div class="d-inline-block text-truncate">
+                  {{ item.dtFechaCreacion | date:'short' }}
+                </div>
+              </td>
+              <td class="text-left">
+                <div class="d-inline-block text-truncate">
+                  {{ item.dtFechaFin | date:'short' }}
+                </div>
+              </td>
+              <td class="text-left">
+                <div class="d-inline-block text-truncate">
+                  {{ item.cie10_diagnotic.tCie10 }}
+                </div>
+              </td>
+              <td class="text-left">
+                <div class="d-inline-block text-truncate">
+                  {{ item.iDiasIncapacidad }}
+                </div>
+              </td>
+              <td class="text-left">
+                <div class="d-inline-block divDescription">
+                  {{ item.tDescripcionSintomatologica }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h2 class="font_family_roboto">
+          {{paciente?.tPrimerNombre + ' ' + paciente?.tSegundoNombre + ' ' + paciente?.tPrimerApellido + ' ' + paciente?.tSegundoApellido | titlecase }}
+        </h2>
+        <div class="font_family_roboto">{{paciente?.tipoDocumento?.tTipoIdentificacion}}</div>
+        <span class="font_family_roboto">{{paciente?.tNumeroDocumento}}</span>
+        <!-- <small>{{paciente?.tNumeroDocumento}}</small> -->
+      </div>
+      <!-- <div class="col-12 p-0 pb-4">
+          <div class="col-3 row" style="color: #1e90ff;">
+            <div class="col-12">
+              {{paciente?.tPrimerNombre}} {{paciente?.tSegundoNombre}} {{paciente?.tPrimerApellido}}
+              {{paciente?.tSegundoApellido}}
+            </div>
+            <div class="col-12">
+              {{paciente?.tipoDocumento?.tTipoDocumento}} {{paciente?.tNumeroDocumento}}
+            </div>
+          </div>
+          <div class="col-9"></div>
+        </div> -->
+    </div>
+
+    <div class="row p-0 m-0 mt-2">
+      <table class="table" *ngIf="true">
+        <thead>
+          <tr>
+            <th scope="col" class="border-0" style="border-top-left-radius: 10px;">Codigo Unico</th>
+            <th scope="col" class="border-0">Transcripción</th>
+            <th scope="col" class="border-0">Fecha de Inicio</th>
+            <th scope="col" class="border-0">Fecha Final</th>
+            <th scope="col" class="border-0">CIE10</th>
+            <th scope="col" class="border-0">Días Otorgados</th>
+            <th scope="col" class="border-0">Días Acumulados</th>
+            <th scope="col" class="border-0" style="border-top-right-radius: 10px;">Descripción Sintomatolgica</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 0.75rem">
+          <tr *ngFor="let item of incapacidades; let i = index;" style="cursor: pointer;" class="cursor:pointer;"
+            (click)="fnShowIncapacity(item)">
+            <td class="text-left rowCU">
+              <div class="d-inline-block rowCU">
+                {{ item.uiCodigoDiagnostico }}
+              </div>
+            </td>
+            <td class="text-left rowDias">
+              <div class="d-inline-block rowDias">
+                {{ item.esTranscripcion ? 'Si':'No' }}
+              </div>
+            </td>
+            <td class="text-left rowFecha">
+              <div class="d-inline-block text-truncate rowFecha">
+                {{ item.dtFechaCreacion | date:'short' }}
+              </div>
+            </td>
+            <td class="text-left rowFecha">
+              <div class="d-inline-block text-truncate rowFecha">
+                {{ item.dtFechaFin | date:'short' }}
+              </div>
+            </td>
+            <td class="text-left rowDias">
+              <div class="d-inline-block text-truncate rowDias">
+                {{ item.cie10_diagnotic.tCie10 }}
+              </div>
+            </td>
+            <td class="text-left rowDias">
+              <div class="d-inline-block text-truncate rowDias">
+                {{ item.iDiasIncapacidad }}
+              </div>
+            </td>
+            <td class="text-left rowDias">
+              <div class="d-inline-block text-truncate rowDias">
+                {{ item.iDiasAcumulados }}
+              </div>
+            </td>
+            <td class="text-left rowDesc" style="overflow: hidden;">
+              <div class="d-inline-block rowDesc">
+                {{ item.tDescripcionSintomatologica }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <ngx-incapacity-history [incapacidades]="incapacidades"
+            [listCantidadDiagnoticosIncapacidad]="listCantidadDiagnoticosIncapacidad"></ngx-incapacity-history> -->
+    </div>
+
+
+  </div>
+</div>
+
+<div *ngIf="option==3" style="padding:0;">
+  <ngx-incapacity-issuance [search]="search" [paciente]="paciente" [uiCodigoDiagnostico]="uiCodigoDiagnostico">
+  </ngx-incapacity-issuance>
+</div>

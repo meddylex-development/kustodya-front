@@ -1,0 +1,84 @@
+<div class="row kstdy-backgroud_layout p-4" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto">Entidades</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row" *ngIf="true">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 pl-0">
+            <input (input)="fnFilter(search_input);" fullWidth nbInput
+              [(ngModel)]="search_input" #search_entities="ngModel"
+              class="kstdy-text_input_search form-control d-inline-block" id="kstdy-input_search_entities"
+              name="search_entities" type="text" placeholder="Buscar">
+            <i class="fas fa-search kstdy-icon_input_search fa-rotate-90"></i>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2 mt-sm-2 mt-md-2 mt-lg-0 text-lg-right text-xl-right text-md-center text-sm-center text-center">
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_create_categories"
+              (click)="fnShowAddNewEntities()">Crear</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - Entities ********** -->
+        <table class="table" style="border-bottom: 1px solid #dee2e6;">
+          <thead>
+            <tr>
+              <th colspan="2" class="border-0" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-left border-0">
+                N&uacute;mero de ID
+              </th>
+              <th scope="col" class="text-left border-0">
+                Nombre compañia
+              </th>
+              <th scope="col" class="text-left border-0">
+                Correo
+              </th>
+              <th scope="col" class="text-left border-0">
+                Matriz
+              </th>
+              <th scope="col" class="text-left border-0" style="border-top-right-radius: 10px;">
+                Activo
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data_entity of list_entities | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-center p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color"
+                  (click)="fnShowEditEntities(data_entity)"></i>
+                </td>
+                <td class="kstdy-table-actions text-center p-3">
+                  <i class="fas fa-trash kstdy-pointer kstdy-icon_color"
+                    (click)="fnShowModalInactive(data_entity)"></i>
+                </td>
+
+                <td class="text-left p-3">{{ data_entity.id }}</td>
+                <td class="text-left p-3">{{ data_entity.nombre }}</td>
+                <td class="text-left p-3">{{ data_entity.correo }}</td>
+                <td class="text-left p-3">{{ data_entity.matriz }}</td>
+                <td class="text-left p-3"><i *ngIf="data_entity.activo" class="fas fa-check kstdy-icon_color"></i></td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - Entities *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_entities?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_entities.length) ? (list_entities.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="row kstdy-backgroud_layout p-0" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto mt-4">Descripci&oacute;n</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <i class="fas fa-info-circle"></i>&nbsp;Por favor coloque el texto que quiere que se muestre por defecto en el campo Descripci&oacute;n de la ficha.
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - Description ********** -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="border-0" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-left border-0">
+                Contabilidad
+              </th>
+              <th scope="col" class="text-left border-0">
+                Descripci&oacute;n
+              </th>
+              <th scope="col" class="text-left border-0" style="border-top-right-radius: 10px;">
+                Referencia
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data_description of list_description | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-left p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color" (click)="fnShowModalUpdateDescription(data_description)"></i>
+                </td>
+                <td class="text-left p-3">{{ data_description.descripcion }}</td>
+                <td class="text-left p-3">{{ data_description.descripcionMovimientoPorDefecto ? data_description.descripcionMovimientoPorDefecto : 'No definido' }}</td>
+                <td class="text-left p-3">{{ data_description.referenciaMovimientoPorDefecto ? data_description.referenciaMovimientoPorDefecto : 'No definido' }}</td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - Description *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_description?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_description.length) ? (list_description.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto">Terceros</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <i class="fas fa-info-circle"></i>&nbsp;Por favor coloque el texto que quiere que se muestre por defecto en el campo Descripci&oacute;n de la ficha.
+          </div>
+          <div class="col-12 text-center mt-3 mb-3">
+            <div class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_puc_import" style="position: relative; line-height: 241%;">
+              <label for="file" class="kstdy-pointer">Importar</label>
+              <input [(ngModel)]="file_name_input" type="file" class="kstdy-input_import" id="file" (change)="handleFileInput($event.target.files)">
+            </div>&nbsp;&nbsp;&nbsp;
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_puc_export" (click)="fnExportDescription()">Exportar</button>
+          </div>
+         <!-- ********** START - Div content file upload state - PUC ********** -->
+         <div class="col-4 text-center" style="height: 21px;">
+          <div class="row" *ngIf="file_name != null">
+            <div class="col-12 mb-1 mt-1">
+              <i class="fas fa-caret-right" style="color: #1C93FF;"></i> &nbsp; &Uacute;ltimo archivo importado:&nbsp; {{file_name}}
+            </div>
+          </div>
+          <div class="row justify-content-center" *ngIf="obj_file_upload.status === 'progress'">
+            <div class="col-6 mb-1 mt-1">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="percentaje_status_bar">
+                  {{ percentaje_status_bar }}% Completado
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ********** START - Div content file upload state - PUC ********** -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

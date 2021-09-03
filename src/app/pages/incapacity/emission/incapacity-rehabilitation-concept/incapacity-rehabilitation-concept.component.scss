@@ -1,0 +1,306 @@
+@import "~@nebular/theme/styles/theming";
+@import "~@nebular/theme/styles/themes";
+
+@include nb-install-component() {
+
+  /********** BEGIN - Content - Formulario de consulta numero de documento afiliado **********/
+
+  #divSearch {
+    display: block;
+    width: 100%;
+    max-width: 35rem;
+    margin: 10vh auto;
+  }
+
+  // ::ng-deep [nbInput].input-info {
+  //   border-color: #1e90ff;
+  // }
+
+  #przss-input-documentNumber {
+    border-color: none;
+    height: 4rem !important;
+  }
+
+  #przss-input-documentNumber:focus {
+    border-color: #1e90ff; //nb-theme(przss-color-1);
+    height: 4rem !important;
+  }
+
+  ::ng-deep .ng-select .ng-select-container {
+    border-color: none !important;
+    height: 3rem !important;
+  }
+
+  ::ng-deep .ng-select.focused .ng-select-container {
+    border-color: #1e90ff; //nb-theme(przss-color-1) !important;
+    height: 3rem !important;
+  }
+
+  ::ng-deep ng-select .ng-select-container .ng-value-container .ng-placeholder {
+    top: 12px;
+    padding-bottom: 0px !important;
+    padding-left: 3px;
+  }
+
+  ::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+    border-color: #dc3545;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+  }
+
+  ::ng-deep ng-select {
+    max-width: 90vh !important;
+  }
+
+  .przss-button_signin {
+    background-color: #1e90ff; //nb-theme(przss-color-1);
+    text-transform: none;
+    height: 4rem !important;
+    border: 1px solid white !important;
+  }
+
+  .przss-button {
+    // lightgray
+    background-color: #f8fafc;
+    opacity: 1;
+    text-transform: none;
+    height: 2.5rem !important;
+    border-radius: 0 !important;
+    border-right: 1px solid lightgray;
+    color: black;
+  }
+
+  .active {
+    background-color: #1e90ff; //nb-theme(przss-color-1);
+    color: white;
+    border: 1px solid #1e90ff !important;
+    opacity: 1;
+    box-shadow: 0 0 20px !important;
+  }
+
+  .btn-success.disabled,
+  .btn-success:disabled {
+    border-color: nb-theme(przss-color-10);
+    background-color: nb-theme(przss-color-9);
+  }
+
+  .btn-success:active:focus {
+    background-color: #1e90ff; //nb-theme(przss-color-1);
+  }
+
+  .forgot-password {
+    color: #1e90ff; //nb-theme(przss-color-1) !important;
+  }
+
+  #input-password:focus {
+    border-color: #1e90ff; //nb-theme(przss-color-1);
+  }
+
+  .pace-progress {
+    background: #1e90ff; //nb-theme(przss-color-1);
+  }
+
+  /********** END - Content - Formulario de consulta numero de documento afiliado **********/
+
+  .content {
+    border: 2px solid #e7eaed;
+    border-radius: 8px !important;
+    height: 98vh;
+    margin: 1vh !important;
+    overflow-y: scroll;
+  }
+
+  .content-header {
+    padding: 3vh 3vh 0 3vh;
+    text-align: left;
+  }
+
+  .formRehabilitationConcept {
+    padding: 3vh;
+    margin: 0;
+  }
+
+  .button_rehabilitationConcept {
+    background-color: white !important;
+    color: #1e90ff; //nb-theme(przss-color-1);
+    text-transform: none;
+    height: 3rem !important;
+    border: 1px solid #1e90ff;
+  }
+
+  .pkto-header {
+    text-align: left !important;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    color: #1e90ff;
+    font-weight: bold;
+
+    div {
+      padding: 0;
+    }
+  }
+
+  .pkto-sub-header {
+    margin: 0;
+    padding: 0;
+
+    div {
+      border-right: 2px solid;
+      border-color: white;
+      color: #2f2d2e;
+      opacity: 0.75;
+    }
+  }
+
+  .pkto-row {
+    margin: 0;
+    padding: 0;
+
+    div {
+      background-color: #f8fafc;
+      padding: 0.65rem !important;
+      padding-left: 0 !important;
+      border-right: 2px solid white;
+      color: #2f2d2e;
+      font-weight: bold;
+
+      width: 250px;
+      // white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .pkto-row-radio {
+    margin: 0;
+    padding: 0;
+
+    div {
+      background-color: #f8fafc;
+      padding: 0.65rem !important;
+      // padding-left: 0 !important;
+      border-right: 2px solid white;
+      color: #2f2d2e;
+      font-weight: bold;
+
+      width: 250px;
+      // white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  fieldset {
+    // color: #1e90ff;
+    border-top: 1px solid;
+    padding: 0;
+
+    legend {
+      width: auto;
+      margin: 0;
+      padding: 0 1rem;
+      text-align: center;
+
+      h6 {
+        color: #1e90ff;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .divLegalinformation {
+    padding-bottom: 2rem !important;
+    padding-top: 1rem !important;
+  }
+
+  /*****************************************/
+
+  // ::ng-deep .ng-select .ng-select-container {
+  //   border-color: none !important;
+  //   height: 3rem !important;
+  // }
+
+  // ::ng-deep .ng-select.focused .ng-select-container {
+  //   border-color: #1e90ff; //nb-theme(przss-color-1) !important;
+  //   height: 3rem !important;
+  // }
+
+  // ::ng-deep ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  //   top: 12px;
+  //   padding-bottom: 0px !important;
+  //   padding-left: 3px;
+  // }
+
+  // ::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+  //   border-color: #dc3545;
+  //   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+  // }
+
+  // ::ng-deep ng-select {
+  //   max-width: 90vh !important;
+  // }
+
+  // .badge-primary {
+  //   max-width: 90vh;
+  //   width: fit-content;
+
+  //   div {
+  //     max-width: 90vh;
+  //     white-space: nowrap;
+  //     text-overflow: ellipsis;
+  //     overflow: hidden;
+  //     text-align: left;
+  //     padding: 0;
+  //   }
+
+  //   i {
+  //     margin: auto;
+  //     padding: 0;
+  //     text-align: center;
+  //   }
+  // }
+
+  // #diagnosticDescripcionSintomatologica {
+  //   height: 20vh;
+  // }
+
+  // #input-DiasIncapacidad {
+  //   height: 3rem;
+  // }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .font_family_roboto {
+    font-family: "Roboto";
+  }
+
+  [nbInput].input-info {
+    border-color: #1e90ff;
+  }
+
+  textarea:focus,
+  input:focus {
+    border-color: #1e90ff;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.5px #1e90ff;
+    outline: 0 none;
+  }
+
+  ::ng-deep ng-select select-dropdown>div {
+    z-index: 2;
+  }
+
+  .prtkt-error_label {
+    color: #be4f5d;
+    font-weight: bold;
+  }
+
+  .prtkt-error_border {
+    border: solid 1px #be4f5d;
+  }
+
+  // .prtkt-error_text {
+  //   color: #be4f5d;
+  //   // font-weight: bold;
+  // }
+}
