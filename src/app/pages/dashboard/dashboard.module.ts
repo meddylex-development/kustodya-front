@@ -188,6 +188,10 @@ import { OriginQualificationComponent } from '../origin-qualification/origin-qua
 import { OriginQualificationListComponent } from '../origin-qualification/origin-qualification-list/origin-qualification-list.component';
 import { OriginQualificationTranscriptionComponent } from '../origin-qualification/origin-qualification-transcription/origin-qualification-transcription.component';
 
+import { MinDefensaAuditoriaComponent } from '../min-defensa-auditoria/min-defensa-auditoria.component';
+import { MinDefensaAuditoriaListComponent } from '../min-defensa-auditoria/min-defensa-auditoria-list/min-defensa-auditoria-list.component';
+import { MinDefensaAuditoriaDetalleSentenciaComponent } from '../min-defensa-auditoria/min-defensa-auditoria-detalle-sentencia/min-defensa-auditoria-detalle-sentencia.component';
+
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -341,6 +345,9 @@ const ENTRY_COMPONENTS = [
   OriginQualificationComponent,
   OriginQualificationListComponent,
   OriginQualificationTranscriptionComponent,
+  MinDefensaAuditoriaComponent,
+  MinDefensaAuditoriaListComponent,
+  MinDefensaAuditoriaDetalleSentenciaComponent,
   ParameterizationComponent,
   TermsConditionsComponent,
   ModalInactivityUserComponent,
@@ -490,6 +497,9 @@ const ENTRY_COMPONENTS = [
     OriginQualificationComponent,
     OriginQualificationListComponent,
     OriginQualificationTranscriptionComponent,
+    MinDefensaAuditoriaComponent,
+    MinDefensaAuditoriaListComponent,
+    MinDefensaAuditoriaDetalleSentenciaComponent,
     ParameterizationComponent,
     TermsConditionsComponent,
     ModalInactivityUserComponent,

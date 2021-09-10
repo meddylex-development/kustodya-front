@@ -164,7 +164,7 @@
           <div class="row pgp-backgroud_layout font_family_roboto" style="height: 100%; background-color: transparent !important; margin-top: 60px;">
             <div class="col-12">
               <div>
-                <ngx-origin-qualification></ngx-origin-qualification>
+                <ngx-min-defensa-auditoria-list></ngx-min-defensa-auditoria-list>
               </div>
             </div>
           </div>
@@ -175,10 +175,19 @@
               <div *ngIf="show_content">
                 <!-- <div>
                   <div>
-                    <ngx-my-account></ngx-my-account>
+                    <ngx-min-defensa-auditoria-list></ngx-min-defensa-auditoria-list>
                   </div>
                 </div> -->
                 <div [ngSwitch]="current_item?.id">
+                  <div *ngSwitchCase="12">
+                    <ngx-min-defensa-auditoria-list></ngx-min-defensa-auditoria-list>
+                  </div>
+                  <div *ngSwitchCase="!12">
+                    <ngx-profiles></ngx-profiles>
+                  </div>
+                  
+                </div>
+                <div [ngSwitch]="current_item?.id" *ngIf="false">
                   <div *ngSwitchCase="14">
                     <ngx-profiles></ngx-profiles>
                   </div>
