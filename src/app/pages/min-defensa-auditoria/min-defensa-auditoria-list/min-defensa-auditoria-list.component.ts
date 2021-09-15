@@ -799,6 +799,20 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
     self.route.params.subscribe(params => {
+      console.log('self.list_patients: ', self.list_patients);
+      let arr = [
+        { name:"string 1", value:"this", other: "thet" },
+        { name:"string 2", value:"this", other: "thet" },
+        { name:"string 3", value:"thos", other: "that" },
+        { name:"string 4", value:"thos", other: "that" },
+    ];
+    
+     self.utilitiesService.fnGetDataFilter(self.list_patients['correoOutputModel'], " invalidez", (resp) => {
+       console.log('resp: ', resp);
+     });
+    
+    // console.log(obj);
+
       if (params.token && params.entity) {
         self.current_payload = params.token;
         self.status_list = 1;
