@@ -6,7 +6,7 @@
         <div class="row" *ngIf="true">
           <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 pl-0">
             <input 
-              (keyup.enter)="fnFilter(search_input);" 
+              (input)="fnFilter(search_input);" 
               fullWidth 
               nbInput
               [(ngModel)]="search_input" 

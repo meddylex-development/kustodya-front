@@ -27,6 +27,14 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
 
   // list_patients: any = [];
   // list_patients_original: any = [];
+  // self.collection_data = [
+  //   {"name":"Asignado","value":1},
+  //   {"name":"Devuelto","value":2},
+  //   {"name":"En Curso","value":3},
+  //   {"name":"Proyectado","value":4},
+  //   {"name":"Revisado","value":5},
+  //   {"name":"Avalado","value":6},
+  // ];
   list_patients: any = {
     "correoOutputModel": [
       {
@@ -36,7 +44,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1476874800000,
         "actor": "Andres Alberto Acevedo Pulido y otros",
         "tipo": "Sentencia",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "Lesiones personales",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -81,7 +89,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1515771000000,
         "actor": "Julian Fernando Villabon Bermudez",
         "tipo": "Conciliacion Extrajudicial",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "Pension de invalidez",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -162,7 +170,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1516043450000,
         "actor": "Jose Mauricio Ramos Uribe",
         "tipo": "Conciliacion Extrajudicial",
-        "estado": "Por Gestionar",
+        "estado": 2,
         "pretension": "Conciliacion Judicial",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -243,7 +251,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1516099616000,
         "actor": "Erney Gaviria Flórez",
         "tipo": "Conciliacion Extrajudicial",
-        "estado": "Por Gestionar",
+        "estado": 3,
         "pretension": "Reliquidación pensión invalidez",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -336,7 +344,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1516626991000,
         "actor": "Ivan Andres Redondo Julio",
         "tipo": "Conciliacion Extrajudicial",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "Lesiones personales",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -381,7 +389,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1516880663000,
         "actor": "Hernan Alonso Gonzalez Mallarino",
         "tipo": "Conciliacion Judicial",
-        "estado": "Por Gestionar",
+        "estado": 6,
         "pretension": "Lesiones personales",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -430,7 +438,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1516987383000,
         "actor": "Dario Jimenez Viveros",
         "tipo": "Conciliacion Judicial",
-        "estado": "Por Gestionar",
+        "estado": 3,
         "pretension": "Lesiones personales",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -483,7 +491,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1518592501000,
         "actor": "Jose Jesus Vinasco Vera",
         "tipo": "Sentencia",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "Asignacion basica",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -532,7 +540,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1519637470000,
         "actor": "Marleny Quintero de Cortes",
         "tipo": "Sentencia",
-        "estado": "Por Gestionar",
+        "estado": 2,
         "pretension": "Pension sobrevivientes",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -585,7 +593,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1520340342000,
         "actor": "Angela Maria Herminda Fernandez",
         "tipo": "Sentencia",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "Prima de actividad y subsidio familiar",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -642,7 +650,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1521133906000,
         "actor": "Edison Angarita Celis",
         "tipo": "Sentencia",
-        "estado": "Por Gestionar",
+        "estado": 1,
         "pretension": "pension de invalidez",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -691,7 +699,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "fechaCuentaCobro": 1521148760000,
         "actor": "Olga Janeth Daza Bernal y otros",
         "tipo": "Conciliacion Judicial",
-        "estado": "Por Gestionar",
+        "estado": 4,
         "pretension": "Lesiones personales",
         "medioControl": "Reparación directa",
         "adjuntos": [
@@ -737,7 +745,6 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
           },
         ]
       },
-
     ],
     "paginacion": {
       "totalItems": 12,
@@ -800,19 +807,9 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
     /* **** END - JQuery definition **** */
     self.route.params.subscribe(params => {
       console.log('self.list_patients: ', self.list_patients);
-      let arr = [
-        { name:"string 1", value:"this", other: "thet" },
-        { name:"string 2", value:"this", other: "thet" },
-        { name:"string 3", value:"thos", other: "that" },
-        { name:"string 4", value:"thos", other: "that" },
-    ];
-    
-     self.utilitiesService.fnGetDataFilter(self.list_patients['correoOutputModel'], " invalidez", (resp) => {
-       console.log('resp: ', resp);
-     });
-    
-    // console.log(obj);
-
+      self.list_patients_original = self.list_patients['correoOutputModel'];
+      console.log('self.list_patients_original: ', self.list_patients_original);
+      // console.log(obj);
       if (params.token && params.entity) {
         self.current_payload = params.token;
         self.status_list = 1;
@@ -832,7 +829,15 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
 
   fnGetOriginQualificationListStates(current_payload) {
     const self = this;
-    self.collection_data = [{"name":"Por Gestionar","value":1},{"name":"Sin Transcribir","value":2},{"name":"Transcrito","value":3}];
+    // self.collection_data = [{"name":"Por Gestionar","value":1},{"name":"Sin Transcribir","value":2},{"name":"Transcrito","value":3}];
+    self.collection_data = [
+      {"name":"Asignado","value":1},
+      {"name":"Devuelto","value":2},
+      {"name":"En Curso","value":3},
+      {"name":"Proyectado","value":4},
+      {"name":"Revisado","value":5},
+      {"name":"Avalado","value":6},
+    ];
     return self.collection_data;
     // self.enumerationsService.fnHttpGetOriginQualificationListStates(current_payload).subscribe(resp_get_patients => {
     //   if (resp_get_patients.status == 200) {
@@ -847,9 +852,9 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
     // self.loading_state = true;
     self.list_patients = self.list_patients['correoOutputModel'];
     console.log('self.list_patients: ', self.list_patients);
-    self.list_patients_original = self.list_patients;
-    self.totalItems = 5;
-    self.numItemsPage = 5;
+    // self.list_patients_original = self.list_patients;
+    self.totalItems = 12;
+    self.numItemsPage = 12;
     self.currentPage = 1;
     self.prevPage = 1;
     self.nextNext = 2;
@@ -874,14 +879,33 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
 
   fnFilter(text_search) {
     const self = this;
-    if (text_search.length > 3 || text_search.length < 1) {
-
-      const date_start_unix = moment(self.date_range[0]).unix();
-      const date_start_valueof = (self.date_range.length > 0) ? moment(self.date_range[0]).valueOf() : '';
-      const date_end_unix = moment(self.date_range[1]).unix();
-      const date_end_valueof = (self.date_range.length > 0) ? moment(self.date_range[1]).valueOf() : '';
-
-      self.fnGetOriginQualificationList(self.current_payload, self.currentPage, text_search, self.status_list, date_start_valueof, date_end_valueof);
+    self.loading_state = true;
+    console.log('text_search.length: ', text_search.length);
+    if (text_search.length > 1) {
+      // const date_start_unix = moment(self.date_range[0]).unix();
+      // const date_start_valueof = (self.date_range.length > 0) ? moment(self.date_range[0]).valueOf() : '';
+      // const date_end_unix = moment(self.date_range[1]).unix();
+      // const date_end_valueof = (self.date_range.length > 0) ? moment(self.date_range[1]).valueOf() : '';
+      
+      console.log('text_search: ', text_search);
+      console.log('self.list_patients: ', self.list_patients);
+      const collection_users = JSON.parse(JSON.stringify(self.list_patients_original));
+      const texto_to_find = self.utilitiesService.removeAccents(text_search.toLowerCase());
+      self.utilitiesService.fnGetDataFilter(collection_users, texto_to_find, (resp) => {
+        console.log('resp: ', resp);
+        self.list_patients = resp;
+        // self.loading_state = false;
+        setTimeout(() => {
+          self.totalItems = resp.length;
+          self.numItemsPage = 12;
+          self.currentPage = 1;
+          self.prevPage = 1;
+          self.nextNext = 2;
+          self.totalPaginas = 1;
+          self.loading_state = false;
+        }, 1000);
+      });
+      // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, text_search, self.status_list, date_start_valueof, date_end_valueof);
       // if (self.isSuperAdmin) {
       //   self.fnGetUsersListAdmin(self.entity_id, self.current_payload, text_search, 1);
       // } else {
@@ -889,7 +913,17 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
       //   self.fnGetUsersList(self.entity_id, self.current_payload, text_search, 1);
       // }
     } else {
-      // text_search = '';
+      self.list_patients = JSON.parse(JSON.stringify(self.list_patients_original));
+      text_search = '';
+      setTimeout(() => {
+        self.totalItems = self.list_patients_original.length;
+        self.numItemsPage = 12;
+        self.currentPage = 1;
+        self.prevPage = 1;
+        self.nextNext = 2;
+        self.totalPaginas = 1;
+        self.loading_state = false;
+      }, 300);
       // self.search_input = '';
       // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, text_search, self.status_list);
     }
@@ -908,13 +942,25 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
   }
 
   fnChangeStatusList(state_select) {
+    console.log('state_select: ', state_select);
     const self = this;
     self.status_list = state_select['value'];
+    console.log('state_select[value]: ', state_select['value']);
+    console.log('self.status_list: ', self.status_list);
     const date_start_unix = moment(self.date_range[0]).unix();
     const date_start_valueof = (self.date_range.length > 0) ? moment(self.date_range[0]).valueOf() : '';
     const date_end_unix = moment(self.date_range[1]).unix();
     const date_end_valueof = (self.date_range.length > 0) ? moment(self.date_range[1]).valueOf() : '';
-    self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, state_select['value'], date_start_valueof, date_end_valueof);
+    // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, state_select['value'], date_start_valueof, date_end_valueof);
+    let collection = JSON.parse(JSON.stringify(self.list_patients_original));
+    console.log('collection: ', collection);
+    self.list_patients = collection.filter(function (obj) {
+      return obj.estado === state_select['value'];
+    });
+    console.log('self.list_patients: ', self.list_patients);
+    // self.utilitiesService.fnGetDataFilter(collection, "Curso", (response) => {
+    //   console.log('response: ', response);
+    // });
   }
 
   fnShowOptionsView(msg) {
@@ -937,13 +983,18 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
 
   fnCleanSearhInput() {
     const self = this;
-    self.status_list = 1;
-    self.search_input = '';
-    self.currentPage = 1;
-    self.start_date = '';
-    self.end_date = '';
-    self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, self.status_list, null, null);
-    self.date_range = [];
+    self.loading_state = true;
+    setTimeout(() => {
+      self.status_list = 1;
+      self.search_input = '';
+      self.currentPage = 1;
+      self.start_date = '';
+      self.end_date = '';
+      // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, self.status_list, null, null);
+      self.list_patients = JSON.parse(JSON.stringify(self.list_patients_original));
+      self.date_range = [];
+      self.loading_state = false;
+    }, 500);
   }
 
   fnDateRangeFilterSesrch($event) {
@@ -966,7 +1017,13 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
     self.start_date = date_start_valueof;
     self.end_date = date_end_valueof;
 
-    self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, self.status_list, date_start_valueof, date_end_valueof);
+    let collection = JSON.parse(JSON.stringify(self.list_patients_original));
+
+    self.utilitiesService.fnSearchDateCallback(collection, self.start_date, self.end_date, 'fechaCuentaCobro', (response) => {
+      console.log('response: ', response);
+      self.list_patients = JSON.parse(JSON.stringify(response));
+    });
+    // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, self.search_input, self.status_list, date_start_valueof, date_end_valueof);
   }
 
 }
