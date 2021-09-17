@@ -23,7 +23,10 @@ export class MinDefensaAuditoriaComponent implements OnInit {
   }
 
   fnShowTabsOptionsData(obj_data_option: any) {
+    console.log('obj_data_option: ', obj_data_option);
     this.data_object = obj_data_option['data_object'];
+    console.log('this.data_object: ', this.data_object);
     this.flag_show_tabs = obj_data_option['tab_id'];
+    console.log('this.flag_show_tabs: ', this.flag_show_tabs);
   }
 }

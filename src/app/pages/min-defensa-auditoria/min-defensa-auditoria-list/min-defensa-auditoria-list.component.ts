@@ -764,7 +764,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
   totalPaginas: any = null;
   search_input: any = '';
   public current_payload: string = null;
-  @Output() flagCreateEntity = new EventEmitter<object>();
+  @Output() flagCreateEntity = new EventEmitter<any>();
   @Input() data_object: any;
 
   loading_state: boolean = false;
@@ -964,6 +964,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
   }
 
   fnShowOptionsView(msg) {
+    console.log('msg: ', msg);
     this.flagCreateEntity.emit(msg);
   }
 
@@ -978,6 +979,7 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
       'tab_id': 2,
       'data_object': patient,
     };
+    console.log('object_data: ', object_data);
     this.fnShowOptionsView(object_data);
   }
 
