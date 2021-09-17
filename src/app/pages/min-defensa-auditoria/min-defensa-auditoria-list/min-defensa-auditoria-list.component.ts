@@ -964,8 +964,9 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
   }
 
   fnShowOptionsView(msg) {
+    const self = this;
     console.log('msg: ', msg);
-    this.flagCreateEntity.emit(msg);
+    self.flagCreateEntity.emit(msg);
   }
 
   fnShowOriginQualificationTranscription(patient, status_list) {

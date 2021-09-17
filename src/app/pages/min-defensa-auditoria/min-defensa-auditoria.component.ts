@@ -9,7 +9,7 @@ export class MinDefensaAuditoriaComponent implements OnInit {
   @Input() group_id: any;
   @Input() report_id: any;
   @Input() state: any;
-  flag_show_tabs: number = 1;
+  flag_show_tabs: number = 2;
   dataEntity: any;
   data_object: any;
   content_tab_basic_info: boolean = true;
@@ -20,6 +20,8 @@ export class MinDefensaAuditoriaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // this.flag_show_tabs
+    console.log('this.flag_show_tabs: ', this.flag_show_tabs);
   }
 
   fnShowTabsOptionsData(obj_data_option: any) {

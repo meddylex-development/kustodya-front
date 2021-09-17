@@ -134,6 +134,7 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
         
       } else {
         // self.router.navigateByUrl('');
+        // /c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
       }
     });
   }
