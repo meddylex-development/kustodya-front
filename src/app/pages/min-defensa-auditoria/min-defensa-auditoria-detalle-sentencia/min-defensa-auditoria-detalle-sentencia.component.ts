@@ -63,6 +63,17 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
     'patient_date_clinic_history': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
   };
 
+  objectData: any = {
+    'id': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'messageId': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'sencon': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'actor': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'medioControl': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'pretension': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'estado': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+    'fechaCuentaCobro': { 'texto': '', 'guid': '', 'nombreArchivo':'' },
+  }
+
   // patient_transcription_date: any = '';
   // patient_firstname: any = '';
   // patient_lastname: any = '';
@@ -129,6 +140,7 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
           self.attached_files = self.data_object['adjuntos'];
           console.log('self.attached_files: ', self.attached_files);
           // self.fnGetOriginQualificationData(self.current_payload, self.data_object['id']);
+          self.fnSetDataObject();
         } else {
           self.router.navigateByUrl('');
         }
@@ -138,6 +150,22 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
         // self.router.navigateByUrl('');
       }
     });
+  }
+
+  fnSetDataObject() {
+    const self = this;
+    moment.locale("es");
+    self.objectData = {
+      'id': { 'texto': self.data_object['id'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf', 'nombreArchivo':'2019-85700-01-Lista-de-verificacion.pdf' },
+      'messageId': { 'texto': self.data_object['messageId'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf', 'nombreArchivo':'2019-85700-01-Lista-de-verificacion.pdf' },
+      'sencon': { 'texto': self.data_object['sencon'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf', 'nombreArchivo':'2019-85700-01-Lista-de-verificacion.pdf' },
+      'actor': { 'texto': self.data_object['actor'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf', 'nombreArchivo':'2019-85700-03-Sentencia-I.pdf' },
+      'medioControl': { 'texto': self.data_object['medioControl'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf', 'nombreArchivo':'2019-85700-03-Sentencia-I.pdf' },
+      'pretension': { 'texto': self.data_object['pretension'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf', 'nombreArchivo':'2019-85700-03-Sentencia-I.pdf' },
+      'estado': { 'texto': self.data_object['estado'], 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf', 'nombreArchivo':'2019-85700-01-Lista-de-verificacion.pdf' },
+      'fechaCuentaCobro': { 'texto': moment(self.data_object['fechaCuentaCobro']).format('dddd, DD MMMM YYYY h:mm:ss A'), 'archivoId': 'https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf', 'nombreArchivo':'2019-85700-02-Cuenta-de-cobro.pdf' },
+    };
+    console.log("self.objectData => ", self.objectData);
   }
 
   fnGetDataSignature(token, user_id) {
