@@ -7,7 +7,7 @@
       <span style="font-size: 1.2rem; vertical-align: text-bottom; cursor: pointer; color: #369DFB;" (click)="fnShowGoBackList()">Atras</span>
     </div>
     <div class="col-6">
-      <h3 class="text-center font_family_roboto">Transcripci&oacute;n calificaci&oacute;n de or&iacute;gen</h3>
+      <h3 class="text-center font_family_roboto">Proyecto de resoluci&oacute;n - Documento de Acto Administrativo</h3>
     </div>
     <div class="col-3">
       <div class="row p-0 m-0">
@@ -606,7 +606,7 @@
 
     </div>
     <div class="col p-1" *ngIf="show_preview_file">
-      <div *ngIf="url_extension != 'gif' || url_extension != 'jpg' || url_extension != 'jpeg' || url_extension != 'png'">     
+      <!-- <div *ngIf="url_extension != 'gif' || url_extension != 'jpg' || url_extension != 'jpeg' || url_extension != 'png'">     
         <ngx-doc-viewer 
           [url]="url_file_preview"
           viewer="google" style="width:100%;height:80vh;">
@@ -619,7 +619,13 @@
           type="application/pdf" 
           width="100%" 
           height="100%"></object>
-      </div>
+      </div> -->
+      <object 
+          [attr.data]="url_file_preview" 
+          controlsList="nodownload" 
+          type="application/pdf" 
+          width="100%" 
+          height="100%"></object>
         
       <!-- <object *ngIf="url_extension == 'pdf' || url_extension == 'jpg' || url_extension == 'jpeg' || url_extension == 'png'" [attr.data]="url_file_preview" controlsList="nodownload" type="application/pdf" width="100%" height="100%"></object>
       <iframe *ngIf="url_extension == 'doc' || url_extension == 'docx' || url_extension == 'xls' || url_extension == 'xlsx'" [attr.src]="url_file_preview" width="100%" height="70%"></iframe>
