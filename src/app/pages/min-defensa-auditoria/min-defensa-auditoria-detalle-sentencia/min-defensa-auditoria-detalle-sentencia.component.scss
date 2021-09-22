@@ -28,6 +28,14 @@
         font-family: Tahoma, sans-serif;
     }
 
+    table{
+        width: 100%;
+        border: 1px solid black;
+        th, td {
+            border: 1px solid black;
+        }
+    } 
+
     #print-section span {
         color: #000 !important;
     }
