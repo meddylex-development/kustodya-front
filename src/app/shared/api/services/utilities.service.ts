@@ -408,23 +408,25 @@ export class UtilitiesService {
   fnGetDataFilter(data_collection, string_search, observer, field?) {
     const results = [];
     const self = this;
-    data_collection.filter(function (obj) {
+    data_collection.forEach(function (obj) {
+      let search_data_flag = false;
       Object.keys(obj).forEach(function (ooo, kkk) {
         // if (typeof obj[ooo] === 'string' || obj[ooo] instanceof String) {
         if (typeof obj[ooo] === 'string' || obj[ooo] instanceof String && ooo != 'fechaCuentaCobro') {
-          if (field && field === ooo) {
+          if (field && field === ooo && !search_data_flag) {
             if (self.removeAccents(obj[ooo].toLowerCase()).indexOf(string_search) > -1) {
               results.push(obj);
-              return;
+              search_data_flag = true;
             }
           } else {
-            if (self.removeAccents(obj[ooo].toLowerCase()).indexOf(string_search) > -1) {
-              results.push(obj);
-              return;
+            if (!search_data_flag) {
+              if (self.removeAccents(obj[ooo].toLowerCase()).indexOf(string_search) > -1) {
+                results.push(obj);
+                search_data_flag = true;
+              }
             }
           }
         }
-        return;
       });
     });
     observer(results);

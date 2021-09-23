@@ -57,7 +57,69 @@
         <div class="card-body">
           <form>
             <div class="form-group">
-              <label for="patient_covid_date">Fecha COVID:</label>
+              <label for="sencon">C&oacute;digo SENCON:</label>
+              &nbsp;
+              <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.sencon)"></i>
+              <input nbInput
+                fullWidth
+                autofocus 
+                type="text"
+                placeholder="Ingrese el código SENCON"
+                id="sencon"  
+                name="sencon" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.sencon.texto" 
+                [ngModelOptions]="{standalone: true}"
+                #patient_covid_date="ngModel">
+              <!-- <i class="far fa-calendar-alt" (click)="object_patient.patient_transcription_date.toggle()" [attr.aria-expanded]="object_patient.patient_transcription_date.isOpen" style="position: absolute; font-size: 2rem; margin: 5px;"></i> -->
+            </div>
+            <div class="form-group">
+              <label for="fechaCuentaCobro">Fecha cuenta de cobro:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.fechaCuentaCobro)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"  
+                id="fechaCuentaCobro"  
+                name="fechaCuentaCobro" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.fechaCuentaCobro.texto" 
+                placeholder="Seleccione fecha de cuenta de cobro">
+            </div>
+            <div class="form-group">
+              <label for="medioControl">Medio control:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.medioControl)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="medioControl"  
+                name="medioControl" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.medioControl.texto" 
+                placeholder="Ingrese medio de control">
+            </div>
+            <div class="form-group">
+              <label for="pretension">Pretensi&oacute;n:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.pretension)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="pretension"  
+                name="pretension" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.pretension.texto" 
+                placeholder="Ingrese pretensión">
+            </div>
+            <div class="form-group">
+              <label for="anoSentencia">A&ntilde;o Sentencia: </label>
               &nbsp;
               <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_covid_date)"></i>
               <input nbInput
@@ -74,7 +136,52 @@
               <!-- <i class="far fa-calendar-alt" (click)="object_patient.patient_transcription_date.toggle()" [attr.aria-expanded]="object_patient.patient_transcription_date.isOpen" style="position: absolute; font-size: 2rem; margin: 5px;"></i> -->
             </div>
             <div class="form-group">
-              <label for="patient_fullname">Nombre(s) y apellido(s):
+              <label for="demandante">Nombre(s) y apellido(s) demandante:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.demandante)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="demandante"  
+                name="demandante" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.demandante.texto" 
+                placeholder="Ingrese nombre(s) y apellido(s) del demandante">
+            </div>
+            <div class="form-group">
+              <label for="identificacionDemandante">Identificación demandante:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.identificacionDemandante)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="identificacionDemandante"  
+                name="identificacionDemandante" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.identificacionDemandante.texto" 
+                placeholder="Ingrese identificación demandante"> 
+            </div>
+            <div class="form-group">
+              <label for="pluralidadDemandantes">Pluralidad demandantes:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.pluralidadDemandantes)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="pluralidadDemandantes"  
+                name="pluralidadDemandantes" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.pluralidadDemandantes.texto" 
+                placeholder="Ingrese pluralidad demandantes">
+            </div>
+            <div class="form-group">
+              <label for="fechaSentenciaI">Fecha sentencia I:
                 &nbsp;
                 <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_fullname)"></i>
               </label>
@@ -226,7 +333,61 @@
                 placeholder="Ingrese código CTO">
             </div>
             <div class="form-group">
-              <label for="patient_eps">EPS:
+              <label for="numeral">Numeral:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.numeral)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="numeral"  
+                name="numeral" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.numeral.texto" 
+                placeholder="Ingrese numeral">
+            </div>
+            <!-- <div class="form-group">
+              <label for="disposicion">Disposicion:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.disposicion)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="disposicion"  
+                name="disposicion" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.disposicion.texto" 
+                placeholder="Ingrese disposicion">
+            </div> -->
+            <div class="form-group">
+              <label for="disposicion">Disposicion:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.disposicion)"></i>
+              </label>
+              <textarea
+                type="text"
+                class="" 
+                nbInput 
+                style="height: 190px; border-color: #1e90ff;"
+                fullWidth
+                id="disposicion"  
+                name="disposicion" 
+                #inputDescription="ngModel" 
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="objectData.disposicion.texto" 
+                placeholder="Ingrese disposicion">
+              </textarea>
+              <ng-container *ngIf="inputDescription.invalid && inputDescription.touched">
+                <p class="prtkt-error_text" *ngIf="inputDescription.errors?.required">
+                  El nombre es requerido
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-group">
+              <label for="apoderado">Apoderado:
                 &nbsp;
                 <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_eps)"></i>
               </label>
@@ -282,61 +443,196 @@
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_afp"  
-                name="patient_afp" 
+                id="titular"  
+                name="titular" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_afp.texto" 
-                placeholder="Ingrese nombre dela AFP">
+                [(ngModel)]="objectData.titular.texto" 
+                placeholder="Ingrese titular">
             </div>
             <div class="form-group">
-              <label for="patient_position">Cargo:
+              <label for="identificacionTitular">Identificación titular:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_position)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.identificacionTitular)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_position"  
-                name="patient_position" 
+                id="identificacionTitular"  
+                name="identificacionTitular" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_position.texto" 
-                placeholder="Ingrese cargo">
+                [(ngModel)]="objectData.identificacionTitular.texto" 
+                placeholder="Ingrese identificación titular">
             </div>
             <div class="form-group">
-              <label for="patient_type_test">Tipo de prueba:
+              <label for="folioDian">Folio DIAN:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_type_test)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.folioDian)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_type_test"  
-                name="patient_type_test" 
+                id="folioDian"  
+                name="folioDian" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_type_test.texto" 
-                placeholder="Ingrese tipo de prueba">
+                [(ngModel)]="objectData.folioDian.texto" 
+                placeholder="Ingrese el número del folio de la DIAN">
             </div>
             <div class="form-group">
-              <label for="patient_date_clinic_history">Fecha hist&oacute;ria cl&iacute;nica:
+              <label for="oficioDian">Oficio DIAN:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_date_clinic_history)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.oficioDian)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_date_clinic_history"  
-                name="patient_date_clinic_history" 
+                id="oficioDian"  
+                name="oficioDian" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_date_clinic_history.texto" 
-                placeholder="Ingrese história clínica">
+                [(ngModel)]="objectData.oficioDian.texto" 
+                placeholder="Marque con X si es de oficio de la DIAN">
             </div>
+            <div class="form-group">
+              <label for="webDian">Web DIAN:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.webDian)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="webDian"  
+                name="webDian" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.webDian.texto" 
+                placeholder="Marque con X si es de la web de la DIAN">
+            </div>
+            <div class="form-group">
+              <label for="fechaDian">Folio DIAN:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.fechaDian)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="fechaDian"  
+                name="fechaDian" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.fechaDian.texto" 
+                placeholder="Ingrese la fecha de emisión de la DIAN">
+            </div>
+            <div class="form-group">
+              <label for="beneficiarios">Beneficiarios:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.beneficiarios)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="beneficiarios"  
+                name="beneficiarios" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.beneficiarios.texto" 
+                placeholder="Ingrese el ó los beneficiarios"> 
+            </div>
+            <div class="form-group">
+              <label for="CDP">Código CDP:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.CDP)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="CDP"  
+                name="CDP" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.CDP.texto" 
+                placeholder="Ingrese el código CDP"> 
+            </div>
+            <div class="form-group">
+              <label for="valorPago">Valor a pagar:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.valorPago)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="valorPago"  
+                name="valorPago" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.valorPago.texto" 
+                placeholder="Ingrese el valor a pagar"> 
+            </div>            
+            <div class="form-group">
+              <label for="tipoCuenta">Tipo de cuenta:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.tipoCuenta)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="tipoCuenta"  
+                name="tipoCuenta" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.tipoCuenta.texto" 
+                placeholder="Ingrese el tipo de cuenta"> 
+            </div>
+            <div class="form-group">
+              <label for="numeroCuenta">Número de cuenta:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.numeroCuenta)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="numeroCuenta"  
+                name="numeroCuenta" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.numeroCuenta.texto" 
+                placeholder="Ingrese el número de cuenta"> 
+            </div>
+            <div class="form-group">
+              <label for="banco">Entidad bancaria:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.banco)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="banco"  
+                name="banco" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.banco.texto" 
+                placeholder="Ingrese nombre de la entidad bancaria"> 
+            </div>
+            
+            <!-- <div class="form-group">
+              <label for="actor">Nombre(s) y apellido(s) actor:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.actor)"></i>
+              </label>
+              <input nbInput 
+                fullWidth
+                autofocus 
+                type="text"
+                id="actor"  
+                name="actor" 
+                (blur)="fnSaveTemporalTranscription()"
+                [(ngModel)]="objectData.actor.texto" 
+                placeholder="Ingrese nombre(s) y apellido(s) del actor">
+            </div> -->
+            
+
+            
             
             <div class="form-group" *ngIf="false">
               <label for="file_input_signature">Firma digital:</label>
@@ -407,133 +703,385 @@
       <!-- <div>
         <a (click)="fnGeneratePDF()">Descargar pdf</a>
       </div> -->
-      <div id="print-section" class="card" style="/*transform: scale(.5); */" *ngIf="format_letter">
-        <div class="card-body mt-4 mb-4" style="font-family: FontWebGillSans !important;">
-          
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col m-0 p-0">
-                <img src="../../../../assets/images/imgs/colmena_img_01.png" style="width: 300px;" alt="Logo" id="Logo_head">
-                <img src="../../../../assets/images/imgs/colmena_img_02.png" style="width: 75px; position: absolute; right: 0px; top: -20px;" alt="Logo" id="Logo_head">
-              </div>
-            </div>
-            <div id="content-text-letter-format">
-              <div class="row mt-3" style="margin: 0px; padding: 0px; margin-top: 10px; margin-left: 35px !important;">
-                <div class="col-12" style="margin: 0px; padding: 0px;">
-                  <span style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; font-weight: normal !important; color: #000 !important;">Bogot&aacute; D.C., <strong>{{ object_patient.patient_creation_date.texto }}</strong></span>
+      <div id="content-document">
+        <div id="print-section" class="card" style="/*transform: scale(.5); */" *ngIf="format_letter">
+          <div class="card-body mt-4 mb-4" style="font-family: FontWebGillSans !important;">
+            
+            <div id="content-text-letter-format" class="container-fluid">
+              <div class="row">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>REPÚBLICA DE COLOMBIA</span><br>
+                  <img src="../../../../assets/images/img-min-defensa/escudo-de-armas-republica-de-colombia.png" style="width: 5rem; margin: 10px 0;" alt=""><br>
+                  <span>MINISTERIO DE DEFENSA NACIONAL</span><br>
+                  <span>DIRECCIÓN DE ASUNTOS LEGALES</span><br>
+                  <span>RESOLUCIÓN NUMERO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DE {{ objectData?.anoSentencia?.texto }}</span>
                 </div>
               </div>
-              <div class="row" style="margin: 0px; padding: 0px; margin-top: 60px; margin-left: 35px !important;">
-                <img src="../../../../assets/images/imgs/colmena_img_03.png" *ngIf="false" style="position: absolute; left: 0px; margin-top: 200px !important; " alt="Logo" id="image_side">
-                <div class="col-12 m-0 p-0 mt-5" style="margin: 0px; padding: 0px;">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">SEÑOR(A):</h5>
-                </div>
-                <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
-                    <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong>
-                  </h5>
-                </div>
-                <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                    CC <strong>{{ object_patient.patient_document_number.texto }}</strong>
-                  </h5>
-                </div>
-                <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                    Tel <strong>{{ object_patient.patient_phone_number.texto }}</strong>
-                  </h5>
-                </div>
-                <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;" *ngIf="object_patient?.patient_email?.texto">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                    <strong>{{ object_patient.patient_email.texto }}</strong>
-                  </h5>
-                </div>
-                <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                  <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
-                    <strong>{{ object_patient.patient_city.texto | titlecase }}</strong>
-                  </h5>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Asunto: Aceptación de Origen Enfermedad laboral directa de la Sr.(a) <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong> 
-                    CC <strong>{{ object_patient.patient_document_number.texto }}</strong> EL <strong>{{ object_patient.patient_first_code.texto }}</strong> CTO <strong>{{ object_patient.patient_second_code.texto }}</strong>
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Respetado(a) señor(a):
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    En relación con la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO (U071), radicada en esta Compañía para su análisis, atentamente nos 
-                    permitimos manifestarles lo siguiente:
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Que se reconoce como enfermedad laboral directa de acuerdo a la 
-                    disposición del Ministerio de Trabajo y del Gobierno Nacional y de 
-                    conformidad con las normas que regulan el sistema general de riesgos 
-                    laborales, en especial los Decretos 538 abril 2020 y 676 de mayo 
-                    2020 para el Sector Salud, dispuestos en la situación de Pandemia mundial.
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    En el presente caso, de la documentación analizada se concluye que la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO 
-                    (U071), presenta relación causa efecto con los factores de riesgo presentes en su sitio de trabajo, en los términos 
-                    exigidos por la normatividad vigente. Motivo por el cual las prestaciones asistenciales y económicas derivadas de la 
-                    misma deben ser suministradas por esta Administradora de Riesgos Laborales.
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-3">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Para cualquier información relacionada con esta comunicación por favor hacer referencia al Número SADE.
-                  </p>
-                </div>
-                <div class="col-12" style="margin: 0px !important; padding: 0px !important; margin-top: 30px !important;">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Cordialmente,
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-5" *ngIf="imageSrc">
-                  <img id="blah" [src]="imageSrc || 'http://placehold.it/180'" width="200px" alt="your image" />
-                </div>
-                <div class="col-12 m-0 p-0">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Médico Calificador
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                    Colmena Seguros
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-5" style="margin: 20px 0px 0px 0px !important; padding: 0px !important;">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
-                    C.C. <strong>{{ object_patient.patient_eps.texto | uppercase }}</strong>
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; margin: 0px !important; padding: 0px !important;">
-                    EMPLEADOR. <strong>{{ object_patient.patient_company.texto | uppercase }}</strong>. <strong>{{ object_patient.patient_company_email.texto | lowercase }}</strong>
-                  </p>
-                </div>
-                <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
-                  <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
-                    AFP <strong>{{ object_patient.patient_afp.texto | uppercase }}</strong>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%;">
+                    Por la cual se da cumplimiento a una Sentencia de lo Contencioso Administrativo 
+                    con acuerdo a favor de <strong>{{ objectData?.demandante?.texto | uppercase }} {{ objectData?.pluralidadDemandantes?.texto | uppercase }}</strong>,
                   </p>
                 </div>
               </div>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>EL DIRECTOR DE ASUNTOS LEGALES DEL MINISTERIO DE DEFENSA NACIONAL</span>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%;">
+                    En ejercicio de las facultades que le confiere el Artículo 1° de la Resolución 4589 del 26 de octubre de 2007; por la Resolución 8615 del 24 de diciembre del 2012; Resolución 2718 del 8 de octubre de 2020; Artículos 176, 177 y 178 del C. C. A.; Artículos 75, 192 y 195 del C. P. A. C. A.; Artículo 65 de la Ley 179 de 1994; Artículo 45 del Decreto 111 de 1996; Ley 446 de 1998; Decreto 1068 de 2015; Decreto 2469 de 2015; Decreto 1342 de 2016,
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>CONSIDERANDO</span><br>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que el día {{ objectData?.fechaSentenciaI?.texto }}, el {{ objectData?.despachoJudicial?.texto }}, 
+                    profirió sentencia dentro del proceso No. {{ objectData?.numeroProceso?.texto }}, donde se declaró 
+                    {{ objectData?.declaracion?.texto }} a la NACIÓN-MINISTERIO DE DEFENSA NACIONAL - {{ objectData?.responsable?.texto }} 
+                    por los perjuicios patrimoniales causados a <strong>{{ objectData?.demandante?.texto | uppercase }}</strong>, 
+                    como consecuencia de {{ objectData?.consecuencia?.texto }}, durante la {{ objectData?.accionHechos?.texto }} 
+                    en {{ objectData?.condicion?.texto }} el {{ objectData?.fechaHechos?.texto }};  quedando debidamente ejecutoriada 
+                    el {{ objectData?.fechaEjecutoria?.texto }}.
+                  </p>
+                </div>
+              </div>
+              <br>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que en el fallo antes mencionado en el numeral {{ objectData?.numeral?.texto }} dispuso:
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <div style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                      <span [innerHTML]="objectData?.disposicion?.texto"></span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    2.1. Por concepto de perjuicios materiales en la modalidad de lucro cesantea favor del señor ANDRES ALBERTO ACEVEDO PULIDO, la suma de CUARENTA Y OCHO MILLONES CUATROSCIENTOS NOVENTA MIL CIENTO TREINTA PESOS ($48.490.130,oo) M/CTE.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    2.2. Por concepto de perjuicios morales a favor del señor ANDRES ALBERTO ACEVEDO PULIDO, el valor equivalente en moneda legal colombiana, a cuarenta (40) salarios mínimos legales mensuales vigentes, que a la fecha corresponden a la suma de VEINTISIETE MILLONES QUINIENTOS SETENTA Y OCHO MIL DOSCIENTOS PESOS ($27.578.200,oo) M/CTE.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    2.3. Por concepto de perjuicios morales a favor de la señora MARIA EDELMIRA ACEVEDO PULIDO, el valor equivalente en moneda legal colombiana, a veinte (20) salarios minimos legales mensuales vigentes, que a la fecha corresponden a la suma de TRECE MILLONES SETECIENTOS OCHENTA Y NUEVE MIL CIEN PESOS ($13.789.100,oo) M/CTE.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    2.4. Por concepto de perjuicios morales a favor de la señora MARIA EMILIA ACEVEDO PULIDO, el valor equivalente en moneda legal colombiana, a veinte (20) salarios mínimos legales mensuales vigentes, que a la fecha corresponden a la suma de TRECE MILLONES SETECIENTOS OCHENTA Y NUEVE MIL CIEN PESOS ($13.789.100,oo) M/CTE.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 12%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    2.5. Por concepto de perjuicios por daño a la salud a favor del señor ANDRES ALBERTO ACEVEDO PULIDO, el valor equivalente en moneda legal colombiana, a cuarenta (40) salarios mínimos legales mensuales vigentes, que a la fecha corresponden a la suma de VEINTISIETE MILLONES QUINIENTOS SETENTA Y OCHO MIL DOSCIENTOS PESOS (27.578.200,oo) M/CTE. “disposición” ...)".
+                  </p>
+                </div>
+              </div> -->
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que obra en el expediente forma de pago suscrita por el apoderado de los beneficiarios 
+                    Doctor {{ objectData?.apoderado?.texto }}, identificado con cédula de ciudadanía No. 
+                    {{ objectData?.identificacionApoderado?.texto }} y portador de la tarjeta profesional 
+                    No. {{ objectData?.tarjetaProfesional?.texto }}, 
+                    en la que solicita que los valores reconocidos en el presente Acto Administrativo sean 
+                    consignados a {{ objectData?.titular?.texto }}, identificada con NIT No. {{ objectData?.identificacionTitular?.texto }}.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que en cumplimiento del Decreto 2126 del 21 de agosto de 1997, y el artículo 29 de la ley 344 
+                    de 1996, en concordancia con el Artículo 2.8.6.2.1, capítulo 2, del Decreto 1068 de 2015, se 
+                    efectuó la consulta ante la DIRECCIÓN DE IMPUESTOS Y ADUANAS NACIONALES (DIAN) sin encontrar 
+                    registro o deuda pendiente de los beneficiarios reconocidos en el presente Acto Administrativo 
+                    que se relacionan continuación:
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div style="padding: 0 7%; width: 100%; color: #000; font-family: Tahoma, sans-serif;">
+  
+                  <table border="1" cellspacing="0" style="width: 86%;">
+                    <thead style="text-align: center;">
+                      <tr>
+                        <th rowspan="2"><div style="padding: 10px;">FOLIO EXP.</div></th>
+                        <th colspan="2"><div style="padding: 10px;">DIAN</div></th>
+                        <th rowspan="2"><div style="padding: 10px;">FECHA</div></th>
+                        <th rowspan="2"><div style="padding: 10px;">NOMBRE O RAZ&Oacute;N SOCIAL</div></th>
+                      </tr>
+                      <tr>                      
+                        <th><div style="padding: 10px;">OFICIO No.</div></th>
+                        <th><div style="padding: 10px;">PAGINA WEB</div></th>                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><div style="padding: 10px; text-align: center;">{{ objectData?.folioDian?.texto }}</div></td>
+                        <td><div style="padding: 10px; text-align: center;">{{ objectData?.oficioDian?.texto }}</div></td>
+                        <td><div style="padding: 10px; text-align: center;">{{ objectData?.webDian?.texto }}</div></td>
+                        <td><div style="padding: 10px; text-align: center;">{{ objectData?.fechaDian?.texto }}</div></td>
+                        <td><div style="padding: 10px; text-align: center;">{{ objectData?.beneficiarios?.texto }}</div></td>
+                      </tr>
+                    </tbody>                  
+                  </table>
+                </div>
+              </div>
+  
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que las sumas reconocidas en este Acto Administrativo se encuentran respaldadas en el certificado de 
+                    Disponibilidad Presupuestal No. {{ objectData?.CDP?.texto }}, expedido por la jefe de Presupuesto de 
+                    la Dirección Administrativa de este Ministerio, el cual incluye valor correspondiente al presente Acto 
+                    Administrativo.
+                  </p>
+                </div>
+              </div>
+              <br>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que de conformidad con lo anterior, se procedió a reconocer y pagar las sumas liquidadas en anexo adjunto 
+                    al presente Acto Administrativo.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Que en mérito de lo expuesto,
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>CONSIDERANDO</span><br>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    ARTICULO 1o.- Reconocer, ordenar y autorizar el pago de la suma de {{ objectData?.CDP?.texto }}, 
+                    en la forma como quedó expuesta en la parte motiva a favor del señor <strong>{{ objectData?.demandante?.texto | uppercase }} {{ objectData?.pluralidadDemandantes?.texto | uppercase }}</strong>, 
+                    identificado con la cédula de ciudadanía {{ objectData?.identificacionDemandante?.texto }}, a través 
+                    de su apoderado Doctor {{ objectData?.apoderado?.texto }}, identificado con la cédula de ciudadanía No. 
+                    {{ objectData?.identificacionApoderado?.texto }} y, Tarjeta Profesional de Abogado No. {{ objectData?.tarjetaProfesional?.texto }}.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    ARTICULO 2o.-  La Tesorería Principal de la Dirección Administrativa del Ministerio de Defensa Nacional, 
+                    pagará la suma liquidada previo los descuentos de ley con cargo al rubro presupuestal de sentencias, 
+                    mediante consignación a la sociedad {{ objectData?.titular?.texto }} identificada con NIT No. 
+                    {{ objectData?.identificacionTitular?.texto }} en la cuenta {{ objectData?.tipoCuenta?.texto }} de 
+                    No. {{ objectData?.numeroCuenta?.texto }} del {{ objectData?.banco?.texto }}, de acuerdo a solicitud 
+                    del apoderado el Doctor {{ objectData?.apoderado?.texto }} identificado con cédula de ciudadanía 
+                    No. {{ objectData?.identificacionApoderado?.texto }} y portador de la tarjeta profesional de abogado 
+                    No. {{ objectData?.tarjetaProfesional?.texto }}, cuyo comprobante reemplazará en sus efectos al paz y 
+                    salvo que expide la Tesorería Principal del Ministerio de Defensa Nacional.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    ARTICULO 3o.- Contra la presente resolución no procede recurso alguno por la vía gubernativa, por tratarse de un acto de ejecución (Artículo 75 del C.P.A.C.A.)
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    ARTICULO 4o.- La presente resolución rige a partir de la fecha de su expedición.
+                  </p>
+                </div>
+              </div>
+              <br>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    COMUNIQUESE Y CUMPLASE
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col m-0 p-0 text-center" style="text-align: justify; font-family: Tahoma, sans-serif;">
+                  <p style="padding: 0 7%; text-align: justify; font-family: Tahoma, sans-serif;">
+                    Dada en Bogotá, D.C.,
+                  </p>
+                </div>
+              </div>
+              <br><br>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>EL DIRECTOR DE ASUNTOS LEGALES DEL MINISTERIO DE DEFENSA NACIONAL</span>
+                </div>
+              </div>
+              <br><br>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <span>JORGE EDUARDO VALDERRAMA BELTRÁN</span>
+                </div>
+              </div>
+              <br><br>
+  
+              <div class="row" *ngIf="false" >
+                <div class="col m-0 p-0">
+                  <img src="../../../../assets/images/imgs/colmena_img_01.png" style="width: 300px;" alt="Logo" id="Logo_head">
+                  <img src="../../../../assets/images/imgs/colmena_img_02.png" style="width: 75px; position: absolute; right: 0px; top: -20px;" alt="Logo" id="Logo_head">
+                </div>
+              </div>
+              <div id="content-text-letter-format" *ngIf="false">
+                <div class="row mt-3" style="margin: 0px; padding: 0px; margin-top: 10px; margin-left: 35px !important;">
+                  <div class="col-12" style="margin: 0px; padding: 0px;">
+                    <span style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; font-weight: normal !important; color: #000 !important;">Bogot&aacute; D.C., <strong>{{ object_patient.patient_creation_date.texto }}</strong></span>
+                  </div>
+                </div>
+                <div class="row" style="margin: 0px; padding: 0px; margin-top: 60px; margin-left: 35px !important;">
+                  <img src="../../../../assets/images/imgs/colmena_img_03.png" *ngIf="false" style="position: absolute; left: 0px; margin-top: 200px !important; " alt="Logo" id="image_side">
+                  <div class="col-12 m-0 p-0 mt-5" style="margin: 0px; padding: 0px;">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">SEÑOR(A):</h5>
+                  </div>
+                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
+                      <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong>
+                    </h5>
+                  </div>
+                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
+                      CC <strong>{{ object_patient.patient_document_number.texto }}</strong>
+                    </h5>
+                  </div>
+                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
+                      Tel <strong>{{ object_patient.patient_phone_number.texto }}</strong>
+                    </h5>
+                  </div>
+                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;" *ngIf="object_patient?.patient_email?.texto">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
+                      <strong>{{ object_patient.patient_email.texto }}</strong>
+                    </h5>
+                  </div>
+                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
+                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
+                      <strong>{{ object_patient.patient_city.texto | titlecase }}</strong>
+                    </h5>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Asunto: Aceptación de Origen Enfermedad laboral directa de la Sr.(a) <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong> 
+                      CC <strong>{{ object_patient.patient_document_number.texto }}</strong> EL <strong>{{ object_patient.patient_first_code.texto }}</strong> CTO <strong>{{ object_patient.patient_second_code.texto }}</strong>
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Respetado(a) señor(a):
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      En relación con la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO (U071), radicada en esta Compañía para su análisis, atentamente nos 
+                      permitimos manifestarles lo siguiente:
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Que se reconoce como enfermedad laboral directa de acuerdo a la 
+                      disposición del Ministerio de Trabajo y del Gobierno Nacional y de 
+                      conformidad con las normas que regulan el sistema general de riesgos 
+                      laborales, en especial los Decretos 538 abril 2020 y 676 de mayo 
+                      2020 para el Sector Salud, dispuestos en la situación de Pandemia mundial.
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      En el presente caso, de la documentación analizada se concluye que la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO 
+                      (U071), presenta relación causa efecto con los factores de riesgo presentes en su sitio de trabajo, en los términos 
+                      exigidos por la normatividad vigente. Motivo por el cual las prestaciones asistenciales y económicas derivadas de la 
+                      misma deben ser suministradas por esta Administradora de Riesgos Laborales.
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-3">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Para cualquier información relacionada con esta comunicación por favor hacer referencia al Número SADE.
+                    </p>
+                  </div>
+                  <div class="col-12" style="margin: 0px !important; padding: 0px !important; margin-top: 30px !important;">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Cordialmente,
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-5" *ngIf="imageSrc">
+                    <img id="blah" [src]="imageSrc || 'http://placehold.it/180'" width="200px" alt="your image" />
+                  </div>
+                  <div class="col-12 m-0 p-0">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Médico Calificador
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
+                      Colmena Seguros
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-5" style="margin: 20px 0px 0px 0px !important; padding: 0px !important;">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
+                      C.C. <strong>{{ object_patient.patient_eps.texto | uppercase }}</strong>
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; margin: 0px !important; padding: 0px !important;">
+                      EMPLEADOR. <strong>{{ object_patient.patient_company.texto | uppercase }}</strong>. <strong>{{ object_patient.patient_company_email.texto | lowercase }}</strong>
+                    </p>
+                  </div>
+                  <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
+                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
+                      AFP <strong>{{ object_patient.patient_afp.texto | uppercase }}</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div style="text-align: center;"  *ngIf="false">
+                <img src="../../../../assets/images/imgs/colmena_img_04.png" style="width: 100%; text-align: center !important; /* position: absolute; right: 0px; top: -20px; */" alt="image_footer" id="image_footer">
+              </div>
             </div>
-            <div style="text-align: center;">
-              <img src="../../../../assets/images/imgs/colmena_img_04.png" style="width: 100%; text-align: center !important; /* position: absolute; right: 0px; top: -20px; */" alt="image_footer" id="image_footer">
-            </div>
+  
           </div>
-
         </div>
       </div>
+
       <div id="web-format-section" class="card" style="/*transform: scale(.5); */" *ngIf="format_web">
         <div class="card-body mt-4 mb-4">
           

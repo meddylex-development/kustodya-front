@@ -98,6 +98,9 @@
                 SENCON <i class="fas fa-info-circle" style="color: #fff;" *ngIf="false"></i>
               </th>
               <th scope="col-2" class="text-left border-0">
+                Estado proceso <i class="fas fa-info-circle" style="color: #fff;" *ngIf="false"></i>
+              </th>
+              <th scope="col-2" class="text-left border-0">
                 Fecha cuenta de cobro <i class="fas fa-info-circle" style="color: #fff;" *ngIf="false"></i>
               </th>
               <th scope="col-2" class="text-center border-0">
@@ -123,6 +126,11 @@
                   <i class="fas kstdy-pointer kstdy-icon_color" [ngClass]="{'fa-edit': (status_list == 1), 'fa-eye': (status_list == 2 || status_list == 3) }" style="cursor: pointer;" (click)="fnShowOriginQualificationTranscription(data_patient, status_list)"></i>
                 </td>
                 <td class="text-left p-3 align-middle text-truncate" style="max-width: 200px;" title="{{ data_patient.sencon }}">{{ data_patient.sencon }}</td>
+                <td class="text-left p-3 align-middle text-truncate" style="max-width: 200px;" title="{{ data_patient.sencon }}">
+                  <span class="badge badge-pill text-truncate" [ngClass]="{ 'badge-primary': (data_patient?.estado == 1), 'badge-danger': (data_patient?.estado == 2), 'badge-warning': (data_patient?.estado == 3), 'badge-secondary': (data_patient?.estado == 4), 'badge-info': (data_patient?.estado == 5), 'badge-success': (data_patient?.estado == 6) }" title="{{ 'Estado de la solicitud ' + (data_patient?.estado == 1) ? 'Asignado' : (data_patient?.estado == 2) ? 'Devuelto' : (data_patient?.estado == 3) ? 'En Curso' : (data_patient?.estado == 4) ? 'Proyectado' : (data_patient?.estado == 5) ? 'Revisado' : (data_patient?.estado == 6) ? 'Avalado' : 'Sin estado' }}" style="max-width: 80px; margin: 2px;">
+                    {{ (data_patient?.estado == 1) ? 'Asignado' : (data_patient?.estado == 2) ? 'Devuelto' : (data_patient?.estado == 3) ? 'En Curso' : (data_patient?.estado == 4) ? 'Proyectado' : (data_patient?.estado == 5) ? 'Revisado' : (data_patient?.estado == 6) ? 'Avalado' : 'Sin estado' }}
+                  </span>
+                </td>
                 <td class="text-left p-3 align-middle text-truncate" style="max-width: 200px;" title="{{ data_patient.fechaCuentaCobro }}">{{ data_patient.fechaCuentaCobro | date:'dd/MM/yyyy, h:mm a' }}</td>
                 <td class="text-left p-3 align-middle text-truncate" style="max-width: 300px;" title="{{ data_patient.actor }}">{{ data_patient.actor }}</td>
                 <td class="text-center p-3 align-middle" title="{{ data_patient.tipo }}">{{ data_patient.tipo }}</td>
@@ -131,7 +139,7 @@
                 <td class="text-center p-3" style="max-width: 200px;">
                   <ng-container *ngIf="data_patient?.adjuntos?.length > 0">
                     <span class="badge badge-pill badge-primary text-truncate" title="{{ 'Cantidad de archivos ' + data_patient?.adjuntos?.length }}" style="max-width: 80px; margin: 2px;">
-                      {{ data_patient?.adjuntos?.length }}&nbsp;archivos
+                      {{ data_patient?.adjuntos?.length }}
                     </span>
                     <br>
                   </ng-container>

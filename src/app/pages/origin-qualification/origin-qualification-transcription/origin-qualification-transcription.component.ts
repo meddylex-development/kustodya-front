@@ -14,7 +14,7 @@ import { timeout } from 'rxjs/operators';
 
 // import * as jsPDF from 'jspdf';
 import { jsPDF } from "jspdf";
-import * as html2canvast from 'html2canvas';
+import * as html2canvas from 'html2canvas';
 
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';

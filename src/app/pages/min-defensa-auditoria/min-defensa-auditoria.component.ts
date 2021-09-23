@@ -9,7 +9,7 @@ export class MinDefensaAuditoriaComponent implements OnInit {
   @Input() group_id: any;
   @Input() report_id: any;
   @Input() state: any;
-  flag_show_tabs: number = 2;
+  flag_show_tabs: number = 1;
   dataEntity: any;
   data_object: any;
   content_tab_basic_info: boolean = true;
