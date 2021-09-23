@@ -82,36 +82,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "medioControl": "Reparación directa",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -160,72 +160,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -274,72 +238,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -388,84 +316,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -514,36 +394,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -592,40 +472,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -674,44 +550,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -760,40 +628,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -842,44 +706,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -928,48 +784,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -1018,40 +862,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },
@@ -1100,44 +940,36 @@ export class MinDefensaAuditoriaListComponent implements OnInit {
         "banco": "banco AV Villas",
         "adjuntos": [
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-01-Lista-de-verificacion.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-02-Cuenta-de-cobro.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-02-Cuenta-de-cobro.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-03-Sentencia-I.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-03-Sentencia-I.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-04-Constancia-ejecutoria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-04-Constancia-ejecutoria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-05-Poder.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-05-Poder.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-06-Documentos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-06-Documentos.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-07-Certificacion-Bancaria.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-07-Certificacion-Bancaria.pdf"
           },
           {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
-          },
-          {
-            "nombreArchivo": "Lab - steer rosado roberto juan c.c. 3347673.pdf",
-            "archivoId": "a1204248-b7d0-4642-9c21-0f6f7fb5a39f_Lab - steer rosado roberto juan c.c. 3347673.pdf"
+            "nombreArchivo": "2019-85700-08-Anexos.pdf",
+            "archivoId": "https://data-learn.000webhostapp.com/data-learn/2019-85700-08-Anexos.pdf"
           },
         ]
       },

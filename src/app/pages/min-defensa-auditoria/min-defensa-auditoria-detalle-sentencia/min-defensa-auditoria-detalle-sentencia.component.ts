@@ -155,6 +155,7 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
     const self = this;
     self.bsLocaleService.use('es');
     // self.data_object
+    console.log('self.data_object: ', self.data_object);
     $(document).ready(function () {
       // $('#kstdy-button-back-concept').click();
       $('#form-section').draggable();
@@ -166,9 +167,11 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
 
         self.user_id = parseInt(self.utilitiesService.fnGetSessionStorage('user_id'), 10);
         if (self.user_id) {
-          self.fnGetDataSignature(self.current_payload, self.user_id);
+          // self.fnGetDataSignature(self.current_payload, self.user_id);
           self.attached_files = self.data_object['adjuntos'];
-          self.fnGetOriginQualificationData(self.current_payload, self.data_object['id']);
+          console.log('self.attached_files: ', self.attached_files);
+          // self.fnGetOriginQualificationData(self.current_payload, self.data_object['id']);
+          self.fnSetDataObject();
         } else {
           self.router.navigateByUrl('');
         }
@@ -409,40 +412,48 @@ export class MinDefensaAuditoriaDetalleSentenciaComponent implements OnInit {
   fnShowPreview(item_file) {
     console.log('item_file: ', item_file);
     const self = this;
-    self.loading_state = true;
+    self.loading_state = false;
     self.show_preview_file = false;
     const file_explode = (item_file['nombreArchivo']).split();
     const file_guiid = item_file['archivoId'];
 
-    self.fnGetPDFAccountingAudit(self.current_payload, file_guiid, function (resp_data) {
-      console.log('resp_data: ', resp_data);
-      self.show_preview_file = true;
-      console.log('resp_data.body.url: ', resp_data['body']['url']);
-      self.url_extension = (resp_data['body']['url']).split(/[#?]/)[0].split('.').pop().trim();
-      console.log('self.url_extension: ', self.url_extension);
+    self.url_file_preview = file_guiid;
+    console.log('self.url_file_preview: ', self.url_file_preview);
+    self.show_preview_file = true;
+    self.url_extension = (file_guiid).split(/[#?]/)[0].split('.').pop().trim();
+    console.log('self.url_extension: ', self.url_extension);
+    return false;
+    // self.fnGetPDFAccountingAudit(self.current_payload, file_guiid, function (resp_data) {
+    //   console.log('resp_data: ', resp_data);
+    //   self.show_preview_file = true;
+    //   console.log('resp_data.body.url: ', resp_data['body']['url']);
+    //   self.url_extension = (resp_data['body']['url']).split(/[#?]/)[0].split('.').pop().trim();
+    //   console.log('self.url_extension: ', self.url_extension);
 
       
+    //   // resp_data['body']['url'] = "https://data-learn.000webhostapp.com/data-learn/2019-85700-01-Lista-de-verificacion.pdf";
+    //   // console.log('resp_data[body][url]: ', resp_data['body']['url']);
+    //   if (self.url_extension == 'gif' || self.url_extension == 'jpg' || self.url_extension == 'jpeg' || self.url_extension == 'png') {
+    //     self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
+    //   } else {
+    //     // self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
+    //     self.url_file_preview = resp_data['body']['url'];
+    //   }
 
-      if (self.url_extension == 'gif' || self.url_extension == 'jpg' || self.url_extension == 'jpeg' || self.url_extension == 'png') {
-        self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
-      } else {
-        self.url_file_preview = resp_data['body']['url'];
-      }
-
-      // if (self.url_extension == 'doc' || self.url_extension == 'docx' || self.url_extension == 'xls' || self.url_extension == 'xlsx' ) {
-      //   // src="https://docs.google.com/gview?url={{ url_file_preview }}&embedded=true"
-      //   const file_office = 'https://docs.google.com/gview?url=' +  resp_data['body']['url'] + '&embedded=true';
-      //   self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(file_office);
-      // } else if (self.url_extension == 'pdf' || self.url_extension == 'jpg' || self.url_extension == 'jpeg' || self.url_extension == 'png') {
-      //   self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
-      // }
+    //   // if (self.url_extension == 'doc' || self.url_extension == 'docx' || self.url_extension == 'xls' || self.url_extension == 'xlsx' ) {
+    //   //   // src="https://docs.google.com/gview?url={{ url_file_preview }}&embedded=true"
+    //   //   const file_office = 'https://docs.google.com/gview?url=' +  resp_data['body']['url'] + '&embedded=true';
+    //   //   self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(file_office);
+    //   // } else if (self.url_extension == 'pdf' || self.url_extension == 'jpg' || self.url_extension == 'jpeg' || self.url_extension == 'png') {
+    //   //   self.url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
+    //   // }
 
       
-      // const url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
-      // console.log('url_file_preview: ', url_file_preview);
-      console.log('self.url_file_preview: ', self.url_file_preview);
-      self.loading_state = false;
-    });
+    //   // const url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
+    //   // console.log('url_file_preview: ', url_file_preview);
+    //   console.log('self.url_file_preview: ', self.url_file_preview);
+    //   self.loading_state = false;
+    // });
   }
 
   fnGetPDFAccountingAudit(current_payload, file_guiid, callback) {

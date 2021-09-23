@@ -21,6 +21,23 @@
     p {
         color: #000 !important;
         font-weight: normal;
+        font-family: Tahoma, sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: Tahoma, sans-serif;
+    }
+
+    table{
+        width: 100%;
+        border: 1px solid black;
+        th, td {
+            border: 1px solid black;
+        }
+    } 
+
+    #print-section span {
+        color: #000 !important;
     }
 
     .container {

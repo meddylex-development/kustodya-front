@@ -7,10 +7,10 @@
       <span style="font-size: 1.2rem; vertical-align: text-bottom; cursor: pointer; color: #369DFB;" (click)="fnShowGoBackList()">Atras</span>
     </div>
     <div class="col-6">
-      <h3 class="text-center font_family_roboto">Transcripci&oacute;n calificaci&oacute;n de or&iacute;gen</h3>
+      <h3 class="text-center font_family_roboto">Proyecto de resoluci&oacute;n - Documento de Acto Administrativo</h3>
     </div>
     <div class="col-3">
-      <div class="row p-0 m-0">
+      <div class="row p-0 m-0" *ngIf="false">
         <div class="col">
           <i class="fas fa-file text-left" style="font-size: 11px; cursor: pointer; color: #369DFB;" (click)="format_letter = true; format_web = false;"></i>&nbsp;
           <span style="font-size: 11px; vertical-align: text-bottom; cursor: pointer; color: #369DFB;" (click)="format_letter = true; format_web = false;">Carta transcripci&oacute;n</span>
@@ -121,16 +121,16 @@
             <div class="form-group">
               <label for="anoSentencia">A&ntilde;o Sentencia: </label>
               &nbsp;
-              <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_covid_date)"></i>
+              <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.anoSentencia)"></i>
               <input nbInput
                 fullWidth
                 autofocus 
                 type="text"
-                placeholder="Seleccione fecha COVID"
-                id="patient_covid_date"  
-                name="patient_covid_date" 
+                placeholder="Ingrese el año de la sentencia"
+                id="anoSentencia"  
+                name="anoSentencia" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_covid_date.texto" 
+                [(ngModel)]="objectData.anoSentencia.texto" 
                 [ngModelOptions]="{standalone: true}"
                 #patient_covid_date="ngModel">
               <!-- <i class="far fa-calendar-alt" (click)="object_patient.patient_transcription_date.toggle()" [attr.aria-expanded]="object_patient.patient_transcription_date.isOpen" style="position: absolute; font-size: 2rem; margin: 5px;"></i> -->
@@ -183,154 +183,122 @@
             <div class="form-group">
               <label for="fechaSentenciaI">Fecha sentencia I:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_fullname)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.demandante)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_fullname"  
-                name="patient_fullname" 
+                id="fechaSentenciaI"  
+                name="fechaSentenciaI" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_fullname.texto" 
-                placeholder="Ingrese nombre(s) y apellido(s) del paciente">
+                [(ngModel)]="objectData.fechaSentenciaI.texto" 
+                placeholder="Ingrese fecha de sentencia">
             </div>
             <div class="form-group">
-              <label for="patient_email">Correo electr&oacute;nico:
+              <label for="despachoJudicial">Despacho judicial:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_email)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.despachoJudicial)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_email"  
-                name="patient_email" 
+                id="despachoJudicial"  
+                name="despachoJudicial" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_email.texto" 
-                placeholder="Ingrese correo electrónico paciente">
-            </div>
-            <!-- <div class="form-group">
-              <label for="patient_firstname">Nombre(s):</label>
-              <input nbInput 
-                fullWidth
-                autofocus 
-                type="text"
-                class="kstdy-input-date" 
-                id="patient_firstname"  
-                name="patient_firstname" 
-                [(ngModel)]="patient_firstname" 
-                placeholder="Ingrese nombre ó nombres del paciente">
+                [(ngModel)]="objectData.despachoJudicial.texto" 
+                placeholder="Ingrese despacho judicial">
             </div>
             <div class="form-group">
-              <label for="patient_lastname">Apellido(s):</label>
-              <input nbInput 
-                fullWidth
-                autofocus 
-                type="text"
-                class="kstdy-input-date" 
-                id="patient_lastname"  
-                name="patient_lastname" 
-                [(ngModel)]="patient_lastname" 
-                placeholder="Ingrese apellido ó apellidos del paciente">
-            </div> -->
-            <div class="form-group">
-              <label for="patient_document_number">N&uacute;mero de documento:
+              <label for="numeroProceso">N&uacute;mero del proceso:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_document_number)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.numeroProceso)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_document_number"  
-                name="patient_document_number" 
+                id="numeroProceso"  
+                name="numeroProceso" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_document_number.texto" 
-                placeholder="Ingrese número de documento del paciente">
+                [(ngModel)]="objectData.numeroProceso.texto" 
+                placeholder="Ingrese número del proceso">
             </div>
             <div class="form-group">
-              <label for="patient_phone_number">N&uacute;mero telefonico:
+              <label for="declaracion">Declaraci&oacute;n:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_phone_number)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.declaracion)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_phone_number"  
-                name="patient_phone_number" 
+                id="declaracion"  
+                name="declaracion" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_phone_number.texto" 
-                placeholder="Ingrese número de telefonico del paciente">
+                [(ngModel)]="objectData.declaracion.texto" 
+                placeholder="Ingrese declaración">
             </div>
             <div class="form-group">
-              <label for="patient_birth">Edad:
+              <label for="responsable">Responsable:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_birth)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.responsable)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_birth"  
-                name="patient_birth" 
+                id="responsable"  
+                name="responsable" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_birth.texto" 
-                placeholder="Ingrese edad del paciente">
+                [(ngModel)]="objectData.responsable.texto" 
+                placeholder="Ingrese responsable">
             </div>
             <div class="form-group">
-              <label for="patient_city">Ciudad:
+              <label for="consecuencia">Consecuencia:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_city)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.consecuencia)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_city"  
-                name="patient_city" 
+                id="consecuencia"  
+                name="consecuencia" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_city.texto" 
-                placeholder="Ingrese número de telefonico del paciente">
+                [(ngModel)]="objectData.consecuencia.texto" 
+                placeholder="Ingrese consecuencia">
             </div>
             <div class="form-group">
-              <label for="patient_first_code">Código EL:
+              <label for="accionHechos">Durante:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_first_code)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.accionHechos)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_first_code"  
-                name="patient_first_code" 
+                id="accionHechos"  
+                name="accionHechos" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_first_code.texto" 
-                placeholder="Ingrese código EL">
+                [(ngModel)]="objectData.accionHechos.texto" 
+                placeholder="Ingrese la accion que se encontraba realizando">
             </div>
             <div class="form-group">
-              <label for="patient_second_code">Código CTO:
+              <label for="condicion">condición:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_second_code)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.condicion)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_second_code"  
-                name="patient_second_code" 
+                id="condicion"  
+                name="condicion" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_second_code.texto" 
-                placeholder="Ingrese código CTO">
+                [(ngModel)]="objectData.condicion.texto" 
+                placeholder="Ingrese la condición">
             </div>
             <div class="form-group">
               <label for="numeral">Numeral:
@@ -389,55 +357,52 @@
             <div class="form-group">
               <label for="apoderado">Apoderado:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_eps)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.fechaHechos)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_eps"  
-                name="patient_eps" 
+                id="apoderado"  
+                name="apoderado" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_eps.texto" 
-                placeholder="Ingrese código">
+                [(ngModel)]="objectData.apoderado.texto" 
+                placeholder="Ingrese nombre del apoderado">
             </div>
             <div class="form-group">
-              <label for="patient_empresa">Empresa:
+              <label for="identificacionApoderado">Identificación Apoderado:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_company)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.identificacionApoderado)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_empresa"  
-                name="patient_empresa" 
+                id="identificacionApoderado"  
+                name="identificacionApoderado" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_company.texto" 
-                placeholder="Ingrese nombre empresa">
+                [(ngModel)]="objectData.identificacionApoderado.texto" 
+                placeholder="Ingrese nombre del identificación apoderado">
             </div>
             <div class="form-group">
-              <label for="patient_correo_empresa">Correo electr&oacute;nico empresa:
+              <label for="tarjetaProfesional">Tarjeta profesional:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_company_email)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.tarjetaProfesional)"></i>
               </label>
               <input nbInput 
                 fullWidth
                 autofocus 
                 type="text"
-                class="kstdy-input-date" 
-                id="patient_correo_empresa"  
-                name="patient_correo_empresa" 
+                id="tarjetaProfesional"  
+                name="tarjetaProfesional" 
                 (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="object_patient.patient_company_email.texto" 
-                placeholder="Ingrese correo electrónico empresa">
+                [(ngModel)]="objectData.tarjetaProfesional.texto" 
+                placeholder="Ingrese tarjeta profesional del apoderado">
             </div>
             <div class="form-group">
-              <label for="patient_afp">AFP:
+              <label for="titular">Titular:
                 &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreviewFileLabel(object_patient.patient_afp)"></i>
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.titular)"></i>
               </label>
               <input nbInput 
                 fullWidth
@@ -450,37 +415,7 @@
                 placeholder="Ingrese titular">
             </div>
             <div class="form-group">
-              <label for="identificacionTitular">Identificación titular:
-                &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.identificacionTitular)"></i>
-              </label>
-              <input nbInput 
-                fullWidth
-                autofocus 
-                type="text"
-                id="identificacionTitular"  
-                name="identificacionTitular" 
-                (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="objectData.identificacionTitular.texto" 
-                placeholder="Ingrese identificación titular">
-            </div>
-            <div class="form-group">
-              <label for="folioDian">Folio DIAN:
-                &nbsp;
-                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.folioDian)"></i>
-              </label>
-              <input nbInput 
-                fullWidth
-                autofocus 
-                type="text"
-                id="folioDian"  
-                name="folioDian" 
-                (blur)="fnSaveTemporalTranscription()"
-                [(ngModel)]="objectData.folioDian.texto" 
-                placeholder="Ingrese el número del folio de la DIAN">
-            </div>
-            <div class="form-group">
-              <label for="oficioDian">Oficio DIAN:
+              <label for="oficioDian">oficioDian:
                 &nbsp;
                 <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.oficioDian)"></i>
               </label>
@@ -614,6 +549,8 @@
                 [(ngModel)]="objectData.banco.texto" 
                 placeholder="Ingrese nombre de la entidad bancaria"> 
             </div>
+
+            
             
             <!-- <div class="form-group">
               <label for="actor">Nombre(s) y apellido(s) actor:
@@ -664,6 +601,7 @@
                 </div>
               </div>
             </div>
+
           </form>
           <div class="mt-2">
             <button  
@@ -689,7 +627,7 @@
       </div>
     </div>
     <div class="col p-1">
-      <div class="text-center position-absolute" style="z-index: 2; margin: 5px 20%;" *ngIf="format_letter">
+      <!-- <div class="text-center position-absolute" style="z-index: 2; margin: 5px 20%;" *ngIf="format_letter">
         <span class="badge badge-pill badge-primary cursor-pointer" (click)="fnDownloadWordDocumentFormat()">
           <i class="fas fa-download"></i>&nbsp;&nbsp;Descargar versión Word
         </span>&nbsp;&nbsp;
@@ -699,7 +637,7 @@
         <span class="badge badge-pill badge-primary cursor-pointer" (click)="fnCopyTextLetterFormat()">
             <i class="fas fa-copy"></i>&nbsp;&nbsp;Copiar texto 
         </span>
-      </div>
+      </div> -->
       <!-- <div>
         <a (click)="fnGeneratePDF()">Descargar pdf</a>
       </div> -->
@@ -1168,6 +1106,12 @@
           width="100%" 
           height="100%"></object>
       </div>
+      <!-- <object 
+          [attr.data]="url_file_preview" 
+          controlsList="nodownload" 
+          type="application/pdf" 
+          width="100%" 
+          height="100%"></object> -->
         
       <!-- <object *ngIf="url_extension == 'pdf' || url_extension == 'jpg' || url_extension == 'jpeg' || url_extension == 'png'" [attr.data]="url_file_preview" controlsList="nodownload" type="application/pdf" width="100%" height="100%"></object>
       <iframe *ngIf="url_extension == 'doc' || url_extension == 'docx' || url_extension == 'xls' || url_extension == 'xlsx'" [attr.src]="url_file_preview" width="100%" height="70%"></iframe>

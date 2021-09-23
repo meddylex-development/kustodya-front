@@ -20,8 +20,7 @@ export class MinDefensaAuditoriaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // this.flag_show_tabs
-    console.log('this.flag_show_tabs: ', this.flag_show_tabs);
+    console.log("Holaaaa");
   }
 
   fnShowTabsOptionsData(obj_data_option: any) {

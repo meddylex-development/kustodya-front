@@ -33,7 +33,7 @@ declare var $: any;
 export class OriginQualificationTranscriptionComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer: ElementRef;
-
+  
   @Output() flagCreateEntity = new EventEmitter<object>();
   @Input() data_object: any;
   data_new_entity: any = {};
@@ -112,6 +112,7 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
   ngOnInit() {
     const self = this;
     self.bsLocaleService.use('es');
+    moment.locale("es");
     // self.data_object
     $(document).ready(function () {
       // $('#kstdy-button-back-concept').click();
