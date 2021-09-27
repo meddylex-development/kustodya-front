@@ -415,7 +415,7 @@
                 placeholder="Ingrese titular">
             </div>
             <div class="form-group">
-              <label for="oficioDian">oficioDian:
+              <label for="oficioDian">Oficio Dian:
                 &nbsp;
                 <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente" (click)="fnShowPreview(objectData.oficioDian)"></i>
               </label>
@@ -569,8 +569,36 @@
             </div> -->
             
 
-            
-            
+            <div class="form-group">
+              <label for="banco">Proyect&oacute;:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente"></i>
+              </label>
+              <div class="text-center">
+                <img src="../../../../assets/images/img-min-defensa/Web-02-signature.png" width="50%" alt="" srcset="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="banco">Elabor&oacute;:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente"></i>
+              </label>
+              <div class="text-center">
+                <img src="../../../../assets/images/img-min-defensa/Web-signature.png" width="50%" alt="" srcset="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="banco">Supervis&oacute;:
+                &nbsp;
+                <i class="fas fa-file-invoice" style="font-size: 12px; cursor: pointer; color: #369DFB;" title="Ver archivo fuente"></i>
+              </label>
+              <div class="text-center">
+                <img src="../../../../assets/images/img-min-defensa/Barack-Obama-signature.png" width="50%" alt="" srcset="">
+              </div>
+            </div>
+            <br>
+            <hr>
+            <br>
             <div class="form-group" *ngIf="false">
               <label for="file_input_signature">Firma digital:</label>
               <div (click)="fnUploadFile('file_input_signature');" style="cursor: pointer;">
@@ -620,8 +648,16 @@
               fullWidth 
               status="basic"
               [disabled]="false" 
-              (click)="fnClearForm()" 
-              class="pgp-button_signup font_family_roboto">Limpiar</button>
+              class="pgp-button_signup font_family_roboto">Guardar</button>
+              <!-- <button 
+                type="button" 
+                class="cursor-pointer btn btn-primary kstdy-btn_success font_family_roboto" 
+                id="kstdy-btn_delete_accounting_audit"            
+                nbButton 
+                [disabled]="false" 
+                [class.btn-pulse]="false"
+                (click)="fnSaveTranscription();" 
+                status="info">Guardar</button> -->
           </div>
         </div>
       </div>
@@ -894,127 +930,28 @@
                 </div>
               </div>
               <br><br>
-  
-              <div class="row" *ngIf="false" >
-                <div class="col m-0 p-0">
-                  <img src="../../../../assets/images/imgs/colmena_img_01.png" style="width: 300px;" alt="Logo" id="Logo_head">
-                  <img src="../../../../assets/images/imgs/colmena_img_02.png" style="width: 75px; position: absolute; right: 0px; top: -20px;" alt="Logo" id="Logo_head">
+              <br><br>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <img src="../../../../assets//images/img-min-defensa/Web-02-signature.png" width="30%"><br>
+                  <span>Proyect&oacute; EDUARDO RODRIGUEZ PEÑA</span>
                 </div>
               </div>
-              <div id="content-text-letter-format" *ngIf="false">
-                <div class="row mt-3" style="margin: 0px; padding: 0px; margin-top: 10px; margin-left: 35px !important;">
-                  <div class="col-12" style="margin: 0px; padding: 0px;">
-                    <span style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; font-weight: normal !important; color: #000 !important;">Bogot&aacute; D.C., <strong>{{ object_patient.patient_creation_date.texto }}</strong></span>
-                  </div>
-                </div>
-                <div class="row" style="margin: 0px; padding: 0px; margin-top: 60px; margin-left: 35px !important;">
-                  <img src="../../../../assets/images/imgs/colmena_img_03.png" *ngIf="false" style="position: absolute; left: 0px; margin-top: 200px !important; " alt="Logo" id="image_side">
-                  <div class="col-12 m-0 p-0 mt-5" style="margin: 0px; padding: 0px;">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">SEÑOR(A):</h5>
-                  </div>
-                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
-                      <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong>
-                    </h5>
-                  </div>
-                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                      CC <strong>{{ object_patient.patient_document_number.texto }}</strong>
-                    </h5>
-                  </div>
-                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                      Tel <strong>{{ object_patient.patient_phone_number.texto }}</strong>
-                    </h5>
-                  </div>
-                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;" *ngIf="object_patient?.patient_email?.texto">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-weight: normal !important;">
-                      <strong>{{ object_patient.patient_email.texto }}</strong>
-                    </h5>
-                  </div>
-                  <div class="col-12 m-0 p-0" style="margin: 0px; padding: 0px;">
-                    <h5 class="m-0 p-0 font-weight-bold" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif;">
-                      <strong>{{ object_patient.patient_city.texto | titlecase }}</strong>
-                    </h5>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Asunto: Aceptación de Origen Enfermedad laboral directa de la Sr.(a) <strong>{{ object_patient.patient_fullname.texto | uppercase }}</strong> 
-                      CC <strong>{{ object_patient.patient_document_number.texto }}</strong> EL <strong>{{ object_patient.patient_first_code.texto }}</strong> CTO <strong>{{ object_patient.patient_second_code.texto }}</strong>
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Respetado(a) señor(a):
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      En relación con la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO (U071), radicada en esta Compañía para su análisis, atentamente nos 
-                      permitimos manifestarles lo siguiente:
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Que se reconoce como enfermedad laboral directa de acuerdo a la 
-                      disposición del Ministerio de Trabajo y del Gobierno Nacional y de 
-                      conformidad con las normas que regulan el sistema general de riesgos 
-                      laborales, en especial los Decretos 538 abril 2020 y 676 de mayo 
-                      2020 para el Sector Salud, dispuestos en la situación de Pandemia mundial.
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      En el presente caso, de la documentación analizada se concluye que la patología INFECCIÓN VIRAL POR RIESGO BIOLÓGICO 
-                      (U071), presenta relación causa efecto con los factores de riesgo presentes en su sitio de trabajo, en los términos 
-                      exigidos por la normatividad vigente. Motivo por el cual las prestaciones asistenciales y económicas derivadas de la 
-                      misma deben ser suministradas por esta Administradora de Riesgos Laborales.
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-3">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Para cualquier información relacionada con esta comunicación por favor hacer referencia al Número SADE.
-                    </p>
-                  </div>
-                  <div class="col-12" style="margin: 0px !important; padding: 0px !important; margin-top: 30px !important;">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Cordialmente,
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-5" *ngIf="imageSrc">
-                    <img id="blah" [src]="imageSrc || 'http://placehold.it/180'" width="200px" alt="your image" />
-                  </div>
-                  <div class="col-12 m-0 p-0">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Médico Calificador
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word;">
-                      Colmena Seguros
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-5" style="margin: 20px 0px 0px 0px !important; padding: 0px !important;">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
-                      C.C. <strong>{{ object_patient.patient_eps.texto | uppercase }}</strong>
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; margin: 0px !important; padding: 0px !important;">
-                      EMPLEADOR. <strong>{{ object_patient.patient_company.texto | uppercase }}</strong>. <strong>{{ object_patient.patient_company_email.texto | lowercase }}</strong>
-                    </p>
-                  </div>
-                  <div class="col-12 m-0 p-0 mt-0" style="margin: 0px !important; padding: 0px !important;">
-                    <p class="m-0 p-0" style="font-family: Arial, Helvetica, sans-serif; text-align: justify; text-justify: inter-word; margin: 0px !important; padding: 0px !important;">
-                      AFP <strong>{{ object_patient.patient_afp.texto | uppercase }}</strong>
-                    </p>
-                  </div>
+              <br>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <img src="../../../../assets//images/img-min-defensa/Web-signature.png" width="30%"><br>
+                  <span>Elabor&oacute; MARTHA LILIANA SARMIENTO</span>
                 </div>
               </div>
-              <div style="text-align: center;"  *ngIf="false">
-                <img src="../../../../assets/images/imgs/colmena_img_04.png" style="width: 100%; text-align: center !important; /* position: absolute; right: 0px; top: -20px; */" alt="image_footer" id="image_footer">
+              <br>
+              <div class="row mt-2 mb-2">
+                <div class="col m-0 p-0 text-center" style="text-align: center; font-family: Tahoma, sans-serif;">
+                  <img src="../../../../assets//images/img-min-defensa/Barack-Obama-signature.png" width="30%"><br>
+                  <span>Supervis&oacute; BERNADO OLMOS ANDRADE</span>
+                </div>
               </div>
-            </div>
+
   
           </div>
         </div>
@@ -1129,19 +1066,6 @@
         <!-- <p>Your browser does not support PDFs.
           <a href="http://www.orimi.com/pdf-test.pdf">Download the PDF</a>.</p> -->
       </object>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col text-right">
-      <button 
-        type="button" 
-        class="cursor-pointer btn btn-primary kstdy-btn_success font_family_roboto" 
-        id="kstdy-btn_delete_accounting_audit"            
-        nbButton 
-        [disabled]="false" 
-        [class.btn-pulse]="false"
-        (click)="fnSaveTranscription();" 
-        status="info">Guardar</button>
     </div>
   </div>
   <!-- ************ END - Content - Informacion paciente ************ -->
