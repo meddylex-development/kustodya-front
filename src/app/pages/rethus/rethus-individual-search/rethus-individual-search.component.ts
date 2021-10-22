@@ -124,27 +124,36 @@ export class RethusIndividualSearchComponent implements OnInit {
     self.fnGetDoctorRethusByDNI(self.data_search.document_type, self.data_search.document_number, self.data_search.first_name, self.data_search.last_name, function(resp_doctor) {
       if (resp_doctor.status == 200) {
         const data_doctor_info = resp_doctor.body;
-        if (Array.isArray(data_doctor_info)) {
+        if (Array.isArray(data_doctor_info) && data_doctor_info.length > 0) {
           self.list_doctors = data_doctor_info;
           self.search_data_load = false;
           self.loading_state = false;
           self.show_list_doctors = true;
         } else {
-          self.data_doctor_info = data_doctor_info;
-          self.data_doctor_details = resp_doctor.body['detalles'];
-          self.data_doctor_sanctions = resp_doctor.body['sanciones'];
-          self.data_doctor_sso = resp_doctor.body['datosSso'];
-          if (self.data_doctor_details.length < 1 && !self.data_doctor_info['primerNombre'] && !self.data_doctor_info['primerApellido']) {
-            self.error_response = {
-              'status': true,
-              'icon': 'fas fa-user-times',
-              'message': 'No se encontro información del usuario.',
-              'description': 'No se logro encontrar información asociada a los datos consultados. Verifique nuevamente que los datos sean correctos en los campos del formulario',
-            };
-          }
           self.search_data_load = false;
           self.loading_state = false;
-          self.state_search = (self.data_doctor_details.length < 1) ? true : false;
+          self.show_list_doctors = true;
+          self.error_response = {
+            'status': true,
+            'icon': 'fas fa-user-times',
+            'message': 'No se encontro información del usuario.',
+            'description': 'No se logro encontrar información asociada a los datos consultados. Verifique nuevamente que los datos sean correctos en los campos del formulario',
+          };
+          // self.data_doctor_info = data_doctor_info;
+          // self.data_doctor_details = resp_doctor.body['detalles'];
+          // self.data_doctor_sanctions = resp_doctor.body['sanciones'];
+          // self.data_doctor_sso = resp_doctor.body['datosSso'];
+          // if (self.data_doctor_details.length < 1 && !self.data_doctor_info['primerNombre'] && !self.data_doctor_info['primerApellido']) {
+          //   self.error_response = {
+          //     'status': true,
+          //     'icon': 'fas fa-user-times',
+          //     'message': 'No se encontro información del usuario.',
+          //     'description': 'No se logro encontrar información asociada a los datos consultados. Verifique nuevamente que los datos sean correctos en los campos del formulario',
+          //   };
+          // }
+          // self.search_data_load = false;
+          // self.loading_state = false;
+          self.state_search = (self.data_doctor_details.length < 1) ? true : true;
         }
       } else if (resp_doctor.status == 202) {
         self.error_response = {
