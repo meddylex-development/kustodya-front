@@ -13,6 +13,8 @@ export class BulkUploadService {
   url_host_medicos: any = environment.apiMedicos;
   code_api_medicos: any = environment.codigoApiMedicos;
   data_headers_request: any = '';
+  urlPutCargueMasivo: String = '';
+  urlGetListFilesUploadedRethus: String = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -23,7 +25,10 @@ export class BulkUploadService {
 
   fnHttpGetListFilesUploadedRethus(guid_user, current_page): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization(guid_user);
-    return this.http.get(this.url_host_medicos + '/api/CargueMasivo?code=' + this.code_api_medicos + '&pagina=' + current_page,
+    this.urlGetListFilesUploadedRethus = '/api/Rethus/ConsultarCargue?pagina=' + current_page;
+    // return this.http.get(this.url_host_medicos + '/api/CargueMasivo?code=' + this.code_api_medicos + '&pagina=' + current_page,
+    console.log('url-peticion: ', this.utility.fnGetHost() + this.urlGetListFilesUploadedRethus);
+    return this.http.get(this.utility.fnGetHost() + this.urlGetListFilesUploadedRethus,
       {
         observe: 'response',
         headers: headers,
@@ -41,7 +46,7 @@ export class BulkUploadService {
       });
   }
 
-  fnHttpSetUploadFileDoctors(guid_user: any, fileToUpload: File): Observable<any> {
+  fnHttpSetUploadFileDoctorsPOST(guid_user: any, fileToUpload: File): Observable<any> {
 
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
@@ -55,6 +60,27 @@ export class BulkUploadService {
         headers: headers,
         reportProgress: true,
       });
+  }
+
+  fnHttpSetUploadFileDoctors(guid_user: any, fileToUpload: File): Observable<any> {
+
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Authorization', `${guid_user}`);
+
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+
+
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlPutCargueMasivo = '/api/Rethus/CargueMasivo';
+    console.log('this.utility.fnGetHost() + this.urlPutCargueMasivo: ', this.utility.fnGetHost() + this.urlPutCargueMasivo);
+    return this.http.put(this.utility.fnGetHost() + this.urlPutCargueMasivo, formData,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
   }
 
 }

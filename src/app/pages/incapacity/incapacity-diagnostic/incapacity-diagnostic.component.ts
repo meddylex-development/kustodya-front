@@ -53,6 +53,12 @@ export class IncapacityDiagnosticComponent implements OnInit {
 
   collection_diagnosis_complete: any = [];
   collection_cie10: any = {};
+  collectionLateralidad: any = [
+    { id: 1, name: "Lateralidad derecha" },
+    { id: 2, name: "Lateralidad izquierda" },
+    { id: 3, name: "Bilateralidad" },
+  ];
+  lateralidad: any = null;
 
   error_validate_form: any = true;
   collection_cie10_original: any = [];
@@ -216,7 +222,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
     const fechaActual = new Date();
     const data_ips = JSON.parse(sessionStorage.getItem('ips'));
     const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
-
+    // this.lateralidad
+    console.log('this.lateralidad: ', this.lateralidad);
     const object_data = {
       'iIddiagnosticoIncapacidad': 0,
       'uiCodigoDiagnostico': null,
@@ -238,7 +245,7 @@ export class IncapacityDiagnosticComponent implements OnInit {
       'bProrroga': this.data_correlation_diagnostic['bProrroga'],
       'bsoat': this.soat_insurance,
     };
-    // return false;
+    return false;
     this.submitted = true;
     this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data).subscribe(r => {
       if (r.status == 200) {

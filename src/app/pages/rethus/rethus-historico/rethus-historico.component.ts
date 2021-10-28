@@ -90,15 +90,16 @@ export class RethusHistoricoComponent implements OnInit, OnDestroy {
         this.state_loading = true;
         this.text_loading = 'Cargando';
         this.bulkUploadService.fnHttpGetListFilesUploadedRethus(token, currentPage).subscribe(response => {
+            console.log('response: ', response);
             if(response.status == 200) {
 
-                this.collection_history_files = JSON.parse(JSON.stringify(response.body['Cargues']));
-                this.collection_history_files_original = JSON.parse(JSON.stringify(response.body['Cargues']));
-                this.totalItems = response.body['Paginacion']['TotalItems'];
-                this.numItemsPage = response.body['Paginacion']['ItemsPorPagina'];
-                this.currentPage = response.body['Paginacion']['PaginaActual'];
-                this.prevPage = response.body['Paginacion']['Anterior'];
-                this.nextNext = response.body['Paginacion']['Siguiente'];
+                this.collection_history_files = JSON.parse(JSON.stringify(response.body['cargueOutputModels']));
+                this.collection_history_files_original = JSON.parse(JSON.stringify(response.body['cargueOutputModels']));
+                this.totalItems = response.body['paginacion']['totalItems'];
+                this.numItemsPage = response.body['paginacion']['itemsPorPagina'];
+                this.currentPage = response.body['paginacion']['paginaActual'];
+                this.prevPage = response.body['paginacion']['anterior'];
+                this.nextNext = response.body['paginacion']['siguiente'];
 
                 // this.collection_history_files = response.body;
                 this.state_loading = false;
@@ -134,17 +135,21 @@ export class RethusHistoricoComponent implements OnInit, OnDestroy {
     }
 
     fnShowReport(data) {
-        if (data.Estado == 'Terminado') {
+        console.log('data: ', data);
+        if (data.estado == 'Terminado') {
             $('#kstdy-report').click();
         }
     }
 
     fnDownloadReportFile(data, index) {
+        console.log('data: ', data);
+        console.log('index: ', index);
         const self = this;
         self.state_loading = true;
         self.text_loading = 'Descargando archivo';
-        if (data['PeticionId']) {
-            self.rethusService.fnHttpGetFileDownloadRethusHistory(data['PeticionId'], true, self.token).subscribe(resp_export => {
+        if (data['taskId']) {
+            self.rethusService.fnHttpGetFileDownloadRethusHistory(data['taskId'], true, self.token).subscribe(resp_export => {
+                console.log('resp_export: ', resp_export);
                 if (resp_export.status == 200) {
                     var blob = new Blob([resp_export.body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                     if (window.navigator.msSaveOrOpenBlob) {
