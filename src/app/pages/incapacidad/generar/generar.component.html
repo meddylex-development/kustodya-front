@@ -1,0 +1,49 @@
+<div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
+  <div class="" style="display: flex; justify-content: space-between;">
+      <span class="">
+          <i class="fas fa-user-injured" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; <span style="display: inline-block;">
+              <h3 class="m-0">Buscar paciente</h3>
+          </span>
+      </span>
+      <span class="cursor-pointer btn-show-search-form" (click)="fnShowContent('search-form')">
+          <i class="fas fa-chevron-circle-down" style="color: dodgerblue; font-size: 25px;"></i>
+      </span>
+  </div>
+  <div class="search-form" style="position: relative; margin-top: 15px; display: none;">
+
+    <div class="mb-2">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+    </div>
+    <form class="row">
+      <div class="col-5 animate fadeIn">
+        <label class="label m-0" for="select-documenttypes">Tipo de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
+          <ng-select 
+            [items]="collectionDocumentTypes" 
+            bindLabel="nombre" 
+            bindValue="id" 
+            id="select-documenttypes" 
+            name="documenttypes"
+            #ngentity="ngModel" 
+            bindValue="id" 
+            placeholder="Seleccione el tipo de documento del paciente"
+            [ngModelOptions]="{standalone: true}" 
+            [(ngModel)]="documentTypePatient" 
+            (focus)="errors = []" 
+            required>
+          </ng-select>
+      </div>
+      <div class="col-5 animate fadeIn">
+        <label class="label m-0" for="">N&uacute;mero de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
+        <input 
+          type="text" 
+          nbInput 
+          fullWidth 
+          fieldSize="large" 
+          placeholder="Large">
+      </div>
+      <div class="col-2 animate fadeIn">
+        <button nbButton fullWidth style="margin-top: 20px; height: 50px;">Buscar</button>
+      </div>
+    </form>
+  </div>
+</div>

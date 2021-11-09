@@ -1,0 +1,20 @@
+@import "../../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    ::ng-deep .ng-select .ng-select-container {
+        border-color: none !important;
+        height: 54px !important;
+    }
+
+    ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input>input {
+        height: 44px;
+    }
+
+}

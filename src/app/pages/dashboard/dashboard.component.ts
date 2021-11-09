@@ -127,6 +127,7 @@ export class DashboardComponent implements OnInit {
             self.enum_document_type = params.enumdoctype;
             self.document_number = params.docnumber;
             const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
+            console.log('main_manu_collection: ', main_manu_collection);
             main_manu_collection.forEach((value, index) => {
               if (value.id == 528) {
                 const menu_rethus = resp['menu_items'][index];
@@ -216,10 +217,13 @@ export class DashboardComponent implements OnInit {
   // }
 
   fnSetLevelData(level_menu, item_name, collection_level, item_childrens, index_menu) {
+    console.log('collection_level: ', collection_level);
     this.title_name_module = item_name;
     const data_collection_breadcrumbs = JSON.parse(JSON.stringify(this.collection_levels_menu));
     this.show_content = false;
     this.current_item = collection_level[index_menu];
+    // this.current_item[index_menu]['esReporte'] = false;
+    console.log('this.current_item: ', this.current_item);
     if (collection_level[index_menu]['children'].length < 1) {
       if (collection_level[index_menu]['link'] == "" || collection_level[index_menu]['link'] == null || collection_level[index_menu]['link'] == undefined) {
         this.url_iframe_content = null;

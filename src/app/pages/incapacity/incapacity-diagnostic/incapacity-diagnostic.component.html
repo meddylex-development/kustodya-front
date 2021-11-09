@@ -271,11 +271,21 @@
     <div class="col-12 row" *ngIf="!readOnly">
       <div class="col-8 pb-4 form-control-group animate fadeIn">
         <label class="label" for="select-Cie10">Diagnóstico:</label>
-        <ng-select [items]="collection_cie_10[0]" bindLabel="tFullDescripcion" id="select-Cie10" name="ngcie10"
+        <ng-select 
+          [items]="collection_cie_10[0]" 
+          bindLabel="tFullDescripcion" 
+          id="select-Cie10" 
+          name="ngcie10"
           #ngcie10="ngModel"
           (change)="fnAddCollectionDiagnosis('diagnosis', id_cie_10_diagnosis); fnGetCorrelationDiagnostic($event);"
-          placeholder="Seleccione diagnostico" [ngModelOptions]="{standalone: true}" [(ngModel)]="id_cie_10_diagnosis"
-          (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+          placeholder="Seleccione diagnostico" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="id_cie_10_diagnosis"
+          (focus)="errors = []" 
+          required 
+          [disabled]="readOnly" 
+          [virtualScroll]="true" 
+          [clearable]="false"
           dropdownPosition="bottom">
         </ng-select>
         <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
@@ -287,7 +297,7 @@
         </ng-container> -->
       </div>
     </div>
-    <div class="col-12" *ngIf="!readOnly">
+    <div class="col-12 mt-2 mb-2" *ngIf="!readOnly">
       <div *ngFor="let item of collection_diagnosis_complete?.diagnosis; let i = index;">
         <span class="row badge badge-pill badge-primary" style="font-size: 1em; margin: 5px 0px;">
           <div class="col-11">
@@ -306,13 +316,13 @@
       </div>
     </div>
 
-    <div class="col-12 row" *ngIf="!readOnly">
+    <div class="col-12 row mt-2 mb-2" *ngIf="applyLaterality">
       <div class="col-8 pb-4 form-control-group animate fadeIn">
         <label class="label" for="select-Lateralidad">Lateralidad:&nbsp;<span class="text-danger">*</span></label>
         <ng-select 
           [items]="collectionLateralidad" 
-          bindLabel="name" 
-          bindValue="id"
+          bindLabel="tNombre" 
+          bindValue="iIDLateralidad"
           id="select-Lateralidad" 
           name="ngLateralidad"
           #ngLateralidad="ngModel"

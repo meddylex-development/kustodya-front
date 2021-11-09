@@ -91,7 +91,7 @@
       <tbody>
           <tr *ngFor="let item of collection_history_files | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
               <td class="text-center">{{ item?.taskId }}</td>
-              <td class="text-left">{{ item?.name | titlecase }}nombre-archivo.extension</td>
+              <td class="text-left">{{ item?.nombreArchivo }}</td>
               <td class="text-center">{{ item?.fecha | date: 'mediumDate' }}</td>
               <td class="text-center">{{ item?.fecha | date: 'shortTime' }}</td>
               <td class="text-center">

@@ -21,6 +21,7 @@ export class IncapacityService {
   urlGetAllIPSByEps: any = '';
   urlGetListIncapacityAttentionTypes: any = '';
   urlGetCorrelationDiagnostic: any = '';
+  urlGetListLateralities: any = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -96,6 +97,7 @@ export class IncapacityService {
   }
 
   fnHttpPostDiagnosticosIncapacidad(guid_user, data_object): Observable<any> {
+    console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHost() + this.urlfnHttpPostDiagnosticosIncapacidad, data_object,
@@ -175,6 +177,16 @@ export class IncapacityService {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetCorrelationDiagnostic = '/api/DiagnosticoIncapacidad/GetDiagnosticoCorrelacion?IIdcie10=' + id_cie_10 + '&IIdpaciente=' + id_patient;
     return this.http.get(this.utility.fnGetHost() + this.urlGetCorrelationDiagnostic, {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetListLateralities(guid_user): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetListLateralities = '/api/DiagnosticoIncapacidad/GetLateralidades';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetListLateralities, {
       observe: 'response',
       headers: headers,
       reportProgress: true,

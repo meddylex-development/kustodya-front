@@ -189,6 +189,9 @@ import { OriginQualificationListComponent } from '../origin-qualification/origin
 import { OriginQualificationTranscriptionComponent } from '../origin-qualification/origin-qualification-transcription/origin-qualification-transcription.component';
 
 
+import { GenerarComponent } from '../incapacidad/generar/generar.component';
+
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { NgxPrintModule } from 'ngx-print';
@@ -344,6 +347,8 @@ const ENTRY_COMPONENTS = [
   ParameterizationComponent,
   TermsConditionsComponent,
   ModalInactivityUserComponent,
+  // Incapacidades
+  GenerarComponent,
 ];
 
 @NgModule({
@@ -493,6 +498,8 @@ const ENTRY_COMPONENTS = [
     ParameterizationComponent,
     TermsConditionsComponent,
     ModalInactivityUserComponent,
+    // Incapacidades
+    GenerarComponent,
   ],
   imports: [
     ThemeModule,
