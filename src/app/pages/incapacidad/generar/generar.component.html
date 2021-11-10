@@ -2,48 +2,233 @@
   <div class="" style="display: flex; justify-content: space-between;">
       <span class="">
           <i class="fas fa-user-injured" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; <span style="display: inline-block;">
-              <h3 class="m-0">Buscar paciente</h3>
-          </span>
+          <h5 class="m-0">BUSCAR PACIENTE</h5>
+      </span>
+      </span>
+      <span *ngIf="showTitleSearch" style="padding: 6px 3px;">
+        Buscando: (<small>Tipo documento:&nbsp;{{ documentTypeSelected?.tTipoIdentificacion }}</small>
+        &nbsp;&nbsp;
+        <small>N&uacute;mero de documento:&nbsp;{{ documentNumberPatient }}</small>)
       </span>
       <span class="cursor-pointer btn-show-search-form" (click)="fnShowContent('search-form')">
-          <i class="fas fa-chevron-circle-down" style="color: dodgerblue; font-size: 25px;"></i>
+          <i class="fas fa-chevron-circle-down" style="color: dodgerblue; font-size: 30px;"></i>
       </span>
   </div>
-  <div class="search-form" style="position: relative; margin-top: 15px; display: none;">
-
-    <div class="mb-2">
+  <div class="search-form" style="position: relative; margin-top: 15px; display: block;">
+    <div class="mb-4">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
     </div>
-    <form class="row">
+    <form class="row" (ngSubmit)="fnSearchPatient(searchPatientForm)" #searchPatientForm="ngForm" aria-labelledby="title">
       <div class="col-5 animate fadeIn">
-        <label class="label m-0" for="select-documenttypes">Tipo de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
+        <label class="label m-0" for="selectDocumentTypes">Tipo de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
           <ng-select 
+            id="selectDocumentTypes"
             [items]="collectionDocumentTypes" 
-            bindLabel="nombre" 
-            bindValue="id" 
-            id="select-documenttypes" 
+            bindLabel="tTipoIdentificacion" 
+            bindValue="iIdTipoIdentificacion" 
             name="documenttypes"
-            #ngentity="ngModel" 
-            bindValue="id" 
+            #documenttypes="ngModel" 
+            status="basic"
             placeholder="Seleccione el tipo de documento del paciente"
             [ngModelOptions]="{standalone: true}" 
             [(ngModel)]="documentTypePatient" 
+            (change)="fnSelectDocumentType($event)"
             (focus)="errors = []" 
             required>
           </ng-select>
       </div>
       <div class="col-5 animate fadeIn">
-        <label class="label m-0" for="">N&uacute;mero de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
+        <label class="label m-0" for="inputDocumentNumber">N&uacute;mero de documento:&nbsp;&nbsp;<span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span></label>
         <input 
+          id="inputDocumentNumber"
+          class="inputDocumentNumber"
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="documentNumberPatient" 
+          status="info"
           type="text" 
           nbInput 
+          status="basic"
           fullWidth 
           fieldSize="large" 
-          placeholder="Large">
+          placeholder="Ingrese el número de documento del paciente">
       </div>
       <div class="col-2 animate fadeIn">
-        <button nbButton fullWidth style="margin-top: 20px; height: 50px;">Buscar</button>
+        <button 
+          id="btnSubmitFormSearchPatient" 
+          [nbSpinner]="search" 
+          nbSpinnerStatus="info"
+          status="info"
+          [disabled]="((documentTypePatient!=null && documentNumberPatient!='')) ? false : true"
+          nbButton 
+          fullWidth 
+          type="submit"
+          style="margin-top: 20px; height: 50px;">Buscar</button>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="card mt-3 mb-3" style="border-color: #1e90ff;">
+  <div class="card-header" style="background-color: #1e90ff; color: #FFF; display: flex; justify-content: space-between;">
+    <span>
+      <i class="fas fa-user-injured" style="color: #fff; font-size: 20px;"></i>&nbsp;&nbsp;
+      <h5 class="d-inline-block" style="color: #FFF; margin: 0;">DATOS DEL PACIENTE</h5>
+    </span>
+    <span class="cursor-pointer btn-show-patient-info" (click)="fnShowContent('content-patient-info')">
+      <i class="fas fa-chevron-circle-down" style="color: #fff; font-size: 20px;"></i>
+    </span>
+  </div>
+  <div class="card-body content-patient-info">
+    <div class="row" *ngIf="false">
+      <div class="col">
+        <div>
+          <span><i class="fas fa-user"></i>&nbsp;Nombres:</span><br>
+          <h5 style="color: #000;">German Eduardo</h5>
+        </div>
+        <div>
+          <span>N&uacute;mero de documento:</span><br>
+          <h5 style="color: #000;">1048578965</h5>
+        </div>
+        <div>
+          <span>Edad:</span><br>
+          <h5 style="color: #000;">33 años</h5>
+        </div>
+        <div>
+          <span>T&eacute;lefono:</span><br>
+          <h5 style="color: #000;">3213904755</h5>
+        </div>
+      </div>
+      <div class="col">
+        <div>
+          <span>Apellidos:</span><br>
+          <h5 style="color: #000;">Pinilla Rubiano</h5>
+        </div>
+        <div>
+          <span>G&eacute;nero:</span><br>
+          <h5 style="color: #000;">Masculino</h5>
+        </div>
+        
+        <div>
+          <span>Correo electr&oacute;nico:</span><br>
+          <h5 style="color: #000;">gpinilladev@gmail.com</h5>
+        </div>
+        <!-- <div>
+          <span>Pa&iacute;s:</span><br>
+          <h5 style="color: #000;">Colombia</h5>
+        </div> -->
+        <div>
+          <span>Depatamento:</span><br>
+          <h5 style="color: #000;">Cundinamarca</h5>
+        </div>
+      </div>
+      <div class="col">
+        <div>
+          <span>Tipo de documento:</span><br>
+          <h5 style="color: #000;">Cédula de ciudadanía</h5>
+        </div>
+        <div>
+          <span>Fecha de nacimiento:</span><br>
+          <h5 style="color: #000;">03 - Mayo - 1988</h5>
+        </div>
+        <div>
+          <span>Direcci&oacute;n:</span><br>
+          <h5 style="color: #000;">CALLE 58 B SUR # 23 D - 05</h5>
+        </div>
+        <div>
+          <span>Ciudad:</span><br>
+          <h5 style="color: #000;">Bogot&aacute; D.C.</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;nombre:&nbsp;</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
+          <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="far fa-id-card"></i>&nbsp;Tipo de documento:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+          <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="far fa-calendar-alt"></i>&nbsp;Edad:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
+          <small *ngIf="!patientData?.iEdad">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-map-pin"></i>&nbsp;Pa&iacute;s:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
+          <small *ngIf="!patientData?.iEdad">No registra dato</small>
+        </div>
+      </div>
+      <div class="col">
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;nombre:&nbsp;</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
+          <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="far fa-id-card"></i>&nbsp;N&uacute;mero de documento:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
+          <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
+          <small *ngIf="!patientData?.tEmail">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-map-pin"></i>&nbsp;Depatamento:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+          <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+        </div>
+      </div>
+      <div class="col">
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;apellido:&nbsp;</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
+          <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="far fa-calendar-alt"></i>&nbsp;Fecha de nacimiento:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+          <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
+          <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-map-pin"></i>&nbsp;Ciudad:</span><br>
+          <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+          <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+        </div>
+      </div>
+      <div class="col">
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;apellido:&nbsp;</span><br>
+          <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
+          <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-venus-mars"></i>&nbsp;G&eacute;nero:</span><br>
+          <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
+          <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+          <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span><br>
+          <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
+          <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+        </div>
+      </div>
+    </div>
+    <!-- <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
   </div>
 </div>

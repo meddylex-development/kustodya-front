@@ -17,4 +17,19 @@
         height: 44px;
     }
 
+    .inputDocumentNumber {
+        border-color: #ccc !important;
+    }
+
+    .inputDocumentNumber :focus {
+        border-color: #1e90ff !important;
+    }
+
+    #btnSubmitFormSearchPatient {
+        background-color: #1e90ff !important;
+        color: #fff !important;
+        border: none !important;
+        cursor: pointer;
+    }
+
 }
