@@ -12,6 +12,7 @@ import {
 } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DashboardComponent } from './dashboard.component';
 import { MyAccountComponent } from '../user/my-account/my-account.component';
 import { TermsConditionsComponent } from '../terms-conditions/terms-conditions.component';
@@ -520,6 +521,7 @@ const ENTRY_COMPONENTS = [
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
     NgxDocViewerModule,
+    TooltipModule.forRoot(),
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,

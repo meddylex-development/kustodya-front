@@ -32,4 +32,19 @@
         cursor: pointer;
     }
 
+    .customClass {
+        background-color: #000;
+    }
+
+    ::ng-deep .tooltip-inner {
+        background-color: #4b4b4b !important;
+        color: #fff;
+        width: auto !important;
+    }
+    ::ng-deep .tooltip.top .tooltip-arrow:before,
+    ::ng-deep .tooltip.top .tooltip-arrow {
+        border-top-color: #4b4b4b !important;
+        border-right-color: #15628200 !important;
+    }
+
 }

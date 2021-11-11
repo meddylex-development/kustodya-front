@@ -29,6 +29,7 @@ export class GenerarComponent implements OnInit {
   public loading: boolean = false;
   public showTitleSearch: boolean = false;
   public documentTypeSelected: any = '';
+  public html: any = '';
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -48,6 +49,7 @@ export class GenerarComponent implements OnInit {
       self.token = token;
       self.fnGetDocumentTypes(self.token)
       console.log('self.token: ', self.token);
+      self.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
     } else {
       // self.router.navigateByUrl('');
     }
@@ -74,7 +76,7 @@ export class GenerarComponent implements OnInit {
     console.log('documentNumberPatient: ', documentNumberPatient);
     console.log('documentTypePatient: ', documentTypePatient);
     console.log('token: ', token);
-    this.patientData = [];
+    this.patientData = null;
     this.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
       console.log('r: ', r);
       if (r.status == 200) {
@@ -84,6 +86,7 @@ export class GenerarComponent implements OnInit {
           this.search = false;
           this.showTitleSearch = true;
           this.patientData = JSON.parse(JSON.stringify(r.body));
+          this.fnShowContent('content-patient-info');
           console.log('this.patientData: ', this.patientData);
 
         }
@@ -133,5 +136,10 @@ export class GenerarComponent implements OnInit {
     this.documentTypeSelected = $event;
   }
   
+  fnClearFormSearchPatient() {
+    this.search = false;
+    this.documentNumberPatient = '';
+    this.documentTypePatient = null;
+  }
 
 }
