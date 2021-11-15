@@ -190,8 +190,10 @@ import { OriginQualificationListComponent } from '../origin-qualification/origin
 import { OriginQualificationTranscriptionComponent } from '../origin-qualification/origin-qualification-transcription/origin-qualification-transcription.component';
 
 
-import { GenerarComponent } from '../incapacidad/generar/generar.component';
-
+import { InformacionComponent } from '../incapacidad/informacion/informacion.component';
+import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
+import { CrearIncapacidadComponent } from '../incapacidad/crear-incapacidad/crear-incapacidad.component';
+import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -200,12 +202,17 @@ import { CapitalizePipe } from '../../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
+// import { HelpComponent } from '../../shared/components/modals/help/help.component';
 
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 
 const ENTRY_COMPONENTS = [
+  // HelpComponent,
+  HistoricoPacienteComponent,
+  CrearIncapacidadComponent,
+  AyudaComponent,
   DashboardComponent,
   MyAccountComponent,
   ReportsComponent,
@@ -349,11 +356,14 @@ const ENTRY_COMPONENTS = [
   TermsConditionsComponent,
   ModalInactivityUserComponent,
   // Incapacidades
-  GenerarComponent,
+  InformacionComponent,
 ];
 
 @NgModule({
   declarations: [
+    HistoricoPacienteComponent,
+    CrearIncapacidadComponent,
+    AyudaComponent,
     DashboardComponent,
     MyAccountComponent,
     ReportsComponent,
@@ -500,7 +510,7 @@ const ENTRY_COMPONENTS = [
     TermsConditionsComponent,
     ModalInactivityUserComponent,
     // Incapacidades
-    GenerarComponent,
+    InformacionComponent,
   ],
   imports: [
     ThemeModule,

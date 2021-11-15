@@ -1,0 +1,19 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+// @import '../../styles/themes';
+// @import "~@theme/theme/styles/themes";
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    ::ng-deep .cursor-pointer {
+        cursor: pointer;
+    }
+    
+    .cursor-pointer {
+        cursor: pointer;
+    }
+}

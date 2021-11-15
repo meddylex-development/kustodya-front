@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { NbDialogService } from '@nebular/theme';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
+import { AyudaComponent } from '../ayuda/ayuda.component';
 declare var $: any;
 
 @Component({
-  selector: 'ngx-generar',
-  templateUrl: './generar.component.html',
-  styleUrls: ['./generar.component.scss']
+  selector: 'ngx-informacion',
+  templateUrl: './informacion.component.html',
+  styleUrls: ['./informacion.component.scss']
 })
-export class GenerarComponent implements OnInit {
+export class InformacionComponent implements OnInit {
 
   public collectionDocumentTypes:any = [
     // { 'id': 1, 'nombre': 'Cedula de ciudadania' },
@@ -30,11 +32,14 @@ export class GenerarComponent implements OnInit {
   public showTitleSearch: boolean = false;
   public documentTypeSelected: any = '';
   public html: any = '';
+  public totalItems: any = '';
+  public patientIncapacities: any = '';
 
   constructor(
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
     private authService: NbAuthService,
+    private dialogService: NbDialogService,
   ) { }
 
   ngOnInit() {
@@ -47,7 +52,29 @@ export class GenerarComponent implements OnInit {
     const token = sessionStorage.getItem('payload');
     if (token && user_id) {
       self.token = token;
-      self.fnGetDocumentTypes(self.token)
+      let data = self.utilitiesService.fnGetDataShare();
+      if (data) {
+        this.search = false;
+        this.showTitleSearch = true;
+        this.collectionDocumentTypes = data['collectionDocumentTypes'];
+        this.documentNumberPatient = data['documentNumberPatient'];
+        this.documentTypePatient = data['documentTypePatient'];
+        this.patientData = data['patientData'];
+        this.patientIncapacities = data['patientIncapacities'];
+        this.documentTypeSelected = data['documentTypeSelected'];
+        this.totalItems = data['patientIncapacities'].length;
+        this.fnShowContent('search-form');
+        this.fnShowContent('content-patient-info');
+      } else {
+        this.collectionDocumentTypes = null;
+        this.patientData = null;
+        this.documentTypeSelected = null;
+        this.patientIncapacities = null;
+        this.totalItems = null;
+        // self.fnClearFormSearchPatient();
+        self.fnGetDocumentTypes(self.token);
+      }
+      console.log('data: ', data);
       console.log('self.token: ', self.token);
       self.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
     } else {
@@ -69,6 +96,7 @@ export class GenerarComponent implements OnInit {
       this.documentTypePatient != "") {
         this.search = true;
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient);
+        this.fnGetDiagnosicosIncapacidadByPaciente(this.token, 2);
     }
   }
 
@@ -111,6 +139,37 @@ export class GenerarComponent implements OnInit {
     });
   }
 
+  fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
+    this.search = true;
+    this.patientIncapacities = [];
+  //const idPaciente = 2;
+    this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
+      if (r.status == 200) {
+        this.search = false;
+        let patientIncapacities = JSON.parse(JSON.stringify(r.body));
+
+        patientIncapacities.forEach((value, key) => {
+          value.cie10.forEach((cievalue, ciekey) => {
+            if (cievalue.iIdtipoCie === 1) {
+              value['cie10_diagnotic'] = cievalue;
+            }
+          });
+          this.patientIncapacities.push(value);
+        });
+        
+        console.log('this.patientIncapacities: ', this.patientIncapacities);
+        this.totalItems = this.patientIncapacities.length;
+      } else if (r.status == 206) {
+        this.search = false;
+        const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
+        this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+      }
+    }, err => {
+      this.search = false;
+      this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
+    });
+  }
+
   fnGetDocumentTypes(token) {
     // this.errors = [];
     // this.search = true;
@@ -120,7 +179,7 @@ export class GenerarComponent implements OnInit {
         this.collectionDocumentTypes = result.body;//.slice(1, 100);
         // let new_item: any = { iIdOrigenIncapacidad: -1, tOrigenIncapacidad: '' };
         // this.collectionDocumentTypes.unshift(new_item);
-        this.documentTypePatient = this.collectionDocumentTypes[0];
+        // this.documentTypePatient = this.collectionDocumentTypes[0];
       } else {
         this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error consultando los tipos de identificación', 'nb-alert');
       }
@@ -140,6 +199,28 @@ export class GenerarComponent implements OnInit {
     this.search = false;
     this.documentNumberPatient = '';
     this.documentTypePatient = null;
+    this.utilitiesService.fnSetDataShare(null);
+  }
+
+  showModalHelp(moduleName?, columnName?, title?, description?) {
+    // this.utilitiesService.fnShowModalHelp(moduleName, columnName, title, description);
+    let dataSend = {};
+    dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
+    this.dialogService.open(AyudaComponent, { context: dataSend }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
+  }
+
+  fnViewPatientIncapacitiesHistory() {
+    this.utilitiesService.fnSetDataShare({ 
+      patientData: this.patientData, 
+      patientIncapacities: this.patientIncapacities, 
+      collectionDocumentTypes: this.collectionDocumentTypes, 
+      documentNumberPatient: this.documentNumberPatient, 
+      documentTypePatient: this.documentTypePatient, 
+      documentTypeSelected: this.documentTypeSelected,
+    });
+    this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
   }
 
 }

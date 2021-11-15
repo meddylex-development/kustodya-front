@@ -1,0 +1,44 @@
+<nb-card>
+    <nb-card-header style="display: flex; justify-content: space-between;">
+        Ayuda: {{ data?.title }}
+        <span (click)="fnCloseModal()" nbTooltip="Cerrar">
+            <i class="fas fa-times cursor-pointer text-danger"></i>
+        </span>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row ml-0 mr-0">
+            <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
+              <div class="col-12 pl-0 pr-0">
+                <!-- <p>
+                    {{ data?.module }}
+                </p>
+                <p>
+                    {{ data?.column }}
+                </p> -->
+                <p>
+                    {{ data?.description }}
+                </p>
+              </div>
+              <br>
+              <button 
+                  nbButton 
+                  fullWidth 
+                  type="button"
+                  [class.btn-pulse]="submitted" 
+                  (click)="fnCancelData()"
+                  style="background-color: #3366ff; border-color: #3366ff; color: white;">
+                  Cerrar
+              </button>
+              <!-- &nbsp;&nbsp;&nbsp;
+              <button 
+                  nbButton 
+                  fullWidth
+                  status="info" 
+                  style="background-color: gray; border-color: gray; color: white;"
+                  (click)="fnCancelData()">
+                  Cancelar
+              </button> -->
+            </form>
+        </div>
+    </nb-card-body>
+</nb-card>

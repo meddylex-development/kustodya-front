@@ -1,0 +1,36 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+// @import '../../styles/themes';
+// @import "~@theme/theme/styles/themes";
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+    ::ng-deep .cursor-pointer {
+        cursor: pointer;
+    }
+    
+    .cursor-pointer {
+        cursor: pointer;
+    }
+  
+    ::ng-deep nb-card-header {
+      display: block !important;
+    }
+    
+    nb-card {
+      height: auto !important;
+    }
+    nb-card-header {
+      display: block !important;
+    }
+    
+    nb-card-body {
+      box-shadow: none !important;
+    }
+    
+    .kstdya-card_content {
+      min-width: 665px;
+    }
+  
+}

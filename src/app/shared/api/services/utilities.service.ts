@@ -4,9 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable, Observer } from 'rxjs';
 
-import { NbToastrService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 
 // import { UtilitiesService } from '../services/utilities.service';
+import { HelpComponent } from '../../components/modals/help/help.component'
 
 import * as moment from 'moment';
 
@@ -28,13 +29,17 @@ export class UtilitiesService {
   dataChange: Observable<any>;
   dataChangeObserver: any;
   data: any;
+  public dataShare: any = null;
 
   private index: number = 0;
+  public token: string = '';
+
   constructor(
     private router: Router,
     public http: HttpClient,
     private authService: NbAuthService,
     private toastrService: NbToastrService,
+    private dialogService: NbDialogService,
   ) {
     // const token = sessionStorage.getItem('payload');
     this.headers = new HttpHeaders().set('Authorization', sessionStorage.getItem('payload'));
@@ -645,6 +650,52 @@ export class UtilitiesService {
         });
     }
     // this.urlGetDataUrlCustom = url_enpoint;
+  }
+
+  fnShowModalHelp(moduleName?, columnName?, title?, description?) {
+    let dataSend = {};
+    dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
+    this.dialogService.open(HelpComponent, { context: dataSend }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
+  }
+
+  fnAuthValidUser() {
+    return new Promise((resolve, reject) => {
+      this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+        if (token.isValid()) {
+          this.token = token.getValue();
+          let userData = token.getPayload();
+          resolve({ state: true, token: this.token, user: userData });
+        } else {
+          reject({state: false, token: null, user: null});
+        }
+      });
+    })
+  }
+
+  fnSignOutUser() {
+    return new Promise((resolve, reject) => {
+      if (true) {
+        localStorage.clear();
+        sessionStorage.clear();
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }
+
+  fnNavigateByUrl(url: string) {
+    this.router.navigateByUrl(url);
+  }
+
+  fnSetDataShare(data) {
+    this.dataShare = data;
+  }
+
+  fnGetDataShare() {
+    return this.dataShare;
   }
 
 }

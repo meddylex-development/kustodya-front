@@ -7,6 +7,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyAccountComponent } from './user/my-account/my-account.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { EmailManagementComponent } from './email-management/email-management.component';
+import { InformacionComponent } from './incapacidad/informacion/informacion.component';
+import { HistoricoPacienteComponent } from './incapacidad/historico-paciente/historico-paciente.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,19 @@ const routes: Routes = [
       {
         path: 'dashboard/:token/:entity/:cun/:findrethus/:enumdoctype/:docnumber',
         component: DashboardComponent,
+      },
+      {
+        path: 'incapadades',
+        children: [
+          {
+            path: 'home',
+            component: InformacionComponent,
+          }, 
+          {
+            path: 'historico',
+            component: HistoricoPacienteComponent,
+          }, 
+        ]
       },
       {
         path: 'email-management',
