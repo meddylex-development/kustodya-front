@@ -10,6 +10,14 @@
         opacity: 1;
     }
 
+    ::ng-deep ngx-historico-paciente {
+        overflow-x: hidden !important;
+    }
+
+    ::ng-deep .front-container {
+        width: 100% !important;
+    }
+
     ::ng-deep a:hover, a:focus {
         color: #01BDFF !important;
     }

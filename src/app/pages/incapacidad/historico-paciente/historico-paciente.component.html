@@ -44,7 +44,7 @@
               <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;">
                   <thead>
                       <tr>
-                          <th style="width: 256px;">
+                          <th class="text-truncate" style="max-width: 256px;">
                               C&oacute;digo Unico de Incapacidad&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -53,7 +53,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th style="width: 140px;">
+                          <th class="text-truncate" style="max-width: 140px;">
                               Fecha emisi&oacute;n&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -62,7 +62,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th style="width: 140px;">
+                          <th class="text-truncate" style="max-width: 140px;">
                               Fecha inicio&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -71,7 +71,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th style="width: 140px;">
+                          <th class="text-truncate" style="max-width: 140px;">
                               Fecha fin&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -80,7 +80,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th>
+                          <th class="text-truncate" style="max-width: 140px;">
                               Diagn&oacute;stico&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -89,7 +89,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th style="width: 155px;">
+                          <th class="text-truncate" style="max-width: 155px;">
                               D&iacute;as otorgados&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -98,7 +98,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th style="width: 155px;">
+                          <th class="text-truncate" style="max-width: 155px;">
                               D&iacute;as acumulados&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -107,7 +107,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th>
+                          <th class="text-truncate" style="max-width: 235px;">
                               Descripci&oacute;n sintomatol&oacute;gica&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -116,7 +116,7 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                           </th>
-                          <th>
+                          <th h class="text-truncate" style="max-width: 100px;">
                               Prorroga&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -176,7 +176,7 @@
                 </pagination-controls>
               </div> -->
             </div>
-            <div class="col-12 mt-2">
+            <div class="col-12 mt-2 mb-5">
               <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                   <div class="text-center kstdy-font_paginator" *ngIf="patientIncapacities?.length > 0">
@@ -309,7 +309,7 @@
                           <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                       </span> -->
                   </th>
-                  <th style="width: 135px;">
+                  <th class="text-truncate" style="max-width: 135px;">
                       Fecha ingreso&nbsp;
                       <span tooltip="Ayuda" placement="top" container="body">
                           <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -318,7 +318,7 @@
                           <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                       </span> -->
                   </th>
-                  <th style="width: 112px;">
+                  <th class="text-truncate" style="max-width: 112px;">
                       Contrato&nbsp;
                       <span tooltip="Ayuda" placement="top" container="body">
                           <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>

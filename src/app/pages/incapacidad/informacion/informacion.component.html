@@ -401,46 +401,21 @@
                         </td>
                         <td class="align-middle">
                           <span tooltip="Ver incapacidades" placement="top" container="body">
-                              <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
                               <i class="fas fa-eye cursor-pointer text-info"></i>
                           </span>
                         </td>
-                        <!-- <td class="align-middle">
-                          <span>
-                              <i class="fas fa-trash-alt cursor-pointer text-danger"></i>
-                          </span>
-                        </td> -->
                       </tr>
-                        <!-- <tr *ngFor="let item of collectionData | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
-                            <td class="align-middle">{{ item?.name | titlecase }}</td>
-                            <td>{{ item?.description }}</td>
-                            <td>{{ item?.dateCreated | date:"medium" }}</td>
-                            <td>{{ item?.dateUpdated | date:"medium" }}</td>
-                            <td>
-                                <span nbTooltip="{{ DATA_LANG_GENERAL?.lblEditTooltip?.text }}" (click)="showModalEdit(item)">
-                                    <i class="fas fa-pencil-alt cursor-pointer text-warning"></i>
-                                </span>
-                            </td>
-                            <td>
-                                <span nbTooltip="{{ DATA_LANG_GENERAL?.lblDeleteTooltip?.text }}" (click)="showModalDelete(item)">
-                                    <i class="fas fa-trash-alt cursor-pointer text-danger"></i>
-                                </span>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
               </div>
-              <!-- <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a> -->
           
             </div>
           </div>
         
           <div>
-            <div class="row">
-              <div class="col">
-                <div class="cards-metrics-medical m-0 p-0">
+            <div class="row pb-5">
+              <div class="col mb-2">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
                   <div class="cursor-pointer" (click)="fnViewPatientIncapacitiesHistory();" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -452,12 +427,12 @@
                         {{ totalItems || 'Cargando' }}&nbsp;<i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i>
                       </span>
                     </div>
-                    <h4 class="text-light text-tide">Cantidad de incapacidades</h4>
+                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Cantidad de incapacidades</h4>
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="cards-metrics-medical m-0 p-0">
+              <div class="col mb-2">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -469,12 +444,12 @@
                         {{ patientIncapacities[0]?.iDiasAcumuladosPorroga || 'Cargando' }}&nbsp;<i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i>
                       </span>
                     </div>
-                    <h4 class="text-light text-tide">Dias acumulados</h4>
+                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Dias acumulados</h4>
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="cards-metrics-medical m-0 p-0">
+              <div class="col mb-2">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de conceptos CRHB" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -483,12 +458,12 @@
                       </span> -->
                       <i class="fas fa-notes-medical fa-4x"></i><span style="font-size: 60px;">4</span>
                     </div>
-                    <h4 class="text-light text-tide">Cantidad de conceptos CRHB</h4>
+                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Cantidad de conceptos CRHB</h4>
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="cards-metrics-medical m-0 p-0">
+              <div class="col mb-2">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -497,18 +472,10 @@
                       </span> -->
                       <i class="fas fa-file-medical fa-4x"></i><span style="font-size: 60px;">4</span>
                     </div>
-                    <h4 class="text-light text-tide">Dictamenes</h4>
+                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Dictamenes</h4>
                   </div>
                 </div>
               </div>
-              <!-- <div class="col">
-                <div style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
-                  <div style="display: flex; justify-content: space-between;">
-                    <i class="fas fa-notes-medical fa-4x"></i><span style="font-size: 60px;">4</span>
-                  </div>
-                  <h4 class="text-light">Cantidad de incapacidades</h4>
-                </div>
-              </div> -->
             </div>
           </div>
         

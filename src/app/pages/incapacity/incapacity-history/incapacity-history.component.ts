@@ -93,6 +93,7 @@ export class IncapacityHistoryComponent implements OnInit {
       if (r.status == 200) {
         self.submitted = false;
         self.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
+        console.log('self.listCantidadDiagnoticosIncapacidad: ', self.listCantidadDiagnoticosIncapacidad);
         self.listCantidadDiagnoticosIncapacidad.forEach(i => {
           let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];
           self.char1_dataChart_gc.push(itemDiasIncapacidad);
