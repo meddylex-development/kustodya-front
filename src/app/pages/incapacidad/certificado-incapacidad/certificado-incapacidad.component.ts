@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'ngx-historico-paciente',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './historico-paciente.component.html',
-  styleUrls: ['./historico-paciente.component.scss']
+  selector: 'ngx-certificado-incapacidad',
+  templateUrl: './certificado-incapacidad.component.html',
+  styleUrls: ['./certificado-incapacidad.component.scss']
 })
-export class HistoricoPacienteComponent implements OnInit {
+export class CertificadoIncapacidadComponent implements OnInit {
 
   public patientData: any = null;
   public patientIncapacities: any = null;
@@ -57,28 +57,44 @@ export class HistoricoPacienteComponent implements OnInit {
     width: 550,
     height: 400,
   };
+  diagnosticCodeDNI: any;
+  dataCertificate: any;
 
   constructor(
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    const token = sessionStorage.getItem('payload');
-    this.token = token;
-    let data = this.utilitiesService.fnGetDataShare();
-    if (data) {
-      this.patientData = data['patientData'];
-      console.log('this.patientData: ', this.patientData);
-      this.patientIncapacities = data['patientIncapacities'];
-      this.totalItems = data['patientIncapacities'].length;
-      this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
-    } else {
-      this.patientData = null;
-      this.patientIncapacities = null;
-      this.totalItems = null;
-    }
+    this.route.params.subscribe(params => {
+      console.log('params: ', params);
+      if (params['diagnosticCodeDNI']) {
+        this.diagnosticCodeDNI = params['diagnosticCodeDNI'];
+        console.log('this.diagnosticCodeDNI: ', this.diagnosticCodeDNI);
+        // this.token = params.token;
+        // console.log('this.token: ', this.token);
+        const token = sessionStorage.getItem('payload');
+        this.token = token;
+        this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
+        let data = this.utilitiesService.fnGetDataShare();
+        if (data) {
+          this.patientData = data['patientData'];
+          console.log('this.patientData: ', this.patientData);
+        } else {
+          this.patientData = null;
+          this.patientIncapacities = null;
+          this.totalItems = null;
+        }
+      } else {
+        this.utilitiesService.fnSignOutUser().then(resp => {
+          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+        }).catch((error) => {
+          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+        })
+      }
+    });
   }
 
   fnReturnPage(): void {
@@ -88,6 +104,17 @@ export class HistoricoPacienteComponent implements OnInit {
   fnViewHistory() {
     console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
+  }
+
+  fnGetDataDiagnosticByDNI(token, diagnosticCodeDNI) {
+    this.incapacityService.fnHttpGetDiagnosicosIncapacidadByCodigoDiagnostico(token, diagnosticCodeDNI).subscribe(response => {
+      console.log('response: ', response);
+      this.dataCertificate = response['body'];
+      console.log('this.dataCertificate: ', this.dataCertificate);
+    }, err => {
+      // this.submitted = false;
+      this.utilitiesService.showToast('top-right', '', 'Error consultado el diagnotico!');
+    });
   }
 
   fnGetCantidadDiagnoticosIncapacidadByPaciente(token) {
@@ -140,11 +167,6 @@ export class HistoricoPacienteComponent implements OnInit {
       // this.submitted = false;
       this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
     });
-  }
-
-  fnViewDagnosticCertificate(item) {
-    let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/certificado/'+ diagnosticCodeDNI);
   }
 
 }

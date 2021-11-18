@@ -194,6 +194,7 @@ import { InformacionComponent } from '../incapacidad/informacion/informacion.com
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
 import { CrearIncapacidadComponent } from '../incapacidad/crear-incapacidad/crear-incapacidad.component';
 import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
+import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -213,6 +214,7 @@ const ENTRY_COMPONENTS = [
   HistoricoPacienteComponent,
   CrearIncapacidadComponent,
   AyudaComponent,
+  CertificadoIncapacidadComponent,
   DashboardComponent,
   MyAccountComponent,
   ReportsComponent,
@@ -364,6 +366,7 @@ const ENTRY_COMPONENTS = [
     HistoricoPacienteComponent,
     CrearIncapacidadComponent,
     AyudaComponent,
+    CertificadoIncapacidadComponent,
     DashboardComponent,
     MyAccountComponent,
     ReportsComponent,

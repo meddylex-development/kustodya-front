@@ -83,6 +83,7 @@ export class InformacionComponent implements OnInit {
   }
 
   fnShowContent(nameClass) {
+    console.log('test');
     $('.' + nameClass).slideToggle();
   }
 
@@ -104,38 +105,38 @@ export class InformacionComponent implements OnInit {
     console.log('documentNumberPatient: ', documentNumberPatient);
     console.log('documentTypePatient: ', documentTypePatient);
     console.log('token: ', token);
-    this.patientData = null;
-    this.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
+    const self = this;
+    self.patientData = null;
+    self.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
       console.log('r: ', r);
       if (r.status == 200) {
         if (r.body != null) {
-          this.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
-          this.fnShowContent('search-form');
-          this.search = false;
-          this.showTitleSearch = true;
-          this.patientData = JSON.parse(JSON.stringify(r.body));
-          this.fnShowContent('content-patient-info');
-          console.log('this.patientData: ', this.patientData);
+          self.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
+          self.fnShowContent('search-form');
+          $('.content-patient-info').slideToggle();;
+          self.search = false;
+          self.showTitleSearch = true;
+          self.patientData = JSON.parse(JSON.stringify(r.body));
+          console.log('self.patientData: ', self.patientData);
 
-        }
-        else {
-          this.search = false;
-          this.documentNumberPatient = '';
-          this.documentTypePatient = null;
-          this.utilitiesService.showToast('bottom-right', 'danger', 'No se encuentra el número de documento!"', 'nb-alert');
+        } else {
+          self.search = false;
+          self.documentNumberPatient = '';
+          self.documentTypePatient = null;
+          self.utilitiesService.showToast('bottom-right', 'danger', 'No se encuentra el número de documento!"', 'nb-alert');
         }
       }
       if (r.status == 206) {
-        this.search = false;
-        this.documentNumberPatient = '';
-        this.documentTypePatient = null;
-        // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-        // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+        self.search = false;
+        self.documentNumberPatient = '';
+        self.documentTypePatient = null;
+        // const error = self.utilitiesService.fnSetErrors(r.body.codMessage)[0];
+        // self.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
       }
     }, err => {
       console.log('err: ', err);
-      this.search = false;
-      this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      self.search = false;
+      self.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
     });
   }
 
@@ -199,6 +200,7 @@ export class InformacionComponent implements OnInit {
     this.search = false;
     this.documentNumberPatient = '';
     this.documentTypePatient = null;
+    this.patientData = null;
     this.utilitiesService.fnSetDataShare(null);
   }
 

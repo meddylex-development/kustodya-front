@@ -1,0 +1,291 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <nb-card>
+      <nb-card-header>
+        <div class="row m-0 p-0">
+          <div class="col text-left">
+            <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+              <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+            </button>
+          </div>
+          <div class="col text-center">
+            <h3 style="margin-top: 6px;">Certificado de incapacidad</h3>
+          </div>
+          <div class="col text-right">
+            <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
+              {{ 'Imprimir' | titlecase }}&nbsp;
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
+        </div> 
+        
+        <!-- <span class=" mt-2 mb-3">
+          <i class="fas fa-arrow-left"></i>&nbsp;Regresar
+        </span> -->
+        
+      </nb-card-header>
+      <nb-card-body>
+        <!-- <div>
+          Paciente: 
+          <h4><strong>
+            {{ patientData?.tPrimerNombre | titlecase }} 
+            {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+            {{ patientData?.tPrimerApellido | titlecase }} 
+            {{ patientData?.tSegundoApellido | titlecase }} 
+          </strong></h4>
+        </div> -->
+        <!-- <p class="mb-4">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+          ---------{{dataCertificate | json}}-------
+        </p> -->
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <h2>Certificado de Incapacidad M&eacute;dica Laboral</h2>
+            </div>
+          </div>
+          <div class="row" style="border: 1px solid #ccc; padding: 10px; border-radius: 15px;">
+            <div class="col">
+              <div>
+                <small>Nombre IPS:</small>&nbsp;<h4>{{ dataCertificate?.ips?.tNombre || ' - ' }}</h4>
+              </div>
+              <div>
+                <small>NIT IPS:</small>&nbsp;<h6>{{ dataCertificate?.ips?.tNumeroIdentificacion || ' - ' }} - {{dataCertificate?.ips?.tDigitoVerificacion || ' - ' }}</h6>
+              </div>
+              <div>
+                <small>C&oacute;digo habilitaci&oacute;n:</small>&nbsp;<h6>{{ dataCertificate?.ips?.tCodigoExterno || ' - ' }}</h6>
+              </div>
+              <div>
+                <small>Correo electr&oacute;nico:</small>&nbsp;<h6>{{ dataCertificate?.ips?.tEmail || ' - ' }}</h6>
+              </div>
+              <div>
+                <small>Departamento:</small>&nbsp;<h6>{{ dataCertificate?.ips?.ubicacion?.tNombreDepartamento || ' - ' }}</h6>
+              </div>
+              <div>
+                <small>Municipio:</small>&nbsp;<h6>{{ dataCertificate?.ips?.ubicacion?.tNombreMunicipio || ' - ' }}</h6>
+              </div>
+            </div>
+            <div class="col text-right">
+              <img style="width: 10rem; margin: 3rem 0rem;" [src]="'../../../../assets' + dataCertificate?.ips?.tPathLogo" alt="Logo IPS" id="logo_ips">
+            </div>
+          </div>
+
+          <div class="row card mt-2" style="border-radius: 15px;">
+            <div class="card-header">
+              Certificado de Incapacidad M&eacute;dica
+            </div>
+            <div class="card-body" style="height: 70px !important;">
+              <div class="row">
+                <div class="col">
+                  <div>
+                    <small>NUIM:</small>&nbsp;<h6>{{ dataCertificate?.tCodigoCorto || ' - ' }}</h6>
+                  </div>
+                </div>
+                <div class="col">
+                  <div>
+                    <small>Lugar de Expedici&oacute;n:</small>&nbsp;<h6>{{ dataCertificate?.tLugarExpedicion || ' - ' }}</h6>
+                  </div>
+                </div>
+                <div class="col">
+                  <div>
+                    <small>Fecha de Expedici&oacute;n:</small>&nbsp;<h6>{{ dataCertificate?.dtFechaCreacion | date:'dd / MM / yyyy, hh:mm a' || ' - ' }}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row card mt-2" style="border-radius: 15px;">
+            <div class="card-header">
+              Datos paciente
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Primer&nbsp;nombre:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Tipo de documento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Edad:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Pa&iacute;s:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Segundo&nbsp;nombre:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>N&uacute;mero de documento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
+                    <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Correo electr&oacute;nico:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
+                    <small *ngIf="!patientData?.tEmail">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Depatamento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Primer&nbsp;apellido:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Fecha de nacimiento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+                    <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Direcci&oacute;n:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
+                    <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Ciudad:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Segundo&nbsp;apellido:&nbsp;</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>G&eacute;nero:</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>T&eacute;lefono:</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
+                    <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row card mt-2 mb-4" style="border-radius: 15px;">
+            <div class="card-header">
+              Datos del empleador
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Primer&nbsp;nombre:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Tipo de documento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Edad:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Pa&iacute;s:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Segundo&nbsp;nombre:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>N&uacute;mero de documento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
+                    <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Correo electr&oacute;nico:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
+                    <small *ngIf="!patientData?.tEmail">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Depatamento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Primer&nbsp;apellido:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Fecha de nacimiento:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+                    <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Direcci&oacute;n:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
+                    <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Ciudad:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Segundo&nbsp;apellido:&nbsp;</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>G&eacute;nero:</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                  </div>
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>T&eacute;lefono:</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
+                    <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+</div>

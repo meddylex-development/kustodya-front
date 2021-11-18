@@ -9,6 +9,7 @@ import { NotFoundComponent } from './miscellaneous/not-found/not-found.component
 import { EmailManagementComponent } from './email-management/email-management.component';
 import { InformacionComponent } from './incapacidad/informacion/informacion.component';
 import { HistoricoPacienteComponent } from './incapacidad/historico-paciente/historico-paciente.component';
+import { CertificadoIncapacidadComponent } from './incapacidad/certificado-incapacidad/certificado-incapacidad.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
           {
             path: 'historico',
             component: HistoricoPacienteComponent,
+          }, 
+          {
+            path: 'certificado/:diagnosticCodeDNI',
+            component: CertificadoIncapacidadComponent,
           }, 
         ]
       },
