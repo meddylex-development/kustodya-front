@@ -26,26 +26,12 @@
         </div>
       </nb-card-header>
       <nb-card-body id="incapacityPDF" #incapacityPDF>
-        <!-- <div>
-          Paciente: 
-          <h4><strong>
-            {{ patientData?.tPrimerNombre | titlecase }} 
-            {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
-            {{ patientData?.tPrimerApellido | titlecase }} 
-            {{ patientData?.tSegundoApellido | titlecase }} 
-          </strong></h4>
-        </div> -->
-        <!-- <p class="mb-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
-          ---------{{dataCertificate | json}}-------
-        </p> -->
-        <div class="container-fluid p-5">
-          
-          <div class="row card" style="border-radius: 15px;">
-            <div class="card-header text-center" style="border-radius: 15px;">
-              <h2>Certificado de Incapacidad M&eacute;dica Laboral</h2>
+        <div class="container-fluid pl-5 pt-1 pr-5 pb-5">
+          <div class="row card border-secondary" style="border-radius: 15px;">
+            <div class="card-header border-secondary text-center" style="border-radius: 15px;">
+              <h3 class="m-0">Certificado de Incapacidad M&eacute;dica Laboral</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="height: 122px !important;">
               <div class="row">
                 <div class="col">
                   <div>
@@ -85,13 +71,10 @@
               </div>
             </div>
           </div>
-
-          
-
-          <div class="row card mt-2" style="border-radius: 15px;">
-            <div class="card-header" style="border-radius: 15px;">
-              Certificado de Incapacidad M&eacute;dica
-            </div>
+          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-notes-medical"></i>&nbsp;Certificado de Incapacidad M&eacute;dica
+            </h5>
             <div class="card-body" style="height: 70px !important;">
               <div class="row">
                 <div class="col">
@@ -113,10 +96,10 @@
             </div>
           </div>
 
-          <div class="row card mt-2" style="border-radius: 15px;">
-            <div class="card-header" style="border-radius: 15px;">
-              Datos paciente
-            </div>
+          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-user-injured"></i>&nbsp;Datos paciente
+            </h5>
             <div class="card-body">
               <div class="row">
                 <div class="col">
@@ -203,15 +186,39 @@
                   </div>
                 </div>
               </div>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Ocupaci&oacute;n:&nbsp;</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.ocupacion?.tNombre">{{ (patientData?.ocupacion?.tNombre | titlecase) }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.ocupacion?.tNombre">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>CIUO:&nbsp;</small><br>
+                    <h6 style="color: #000;"*ngIf="patientData?.ocupacion?.iCategoria">{{ (patientData?.ocupacion?.iCategoria | titlecase) }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.ocupacion?.iCategoria">No registra dato</small>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="row card mt-2 mb-4" style="border-radius: 15px;">
-            <div class="card-header" style="border-radius: 15px;">
-              Datos empleador
-            </div>
+          <div class="row card border-secondary mt-2 mb-4" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-industry"></i>&nbsp;Datos empleador
+            </h5>
             <div class="card-body">
               <div class="row">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>C&oacute;digo CIIU:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
+                  </div>
+                </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <small>NIT:&nbsp;</small><br>
@@ -226,14 +233,7 @@
                     <small style="color: #ccc;" *ngIf="!patientData?.empresa?.tRazonSocial">No registra dato</small>
                   </div>
                 </div>
-                <div class="col">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>C&oacute;digo CIIU:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col">
+                <div class="col-6">
                   <div style="margin-bottom: 0.5rem;">
                     <small>Actividad economica:</small><br>
                     <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.tNombreActividad">{{ patientData?.empresa?.actividadEconomica?.tNombreActividad }}</h6>
@@ -244,10 +244,10 @@
             </div>
           </div>
 
-          <div class="row card mt-2 mb-4" style="border-radius: 15px;">
-            <div class="card-header" style="border-radius: 15px;">
-              Datos afiliaci&oacute;n EPS
-            </div>
+          <div class="row card border-secondary mt-2 mb-4" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-hospital-user"></i>&nbsp;Datos afiliaci&oacute;n EPS
+            </h5>
             <div class="card-body">
               <div class="row">
                 <div class="col">
@@ -257,7 +257,7 @@
                     <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNumeroIdentificacion">No registra dato</small>
                   </div>
                 </div>
-                <div class="col">
+                <div class="col-6">
                   <div style="margin-bottom: 0.5rem;">
                     <small>Razón Social:</small><br>
                     <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNombre">{{ dataCertificate?.eps?.tNombre }}</h6>
@@ -283,26 +283,34 @@
             </div>
           </div>
           
-          <div class="row card mt-2 mb-4" style="border-radius: 15px;">
-            <div class="card-header" style="border-radius: 15px;">
-              Datos incapacidad
-            </div>
+          <div class="row card border-secondary mt-2 mb-2" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-procedures"></i>&nbsp;Datos incapacidad
+            </h5>
             <div class="card-body">
               <div class="row">
-                <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
+                <!-- <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
                   <div style="margin-bottom: 0.5rem;">
                     <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
                     <h6 style="color: #000;" *ngIf="itemcie10?.tFullDescripcion">{{ itemcie10?.tFullDescripcion }}</h6>
                     <small style="color: #ccc;" *ngIf="!itemcie10?.tFullDescripcion">No registra dato</small>
                   </div>
+                </div> -->
+                <div class="col-6">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">No registra dato</small>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <hr>
+                <div class="col-6">
                   <div style="margin-bottom: 0.5rem;">
                     <small>Descripci&oacute;n sintomatol&oacute;gica:</small><br>
                     <h6 style="color: #000;" *ngIf="dataCertificate?.tDescripcionSintomatologica">{{ dataCertificate?.tDescripcionSintomatologica }}</h6>
                     <small style="color: #ccc;" *ngIf="!dataCertificate?.tDescripcionSintomatologica">No registra dato</small>
                   </div>
+                </div>
+                <div class="col-12">
                   <hr>
                 </div>
                 <div class="col-3">
@@ -322,8 +330,8 @@
                 <div class="col-3">
                   <div style="margin-bottom: 0.5rem;">
                     <small>Lateralidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.iIDLateralidad">{{ dataCertificate?.iIDLateralidad }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.iIDLateralidad">No registra dato</small>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.nameLaterality?.tNombre">{{ dataCertificate?.nameLaterality?.tNombre }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.nameLaterality?.tNombre">No registra dato</small>
                   </div>
                 </div>
                 <div class="col-3">
@@ -359,7 +367,7 @@
             </div>
           </div>
 
-          <div class="row mb-1 p-1 m-0 mt-1 align-items-end">
+          <div class="row align-items-end">
             <div class="col" style="position: relative">
               <div *ngIf="dataDoctor?.signature">
                 <img [src]="dataDoctor?.signature" alt="Firma Medico" style="width: 100%" />  
@@ -382,7 +390,7 @@
             </div>
             <div class="col text-center">
               <ngx-qrcode 
-                style="zoom: 0.7 !important;"
+                style="zoom: 0.65 !important;"
                 id="qrCodeImage" 
                 class="col-12" 
                 qrc-element-type="url"
