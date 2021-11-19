@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ngx-certificado-incapacidad',
@@ -57,14 +59,17 @@ export class CertificadoIncapacidadComponent implements OnInit {
     width: 550,
     height: 400,
   };
-  diagnosticCodeDNI: any;
-  dataCertificate: any;
+  public diagnosticCodeDNI: any;
+  public dataCertificate: any;
+  public dataDoctor: any;
+  public listLateralities: any = [];
 
   constructor(
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
     private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
   ) { }
 
   ngOnInit() {
@@ -79,6 +84,23 @@ export class CertificadoIncapacidadComponent implements OnInit {
         this.token = token;
         this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
         let data = this.utilitiesService.fnGetDataShare();
+        
+        this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+        console.log('this.dataDoctor: ', this.dataDoctor);
+
+        const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
+        console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
+        const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
+        console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
+        const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
+        console.log('signature_doctor: ', signature_doctor);
+        const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
+        console.log('dataDoctorSignature: ', dataDoctorSignature);
+        this.dataDoctor['especiality'] = dataDoctorEspeciality;
+        this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
+        this.dataDoctor['signature'] = dataDoctorSignature;
+        this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
+
         if (data) {
           this.patientData = data['patientData'];
           console.log('this.patientData: ', this.patientData);
@@ -97,6 +119,21 @@ export class CertificadoIncapacidadComponent implements OnInit {
     });
   }
 
+  fnGetLateralities(token) {
+    let collectionLateralidad = [];
+    return new Promise((resolve, reject) => {
+      this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
+        console.log('response: ', response);
+        collectionLateralidad = response['body'];
+        console.log('collectionLateralidad: ', collectionLateralidad);
+        resolve(collectionLateralidad);
+      }, (error) => {
+        console.log('error: ', error);
+        resolve(collectionLateralidad);
+      })
+    });
+  }
+
   fnReturnPage(): void {
     this.location.back();
   }
@@ -110,6 +147,21 @@ export class CertificadoIncapacidadComponent implements OnInit {
     this.incapacityService.fnHttpGetDiagnosicosIncapacidadByCodigoDiagnostico(token, diagnosticCodeDNI).subscribe(response => {
       console.log('response: ', response);
       this.dataCertificate = response['body'];
+      this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/incapacidad/certificado-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
+      
+      this.fnGetLateralities(this.token).then(response => {
+        console.log('response: ', response);
+        this.listLateralities = response;
+        console.log('listLateralities: ', this.listLateralities);
+        let nameLaterality = this.listLateralities.filter(d => d.iIDLateralidad == this.dataCertificate['iIDLateralidad']);
+        console.log('nameLaterality: ', nameLaterality);
+        this.dataCertificate['nameLaterality'] = nameLaterality[0];
+        // this.nameLaterality = nameLaterality[0];
+        // console.log('this.nameLaterality: ', this.nameLaterality);
+      }).catch(error => {
+        console.log('error: ', error);
+      });
+
       console.log('this.dataCertificate: ', this.dataCertificate);
     }, err => {
       // this.submitted = false;
