@@ -85,9 +85,68 @@
             </form>
           </div>
         </div>
+
+        <div class="row ml-0 mr-0 mb-0 mt-2 " *ngIf="patientData">
+          <div class="col text-center p-1">
+            <button 
+              (click)="fnViewPatientIncapacitiesHistory();"
+              class="btn-add-incapacity cursor-pointer" 
+              tooltip="Agregar nueva incapacidad" placement="top" container="body"
+              nbButton 
+              fullWidth
+              ghost 
+              outline 
+              status="info" 
+              shape="round">
+              <i class="fas fa-file-medical-alt"></i>&nbsp;Generar nueva incapacidad
+            </button>
+          </div>
+          <div class="col text-center p-1">
+            <button 
+              (click)="fnViewPatientIncapacitiesHistory();"
+              class="btn-add-incapacity cursor-pointer" 
+              tooltip="Ver lista de incapacidades" placement="top" container="body"
+              nbButton 
+              fullWidth
+              ghost 
+              outline 
+              status="info" 
+              shape="round">
+              <i class="fas fa-clipboard-list"></i>&nbsp;Ver lista de incapacidades
+            </button>
+          </div>
+          <div class="col text-center p-1">
+            <button 
+              (click)="fnViewPatientIncapacitiesHistory();"
+              class="btn-add-incapacity cursor-pointer" 
+              tooltip="Ir a modulo de Conceptos de rehabilitación CRHB" placement="top" container="body"
+              nbButton 
+              fullWidth
+              ghost 
+              outline 
+              status="info" 
+              shape="round">
+              <i class="fas fa-notes-medical"></i>&nbsp;Conceptos de rehabilitaci&oacute;n CRHB
+            </button>
+          </div>
+          <div class="col text-center p-1">
+            <button 
+              (click)="fnViewPatientIncapacitiesHistory();"
+              class="btn-add-incapacity cursor-pointer" 
+              tooltip="Ir a modulo de Dictamenes" placement="top" container="body"
+              nbButton 
+              fullWidth
+              ghost 
+              outline 
+              status="info" 
+              shape="round">
+              <i class="fas fa-file-medical"></i>&nbsp;Dictamenes
+            </button>
+          </div>
+        </div>
         
         <div class="mb-4 animated fadeIn" *ngIf="patientData">
-          <div class="text-center mt-3">
+          <div class="text-center mt-3 mb-3">
             <small>------ Resultado de busqueda: ------</small>
           </div>
           
@@ -415,7 +474,7 @@
           <div>
             <div class="row pb-5">
               <div class="col mb-2">
-                <div class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
                   <div class="cursor-pointer" (click)="fnViewPatientIncapacitiesHistory();" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -427,12 +486,12 @@
                         {{ totalItems || 'Cargando' }}&nbsp;<i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i>
                       </span>
                     </div>
-                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Cantidad de incapacidades</h4>
+                    <h4 class="text-light text-tide text-truncate">Cantidad de incapacidades</h4>
                   </div>
                 </div>
               </div>
               <div class="col mb-2">
-                <div class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
+                <div *ngIf="patientIncapacities[0]?.iDiasAcumuladosPorroga" class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -444,12 +503,12 @@
                         {{ patientIncapacities[0]?.iDiasAcumuladosPorroga || 'Cargando' }}&nbsp;<i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i>
                       </span>
                     </div>
-                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Dias acumulados</h4>
+                    <h4 class="text-light text-tide text-truncate">Dias acumulados</h4>
                   </div>
                 </div>
               </div>
               <div class="col mb-2">
-                <div class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de conceptos CRHB" placement="top" container="body">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de conceptos CRHB" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -458,12 +517,12 @@
                       </span> -->
                       <i class="fas fa-notes-medical fa-4x"></i><span style="font-size: 60px;">4</span>
                     </div>
-                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Cantidad de conceptos CRHB</h4>
+                    <h4 class="text-light text-tide text-truncate">Cantidad de conceptos CRHB</h4>
                   </div>
                 </div>
               </div>
               <div class="col mb-2">
-                <div class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes" placement="top" container="body">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -472,7 +531,7 @@
                       </span> -->
                       <i class="fas fa-file-medical fa-4x"></i><span style="font-size: 60px;">4</span>
                     </div>
-                    <h4 class="text-light text-tide text-truncate" style="max-width: 230px;">Dictamenes</h4>
+                    <h4 class="text-light text-tide text-truncate">Dictamenes</h4>
                   </div>
                 </div>
               </div>

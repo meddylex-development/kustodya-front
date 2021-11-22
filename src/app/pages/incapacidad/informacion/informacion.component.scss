@@ -87,6 +87,24 @@
         padding: 1rem;
     }
 
+    .btn-add-incapacity {
+        color: #1e90ff;
+        background-color: #fff;
+        // text-transform: none !important;
+    }
+    
+    ::ng-deep .btn-outline.btn-info:hover, .btn-outline.btn-info.hover {
+        color: #ffffff;
+        background-color: #1e90ff !important;
+        border-color: transparent;
+    }
+
+    .btn-add-incapacity :hover {
+        color: #fff !important;
+        background-color: #1e90ff;
+        // text-transform: none !important;
+    }
+
     /* *********** END - Media query resolution screen width devices *********** */
 
 }
