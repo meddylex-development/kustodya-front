@@ -28,14 +28,23 @@
 
     <div class="col-12 row">
       <div class="col-8 pb-4 form-control-group animate fadeIn">
-        <label class="label" for="diagnostictime"
-          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">Tipo
-          de atencion <span
-            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span></label>
-        <ng-select *ngIf="!readOnly" [items]="list_incapacity_attention_types" bindLabel="tTipoAtencion"
-          id="ng_attention_types" name="ng_attention_types" #ng_attention_types="ngModel"
-          placeholder="Seleccione tipo de atención" [ngModelOptions]="{standalone: true}" [(ngModel)]="attention_type"
-          required [disabled]="readOnly" [clearable]="false" class="col-4 p-0 m-0">
+        <label class="label" for="diagnostictime" [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">
+          Tipo de atencion-- <span [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span>
+        </label>
+        <ng-select 
+          *ngIf="!readOnly" 
+          [items]="list_incapacity_attention_types" 
+          bindLabel="tTipoAtencion"
+          id="ng_attention_types" 
+          name="ng_attention_types" 
+          #ng_attention_types="ngModel"
+          placeholder="Seleccione tipo de atención" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="attention_type"
+          required 
+          [disabled]="readOnly" 
+          [clearable]="false" 
+          class="col-4 p-0 m-0">
         </ng-select>
         <div *ngIf="readOnly">
           <p style="color: rgb(24, 18, 18);font-weight: bold;">{{ diagnostic?.tipoAtencion?.tDescripcion }}</p>

@@ -15,7 +15,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -147,6 +147,7 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
     NgxPaginationModule,
     Ng5SliderModule,
     NgbModule.forRoot(),
+    // NgbTimepicker,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     NbStepperModule,

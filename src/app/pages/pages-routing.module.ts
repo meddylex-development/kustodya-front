@@ -10,6 +10,7 @@ import { EmailManagementComponent } from './email-management/email-management.co
 import { InformacionComponent } from './incapacidad/informacion/informacion.component';
 import { HistoricoPacienteComponent } from './incapacidad/historico-paciente/historico-paciente.component';
 import { CertificadoIncapacidadComponent } from './incapacidad/certificado-incapacidad/certificado-incapacidad.component';
+import { GenerarIncapacidadComponent } from './incapacidad/generar-incapacidad/generar-incapacidad.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
           {
             path: 'certificado/:diagnosticCodeDNI',
             component: CertificadoIncapacidadComponent,
+          }, 
+          {
+            path: 'generar-certificado',
+            component: GenerarIncapacidadComponent,
           }, 
         ]
       },

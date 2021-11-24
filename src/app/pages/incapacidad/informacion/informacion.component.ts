@@ -213,7 +213,7 @@ export class InformacionComponent implements OnInit {
     });
   }
 
-  fnViewPatientIncapacitiesHistory() {
+  fnRedirectViewPatientIncapacitiesHistory() {
     this.utilitiesService.fnSetDataShare({ 
       patientData: this.patientData, 
       patientIncapacities: this.patientIncapacities, 
@@ -223,6 +223,18 @@ export class InformacionComponent implements OnInit {
       documentTypeSelected: this.documentTypeSelected,
     });
     this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+  }
+
+  fnRedirectGeneratePatientIncapacity() {
+    this.utilitiesService.fnSetDataShare({ 
+      patientData: this.patientData, 
+      patientIncapacities: this.patientIncapacities, 
+      collectionDocumentTypes: this.collectionDocumentTypes, 
+      documentNumberPatient: this.documentNumberPatient, 
+      documentTypePatient: this.documentTypePatient, 
+      documentTypeSelected: this.documentTypeSelected,
+    });
+    this.utilitiesService.fnNavigateByUrl('pages/incapadades/generar-certificado');
   }
 
 }

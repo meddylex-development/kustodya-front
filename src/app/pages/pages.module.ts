@@ -12,6 +12,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 
 // Custom pages modules
@@ -27,6 +28,7 @@ const PAGES_COMPONENTS = [
 
 @NgModule({
   imports: [
+    // NgbTimepicker,
     PagesRoutingModule,
     MiscellaneousModule,
     ThemeModule,

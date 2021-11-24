@@ -84,30 +84,30 @@ export class CertificadoIncapacidadComponent implements OnInit {
         this.token = token;
         this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
         let data = this.utilitiesService.fnGetDataShare();
-        
         this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-        console.log('this.dataDoctor: ', this.dataDoctor);
+        
+        if (data && this.dataDoctor) {
+          console.log('this.dataDoctor: ', this.dataDoctor);
+          const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
+          console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
+          const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
+          console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
+          const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
+          console.log('signature_doctor: ', signature_doctor);
+          const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
+          console.log('dataDoctorSignature: ', dataDoctorSignature);
+          this.dataDoctor['especiality'] = dataDoctorEspeciality;
+          this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
+          this.dataDoctor['signature'] = dataDoctorSignature;
+          this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
 
-        const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-        console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
-        const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-        console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
-        const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-        console.log('signature_doctor: ', signature_doctor);
-        const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-        console.log('dataDoctorSignature: ', dataDoctorSignature);
-        this.dataDoctor['especiality'] = dataDoctorEspeciality;
-        this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
-        this.dataDoctor['signature'] = dataDoctorSignature;
-        this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
-
-        if (data) {
           this.patientData = data['patientData'];
           console.log('this.patientData: ', this.patientData);
         } else {
           this.patientData = null;
           this.patientIncapacities = null;
           this.totalItems = null;
+          this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
         }
       } else {
         this.utilitiesService.fnSignOutUser().then(resp => {

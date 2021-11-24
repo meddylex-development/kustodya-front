@@ -1,0 +1,393 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+      <nb-card-front>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Formulario de generación de incapacidad</h3>
+              </div>
+              <div class="col text-right">
+                <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
+                  {{ 'Ver graficos' | titlecase }}&nbsp;
+                  <i class="fas fa-chart-line"></i>
+                </button>
+              </div>
+            </div> 
+          </nb-card-header>
+          <nb-card-body>
+            <div>
+              Paciente: 
+              <h4><strong>
+                {{ patientData?.tPrimerNombre | titlecase }} 
+                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.tSegundoApellido | titlecase }} 
+              </strong></h4>
+            </div>
+            <p class="mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-4 animated fadeIn" *ngIf="patientData">
+                  <div class="card mt-3 mb-3" style="border-color: #1e90ff;">
+                    <div (click)="fnShowContent('content-patient-info')" class="cursor-pointer card-header" style="background-color: #1e90ff; color: #FFF; display: flex; justify-content: space-between;">
+                      <span>
+                        <i class="fas fa-user-injured" style="color: #fff; font-size: 20px;"></i>&nbsp;&nbsp;
+                        <h5 class="d-inline-block" style="color: #FFF; margin: 0;">DATOS DEL PACIENTE</h5>
+                      </span>
+                      <span class="cursor-pointer btn-show-patient-info">
+                        <i class="fas fa-chevron-circle-down" style="color: #fff; font-size: 20px;"></i>
+                      </span>
+                    </div>
+                    <div class="card-body content-patient-info" style="display: block;">
+                      <div class="row">
+                        <div class="col">
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;nombre:&nbsp;</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="far fa-id-card"></i>&nbsp;Tipo de documento:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="far fa-calendar-alt"></i>&nbsp;Edad:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
+                            <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-map-pin"></i>&nbsp;Pa&iacute;s:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
+                            <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;nombre:&nbsp;</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="far fa-id-card"></i>&nbsp;N&uacute;mero de documento:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
+                            <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
+                            <small *ngIf="!patientData?.tEmail">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-map-pin"></i>&nbsp;Depatamento:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+                            <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;apellido:&nbsp;</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="far fa-calendar-alt"></i>&nbsp;Fecha de nacimiento:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+                            <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
+                            <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-map-pin"></i>&nbsp;Ciudad:</span><br>
+                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+                            <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;apellido:&nbsp;</span><br>
+                            <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-venus-mars"></i>&nbsp;G&eacute;nero:</span><br>
+                            <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                          </div>
+                          <div style="margin-bottom: 0.5rem;">
+                            <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span><br>
+                            <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
+                            <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <h5 class="card-title">Special title treatment</h5>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pre>
+              {{ patientData.diagnostic | json }}
+            </pre>
+            <div class="row">
+              <div class="col">
+                <div class="mb-4 pb-4 animated fadeIn" *ngIf="patientData">
+                  <div class="card mt-3 mb-3" style="border-color: #878787;">
+                    <div class="card-body content-patient-info-1" style="display: block;">
+                      <form #form="ngForm">
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="input-attentionTypes">
+                                <h5 class="m-0">
+                                  <i class="fas fa-ambulance"></i>&nbsp;Tipo de atenci&oacute;n:&nbsp;
+                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                </h5>
+                              </label>
+                              <ng-select 
+                                [items]="collectionAttentionTypes" 
+                                bindLabel="tTipoAtencion"
+                                id="input-attentionTypes" 
+                                name="attentionTypes" 
+                                #attentionTypes="ngModel"
+                                placeholder="Seleccione tipo de atención" 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="patientData.diagnostic.attentionTypes"
+                                required 
+                                [disabled]="false" 
+                                [clearable]="false">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="input-incapacityType">
+                                <h5 class="m-0">
+                                  <i class="fab fa-accessible-icon"></i>&nbsp;Origen:&nbsp;
+                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                </h5>
+                              </label>
+                              <ng-select 
+                                [items]="collectionIncapacityType" 
+                                bindLabel="tOrigenIncapacidad"
+                                id="input-incapacityType" 
+                                name="incapacityType" 
+                                #incapacityType="ngModel"
+                                placeholder="Seleccione origen incapacidad" 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="patientData.diagnostic.incapacityType"
+                                required 
+                                [disabled]="false" 
+                                [clearable]="false">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="input-patientSigns">
+                                <h5 class="m-0">
+                                  <i class="fas fa-clipboard-list"></i>&nbsp;Signos:&nbsp;
+                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                </h5>
+                              </label>
+                              <ng-select 
+                                [items]="collectionPatientSigns" 
+                                [multiple]="true" 
+                                [closeOnSelect]="false"
+                                [searchable]="true" 
+                                [hideSelected]="true" 
+                                bindLabel="tFullDescripcion"
+                                id="input-patientSigns" 
+                                name="patientSigns" 
+                                #patientSigns="ngModel"
+                                [(ngModel)]="patientData.diagnostic.patientSigns"
+                                [ngModelOptions]="{standalone: true}" 
+                                placeholder="Seleccione signo(s) del paciente" 
+                                required 
+                                [disabled]="false" 
+                                [clearable]="true">
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                  <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                      <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                  </div>
+                                  <div class="ng-value" *ngIf="items.length > 2">
+                                      <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                  </div>
+                                </ng-template>
+                              </ng-select>
+
+                              <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSigns?.length > 0">
+                                <label for="input-patientSigns">
+                                  <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSigns')">
+                                    <i class="fas fa-chevron-right"></i>&nbsp;Signos seleccionados:&nbsp;
+                                  </small>
+                                </label>
+                                <div class="listPatientSigns m-2" style="display: none;">
+                                  <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSigns; let i=index">
+                                    <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
+                                    <i (click)="fnRemovePatientSign(item, i, patientData.diagnostic.patientSigns)" tooltip="Eliminar signo" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>                          
+                          <div class="col-6">
+                            <!-- <div class="form-group">
+                              <label for="input-attentionTypes">
+                                <h5 class="m-0">
+                                  <i class="fas fa-car"></i>&nbsp;SOAT:&nbsp;
+                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                </h5>
+                              </label>
+                              <div>
+                                <h5 class="d-inline-block m-3">NO</h5>&nbsp;
+                                <label class="switch p-2">
+                                  <input 
+                                  [ngModelOptions]="{standalone: true}" 
+                                  [(ngModel)]="patientData.diagnostic.soatInsurance"
+                                  type="checkbox" [checked]="(patientData.diagnostic.soatInsurance)?'checked':false">
+                                  <span class="slider round"></span>
+                                </label>&nbsp;
+                                <h5 class="d-inline-block m-3">SI</h5>
+                              </div>
+                            </div> -->
+                            <div class="form-group">
+                              <label for="input-patientSymptoms">
+                                <h5 class="m-0">
+                                  <i class="fas fa-clipboard-list"></i>&nbsp;S&iacute;ntomas:&nbsp;
+                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                </h5>
+                              </label>
+                              <ng-select 
+                                [items]="collectionPatientSymptoms" 
+                                [multiple]="true" 
+                                [closeOnSelect]="false"
+                                [searchable]="true" 
+                                [hideSelected]="true" 
+                                bindLabel="tFullDescripcion"
+                                id="input-patientSymptoms" 
+                                name="patientSymptoms" 
+                                #patientSymptoms="ngModel"
+                                [(ngModel)]="patientData.diagnostic.patientSymptoms"
+                                [ngModelOptions]="{standalone: true}" 
+                                placeholder="Seleccione síntoma(s) del paciente" 
+                                required 
+                                [disabled]="false" 
+                                [clearable]="true">
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                  <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                      <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                  </div>
+                                  <div class="ng-value" *ngIf="items.length > 2">
+                                      <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                  </div>
+                                </ng-template>
+                              </ng-select>
+
+                              <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSymptoms?.length > 0">
+                                <label for="input-patientSymptoms">
+                                  <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSymptoms')">
+                                    <i class="fas fa-chevron-right"></i>&nbsp;S&iacute;ntomas seleccionados:&nbsp;
+                                  </small>
+                                </label>
+                                <div class="listPatientSymptoms m-2" style="display: none;">
+                                  <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSymptoms; let i=index">
+                                    <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
+                                    <i (click)="fnRemovePatientSymptom(item, i, patientData.diagnostic.patientSymptoms)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                          <div class="col-6">
+                            <ngb-timepicker 
+                              [(ngModel)]="patientTimeStartCondition"
+                              [ngModelOptions]="{standalone: true}">
+                            </ngb-timepicker>
+                            <hr>
+                            <pre>Selected time: {{ patientTimeStartCondition | json }}</pre>
+                          </div>
+
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </nb-card-body>
+        </nb-card>
+      </nb-card-front>
+      <nb-card-back>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Grafico de incapacidades</h3>
+              </div>
+              <div class="col text-right">
+                <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
+                  {{ 'Ver historico' | titlecase }}&nbsp;
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div> 
+            
+            <!-- <span class=" mt-2 mb-3">
+              <i class="fas fa-arrow-left"></i>&nbsp;Regresar
+            </span> -->
+            
+          </nb-card-header>
+          <nb-card-body>
+            <div>
+              Paciente: 
+              <h4><strong>
+                {{ patientData?.tPrimerNombre | titlecase }} 
+                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.tSegundoApellido | titlecase }} 
+              </strong></h4>
+            </div>
+            <p class="mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+            </p>
+            <div class="row">
+              
+              
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-back>
+    </nb-flip-card>
+
+  </div>
+</div>

@@ -214,13 +214,6 @@
               <div class="row">
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
-                    <small>C&oacute;digo CIIU:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col">
-                  <div style="margin-bottom: 0.5rem;">
                     <small>NIT:&nbsp;</small><br>
                     <h6 style="color: #000;" *ngIf="patientData?.empresa?.nit">{{ patientData?.empresa?.nit }}</h6>
                     <small style="color: #ccc;" *ngIf="!patientData?.empresa?.nit">No registra dato</small>
@@ -231,6 +224,13 @@
                     <small>Raz&oacute;n Social:</small><br>
                     <h6 style="color: #000;" *ngIf="patientData?.empresa?.tRazonSocial">{{ patientData?.empresa?.tRazonSocial }}</h6>
                     <small style="color: #ccc;" *ngIf="!patientData?.empresa?.tRazonSocial">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>C&oacute;digo CIIU:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
                   </div>
                 </div>
                 <div class="col-6">
@@ -266,16 +266,16 @@
                 </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
-                    <small>Tipo Afiliaci&oacute;n:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
+                    <small>R&eacute;gimen de afiliaci&oacute;n:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.regimenAfiliacion?.tNombre">{{ patientData?.regimenAfiliacion?.tNombre }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.regimenAfiliacion?.tNombre">No registra dato</small>
                   </div>
                 </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
-                    <small>R&eacute;gimen de afiliaci&oacute;n:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.regimenAfiliacion?.tNombre">{{ patientData?.regimenAfiliacion?.tNombre }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.regimenAfiliacion?.tNombre">No registra dato</small>
+                    <small>Tipo Afiliaci&oacute;n:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
                   </div>
                 </div>
                 

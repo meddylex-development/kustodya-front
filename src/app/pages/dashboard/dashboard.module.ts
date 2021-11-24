@@ -192,7 +192,7 @@ import { OriginQualificationTranscriptionComponent } from '../origin-qualificati
 
 import { InformacionComponent } from '../incapacidad/informacion/informacion.component';
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
-import { CrearIncapacidadComponent } from '../incapacidad/crear-incapacidad/crear-incapacidad.component';
+import { GenerarIncapacidadComponent } from '../incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
 import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 
@@ -212,7 +212,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 const ENTRY_COMPONENTS = [
   // HelpComponent,
   HistoricoPacienteComponent,
-  CrearIncapacidadComponent,
+  GenerarIncapacidadComponent,
   AyudaComponent,
   CertificadoIncapacidadComponent,
   DashboardComponent,
@@ -364,7 +364,7 @@ const ENTRY_COMPONENTS = [
 @NgModule({
   declarations: [
     HistoricoPacienteComponent,
-    CrearIncapacidadComponent,
+    GenerarIncapacidadComponent,
     AyudaComponent,
     CertificadoIncapacidadComponent,
     DashboardComponent,

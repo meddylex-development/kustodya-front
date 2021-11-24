@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrearIncapacidadComponent } from './crear-incapacidad.component';
+import { GenerarIncapacidadComponent } from './generar-incapacidad.component';
 
-describe('CrearIncapacidadComponent', () => {
-  let component: CrearIncapacidadComponent;
-  let fixture: ComponentFixture<CrearIncapacidadComponent>;
+describe('GenerarIncapacidadComponent', () => {
+  let component: GenerarIncapacidadComponent;
+  let fixture: ComponentFixture<GenerarIncapacidadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrearIncapacidadComponent ]
+      declarations: [ GenerarIncapacidadComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrearIncapacidadComponent);
+    fixture = TestBed.createComponent(GenerarIncapacidadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
