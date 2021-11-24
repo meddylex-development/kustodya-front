@@ -44,6 +44,32 @@
         height: 44px;
     }
 
+    ::ng-deep .ngb-tp-hour > .btn {
+        color: #007bff !important;
+        box-shadow: none !important;
+    }
+
+    .ngb-tp-hour > .btn :focus {
+        box-shadow: none !important;
+    }
+    
+    ::ng-deep .ngb-tp-minute > .btn {
+        color: #007bff !important;
+        box-shadow: none !important;
+    }
+
+    .ngb-tp-minute > .btn :focus {
+        box-shadow: none !important;
+    }
+
+    ::ng-deep .ngb-tp-hour > .ngb-tp-input {
+        height: 54px !important;
+    }
+
+    ::ng-deep .ngb-tp-minute > .ngb-tp-input {
+        height: 54px !important;
+    }
+
 
 
 

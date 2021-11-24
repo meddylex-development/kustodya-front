@@ -5,6 +5,13 @@ import { IncapacityService } from '../../../shared/api/services/incapacity.servi
 import { resolve } from 'url';
 declare var $: any;
 
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { listLocales } from 'ngx-bootstrap/chronos';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { esLocale } from 'ngx-bootstrap/locale';
+defineLocale('es', esLocale);
+
 @Component({
   selector: 'ngx-generar-incapacidad',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,22 +34,31 @@ export class GenerarIncapacidadComponent implements OnInit {
   public collectionPatientSymptoms: any = [];
   public collectionPatientDiagnostics: any = [];
   public patientTimeStartCondition: any = { 'hour': 13, 'minute': 30 };
+  public meridian: boolean = true;
+
+  public colorTheme = 'theme-green';
+  public bsConfig: Partial<BsDatepickerConfig>;
+  public maxDate = new Date();
+  public locale = 'es';
 
   constructor(
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private bsLocaleService: BsLocaleService,
   ) {
   }
   
   ngOnInit() {
     const token = sessionStorage.getItem('payload');
     this.token = token;
+    this.bsLocaleService.use('es');
     let data = this.utilitiesService.fnGetDataShare();
     if (data) {
       this.patientData = data['patientData'];
       this.patientData['diagnostic'] = {
         'soatInsurance': false,
+        'timeStartPatientCondition': { 'hour': 0, 'minute': 0 },
       };
       console.log('this.patientData: ', this.patientData);
       this.patientIncapacities = data['patientIncapacities'];
