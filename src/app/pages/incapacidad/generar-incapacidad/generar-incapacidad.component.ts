@@ -58,7 +58,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       this.patientData = data['patientData'];
       this.patientData['diagnostic'] = {
         'soatInsurance': false,
-        'timeStartPatientCondition': { 'hour': 0, 'minute': 0 },
+        'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
       };
       console.log('this.patientData: ', this.patientData);
       this.patientIncapacities = data['patientIncapacities'];
@@ -194,6 +194,21 @@ export class GenerarIncapacidadComponent implements OnInit {
     });
     console.log('collection: ', collection);
     this.patientData['diagnostic']['patientSymptoms'] = collection;
+    console.log('this.patientData.diagnostic: ', this.patientData.diagnostic);
+  }
+
+  fnRemovePatientDiagnostic(item, index, collectionPatientDiagnostic) {
+    console.log('item: ', item);
+    console.log('index: ', index);
+    console.log('collectionPatientDiagnostic: ', collectionPatientDiagnostic);
+    let collection = [];
+    collectionPatientDiagnostic.forEach((element, key) => {
+      if (key != index) {
+        collection.push(element);
+      }
+    });
+    console.log('collection: ', collection);
+    this.patientData['diagnostic']['patientDiagnostic'] = collection;
     console.log('this.patientData.diagnostic: ', this.patientData.diagnostic);
   }
 

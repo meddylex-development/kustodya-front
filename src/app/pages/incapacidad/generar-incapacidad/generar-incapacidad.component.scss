@@ -44,6 +44,12 @@
         height: 44px;
     }
 
+    ::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+        top: 18px !important;
+        padding-bottom: 5px !important;
+        padding-left: 5px !important;
+    }
+
     ::ng-deep .ngb-tp-hour > .btn {
         color: #007bff !important;
         box-shadow: none !important;
