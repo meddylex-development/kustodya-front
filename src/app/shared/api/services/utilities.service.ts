@@ -13,6 +13,7 @@ import * as moment from 'moment';
 
 /* ************+ Import module auth ************ */
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { map } from 'rxjs/operators';
 
 declare var $: any;
 @Injectable({ providedIn: 'root' })
@@ -33,6 +34,8 @@ export class UtilitiesService {
 
   private index: number = 0;
   public token: string = '';
+  result: Object;
+  
 
   constructor(
     private router: Router,
@@ -696,6 +699,48 @@ export class UtilitiesService {
 
   fnGetDataShare() {
     return this.dataShare;
+  }
+
+  fnGetCountryNames() {
+    const urlGetCountryNames = '../../../../assets/map/countries.json';
+    return this.http.get(urlGetCountryNames,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnGetCountryDataAPI() {
+    const urlGetCountryNames = 'https://restcountries.com/v3.1/all';
+    return this.http.get(urlGetCountryNames,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnGetDiviPolaColombiaDataAPI() {
+    const urlGetDiviPolaColombiaDataAPI = 'https://www.datos.gov.co/resource/xdk5-pm3f.json';
+    // return this.http.get(urlGetDiviPolaColombiaDataAPI);
+    return this.http.get(urlGetDiviPolaColombiaDataAPI,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  loadJSON() {
+    return new Promise((resolve, reject) => {
+      var xobj = new XMLHttpRequest();
+      xobj.overrideMimeType("application/json");
+      xobj.open("GET", "https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json", true); // Reemplaza colombia-json.json con el nombre que le hayas puesto
+      xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status === 200) {
+          resolve(JSON.parse(xobj.responseText));
+        }
+      };
+      xobj.send(null);
+    })
   }
 
 }

@@ -40,6 +40,7 @@ export class GenerarIncapacidadComponent implements OnInit {
   public bsConfig: Partial<BsDatepickerConfig>;
   public maxDate = new Date();
   public locale = 'es';
+  public collectionCountries: any = [];
 
   constructor(
     private location: Location,
@@ -60,29 +61,47 @@ export class GenerarIncapacidadComponent implements OnInit {
         'soatInsurance': false,
         'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
       };
-      console.log('this.patientData: ', this.patientData);
       this.patientIncapacities = data['patientIncapacities'];
       this.totalItems = data['patientIncapacities'].length;
       this.fnGetIncapacityAttentionTypes(this.token);
       this.fnGetIncapacityType(this.token);
       this.fnGetCie10(this.token, 3).then(response1 => {
-        console.log('response1: ', response1);
         this.collectionPatientSigns = response1;
-        console.log('this.collectionPatientSigns: ', this.collectionPatientSigns);
         return this.fnGetCie10(this.token, 2);
       }).then(response2 => {
-        console.log('response2: ', response2);
         this.collectionPatientSymptoms = response2;
-        console.log('this.collectionPatientSymptoms: ', this.collectionPatientSymptoms);
         return this.fnGetCie10(this.token, 1);
       }).then(response3 => {
-        console.log('response3: ', response3);
         this.collectionPatientDiagnostics = response3;
-        console.log('this.collectionPatientDiagnostics: ', this.collectionPatientDiagnostics);
       });
+
+      this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
+        const dataCountries = JSON.parse(JSON.stringify(response['body']));
+        let dataContry = [];
+        dataCountries.forEach(element => {
+          dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
+        });
+        this.collectionCountries = dataContry;
+      }, (error) => {
+      });
+
+      // this.utilitiesService.fnGetDiviPolaColombiaDataAPI().subscribe(response => {
+      //   console.log('response: ', response);
+      // }, (error) => {
+      //   console.log('error: ', error);
+      // });
+
+      this.utilitiesService.loadJSON().then(response => {
+        console.log('response: ', response);
+      }, (error) => {
+        console.log('error: ', error);
+      });
+
+
+
+
       
       // Promise.all([this.fnGetCie10(this.token, 3), this.fnGetCie10(this.token, 2), this.fnGetCie10(this.token, 1)]).then(response => {
-      //   console.log('response Promise.all: ', response);
       // });
     } else {
       this.patientData = null;
@@ -97,7 +116,6 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnViewHistory() {
-    console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
   }
 
@@ -107,7 +125,6 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnShowContent(nameClass) {
-    console.log('test');
     $('.' + nameClass).slideToggle();
   }
 
@@ -115,10 +132,8 @@ export class GenerarIncapacidadComponent implements OnInit {
     // this.submitted = true;
     this.incapacityService.fnHttpGetListIncapacityAttentionTypes(token).subscribe(r => {
       this.collectionAttentionTypes = JSON.parse(JSON.stringify(r.body));
-      console.log('this.collectionAttentionTypes: ', this.collectionAttentionTypes);
       // this.submitted = false;
     }, err => {
-      console.log('err: ', err);
       this.utilitiesService.showToast('bottom-right', 'danger', err, 'nb-alert');
       // this.submitted = false;
     });
@@ -168,48 +183,33 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnRemovePatientSign(item, index, collectionPatientSigns) {
-    console.log('item: ', item);
-    console.log('index: ', index);
-    console.log('collectionPatientSigns: ', collectionPatientSigns);
     let collection = [];
     collectionPatientSigns.forEach((element, key) => {
       if (key != index) {
         collection.push(element);
       }
     });
-    console.log('collection: ', collection);
     this.patientData['diagnostic']['patientSigns'] = collection;
-    console.log('this.patientData.diagnostic: ', this.patientData.diagnostic);
   }
 
   fnRemovePatientSymptom(item, index, collectionPatientSymptoms) {
-    console.log('item: ', item);
-    console.log('index: ', index);
-    console.log('collectionPatientSymptoms: ', collectionPatientSymptoms);
     let collection = [];
     collectionPatientSymptoms.forEach((element, key) => {
       if (key != index) {
         collection.push(element);
       }
     });
-    console.log('collection: ', collection);
     this.patientData['diagnostic']['patientSymptoms'] = collection;
-    console.log('this.patientData.diagnostic: ', this.patientData.diagnostic);
   }
 
   fnRemovePatientDiagnostic(item, index, collectionPatientDiagnostic) {
-    console.log('item: ', item);
-    console.log('index: ', index);
-    console.log('collectionPatientDiagnostic: ', collectionPatientDiagnostic);
     let collection = [];
     collectionPatientDiagnostic.forEach((element, key) => {
       if (key != index) {
         collection.push(element);
       }
     });
-    console.log('collection: ', collection);
     this.patientData['diagnostic']['patientDiagnostic'] = collection;
-    console.log('this.patientData.diagnostic: ', this.patientData.diagnostic);
   }
 
   
