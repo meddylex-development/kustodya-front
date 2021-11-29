@@ -26,4 +26,5 @@ export const environment = {
   timeExpireReport: 60000,
   reportsUrl: 'https://kustodya-reportes-develop.azurewebsites.net',
   codigoApiReports: '4wPaGc0TSFqxWiDQWFvtrjBeV4VG9ob2ZE12fQTWF6uhWIgdO7Z2ow==',
+  urlApiMapDivPolColombia: 'https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json',
 };

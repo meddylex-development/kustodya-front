@@ -23,6 +23,7 @@ export class UtilitiesService {
 
   url_host: any = environment.apiUrl;
   url_host_medicos: any = environment.apiMedicos;
+  urlApiMapDivPolColombia: any = environment.urlApiMapDivPolColombia;
   data_headers_request: any = '';
   urlSetUploadFile: any = '';
   urlGetDataUrlCustom: any = '';
@@ -719,21 +720,12 @@ export class UtilitiesService {
     });
   }
 
-  fnGetDiviPolaColombiaDataAPI() {
-    const urlGetDiviPolaColombiaDataAPI = 'https://www.datos.gov.co/resource/xdk5-pm3f.json';
-    // return this.http.get(urlGetDiviPolaColombiaDataAPI);
-    return this.http.get(urlGetDiviPolaColombiaDataAPI,
-    {
-      observe: 'response',
-      reportProgress: true,
-    });
-  }
-
-  loadJSON() {
+  fnHttpGetDiviPolaColombiaDaneDataAPI() {
     return new Promise((resolve, reject) => {
       var xobj = new XMLHttpRequest();
+      let urlAPI =  "https://www.datos.gov.co/resource/xdk5-pm3f.json";
       xobj.overrideMimeType("application/json");
-      xobj.open("GET", "https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json", true); // Reemplaza colombia-json.json con el nombre que le hayas puesto
+      xobj.open("GET", urlAPI, true);
       xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status === 200) {
           resolve(JSON.parse(xobj.responseText));
@@ -741,6 +733,25 @@ export class UtilitiesService {
       };
       xobj.send(null);
     })
+  }
+
+  fnHttpGetDataJSONAPI(url_api?) {
+    return new Promise((resolve, reject) => {
+      var xobj = new XMLHttpRequest();
+      let urlAPI = url_api;
+      xobj.overrideMimeType("application/json");
+      xobj.open("GET", urlAPI, true); // Reemplaza colombia-json.json con el nombre que le hayas puesto
+      xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status === 200) {
+          resolve(JSON.parse(xobj.responseText));
+        }
+      };
+      xobj.send(null);
+    })
+  }
+
+  fnReturnUrlApiMapDivPolColombia() {
+    return this.urlApiMapDivPolColombia;
   }
 
 }
