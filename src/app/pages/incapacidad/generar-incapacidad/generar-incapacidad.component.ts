@@ -1,7 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
+import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+import { AyudaComponent } from '../ayuda/ayuda.component';
 import { resolve } from 'url';
 declare var $: any;
 
@@ -54,6 +56,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
     private bsLocaleService: BsLocaleService,
+    private dialogService: NbDialogService,
   ) {
   }
   
@@ -256,6 +259,17 @@ export class GenerarIncapacidadComponent implements OnInit {
     });
   }
 
-  
+  fnSetPatientDaysGranted(event) {
+    console.log('event: ', event);
+  }
+
+  showModalHelp(moduleName?, columnName?, title?, description?) {
+    // this.utilitiesService.fnShowModalHelp(moduleName, columnName, title, description);
+    let dataSend = {};
+    dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
+    this.dialogService.open(AyudaComponent, { context: dataSend }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
+  }
 
 }

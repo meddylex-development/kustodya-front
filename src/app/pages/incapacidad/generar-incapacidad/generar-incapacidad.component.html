@@ -647,11 +647,11 @@
                           </div>
 
                           
-                          <!-- ********** START - Tiempo ********** -->
+                          <!-- ********** START - Dias concepto medico ********** -->
                           <div class="mt-2 mb-2 col-12" *ngIf="loadingData">
                             <div class="card">
                               <div class="card-header">
-                                Concepto M&eacute;dico
+                                D&iacute;as concepto m&eacute;dico
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row">
@@ -724,6 +724,7 @@
                                           id="input-patientDaysGranted"  
                                           name="patientDaysGranted" 
                                           [(ngModel)]="patientData.diagnostic.patientDaysGranted" 
+                                          (change)="fnSetPatientDaysGranted($event)"
                                           [ngModelOptions]="{standalone: true}"
                                           #patientDaysGranted="ngModel">
                                       </div>
@@ -735,7 +736,7 @@
                                     <div class="form-group">
                                       <label for="input-patientCountryCondition">
                                         <h5 class="m-0">
-                                          <i class="fas fa-globe-americas"></i>&nbsp;Justificaci&oacute;n:&nbsp;
+                                          <i class="far fa-calendar-plus"></i>&nbsp;Descripci&oacute;n d&iacute;as adicionales otorgados:&nbsp;
                                           <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
                                         </h5>
                                       </label>
@@ -758,11 +759,172 @@
                                     </div>
                                   </div>
                                 </div>
+
+                                <hr>
+
+
+                                
+
                               </div>
                             </div>
                           </div>
-                          <!-- *********** END - Tiempo *********** -->
+                          <!-- *********** END - Dias concepto medico *********** -->
 
+                          <!-- ********** START - Dias concepto medico ********** -->
+                          <div class="mt-2 mb-2 col-12" *ngIf="loadingData">
+                            <div class="card">
+                              <div class="card-header">
+                                Valores incapacidades por empleador
+                              </div>
+                              <div class="card-body" style="padding-bottom: 3rem;">
+                                <div class="row">
+                                  <div class="col-12" style="border: 1px solid; margin: 2px; padding: 17px; border-radius: 12px;">
+                                    <div class="row">
+                                      <div class="col-8">
+                                        <span>NIT:</span>&nbsp;<h4>900365863</h4>
+                                        <span>Nombre:</span>&nbsp;<h4>ProyectaTSP S.A.S.</h4>
+                                        <span>Ocupaci&oacute;n:</span>&nbsp;<h4>2511 - {{ 'INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
+                                        <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
+                                      </div>
+                                      <div class="col-4">
+                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                          <h6 class="text-center text-success">Salario</h6>
+                                          <h4 class="text-center">$1'200.000</h4>
+                                        </div>
+                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                          <h6 class="text-center text-success">IBC</h6>
+                                          <h4 class="text-center">$640.000</h4>
+                                        </div>
+                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                          <h6 class="text-center text-success">Valor por d&iacute;a de incapacidad</h6>
+                                          <h4 class="text-center">$45.000</h4>
+                                        </div>
+                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                          <h6 class="text-center text-success">Valor total dias incapacidad</h6>
+                                          <h4 class="text-center">${{ patientData?.diagnostic?.patientDaysGranted * 45000 }}</h4>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+
+                                  <div class="col-12" *ngIf="false">
+                                    <table class="table table-striped table-bordered table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th>
+                                                  NIT&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'NIT', 'Número Unico Tributario - NIT', 'El NIT es el Número de Identificación Tributaria asignado por la DIAN. Hace referencia a un número único que utiliza el sistema tributario para identificar cualquier empresa colombiana.')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              <th>
+                                                  Nombre&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Nombre', 'Nombre de la empresa', 'Nombre de la compañia con el cual registra ante la DIAN.')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              <th>
+                                                  C&oacute;digo CIIU&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Codigo CIIU', 'Código CIIU', 'Con el propósito de clasificar las actividades económicas de los empresarios del país de la manera más precisa, las cámaras de comercio del país, a partir del año 2000, se rigen por la Clasificación Industrial Internacional Uniforme (CIIU) de todas las actividades económicas. El Código CIIU fue elaborado por la Organización de Naciones Unidas y la revisión 4 es una adaptación para Colombia hecha y revisada por el DANE.')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              <th>
+                                                  Ocupaci&oacute;n&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Ocupacion', 'Ocupación', 'Cargo u ocupación del paciente en la compañia')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              <th style="width: 135px;">
+                                                  Fecha ingreso&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Fecha ingreso', 'Fecha ingreso', 'Fecha de ingreso del paciente en la compañia')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              <th style="width: 112px;">
+                                                  Contrato&nbsp;
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Contrato', 'Contrato', 'Estado de contración del paciente en la compañia')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                                  </span>
+                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                                  </span> -->
+                                              </th>
+                                              
+                                              <th class="thead-column-action">
+                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'ver incapacidades', 'Ver Incapacidades', 'Esta opción permite ver el historial de incapacidades del paciente que se han generado con este empleador.')">
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                                                  </span>
+                                              </th>
+                                              <!-- <th class="thead-column-action">
+                                                  <span>
+                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                                                  </span>
+                                              </th> -->
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td class="align-middle text-center">900365863</td>
+                                          <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
+                                          <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
+                                          <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
+                                          <td class="align-middle text-center">22 Oct 2016</td>
+                                          <td class="align-middle text-center">
+                                            <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
+                                          </td>
+                                          <td class="align-middle">
+                                            <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
+                                            <span tooltip="Ver incapacidades" placement="top" container="body">
+                                                <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
+                                                <i class="fas fa-eye cursor-pointer text-info"></i>
+                                            </span>
+                                          </td>
+                                          <!-- <td class="align-middle">
+                                            <span>
+                                                <i class="fas fa-trash-alt cursor-pointer text-danger"></i>
+                                            </span>
+                                          </td> -->
+                                        </tr>
+                                        <tr>
+                                          <td class="align-middle text-center">900365863</td>
+                                          <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
+                                          <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
+                                          <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
+                                          <td class="align-middle text-center">22 Oct 2016</td>
+                                          <td class="align-middle text-center">
+                                            <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
+                                          </td>
+                                          <td class="align-middle">
+                                            <span tooltip="Ver incapacidades" placement="top" container="body">
+                                                <i class="fas fa-eye cursor-pointer text-info"></i>
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- *********** END - Dias concepto medico *********** -->
                           
 
 
