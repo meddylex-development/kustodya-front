@@ -777,35 +777,136 @@
                                 Valores incapacidades por empleador
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
-                                <div class="row">
-                                  <div class="col-12" style="border: 1px solid; margin: 2px; padding: 17px; border-radius: 12px;">
+                                <div class="row p-4">
+
+                                  <div class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                     <div class="row">
-                                      <div class="col-8">
+                                      <div class="col-2">
                                         <span>NIT:</span>&nbsp;<h4>900365863</h4>
+                                      </div>
+                                      <div class="col">
                                         <span>Nombre:</span>&nbsp;<h4>ProyectaTSP S.A.S.</h4>
-                                        <span>Ocupaci&oacute;n:</span>&nbsp;<h4>2511 - {{ 'INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
-                                        <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
                                       </div>
-                                      <div class="col-4">
-                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                          <h6 class="text-center text-success">Salario</h6>
-                                          <h4 class="text-center">$1'200.000</h4>
-                                        </div>
-                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                          <h6 class="text-center text-success">IBC</h6>
-                                          <h4 class="text-center">$640.000</h4>
-                                        </div>
-                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                          <h6 class="text-center text-success">Valor por d&iacute;a de incapacidad</h6>
-                                          <h4 class="text-center">$45.000</h4>
-                                        </div>
-                                        <div class="text-center p-1 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                          <h6 class="text-center text-success">Valor total dias incapacidad</h6>
-                                          <h4 class="text-center">${{ patientData?.diagnostic?.patientDaysGranted * 45000 }}</h4>
-                                        </div>
+                                      <div class="col">
+                                        <span>Valor total incapacidad:</span>
+                                        <h3>
+                                          <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                            {{ patientData?.diagnostic?.patientDaysGranted * 45000 | currency:'CAD':'symbol-narrow':'4.0-0' }}
+                                          </span>
+                                        </h3>
                                       </div>
-                                      
+                                      <div class="col-1 d-flex">
+                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Vista preliminar" placement="top" container="body">
+                                          <i class="fas fa-eye cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                        </span>
+                                      </div>
+                                      <div class="col-1 d-flex">
+                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Ver detalle" placement="top" container="body">
+                                          <i (click)="fnShowContent('content-prices-0')" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                        </span>
+                                      </div>
                                     </div>
+                                    <div class="col-12 content-prices-detail content-prices-0" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                      <div class="row">
+                                        <div class="col-8">
+                                          <span>NIT:</span>&nbsp;<h4>900365863</h4>
+                                          <span>Nombre:</span>&nbsp;<h4>ProyectaTSP S.A.S.</h4>
+                                          <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática' | titlecase }}</h4>
+                                          <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
+                                          <span>Fecha de ingreso:</span>&nbsp;<h4>{{ '22 Oct 2016' }}</h4>
+                                          <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Salario</h5>
+                                            <h4 class="text-center">$1'200.000 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">IBC</h5>
+                                            <h4 class="text-center">$640.000 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
+                                            <h4 class="text-center">$45.000 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
+                                            <h2 class="text-center" style="font-weight: 700;">
+                                              <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                                {{ patientData?.diagnostic?.patientDaysGranted * 45000 | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                                              </span>
+                                            </h2>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                    <div class="row">
+                                      <div class="col-2">
+                                        <span>NIT:</span>&nbsp;<h4>900456789-0</h4>
+                                      </div>
+                                      <div class="col">
+                                        <span>Nombre:</span>&nbsp;<h4>Skynet S.A.S</h4>
+                                      </div>
+                                      <div class="col">
+                                        <span>Valor total incapacidad:</span>
+                                        <h3>
+                                          <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                            {{ patientData?.diagnostic?.patientDaysGranted * 66256 | currency:'CAD':'symbol-narrow':'4.0-0' }}
+                                          </span>
+                                        </h3>
+                                      </div>
+                                      <div class="col-1 d-flex">
+                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Vista preliminar" placement="top" container="body">
+                                          <i class="fas fa-eye cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                        </span>
+                                      </div>
+                                      <div class="col-1 d-flex">
+                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Ver detalle" placement="top" container="body">
+                                          <i (click)="fnShowContent('content-prices-1')" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div class="col-12 content-prices-detail content-prices-1" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                      <div class="row">
+                                        <div class="col-8">
+                                          <span>NIT:</span>&nbsp;<h4>900456789-0</h4>
+                                          <span>Nombre:</span>&nbsp;<h4>Skynet S.A.S.</h4>
+                                          <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática' | titlecase }}</h4>
+                                          <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
+                                          <span>Fecha de ingreso:</span>&nbsp;<h4>{{ '14 Sep 2017' }}</h4>
+                                          <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Salario</h5>
+                                            <h4 class="text-center">$1'200.000 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">IBC</h5>
+                                            <h4 class="text-center">$640.000 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
+                                            <h4 class="text-center">$66.256 COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
+                                            <h2 class="text-center" style="font-weight: 700;">
+                                              <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                                {{ patientData?.diagnostic?.patientDaysGranted * 66256 | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                                              </span>
+                                            </h2>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+
                                   </div>
 
                                   <div class="col-12" *ngIf="false">
