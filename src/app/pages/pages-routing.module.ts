@@ -11,6 +11,7 @@ import { InformacionComponent } from './incapacidad/informacion/informacion.comp
 import { HistoricoPacienteComponent } from './incapacidad/historico-paciente/historico-paciente.component';
 import { CertificadoIncapacidadComponent } from './incapacidad/certificado-incapacidad/certificado-incapacidad.component';
 import { GenerarIncapacidadComponent } from './incapacidad/generar-incapacidad/generar-incapacidad.component';
+import { VistaPreviaCertificadoIncapacidadComponent } from './incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
           {
             path: 'generar-certificado',
             component: GenerarIncapacidadComponent,
+          }, 
+          {
+            path: 'vista-previa-certificado',
+            component: VistaPreviaCertificadoIncapacidadComponent,
           }, 
         ]
       },

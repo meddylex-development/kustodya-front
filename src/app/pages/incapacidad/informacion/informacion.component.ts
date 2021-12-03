@@ -89,7 +89,7 @@ export class InformacionComponent implements OnInit {
 
   fnSearchPatient($event) {
     console.log('$event: ', $event);
-
+    this.utilitiesService.fnSetDataShare(null);
     if (this != undefined &&
       this.documentNumberPatient != undefined &&
       this.documentNumberPatient != "" &&
@@ -98,6 +98,16 @@ export class InformacionComponent implements OnInit {
         this.search = true;
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient);
         this.fnGetDiagnosicosIncapacidadByPaciente(this.token, 2);
+
+        this.utilitiesService.fnSetDataShare({ 
+          patientData: this.patientData, 
+          patientIncapacities: this.patientIncapacities, 
+          collectionDocumentTypes: this.collectionDocumentTypes, 
+          documentNumberPatient: this.documentNumberPatient, 
+          documentTypePatient: this.documentTypePatient, 
+          documentTypeSelected: this.documentTypeSelected,
+        });
+
     }
   }
 

@@ -148,7 +148,7 @@
                 <div class="mb-4 pb-4 animated fadeIn" *ngIf="patientData">
                   <div class="card mt-3 mb-3" style="border-color: #878787;">
                     <div class="card-body content-patient-info-1" style="display: block;">
-                      <form #form="ngForm">
+                      <form #form="ngForm" (ngSubmit)="fnGenerateIncapacity()" #generateNewIncapacityCertificateForm="ngForm" aria-labelledby="title">
                         <div class="row">
                           <!-- ********** START - Tipo de atencion ********** -->
                           <div class="mt-2 mb-2 col-6">
@@ -308,7 +308,7 @@
                                         [(ngModel)]="patientData.diagnostic.patientDepartamentCondition"
                                         (change)="fnSetPatientCityCondition($event)"
                                         required 
-                                        [disabled]="(patientData?.diagnostic?.patientCountryCondition)?.length < 1 && (patientData?.diagnostic?.patientDepartamentCondition)?.length < 1" 
+                                        [disabled]="(patientData?.diagnostic?.patientCountryCondition)?.length < 1 || collectionDepartaments.length < 1" 
                                         [clearable]="false">
                                       </ng-select>
                                     </div>
@@ -331,7 +331,7 @@
                                         [ngModelOptions]="{standalone: true}" 
                                         [(ngModel)]="patientData.diagnostic.patientCityCondition"
                                         required 
-                                        [disabled]="(patientData?.diagnostic?.patientDepartamentCondition)?.length < 1 && (patientData?.diagnostic?.patientCityCondition)?.length < 1" 
+                                        [disabled]="(patientData?.diagnostic?.patientDepartamentCondition)?.length < 1 || collectionCities.length < 1" 
                                         [clearable]="false">
                                       </ng-select>
                                     </div>
@@ -366,7 +366,7 @@
                                       </div>
                                       <div class="col">
                                         <div class="form-group">
-                                          <label for="input-patientAddressCondition">
+                                          <label for="input-patientAddressPlaceCondition">
                                             <h5 class="m-0">
                                               <i class="fas fa-map-pin"></i>&nbsp;<small>(Barrio, Municipio, Vereda):</small>&nbsp;
                                               <span class="cursor-pointer text-optional-field" nbTooltip="Campo opcional">(Opcional)</span>
@@ -381,13 +381,13 @@
                                             [readonly]="false" 
                                             [disabled]="false" 
                                             placeholder="Seleccione fecha de inicio"
-                                            id="input-patientAddressCondition"  
-                                            name="patientAddressCondition" 
-                                            (focus)="patientData.diagnostic.patientAddressCondition = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressCondition" 
+                                            id="input-patientAddressPlaceCondition"  
+                                            name="patientAddressPlaceCondition" 
+                                            (focus)="patientData.diagnostic.patientAddressPlaceCondition = '';"
+                                            [(ngModel)]="patientData.diagnostic.patientAddressPlaceCondition" 
                                             [ngModelOptions]="{standalone: true}"
-                                            [status]="patientAddressCondition.dirty ? (patientAddressCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                            #patientAddressCondition="ngModel">
+                                            [status]="patientAddressPlaceCondition.dirty ? (patientAddressPlaceCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                            #patientAddressPlaceCondition="ngModel">
                                         </div>
                                       </div>
                                     </div>
@@ -407,7 +407,7 @@
                                 <div class="row">
                                   <div class="col">
                                     <div class="form-group">
-                                      <label for="input-patientCountryCondition">
+                                      <label for="input-patientModeDescription">
                                         <h5 class="m-0">
                                           <i class="fas fa-globe-americas"></i>&nbsp;Descripci&oacute;n de los aconteciminetos y causas:&nbsp;
                                           <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
@@ -436,217 +436,257 @@
                             </div>
                           </div>
                           <!-- *********** END - Modo *********** -->
-                          <!-- ********** START - Sintomas ********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-patientSymptoms">
-                                <h5 class="m-0">
-                                  <i class="fas fa-clipboard-list"></i>&nbsp;S&iacute;ntomas:&nbsp;
-                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionPatientSymptoms" 
-                                [multiple]="true" 
-                                [closeOnSelect]="false"
-                                [searchable]="true" 
-                                [hideSelected]="true" 
-                                bindLabel="tFullDescripcion"
-                                id="input-patientSymptoms" 
-                                name="patientSymptoms" 
-                                #patientSymptoms="ngModel"
-                                [(ngModel)]="patientData.diagnostic.patientSymptoms"
-                                [ngModelOptions]="{standalone: true}" 
-                                placeholder="Seleccione síntoma(s) del paciente" 
-                                required 
-                                [disabled]="false" 
-                                [clearable]="true">
-                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                  <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                      <span class="ng-value-label">{{item.tFullDescripcion}}</span>
-                                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          <!-- ********** START - Diagnostico paciente ********** -->
+                          <div class="mt-2 mb-2 col-12">
+                            <div class="card">
+                              <div class="card-header">
+                                Diagnostico paciente
+                              </div>
+                              <div class="card-body" style="padding-bottom: 3rem;">
+                                <div class="row">
+                                  <!-- ********** START - Sintomas ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-patientSymptoms">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-clipboard-list"></i>&nbsp;S&iacute;ntomas:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionPatientSymptoms" 
+                                        [multiple]="true" 
+                                        [closeOnSelect]="false"
+                                        [searchable]="true" 
+                                        [hideSelected]="true" 
+                                        bindLabel="tFullDescripcion"
+                                        id="input-patientSymptoms" 
+                                        name="patientSymptoms" 
+                                        #patientSymptoms="ngModel"
+                                        [(ngModel)]="patientData.diagnostic.patientSymptoms"
+                                        [ngModelOptions]="{standalone: true}" 
+                                        placeholder="Seleccione síntoma(s) del paciente" 
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="true">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                              <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                          </div>
+                                          <div class="ng-value" *ngIf="items.length > 2">
+                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                          </div>
+                                        </ng-template>
+                                      </ng-select>
+        
+                                      <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSymptoms?.length > 0">
+                                        <label for="input-patientSymptoms">
+                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSymptoms')">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;S&iacute;ntomas seleccionados:&nbsp;
+                                          </small>
+                                        </label>
+                                        <div class="listPatientSymptoms m-2" style="display: none;">
+                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSymptoms; let i=index">
+                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
+                                            <i (click)="fnRemovePatientSymptom(item, i, patientData.diagnostic.patientSymptoms)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                          </div>
+                                        </div>
+                                      </div>
+        
+                                    </div>
                                   </div>
-                                  <div class="ng-value" *ngIf="items.length > 2">
-                                      <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                  <!-- *********** END - Sintomas *********** -->
+                                  <!-- ********** START - Signos ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-patientSigns">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-heartbeat"></i>&nbsp;Signos:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionPatientSigns" 
+                                        [multiple]="true" 
+                                        [closeOnSelect]="false"
+                                        [searchable]="true" 
+                                        [hideSelected]="true" 
+                                        bindLabel="tFullDescripcion"
+                                        id="input-patientSigns" 
+                                        name="patientSigns" 
+                                        #patientSigns="ngModel"
+                                        [(ngModel)]="patientData.diagnostic.patientSigns"
+                                        [ngModelOptions]="{standalone: true}" 
+                                        placeholder="Seleccione signo(s) del paciente" 
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="true">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                              <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                          </div>
+                                          <div class="ng-value" *ngIf="items.length > 2">
+                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                          </div>
+                                        </ng-template>
+                                      </ng-select>
+        
+                                      <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSigns?.length > 0">
+                                        <label for="input-patientSigns">
+                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSigns')">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;Signos seleccionados:&nbsp;
+                                          </small>
+                                        </label>
+                                        <div class="listPatientSigns m-2" style="display: none;">
+                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSigns; let i=index">
+                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
+                                            <i (click)="fnRemovePatientSign(item, i, patientData.diagnostic.patientSigns)" tooltip="Eliminar signo" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                          </div>
+                                        </div>
+                                      </div>
+        
+                                    </div>
                                   </div>
-                                </ng-template>
-                              </ng-select>
-
-                              <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSymptoms?.length > 0">
-                                <label for="input-patientSymptoms">
-                                  <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSymptoms')">
-                                    <i class="fas fa-chevron-right"></i>&nbsp;S&iacute;ntomas seleccionados:&nbsp;
-                                  </small>
-                                </label>
-                                <div class="listPatientSymptoms m-2" style="display: none;">
-                                  <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSymptoms; let i=index">
-                                    <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
-                                    <i (click)="fnRemovePatientSymptom(item, i, patientData.diagnostic.patientSymptoms)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                  <!-- *********** END - Signos *********** -->
+                                  <!-- ********** START - Diagnostico CIE10 ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-patientDiagnostics">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-notes-medical"></i>&nbsp;Diagn&oacute;stico (CIE10):&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionPatientDiagnostics" 
+                                        [virtualScroll]="true" 
+                                        [multiple]="false" 
+                                        [closeOnSelect]="true"
+                                        [searchable]="true" 
+                                        [hideSelected]="true" 
+                                        bindLabel="tFullDescripcion"
+                                        id="input-patientDiagnostics" 
+                                        name="patientDiagnostics" 
+                                        #patientDiagnostics="ngModel"
+                                        [(ngModel)]="patientData.diagnostic.patientDiagnostics"
+                                        [ngModelOptions]="{standalone: true}" 
+                                        placeholder="Seleccione diagnóstico del paciente" 
+                                        (change)="fnGetCorrelationDiagnostic($event); patientData.diagnostic.laterality = null; dataDiagnosticCorrelation = null"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="true">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                              <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                          </div>
+                                          <div class="ng-value" *ngIf="items.length > 2">
+                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                          </div>
+                                        </ng-template>
+                                      </ng-select>
+        
+                                      <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
+                                        <label for="input-patientDiagnostics">
+                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientDiagnostics')">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
+                                          </small>
+                                        </label>
+                                        <div class="listPatientDiagnostics m-2" style="display: none;">
+                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
+                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
+                                            <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                          </div>
+                                        </div>
+                                      </div> -->
+        
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Diagnostico CIE10 *********** -->
+                                  <!-- ********** START - Lateralidad ********** -->
+                                  <div class="col-6" *ngIf="applyLaterality">
+                                    <div class="form-group">
+                                      <label for="input-laterality">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-people-arrows"></i>&nbsp;Lateralidad:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionLateralities" 
+                                        bindLabel="tNombre" 
+                                        id="input-laterality" 
+                                        name="laterality" 
+                                        #laterality="ngModel"
+                                        placeholder="Seleccione lateralidad" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.laterality"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Lateralidad *********** -->
+                                  <!-- ********** START - Origen ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-incapacityType">
+                                        <h5 class="m-0">
+                                          <i class="fab fa-accessible-icon"></i>&nbsp;Origen:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionIncapacityType" 
+                                        bindLabel="tOrigenIncapacidad"
+                                        id="input-incapacityType" 
+                                        name="incapacityType" 
+                                        #incapacityType="ngModel"
+                                        placeholder="Seleccione origen incapacidad" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.incapacityType"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Origen *********** -->
+                                  <div class="col-12">
+                                    <hr>
+                                    <div class="form-group">
+                                      <label for="input-patientConditionMedicalDescription">
+                                        <h5 class="m-0">
+                                          <i class="far fa-calendar-plus"></i>&nbsp;Descripci&oacute;n sintomatologica:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <textarea 
+                                        nbInput 
+                                        fullWidth 
+                                        [readonly]="false" 
+                                        [disabled]="false" 
+                                        placeholder="Ingrese la descripción médica sintomatologica del paciente ..." 
+                                        id="input-patientConditionMedicalDescription"  
+                                        name="patientConditionMedicalDescription" 
+                                        (focus)="patientData.diagnostic.patientConditionMedicalDescription = '';"
+                                        [(ngModel)]="patientData.diagnostic.patientConditionMedicalDescription" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [status]="patientConditionMedicalDescription.dirty ? (patientConditionMedicalDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                        #patientConditionMedicalDescription="ngModel" 
+                                        rows="6"
+                                      >
+                                      </textarea>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-
                             </div>
                           </div>
-                          <!-- *********** END - Sintomas *********** -->
-                          <!-- ********** START - Signos ********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-patientSigns">
-                                <h5 class="m-0">
-                                  <i class="fas fa-heartbeat"></i>&nbsp;Signos:&nbsp;
-                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionPatientSigns" 
-                                [multiple]="true" 
-                                [closeOnSelect]="false"
-                                [searchable]="true" 
-                                [hideSelected]="true" 
-                                bindLabel="tFullDescripcion"
-                                id="input-patientSigns" 
-                                name="patientSigns" 
-                                #patientSigns="ngModel"
-                                [(ngModel)]="patientData.diagnostic.patientSigns"
-                                [ngModelOptions]="{standalone: true}" 
-                                placeholder="Seleccione signo(s) del paciente" 
-                                required 
-                                [disabled]="false" 
-                                [clearable]="true">
-                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                  <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                      <span class="ng-value-label">{{item.tFullDescripcion}}</span>
-                                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                  </div>
-                                  <div class="ng-value" *ngIf="items.length > 2">
-                                      <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                  </div>
-                                </ng-template>
-                              </ng-select>
-
-                              <div class="mt-3" *ngIf="patientData?.diagnostic?.patientSigns?.length > 0">
-                                <label for="input-patientSigns">
-                                  <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientSigns')">
-                                    <i class="fas fa-chevron-right"></i>&nbsp;Signos seleccionados:&nbsp;
-                                  </small>
-                                </label>
-                                <div class="listPatientSigns m-2" style="display: none;">
-                                  <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientSigns; let i=index">
-                                    <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
-                                    <i (click)="fnRemovePatientSign(item, i, patientData.diagnostic.patientSigns)" tooltip="Eliminar signo" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                          <!-- *********** END - Signos *********** -->
-                          <!-- ********** START - Diagnostico CIE10 ********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-patientDiagnostics">
-                                <h5 class="m-0">
-                                  <i class="fas fa-notes-medical"></i>&nbsp;Diagn&oacute;stico (CIE10):&nbsp;
-                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionPatientDiagnostics" 
-                                [virtualScroll]="true" 
-                                [multiple]="false" 
-                                [closeOnSelect]="true"
-                                [searchable]="true" 
-                                [hideSelected]="true" 
-                                bindLabel="tFullDescripcion"
-                                id="input-patientDiagnostics" 
-                                name="patientDiagnostics" 
-                                #patientDiagnostics="ngModel"
-                                [(ngModel)]="patientData.diagnostic.patientDiagnostics"
-                                [ngModelOptions]="{standalone: true}" 
-                                placeholder="Seleccione diagnóstico del paciente" 
-                                (change)="fnGetCorrelationDiagnostic($event); patientData.diagnostic.laterality = null; dataDiagnosticCorrelation = null"
-                                required 
-                                [disabled]="false" 
-                                [clearable]="true">
-                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                  <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                      <span class="ng-value-label">{{item.tFullDescripcion}}</span>
-                                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                  </div>
-                                  <div class="ng-value" *ngIf="items.length > 2">
-                                      <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                  </div>
-                                </ng-template>
-                              </ng-select>
-
-                              <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
-                                <label for="input-patientDiagnostics">
-                                  <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientDiagnostics')">
-                                    <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
-                                  </small>
-                                </label>
-                                <div class="listPatientDiagnostics m-2" style="display: none;">
-                                  <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
-                                    <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
-                                    <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
-                                  </div>
-                                </div>
-                              </div> -->
-
-                            </div>
-                          </div>
-                          <!-- *********** END - Diagnostico CIE10 *********** -->
-                          <!-- ********** START - Lateralidad ********** -->
-                          <div class="mt-2 mb-2 col-6" *ngIf="applyLaterality">
-                            <div class="form-group">
-                              <label for="input-laterality">
-                                <h5 class="m-0">
-                                  <i class="fas fa-people-arrows"></i>&nbsp;Lateralidad:&nbsp;
-                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionLateralities" 
-                                bindLabel="tNombre" 
-                                id="input-laterality" 
-                                name="laterality" 
-                                #laterality="ngModel"
-                                placeholder="Seleccione lateralidad" 
-                                [ngModelOptions]="{standalone: true}" 
-                                [(ngModel)]="patientData.diagnostic.laterality"
-                                required 
-                                [disabled]="false" 
-                                [clearable]="false">
-                              </ng-select>
-                            </div>
-                          </div>
-                          <!-- *********** END - Lateralidad *********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-incapacityType">
-                                <h5 class="m-0">
-                                  <i class="fab fa-accessible-icon"></i>&nbsp;Origen:&nbsp;
-                                  <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionIncapacityType" 
-                                bindLabel="tOrigenIncapacidad"
-                                id="input-incapacityType" 
-                                name="incapacityType" 
-                                #incapacityType="ngModel"
-                                placeholder="Seleccione origen incapacidad" 
-                                [ngModelOptions]="{standalone: true}" 
-                                [(ngModel)]="patientData.diagnostic.incapacityType"
-                                required 
-                                [disabled]="false" 
-                                [clearable]="false">
-                              </ng-select>
-                            </div>
-                          </div>
-
-                          
+                          <!-- *********** END - Diagnostico paciente *********** -->
                           <!-- ********** START - Dias concepto medico ********** -->
                           <div class="mt-2 mb-2 col-12" *ngIf="loadingData">
                             <div class="card">
@@ -734,7 +774,7 @@
                                 <div class="row" *ngIf="(patientData.diagnostic.patientDaysGranted > patientData?.diagnostic?.patientDiagnostics?.iDiasMaxConsulta)">
                                   <div class="col">
                                     <div class="form-group">
-                                      <label for="input-patientCountryCondition">
+                                      <label for="input-patientDaysGaratedDescription">
                                         <h5 class="m-0">
                                           <i class="far fa-calendar-plus"></i>&nbsp;Descripci&oacute;n d&iacute;as adicionales otorgados:&nbsp;
                                           <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
@@ -759,18 +799,11 @@
                                     </div>
                                   </div>
                                 </div>
-
-                                <hr>
-
-
-                                
-
                               </div>
                             </div>
                           </div>
                           <!-- *********** END - Dias concepto medico *********** -->
-
-                          <!-- ********** START - Dias concepto medico ********** -->
+                          <!-- ********** START - Valores incapacidades por empleador ********** -->
                           <div class="mt-2 mb-2 col-12" *ngIf="loadingData">
                             <div class="card">
                               <div class="card-header">
@@ -778,62 +811,61 @@
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row p-4">
-
-                                  <div class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                  <div *ngFor="let itemEmployer of collectionDataEmployers; let i = index;" class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                     <div class="row">
                                       <div class="col-2">
-                                        <span>NIT:</span>&nbsp;<h4>900365863</h4>
+                                        <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.nit }}</h4>
                                       </div>
                                       <div class="col">
-                                        <span>Nombre:</span>&nbsp;<h4>ProyectaTSP S.A.S.</h4>
+                                        <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.tRazonSocial }}</h4>
                                       </div>
                                       <div class="col">
                                         <span>Valor total incapacidad:</span>
                                         <h3>
                                           <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                            {{ patientData?.diagnostic?.patientDaysGranted * 45000 | currency:'CAD':'symbol-narrow':'4.0-0' }}
+                                            {{ patientData?.diagnostic?.patientDaysGranted * itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }}
                                           </span>
                                         </h3>
                                       </div>
                                       <div class="col-1 d-flex">
-                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Vista preliminar" placement="top" container="body">
+                                        <span (click)="fnShowPreviewIncapacityCertificate(itemEmployer, i)" style="display: flex; justify-content: end; align-items: center;" tooltip="Vista preliminar" placement="top" container="body">
                                           <i class="fas fa-eye cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
                                         </span>
                                       </div>
                                       <div class="col-1 d-flex">
                                         <span style="display: flex; justify-content: end; align-items: center;" tooltip="Ver detalle" placement="top" container="body">
-                                          <i (click)="fnShowContent('content-prices-0')" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                          <i (click)="fnShowContent('content-prices-' + i)" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
                                         </span>
                                       </div>
                                     </div>
-                                    <div class="col-12 content-prices-detail content-prices-0" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                    <div class="col-12 content-prices-detail content-prices-{{i}}" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                       <div class="row">
                                         <div class="col-8">
-                                          <span>NIT:</span>&nbsp;<h4>900365863</h4>
-                                          <span>Nombre:</span>&nbsp;<h4>ProyectaTSP S.A.S.</h4>
-                                          <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática' | titlecase }}</h4>
-                                          <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
-                                          <span>Fecha de ingreso:</span>&nbsp;<h4>{{ '22 Oct 2016' }}</h4>
-                                          <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
+                                          <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.nit }}</h4>
+                                          <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.tRazonSocial }}</h4>
+                                          <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ itemEmployer?.ciiu | titlecase }}</h4>
+                                          <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ itemEmployer?.ocupacionPaciente | titlecase }}</h4>
+                                          <span>Fecha de ingreso:</span>&nbsp;<h4>{{ itemEmployer?.fechaIngreso }}</h4>
+                                          <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill text-light" [ngClass]="{'bg-success': itemEmployer?.estadoContrato, 'bg-danger': !itemEmployer?.estadoContrato }" style="padding: 7px; width: 65px;">{{ (itemEmployer?.estadoContrato) ? 'Activo' : 'Inactivo' }}</span></h5>
                                         </div>
                                         <div class="col-4">
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Salario</h5>
-                                            <h4 class="text-center">$1'200.000 COP</h4>
+                                            <h4 class="text-center">{{ itemEmployer?.salario | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">IBC</h5>
-                                            <h4 class="text-center">$640.000 COP</h4>
+                                            <h4 class="text-center">{{ itemEmployer?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
-                                            <h4 class="text-center">$45.000 COP</h4>
+                                            <h4 class="text-center">{{ itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
                                             <h2 class="text-center" style="font-weight: 700;">
                                               <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                                {{ patientData?.diagnostic?.patientDaysGranted * 45000 | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                                                {{ patientData?.diagnostic?.patientDaysGranted * itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
                                               </span>
                                             </h2>
                                           </div>
@@ -842,191 +874,42 @@
                                       </div>
                                     </div>
 
-                                  </div>
-
-                                  <div class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
-                                    <div class="row">
-                                      <div class="col-2">
-                                        <span>NIT:</span>&nbsp;<h4>900456789-0</h4>
-                                      </div>
-                                      <div class="col">
-                                        <span>Nombre:</span>&nbsp;<h4>Skynet S.A.S</h4>
-                                      </div>
-                                      <div class="col">
-                                        <span>Valor total incapacidad:</span>
-                                        <h3>
-                                          <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                            {{ patientData?.diagnostic?.patientDaysGranted * 66256 | currency:'CAD':'symbol-narrow':'4.0-0' }}
-                                          </span>
-                                        </h3>
-                                      </div>
-                                      <div class="col-1 d-flex">
-                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Vista preliminar" placement="top" container="body">
-                                          <i class="fas fa-eye cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
-                                        </span>
-                                      </div>
-                                      <div class="col-1 d-flex">
-                                        <span style="display: flex; justify-content: end; align-items: center;" tooltip="Ver detalle" placement="top" container="body">
-                                          <i (click)="fnShowContent('content-prices-1')" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div class="col-12 content-prices-detail content-prices-1" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
-                                      <div class="row">
-                                        <div class="col-8">
-                                          <span>NIT:</span>&nbsp;<h4>900456789-0</h4>
-                                          <span>Nombre:</span>&nbsp;<h4>Skynet S.A.S.</h4>
-                                          <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática' | titlecase }}</h4>
-                                          <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO' | titlecase }}</h4>
-                                          <span>Fecha de ingreso:</span>&nbsp;<h4>{{ '14 Sep 2017' }}</h4>
-                                          <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill bg-success text-light" style="padding: 7px; width: 65px;">Activo</span></h5>
-                                        </div>
-                                        <div class="col-4">
-                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Salario</h5>
-                                            <h4 class="text-center">$1'200.000 COP</h4>
-                                          </div>
-                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">IBC</h5>
-                                            <h4 class="text-center">$640.000 COP</h4>
-                                          </div>
-                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
-                                            <h4 class="text-center">$66.256 COP</h4>
-                                          </div>
-                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
-                                            <h2 class="text-center" style="font-weight: 700;">
-                                              <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                                {{ patientData?.diagnostic?.patientDaysGranted * 66256 | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
-                                              </span>
-                                            </h2>
-                                          </div>
-                                        </div>
-                                        
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-                                  <div class="col-12" *ngIf="false">
-                                    <table class="table table-striped table-bordered table-hover">
-                                      <thead>
-                                          <tr>
-                                              <th>
-                                                  NIT&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'NIT', 'Número Unico Tributario - NIT', 'El NIT es el Número de Identificación Tributaria asignado por la DIAN. Hace referencia a un número único que utiliza el sistema tributario para identificar cualquier empresa colombiana.')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              <th>
-                                                  Nombre&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Nombre', 'Nombre de la empresa', 'Nombre de la compañia con el cual registra ante la DIAN.')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              <th>
-                                                  C&oacute;digo CIIU&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Codigo CIIU', 'Código CIIU', 'Con el propósito de clasificar las actividades económicas de los empresarios del país de la manera más precisa, las cámaras de comercio del país, a partir del año 2000, se rigen por la Clasificación Industrial Internacional Uniforme (CIIU) de todas las actividades económicas. El Código CIIU fue elaborado por la Organización de Naciones Unidas y la revisión 4 es una adaptación para Colombia hecha y revisada por el DANE.')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              <th>
-                                                  Ocupaci&oacute;n&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Ocupacion', 'Ocupación', 'Cargo u ocupación del paciente en la compañia')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              <th style="width: 135px;">
-                                                  Fecha ingreso&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Fecha ingreso', 'Fecha ingreso', 'Fecha de ingreso del paciente en la compañia')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              <th style="width: 112px;">
-                                                  Contrato&nbsp;
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Contrato', 'Contrato', 'Estado de contración del paciente en la compañia')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                                  </span>
-                                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                                  </span> -->
-                                              </th>
-                                              
-                                              <th class="thead-column-action">
-                                                  <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'ver incapacidades', 'Ver Incapacidades', 'Esta opción permite ver el historial de incapacidades del paciente que se han generado con este empleador.')">
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
-                                                  </span>
-                                              </th>
-                                              <!-- <th class="thead-column-action">
-                                                  <span>
-                                                      <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
-                                                  </span>
-                                              </th> -->
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td class="align-middle text-center">900365863</td>
-                                          <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
-                                          <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
-                                          <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
-                                          <td class="align-middle text-center">22 Oct 2016</td>
-                                          <td class="align-middle text-center">
-                                            <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
-                                          </td>
-                                          <td class="align-middle">
-                                            <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
-                                            <span tooltip="Ver incapacidades" placement="top" container="body">
-                                                <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
-                                                <i class="fas fa-eye cursor-pointer text-info"></i>
-                                            </span>
-                                          </td>
-                                          <!-- <td class="align-middle">
-                                            <span>
-                                                <i class="fas fa-trash-alt cursor-pointer text-danger"></i>
-                                            </span>
-                                          </td> -->
-                                        </tr>
-                                        <tr>
-                                          <td class="align-middle text-center">900365863</td>
-                                          <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
-                                          <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
-                                          <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
-                                          <td class="align-middle text-center">22 Oct 2016</td>
-                                          <td class="align-middle text-center">
-                                            <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
-                                          </td>
-                                          <td class="align-middle">
-                                            <span tooltip="Ver incapacidades" placement="top" container="body">
-                                                <i class="fas fa-eye cursor-pointer text-info"></i>
-                                            </span>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <!-- *********** END - Dias concepto medico *********** -->
+                          <!-- *********** END - Valores incapacidades por empleador *********** -->
                           
+                          <div class="col-12">
+                            <div>
+                              <button 
+                                nbButton 
+                                fullWidth 
+                                type="submit" 
+                                status="info"
+                                size="giant" 
+                                class="button_diagnostic font_family_roboto pointer"
+                                [disabled]="
+                                  dataDiagnosticCorrelation?.bProrroga == null || 
+                                  patientData?.diagnostic?.soatInsurance == null || 
+                                  !patientData?.diagnostic?.patientDiagnostics || 
+                                  patientData?.diagnostic?.patientDiagnostics == null || 
+                                  !dataDiagnosticCorrelation?.iDiasAcumuladosPorroga || 
+                                  dataDiagnosticCorrelation?.iDiasAcumuladosPorroga == null || 
+                                  !patientData?.diagnostic?.patientDaysGranted || 
+                                  patientData?.diagnostic?.patientDaysGranted == null || 
+                                  !dataDiagnosticCorrelation?.iIddiagnosticoCorrelacion || 
+                                  dataDiagnosticCorrelation?.iIddiagnosticoCorrelacion == null || 
+                                  !dataIPS || 
+                                  dataIPS == null || 
+                                  patientData.diagnostic.attentionTypes == null
+                                " 
+                                [class.btn-pulse]="submitted">
+                                Generar Certificado de Incapacidad
+                              </button>
+                            </div>
+                          </div>
 
 
                           
@@ -1040,9 +923,9 @@
               </div>
             </div>
 
-            <pre>
+            <!-- <pre>
               {{ patientData.diagnostic | json }}
-            </pre>
+            </pre> -->
 
           </nb-card-body>
         </nb-card>
