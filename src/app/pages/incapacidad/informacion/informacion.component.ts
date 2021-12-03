@@ -32,7 +32,7 @@ export class InformacionComponent implements OnInit {
   public showTitleSearch: boolean = false;
   public documentTypeSelected: any = '';
   public html: any = '';
-  public totalItems: any = '';
+  public totalItems: any = 1;
   public patientIncapacities: any = '';
 
   constructor(
@@ -70,7 +70,7 @@ export class InformacionComponent implements OnInit {
         this.patientData = null;
         this.documentTypeSelected = null;
         this.patientIncapacities = null;
-        this.totalItems = null;
+        this.totalItems = 1;
         // self.fnClearFormSearchPatient();
         self.fnGetDocumentTypes(self.token);
       }
@@ -90,23 +90,35 @@ export class InformacionComponent implements OnInit {
   fnSearchPatient($event) {
     console.log('$event: ', $event);
     this.utilitiesService.fnSetDataShare(null);
-    if (this != undefined &&
-      this.documentNumberPatient != undefined &&
+    this.totalItems = 0;
+    if (this.documentNumberPatient != undefined &&
       this.documentNumberPatient != "" &&
       this.documentTypePatient != undefined &&
       this.documentTypePatient != "") {
         this.search = true;
-        this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient);
-        this.fnGetDiagnosicosIncapacidadByPaciente(this.token, 2);
+        this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
+          if(resp) {
+            this.patientData = resp;
+            console.log('this.patientData["iIdpaciente"]: ', this.patientData['iIdpaciente']);
+            // this.patientData;
+            // console.log('this.patientData;: ', this.patientData);
+            this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']);
 
-        this.utilitiesService.fnSetDataShare({ 
-          patientData: this.patientData, 
-          patientIncapacities: this.patientIncapacities, 
-          collectionDocumentTypes: this.collectionDocumentTypes, 
-          documentNumberPatient: this.documentNumberPatient, 
-          documentTypePatient: this.documentTypePatient, 
-          documentTypeSelected: this.documentTypeSelected,
-        });
+            this.utilitiesService.fnSetDataShare({ 
+              patientData: this.patientData, 
+              patientIncapacities: this.patientIncapacities, 
+              collectionDocumentTypes: this.collectionDocumentTypes, 
+              documentNumberPatient: this.documentNumberPatient, 
+              documentTypePatient: this.documentTypePatient, 
+              documentTypeSelected: this.documentTypeSelected,
+            });
+          } else {
+            this.patientData = [];
+          }
+        }).catch((error) => {
+          console.log('error: ', error);
+          this.patientData = [];
+        })
 
     }
   }
@@ -115,38 +127,43 @@ export class InformacionComponent implements OnInit {
     console.log('documentNumberPatient: ', documentNumberPatient);
     console.log('documentTypePatient: ', documentTypePatient);
     console.log('token: ', token);
-    const self = this;
-    self.patientData = null;
-    self.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
-      console.log('r: ', r);
-      if (r.status == 200) {
-        if (r.body != null) {
-          self.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
-          self.fnShowContent('search-form');
-          $('.content-patient-info').slideToggle();;
-          self.search = false;
-          self.showTitleSearch = true;
-          self.patientData = JSON.parse(JSON.stringify(r.body));
-          console.log('self.patientData: ', self.patientData);
-
-        } else {
-          self.search = false;
-          self.documentNumberPatient = '';
-          self.documentTypePatient = null;
-          self.utilitiesService.showToast('bottom-right', 'danger', 'No se encuentra el número de documento!"', 'nb-alert');
+    return new Promise ((resolve,reject) => {
+      // const self = this;
+      this.patientData = null;
+      this.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
+        console.log('r: ', r);
+        if (r.status == 200) {
+          if (r.body != null) {
+            this.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
+            this.fnShowContent('search-form');
+            $('.content-patient-info').slideToggle();;
+            this.search = false;
+            this.showTitleSearch = true;
+            this.patientData = JSON.parse(JSON.stringify(r.body));
+            console.log('this.patientData: ', this.patientData);
+            resolve(this.patientData);
+          } else {
+            resolve(false);
+            this.search = false;
+            this.documentNumberPatient = '';
+            this.documentTypePatient = null;
+            this.utilitiesService.showToast('bottom-right', 'danger', 'No se encuentra el número de documento!"', 'nb-alert');
+          }
         }
-      }
-      if (r.status == 206) {
-        self.search = false;
-        self.documentNumberPatient = '';
-        self.documentTypePatient = null;
-        // const error = self.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-        // self.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
-      }
-    }, err => {
-      console.log('err: ', err);
-      self.search = false;
-      self.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+        if (r.status == 206) {
+          resolve(false);
+          this.search = false;
+          this.documentNumberPatient = '';
+          this.documentTypePatient = null;
+          // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
+          // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+        }
+      }, err => {
+        console.log('err: ', err);
+        reject(false);
+        this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
     });
   }
 

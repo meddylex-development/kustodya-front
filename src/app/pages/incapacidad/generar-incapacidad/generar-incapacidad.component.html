@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Generando certificado de incapacidad...">
   <div class="col-md-12">
 
     <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
@@ -15,26 +15,11 @@
                 <h3 style="margin-top: 6px;">Formulario de generación de incapacidad</h3>
               </div>
               <div class="col text-right">
-                <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
-                  {{ 'Ver graficos' | titlecase }}&nbsp;
-                  <i class="fas fa-chart-line"></i>
-                </button>
+                &nbsp;
               </div>
             </div> 
           </nb-card-header>
           <nb-card-body>
-            <div>
-              Paciente: 
-              <h4><strong>
-                {{ patientData?.tPrimerNombre | titlecase }} 
-                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
-                {{ patientData?.tPrimerApellido | titlecase }} 
-                {{ patientData?.tSegundoApellido | titlecase }} 
-              </strong></h4>
-            </div>
-            <p class="mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
-            </p>
             <div class="row">
               <div class="col-md-12">
                 <div class="mb-4 animated fadeIn" *ngIf="patientData">

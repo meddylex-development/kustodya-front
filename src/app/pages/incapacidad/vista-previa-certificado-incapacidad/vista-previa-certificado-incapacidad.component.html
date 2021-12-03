@@ -19,6 +19,7 @@
       </nb-card-header>
       <nb-card-body>
         <div class="container-fluid pl-5 pt-1 pr-5 pb-5">
+
           <div class="row card border-secondary" style="border-radius: 15px;">
             <div class="card-header border-secondary text-center" style="border-radius: 15px;">
               <h3 class="m-0">Certificado de Incapacidad M&eacute;dica Laboral</h3>
@@ -63,6 +64,7 @@
               </div>
             </div>
           </div>
+
           <div class="row card border-secondary mt-2" style="border-radius: 15px;">
             <h5 class="card-header border-secondary" style="border-radius: 15px;">
               <i class="fas fa-notes-medical"></i>&nbsp;Certificado de Incapacidad M&eacute;dica
@@ -84,6 +86,90 @@
                     <small>Fecha de Expedici&oacute;n:</small>&nbsp;<h6>{{ dataCertificate?.dtFechaCreacion | date:'dd / MM / yyyy, hh:mm a' || ' - ' }}</h6>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-procedures"></i>&nbsp;Datos incapacidad
+            </h5>
+            <div class="card-body">
+              <div class="row">
+                <!-- <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
+                    <h6 style="color: #000;" *ngIf="itemcie10?.tFullDescripcion">{{ itemcie10?.tFullDescripcion }}</h6>
+                    <small style="color: #ccc;" *ngIf="!itemcie10?.tFullDescripcion">No registra dato</small>
+                  </div>
+                </div> -->
+                <div class="col-6">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Descripci&oacute;n sintomatol&oacute;gica:</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.tDescripcionSintomatologica">{{ dataCertificate?.tDescripcionSintomatologica }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.tDescripcionSintomatologica">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <hr>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Tipo de atenci&oacute;n:</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.tipoAtencion?.tDescripcion">{{ dataCertificate?.tipoAtencion?.tDescripcion }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.tipoAtencion?.tDescripcion">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Origen (presunto):</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad">{{ dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Lateralidad:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.nameLaterality?.tNombre">{{ dataCertificate?.nameLaterality?.tNombre }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.nameLaterality?.tNombre">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Clase de incapacidad:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.bProrroga">{{ (dataCertificate?.bProrroga) ? 'Prórroga' : 'Nueva incapacidad' }}</h6>
+                    <small style="color: #ccc;" *ngIf="dataCertificate?.bProrroga == null">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Total d&iacute;as de incapacidad:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.iDiasIncapacidad">{{ dataCertificate?.iDiasIncapacidad }} d&iacute;as</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.iDiasIncapacidad">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Fecha inicio incapacidad:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaCreacion">{{ dataCertificate?.dtFechaCreacion | date:'dd / MM / yyyy' }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaCreacion">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Fecha finalizaci&oacute;n incapacidad:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaFin">{{ dataCertificate?.dtFechaFin | date:'dd / MM / yyyy' }}</h6>
+                    <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaFin">No registra dato</small>
+                  </div>
+                </div>
+                
               </div>
             </div>
           </div>
@@ -198,7 +284,7 @@
             </div>
           </div>
 
-          <div class="row card border-secondary mt-2 mb-4" style="border-radius: 15px;">
+          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
             <h5 class="card-header border-secondary" style="border-radius: 15px;">
               <i class="fas fa-industry"></i>&nbsp;Datos empleador
             </h5>
@@ -268,90 +354,6 @@
                     <small>Tipo Afiliaci&oacute;n:</small><br>
                     <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
                     <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          
-          <div class="row card border-secondary mt-2 mb-2" style="border-radius: 15px;">
-            <h5 class="card-header border-secondary" style="border-radius: 15px;">
-              <i class="fas fa-procedures"></i>&nbsp;Datos incapacidad
-            </h5>
-            <div class="card-body">
-              <div class="row">
-                <!-- <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
-                    <h6 style="color: #000;" *ngIf="itemcie10?.tFullDescripcion">{{ itemcie10?.tFullDescripcion }}</h6>
-                    <small style="color: #ccc;" *ngIf="!itemcie10?.tFullDescripcion">No registra dato</small>
-                  </div>
-                </div> -->
-                <div class="col-6">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Descripci&oacute;n sintomatol&oacute;gica:</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.tDescripcionSintomatologica">{{ dataCertificate?.tDescripcionSintomatologica }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.tDescripcionSintomatologica">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <hr>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Tipo de atenci&oacute;n:</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.tipoAtencion?.tDescripcion">{{ dataCertificate?.tipoAtencion?.tDescripcion }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.tipoAtencion?.tDescripcion">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Origen (presunto):</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad">{{ dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Lateralidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.nameLaterality?.tNombre">{{ dataCertificate?.nameLaterality?.tNombre }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.nameLaterality?.tNombre">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Clase de incapacidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.bProrroga">{{ (dataCertificate?.bProrroga) ? 'Prórroga' : 'Nueva incapacidad' }}</h6>
-                    <small style="color: #ccc;" *ngIf="dataCertificate?.bProrroga == null">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Total d&iacute;as de incapacidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.iDiasIncapacidad">{{ dataCertificate?.iDiasIncapacidad }} d&iacute;as</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.iDiasIncapacidad">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Fecha inicio incapacidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaCreacion">{{ dataCertificate?.dtFechaCreacion | date:'dd / MM / yyyy' }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaCreacion">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Fecha finalizaci&oacute;n incapacidad:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaFin">{{ dataCertificate?.dtFechaFin | date:'dd / MM / yyyy' }}</h6>
-                    <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaFin">No registra dato</small>
                   </div>
                 </div>
                 

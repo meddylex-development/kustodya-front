@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="totalItems < 1 || search == true" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Buscando información paciente">
   <div class="col-md-12">
     <nb-card>
       <nb-card-body>
@@ -60,8 +60,7 @@
               <div class="col-2 animate fadeIn">
                 <button tooltip="Buscar paciente" placement="top" container="body"
                   id="btnSubmitFormSearchPatient" 
-                  [nbSpinner]="search" 
-                  nbSpinnerStatus="info"
+                  [class.btn-pulse]="search"
                   status="info"
                   [disabled]="((documentTypePatient!=null && documentNumberPatient!='')) ? false : true"
                   nbButton  
@@ -73,7 +72,6 @@
                 &nbsp;
                 <button tooltip="Limpiar formulario" placement="top" container="body" 
                   id="btnSubmitFormSearchPatient" 
-                  nbSpinnerStatus="info"
                   status="info"
                   nbButton  
                   type="button" 

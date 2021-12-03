@@ -12,11 +12,12 @@ import { IncapacityService } from '../../../shared/api/services/incapacity.servi
 export class HistoricoPacienteComponent implements OnInit {
 
   public patientData: any = null;
-  public patientIncapacities: any = null;
+  public patientIncapacities: any = [];
   public totalItems: any = null;
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
   public flipped: boolean = false;
+  public submitted: boolean = false;
   public token: any;
   public listCantidadDiagnoticosIncapacidad: any;
 
@@ -65,20 +66,40 @@ export class HistoricoPacienteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const self = this;
     const token = sessionStorage.getItem('payload');
-    this.token = token;
-    let data = this.utilitiesService.fnGetDataShare();
+    self.token = token;
+    let data = self.utilitiesService.fnGetDataShare();
     if (data) {
-      this.patientData = data['patientData'];
-      console.log('this.patientData: ', this.patientData);
-      this.patientIncapacities = data['patientIncapacities'];
-      this.totalItems = data['patientIncapacities'].length;
-      this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
+      self.patientData = data['patientData'];
+      console.log('self.patientData: ', self.patientData);
+      /// self.patientIncapacities = data['patientIncapacities'];
+      // self.totalItems = data['patientIncapacities'].length;
+      self.fnGetCantidadDiagnoticosIncapacidadByPaciente(self.token);
+      // self.submitted = true;
+      // console.log('iIdpaciente: ', self.patientData['iIdpaciente']);
+      self.fnGetDiagnosicosIncapacidadByPaciente(self.token, self.patientData['iIdpaciente']).then((response) => {
+        console.log('response: ', response);
+        if (response) {
+          let patientIncapacities = JSON.parse(JSON.stringify(response['patientIncapacities']));
+          console.log('patientIncapacities: ', patientIncapacities);
+          self.patientIncapacities = patientIncapacities;
+          console.log('self.patientIncapacities: ', self.patientIncapacities);
+          self.totalItems = response['totalItems'];
+          console.log('self.totalItems: ', self.totalItems);
+          self.submitted = false;
+          self.fnGetCantidadDiagnoticosIncapacidadByPaciente(self.token);
+        } else {
+          self.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+          self.submitted = false;
+        }
+      }).catch((error) => {
+      });
     } else {
-      this.patientData = null;
-      this.patientIncapacities = null;
-      this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+      self.patientData = null;
+      self.patientIncapacities = [];
+      self.totalItems = null;
+      self.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
     }
   }
 
@@ -87,7 +108,6 @@ export class HistoricoPacienteComponent implements OnInit {
   }
 
   fnViewHistory() {
-    console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
   }
 
@@ -96,13 +116,10 @@ export class HistoricoPacienteComponent implements OnInit {
     /// this.listCantidadDiagnoticosIncapacidad = [];
     let listCantidadDiagnoticosIncapacidad = [];
     let idPaciente = this.patientData['iIdpaciente'];
-    console.log('idPaciente: ', idPaciente);
     // let self = this;
     this.incapacityService.fnHttpGetCantidadDiagnoticosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-      console.log('r: ', r);
       if (r.status == 200) {
         this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-        console.log('this.listCantidadDiagnoticosIncapacidad: ', this.listCantidadDiagnoticosIncapacidad);
         let dataChart1 = [];
         let dataChart2 = [];
         this.listCantidadDiagnoticosIncapacidad.forEach(i => {
@@ -113,33 +130,54 @@ export class HistoricoPacienteComponent implements OnInit {
           dataChart2.push(itemIncapacidadesEmitidas);
           // this.char2_dataChart_gc.push(itemIncapacidadesEmitidas);
         });
-        console.log('dataChart1: ', dataChart1);
-        console.log('dataChart2: ', dataChart2);
         this.chart1.data = dataChart1;
         this.chart2.data = dataChart2;
-
+        // this.submitted = false;
       } else {
-        
+        // this.submitted = false;
+        this.utilitiesService.showToast('top-right', 'warning', 'Ocurrio un error', 'nb-alert');
+        setTimeout(() => {
+          this.fnReturnPage();
+        }, 1000);
       }
-      // if (r.status == 200) {
-      //   self.submitted = false;
-      //   self.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-      //   console.log('self.listCantidadDiagnoticosIncapacidad: ', self.listCantidadDiagnoticosIncapacidad);
-      //   self.listCantidadDiagnoticosIncapacidad.forEach(i => {
-      //     let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];
-      //     self.char1_dataChart_gc.push(itemDiasIncapacidad);
-      //     let itemIncapacidadesEmitidas = [i.tCie10, i.iIncapacidadesEmitidas];
-      //     self.char2_dataChart_gc.push(itemIncapacidadesEmitidas);
-      //   });
-      // }
-      // else if (r.status == 206) {
-      //   this.submitted = false;
-      //   const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-      //   this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
-      // }
     }, err => {
       // this.submitted = false;
       this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+    });
+  }
+
+  fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
+    return new Promise((resolve, reject) => {
+      // this.submitted = true;
+      // this.patientIncapacities = [];
+      //const idPaciente = 2;
+      this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
+        if (r.status == 200) {
+          let patientIncapacities = JSON.parse(JSON.stringify(r.body));
+  
+          patientIncapacities.forEach((value, key) => {
+            value.cie10.forEach((cievalue, ciekey) => {
+              if (cievalue.iIdtipoCie === 1) {
+                value['cie10_diagnotic'] = cievalue;
+              }
+            });
+            this.patientIncapacities.push(value);
+          });
+          
+          this.totalItems = this.patientIncapacities.length;
+          // this.submitted = false;
+          resolve({ 'patientIncapacities': this.patientIncapacities, 'totalItems': this.totalItems });
+        } else if (r.status == 206) {
+          resolve(false);
+          // this.submitted = false;
+          const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
+          this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+        }
+      }, err => {
+        reject('Error');
+        // this.submitted = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
+      });
     });
   }
 

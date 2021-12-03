@@ -368,7 +368,6 @@ export class GenerarIncapacidadComponent implements OnInit {
   fnGenerateNewIncapacityCertificate() {
     return new Promise((resolve, reject) => {
       console.log('this.patientData: ', this.patientData);
-      this.submitted = true;
   
       const dateNowUnix = moment(new Date()).unix();
       console.log('dateNowUnix: ', dateNowUnix);
@@ -487,16 +486,21 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGenerateIncapacity() {
+    this.submitted = true;
     this.collectionDataEmployers.forEach((element, key) => {
       console.log('element: ', element);
       this.fnGenerateNewIncapacityCertificate().then(response => {
         console.log('response: ', response);
         if (!response) {
+          this.submitted = false;
           return false;
         }
 
-        if(this.collectionDataEmployers.length == this.collectionDataEmployers.length - 1) {
-          this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+        if(this.collectionDataEmployers.length == key + 1) {
+          this.submitted = false;
+          setTimeout(() => {            
+            this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+          }, 1000);
         }
       })
     });
