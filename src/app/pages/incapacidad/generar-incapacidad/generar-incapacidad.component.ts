@@ -37,6 +37,15 @@ export class GenerarIncapacidadComponent implements OnInit {
   public collectionPatientSigns: any = [];
   public collectionPatientSymptoms: any = [];
   public collectionPatientDiagnostics: any = [];
+  public collectionPatientConditionKeywords: any = [
+    { 'id': 1, 'name': 'Golpe' },
+    { 'id': 2, 'name': 'Caida' },
+    { 'id': 3, 'name': 'Accidente de transito' },
+    { 'id': 4, 'name': 'Fractura' },
+    { 'id': 5, 'name': 'Accidente en trabajo' },
+    { 'id': 6, 'name': 'Choque' },
+    { 'id': 7, 'name': 'Fractura' },
+  ];
   public patientTimeStartCondition: any = { 'hour': 13, 'minute': 30 };
   public meridian: boolean = true;
 

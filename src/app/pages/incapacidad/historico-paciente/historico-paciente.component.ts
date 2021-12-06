@@ -5,7 +5,7 @@ import { IncapacityService } from '../../../shared/api/services/incapacity.servi
 
 @Component({
   selector: 'ngx-historico-paciente',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './historico-paciente.component.html',
   styleUrls: ['./historico-paciente.component.scss']
 })
@@ -66,40 +66,42 @@ export class HistoricoPacienteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const self = this;
+    // const self = this;
     const token = sessionStorage.getItem('payload');
-    self.token = token;
-    let data = self.utilitiesService.fnGetDataShare();
+    this.token = token;
+    let data = this.utilitiesService.fnGetDataShare();
+    // console.log('data: ', data);
     if (data) {
-      self.patientData = data['patientData'];
-      console.log('self.patientData: ', self.patientData);
-      /// self.patientIncapacities = data['patientIncapacities'];
-      // self.totalItems = data['patientIncapacities'].length;
-      self.fnGetCantidadDiagnoticosIncapacidadByPaciente(self.token);
-      // self.submitted = true;
-      // console.log('iIdpaciente: ', self.patientData['iIdpaciente']);
-      self.fnGetDiagnosicosIncapacidadByPaciente(self.token, self.patientData['iIdpaciente']).then((response) => {
+      this.submitted = true;
+      this.patientData = data['patientData'];
+      console.log('this.patientData: ', this.patientData);
+      /// this.patientIncapacities = data['patientIncapacities'];
+      // this.totalItems = data['patientIncapacities'].length;
+      // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
+      // this.submitted = true;
+      // console.log('iIdpaciente: ', this.patientData['iIdpaciente']);
+      this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
         console.log('response: ', response);
         if (response) {
-          let patientIncapacities = JSON.parse(JSON.stringify(response['patientIncapacities']));
+          let patientIncapacities = response['patientIncapacities'];
           console.log('patientIncapacities: ', patientIncapacities);
-          self.patientIncapacities = patientIncapacities;
-          console.log('self.patientIncapacities: ', self.patientIncapacities);
-          self.totalItems = response['totalItems'];
-          console.log('self.totalItems: ', self.totalItems);
-          self.submitted = false;
-          self.fnGetCantidadDiagnoticosIncapacidadByPaciente(self.token);
+          this.patientIncapacities = patientIncapacities;
+          console.log('this.patientIncapacities: ', this.patientIncapacities);
+          this.totalItems = response['totalItems'];
+          console.log('this.totalItems: ', this.totalItems);
+          this.submitted = false;
+          // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
         } else {
-          self.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
-          self.submitted = false;
+          this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+          this.submitted = false;
         }
       }).catch((error) => {
       });
     } else {
-      self.patientData = null;
-      self.patientIncapacities = [];
-      self.totalItems = null;
-      self.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+      this.patientData = null;
+      this.patientIncapacities = [];
+      this.totalItems = null;
+      this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
     }
   }
 
@@ -154,19 +156,19 @@ export class HistoricoPacienteComponent implements OnInit {
       this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
         if (r.status == 200) {
           let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-  
-          patientIncapacities.forEach((value, key) => {
-            value.cie10.forEach((cievalue, ciekey) => {
-              if (cievalue.iIdtipoCie === 1) {
-                value['cie10_diagnotic'] = cievalue;
-              }
-            });
-            this.patientIncapacities.push(value);
-          });
+          // let collection = [];
+          // patientIncapacities.forEach((value, key) => {
+          //   value.cie10.forEach((cievalue, ciekey) => {
+          //     if (cievalue.iIdtipoCie === 1) {
+          //       value['cie10_diagnotic'] = cievalue;
+          //     }
+          //   });
+          //   collection.push(value);
+          // });
           
-          this.totalItems = this.patientIncapacities.length;
+          let totalItems = patientIncapacities.length;
           // this.submitted = false;
-          resolve({ 'patientIncapacities': this.patientIncapacities, 'totalItems': this.totalItems });
+          resolve({ 'patientIncapacities': patientIncapacities, 'totalItems': totalItems });
         } else if (r.status == 206) {
           resolve(false);
           // this.submitted = false;

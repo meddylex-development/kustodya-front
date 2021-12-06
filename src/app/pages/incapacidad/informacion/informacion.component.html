@@ -145,7 +145,74 @@
         
         <div class="mb-4 animated fadeIn" *ngIf="patientData">
           <div class="text-center mt-3 mb-3">
-            <small>------ Resultado de busqueda: ------</small>
+            <small style="color: #c7c7c7;">------ Resultado de busqueda: ------</small>
+          </div>
+
+          <div>
+            <div class="row">
+              <div class="col mb-2">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
+                  <div class="cursor-pointer" (click)="fnRedirectViewPatientIncapacitiesHistory();" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
+                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
+                        <i class="far fa-circle fa-stack-2x text-light"></i>
+                      </span> -->
+                      <i class="fas fa-file-medical-alt fa-4x"></i>
+                      <span [ngClass]="{'tideMetricsNumber animated flipInX': totalItems, 'tideMetricsNumberOnLoad animated flipInX': !totalItems}">
+                        {{ totalItems || 'Cargando' }}&nbsp;<i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i>
+                      </span>
+                    </div>
+                    <h4 class="text-light text-tide text-truncate">Cantidad de incapacidades</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-2">
+                <div *ngIf="patientIncapacities[0]?.iDiasAcumuladosPorroga" class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
+                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
+                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
+                        <i class="far fa-circle fa-stack-2x text-light"></i>
+                      </span> -->
+                      <i class="far fa-calendar-alt fa-4x"></i>
+                      <span [ngClass]="{'tideMetricsNumber animated flipInX': patientIncapacities[0]?.iDiasAcumuladosPorroga, 'tideMetricsNumberOnLoad animated flipInX': !patientIncapacities[0]?.iDiasAcumuladosPorroga}">
+                        {{ patientIncapacities[0]?.iDiasAcumuladosPorroga || 'Cargando' }}&nbsp;<i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i>
+                      </span>
+                    </div>
+                    <h4 class="text-light text-tide text-truncate">Dias acumulados</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-2">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de conceptos CRHB" placement="top" container="body">
+                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
+                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
+                        <i class="far fa-circle fa-stack-2x text-light"></i>
+                      </span> -->
+                      <i class="fas fa-notes-medical fa-4x"></i><span style="font-size: 60px;">4</span>
+                    </div>
+                    <h4 class="text-light text-tide text-truncate">Cantidad de conceptos CRHB</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-2">
+                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes" placement="top" container="body">
+                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
+                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
+                        <i class="far fa-circle fa-stack-2x text-light"></i>
+                      </span> -->
+                      <i class="fas fa-file-medical fa-4x"></i><span style="font-size: 60px;">4</span>
+                    </div>
+                    <h4 class="text-light text-tide text-truncate">Dictamenes</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           
           <div class="card mt-3 mb-3" style="border-color: #1e90ff;">
@@ -468,74 +535,24 @@
           
             </div>
           </div>
+          <hr class="pb-5 pt-5">
         
+        </div>
+
+        <div class="mb-4 mt-5" *ngIf="!patientData">
           <div>
-            <div class="row pb-5">
-              <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
-                  <div class="cursor-pointer" (click)="fnRedirectViewPatientIncapacitiesHistory();" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
-                    <div style="display: flex; justify-content: space-between;">
-                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
-                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
-                        <i class="far fa-circle fa-stack-2x text-light"></i>
-                      </span> -->
-                      <i class="fas fa-file-medical-alt fa-4x"></i>
-                      <span [ngClass]="{'tideMetricsNumber animated flipInX': totalItems, 'tideMetricsNumberOnLoad animated flipInX': !totalItems}">
-                        {{ totalItems || 'Cargando' }}&nbsp;<i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i>
-                      </span>
-                    </div>
-                    <h4 class="text-light text-tide text-truncate">Cantidad de incapacidades</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-2">
-                <div *ngIf="patientIncapacities[0]?.iDiasAcumuladosPorroga" class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
-                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
-                    <div style="display: flex; justify-content: space-between;">
-                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
-                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
-                        <i class="far fa-circle fa-stack-2x text-light"></i>
-                      </span> -->
-                      <i class="far fa-calendar-alt fa-4x"></i>
-                      <span [ngClass]="{'tideMetricsNumber animated flipInX': patientIncapacities[0]?.iDiasAcumuladosPorroga, 'tideMetricsNumberOnLoad animated flipInX': !patientIncapacities[0]?.iDiasAcumuladosPorroga}">
-                        {{ patientIncapacities[0]?.iDiasAcumuladosPorroga || 'Cargando' }}&nbsp;<i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i>
-                      </span>
-                    </div>
-                    <h4 class="text-light text-tide text-truncate">Dias acumulados</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de conceptos CRHB" placement="top" container="body">
-                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
-                    <div style="display: flex; justify-content: space-between;">
-                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
-                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
-                        <i class="far fa-circle fa-stack-2x text-light"></i>
-                      </span> -->
-                      <i class="fas fa-notes-medical fa-4x"></i><span style="font-size: 60px;">4</span>
-                    </div>
-                    <h4 class="text-light text-tide text-truncate">Cantidad de conceptos CRHB</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes" placement="top" container="body">
-                  <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
-                    <div style="display: flex; justify-content: space-between;">
-                      <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
-                        <i class="fas fa-ellipsis-h fa-stack-1x text-light"></i>
-                        <i class="far fa-circle fa-stack-2x text-light"></i>
-                      </span> -->
-                      <i class="fas fa-file-medical fa-4x"></i><span style="font-size: 60px;">4</span>
-                    </div>
-                    <h4 class="text-light text-tide text-truncate">Dictamenes</h4>
-                  </div>
-                </div>
+            <div class="row">
+              <div class="col-12 text-center animated fadeIn">
+                <h2 style="color: #c7c7c7;">
+                  <i class="fas fa-search fa-5x"></i>
+                </h2>
+                <h5 style="color: #c7c7c7;">Busqueda de pacientes</h5>
+                <small style="color: #c7c7c7;">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quam adipisci dignissimos culpa facilis sed vel ipsam nam. Porro ipsam adipisci voluptatem soluta provident iste cum illo obcaecati veniam sit.
+                </small>
               </div>
             </div>
           </div>
-        
         </div>
 
       </nb-card-body>

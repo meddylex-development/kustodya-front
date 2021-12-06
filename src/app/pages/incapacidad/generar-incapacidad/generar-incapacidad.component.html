@@ -390,7 +390,7 @@
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row">
-                                  <div class="col">
+                                  <div class="col-12">
                                     <div class="form-group">
                                       <label for="input-patientModeDescription">
                                         <h5 class="m-0">
@@ -416,6 +416,59 @@
                                       </textarea>
                                     </div>
                                   </div>
+                                  <!-- ********** START - Palabras clave ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-patientConditionKeywords">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-spell-check"></i>&nbsp;Agregar palabras clave:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionPatientConditionKeywords" 
+                                        [multiple]="true" 
+                                        [closeOnSelect]="false"
+                                        [searchable]="true" 
+                                        [hideSelected]="true" 
+                                        bindLabel="name"
+                                        id="input-patientConditionKeywords" 
+                                        name="patientConditionKeywords" 
+                                        #patientConditionKeywords="ngModel"
+                                        [(ngModel)]="patientData.diagnostic.patientConditionKeywords"
+                                        [ngModelOptions]="{standalone: true}" 
+                                        placeholder="Seleccione palabra(s) clave" 
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="true">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                              <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                          </div>
+                                          <div class="ng-value" *ngIf="items.length > 2">
+                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                          </div>
+                                        </ng-template>
+                                      </ng-select>
+        
+                                      <div class="mt-3" *ngIf="patientData?.diagnostic?.patientConditionKeywords?.length > 0">
+                                        <label for="input-patientConditionKeywords">
+                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientConditionKeywords')">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;Palabras clave seleccionadas:&nbsp;
+                                          </small>
+                                        </label>
+                                        <div class="listPatientConditionKeywords m-2" style="display: none;">
+                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientConditionKeywords; let i=index">
+                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
+                                            <i (click)="fnRemovePatientSymptom(item, i, patientData.diagnostic.patientConditionKeywords)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                          </div>
+                                        </div>
+                                      </div>
+        
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Palabras clave *********** -->
                                 </div>
                               </div>
                             </div>
