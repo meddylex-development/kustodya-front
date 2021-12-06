@@ -469,6 +469,31 @@
                                     </div>
                                   </div>
                                   <!-- *********** END - Palabras clave *********** -->
+                                  <!-- ********** START - Lateralidad ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-laterality">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-people-arrows"></i>&nbsp;Lateralidad:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionLateralities" 
+                                        bindLabel="tNombre" 
+                                        id="input-laterality" 
+                                        name="laterality" 
+                                        #laterality="ngModel"
+                                        placeholder="Seleccione lateralidad" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.laterality"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Lateralidad *********** -->
                                 </div>
                               </div>
                             </div>
