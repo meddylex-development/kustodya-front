@@ -46,6 +46,10 @@ export class GenerarIncapacidadComponent implements OnInit {
     { 'id': 6, 'name': 'Choque' },
     { 'id': 7, 'name': 'Fractura' },
   ];
+  public collectionAfectionType: any = [
+    { 'id': 1, 'name': 'Accidente' },
+    { 'id': 2, 'name': 'Enfermedad' },
+  ];
   public patientTimeStartCondition: any = { 'hour': 13, 'minute': 30 };
   public meridian: boolean = true;
 
@@ -157,6 +161,7 @@ export class GenerarIncapacidadComponent implements OnInit {
           'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
           'laterality': null,
           'patientDaysGranted': 1,
+          'patientConditionKeywords': null,
         };
       } else {
         this.applyLaterality = (this.patientData['diagnostic']['laterality']) ? true : false;
@@ -306,6 +311,16 @@ export class GenerarIncapacidadComponent implements OnInit {
       }
     });
     this.patientData['diagnostic']['patientSymptoms'] = collection;
+  }
+
+  fnRemovePatientKeywords(item, index, collectionPatientKeywords) {
+    let collection = [];
+    collectionPatientKeywords.forEach((element, key) => {
+      if (key != index) {
+        collection.push(element);
+      }
+    });
+    this.patientData['diagnostic']['patientConditionKeywords'] = collection;
   }
 
   fnRemovePatientDiagnostic(item, index, collectionPatientDiagnostic) {
