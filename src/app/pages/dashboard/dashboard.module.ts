@@ -194,6 +194,7 @@ import { InformacionComponent } from '../incapacidad/informacion/informacion.com
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
 import { GenerarIncapacidadComponent } from '../incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
+import { AgregarEmpleadorComponent } from '../incapacidad/agregar-empleador/agregar-empleador.component';
 import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 import { VistaPreviaCertificadoIncapacidadComponent } from '../incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component'
 
@@ -216,6 +217,7 @@ const ENTRY_COMPONENTS = [
   HistoricoPacienteComponent,
   GenerarIncapacidadComponent,
   AyudaComponent,
+  AgregarEmpleadorComponent,
   CertificadoIncapacidadComponent,
   VistaPreviaCertificadoIncapacidadComponent,
   DashboardComponent,
@@ -369,6 +371,7 @@ const ENTRY_COMPONENTS = [
     HistoricoPacienteComponent,
     GenerarIncapacidadComponent,
     AyudaComponent,
+    AgregarEmpleadorComponent,
     CertificadoIncapacidadComponent,
     VistaPreviaCertificadoIncapacidadComponent,
     DashboardComponent,

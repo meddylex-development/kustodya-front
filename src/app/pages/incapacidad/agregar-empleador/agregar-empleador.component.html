@@ -1,0 +1,174 @@
+<nb-card size="large">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    {{ data?.title }}
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0">
+      <form style="/* width: 350px; */" #helpForm="ngForm" aria-labelledby="title">
+        <div class="col-12 pl-0 pr-0">
+          <p>
+              {{ data?.description }}
+          </p>
+        </div>
+        <div class="col-12">
+          <form #form="ngForm" (ngSubmit)="fnAddNewEmployer()" #addNewEmployerForm="ngForm" aria-labelledby="title">
+            <div class="row">
+              <!-- ********** START - Tipo de identificación ********** -->
+              <div class="mt-2 mb-2 p-0 col-12">
+                <div class="form-group">
+                  <label for="input-selectDocumentTypes">
+                    <h5 class="m-0">
+                      <i class="fas fa-id-card-alt"></i>&nbsp;Tipo de documento:&nbsp;
+                      <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                    </h5>
+                  </label>
+                  <ng-select 
+                    id="input-selectDocumentTypes"
+                    [items]="collectionDocumentTypes" 
+                    bindLabel="tTipoIdentificacion" 
+                    bindValue="iIdTipoIdentificacion" 
+                    name="documenttypes"
+                    #documenttypes="ngModel" 
+                    status="basic"
+                    placeholder="Seleccione el tipo de documento del empleador"
+                    [ngModelOptions]="{standalone: true}" 
+                    [(ngModel)]="employerData.documentType" 
+                    (change)="fnSelectDocumentType($event)"
+                    (focus)="errors = []" 
+                    required>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- *********** END - Tipo de identificación *********** -->
+              <!-- ********** START - Numero de identificación ********** -->
+              <div class="mt-2 mb-2 p-0 col-12">
+                <div class="form-group">
+                  <label for="input-employerDocumentNumber">
+                    <h5 class="m-0">
+                      <i class="fas fa-house-user"></i>&nbsp;N&uacute;mero de identificaci&oacute;n:&nbsp;
+                      <span class="cursor-pointer text-optional-field" nbTooltip="Campo opcional">*</span>
+                    </h5>
+                  </label>
+                  <input 
+                      class=""
+                      nbInput
+                      fullWidth 
+                      fieldSize="large"  
+                      type="text" 
+                      [readonly]="false" 
+                      [disabled]="false" 
+                      placeholder="Ingrese número de identificación"
+                      id="input-employerDocumentNumber"  
+                      name="employerDocumentNumber" 
+                      (focus)="employerData.employerDocumentNumber = '';"
+                      [(ngModel)]="employerData.employerDocumentNumber" 
+                      [ngModelOptions]="{standalone: true}"
+                      [status]="employerData.employerDocumentNumber.dirty ? (employerData.employerDocumentNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
+                      #patientAddressCondition="ngModel">
+                </div>
+              </div>
+              <!-- *********** END - Numero de identificación *********** -->
+              <!-- ********** START - Numero de verificacion ********** -->
+              <div class="mt-2 mb-2 p-0 col-12">
+                <div class="form-group">
+                  <label for="input-employerVerificationDigit">
+                    <h5 class="m-0">
+                      <i class="fas fa-house-user"></i>&nbsp;D&iacute;gito de verificaci&oacute;n:&nbsp;
+                      <span class="cursor-pointer text-optional-field" nbTooltip="Campo opcional">*</span>
+                    </h5>
+                  </label>
+                  <input 
+                      class=""
+                      nbInput
+                      fullWidth 
+                      fieldSize="large"  
+                      type="text" 
+                      [readonly]="false" 
+                      [disabled]="false" 
+                      placeholder="Ingrese dígito de verificación"
+                      id="input-employerVerificationDigit"  
+                      name="employerVerificationDigit" 
+                      (focus)="employerData.employerVerificationDigit = '';"
+                      [(ngModel)]="employerData.employerVerificationDigit" 
+                      [ngModelOptions]="{standalone: true}"
+                      [status]="employerData.employerVerificationDigit.dirty ? (employerData.employerVerificationDigit.invalid  ? 'danger' : 'basic') : 'basic'" 
+                      #employerVerificationDigit="ngModel">
+                </div>
+              </div>
+              <!-- *********** END - Numero de verificacion *********** -->
+              <!-- ********** START - Razon social ********** -->
+              <div class="mt-2 mb-2 p-0 col-12">
+                <div class="form-group">
+                  <label for="input-employerName">
+                    <h5 class="m-0">
+                      <i class="fas fa-house-user"></i>&nbsp;Raz&oacute;n social:&nbsp;
+                      <span class="cursor-pointer text-optional-field" nbTooltip="Campo opcional">*</span>
+                    </h5>
+                  </label>
+                  <input 
+                      class=""
+                      nbInput
+                      fullWidth 
+                      fieldSize="large"  
+                      type="text" 
+                      [readonly]="false" 
+                      [disabled]="false" 
+                      placeholder="Ingrese nombre ó razón social"
+                      id="input-employerName"  
+                      name="employerName" 
+                      (focus)="employerData.employerName = '';"
+                      [(ngModel)]="employerData.employerName" 
+                      [ngModelOptions]="{standalone: true}"
+                      [status]="employerData.employerName.dirty ? (employerData.employerName.invalid  ? 'danger' : 'basic') : 'basic'" 
+                      #employerName="ngModel">
+                </div>
+              </div>
+              <!-- *********** END - Razon social *********** -->
+              <!-- ********** START - Tipo de identificación ********** -->
+              <div class="mt-2 mb-2 p-0 col-12">
+                <div class="form-group">
+                  <label for="input-selectDocumentTypes">
+                    <h5 class="m-0">
+                      <i class="fas fa-id-card-alt"></i>&nbsp;Actividad economica:&nbsp;
+                      <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                    </h5>
+                  </label>
+                  <ng-select 
+                    id="input-selectDocumentTypes"
+                    [items]="collectionDocumentTypes" 
+                    bindLabel="tTipoIdentificacion" 
+                    bindValue="iIdTipoIdentificacion" 
+                    name="documenttypes"
+                    #documenttypes="ngModel" 
+                    status="basic"
+                    placeholder="Seleccione el Actividad economica del empleador"
+                    [ngModelOptions]="{standalone: true}" 
+                    [(ngModel)]="employerData.documentType" 
+                    (change)="fnSelectDocumentType($event)"
+                    (focus)="errors = []" 
+                    required>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- *********** END - Tipo de identificación *********** -->
+            </div>
+          </form>
+        </div>
+        <br>
+        <button 
+            class="cursor-pointer"
+            nbButton 
+            fullWidth 
+            type="button"
+            [class.btn-pulse]="submitted" 
+            (click)="fnCancelData()"
+            style="background-color: #3366ff; border-color: #3366ff; color: white;">
+            Cerrar
+        </button>
+      </form>
+  </div>
+  </nb-card-body>
+</nb-card>

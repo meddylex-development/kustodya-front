@@ -4,6 +4,7 @@ import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { AyudaComponent } from '../ayuda/ayuda.component';
+import { AgregarEmpleadorComponent } from '../agregar-empleador/agregar-empleador.component';
 import { resolve } from 'url';
 import * as moment from 'moment';
 declare var $: any;
@@ -44,7 +45,6 @@ export class GenerarIncapacidadComponent implements OnInit {
     { 'id': 4, 'name': 'Fractura' },
     { 'id': 5, 'name': 'Accidente en trabajo' },
     { 'id': 6, 'name': 'Choque' },
-    { 'id': 7, 'name': 'Fractura' },
   ];
   public collectionAfectionType: any = [
     { 'id': 1, 'name': 'Accidente' },
@@ -172,7 +172,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       this.patientIncapacities = data['patientIncapacities'];
       this.totalItems = data['patientIncapacities'].length;
       this.fnGetIncapacityAttentionTypes(this.token);
-      this.fnGetIncapacityType(this.token);
+      // this.fnGetIncapacityType(this.token);
       this.fnGetCie10(this.token, 3).then(response1 => {
         this.collectionPatientSigns = response1;
         return this.fnGetCie10(this.token, 2);
@@ -246,6 +246,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       // this.submitted = false;
       if (result.status == 200) {
         this.collectionIncapacityType = JSON.parse(JSON.stringify(result.body));
+        console.log('this.collectionIncapacityType: ', this.collectionIncapacityType);
         // let new_item: any = { iIdOrigenIncapacidad: -1, tOrigenIncapacidad: '' };
         // this.collectionIncapacityType.unshift(new_item);
       } else {
@@ -527,6 +528,33 @@ export class GenerarIncapacidadComponent implements OnInit {
           }, 1000);
         }
       })
+    });
+  }
+
+  fnAfectionType(event) {
+    console.log('event: ', event);
+    this.patientData['diagnostic']['incapacityType'] = null;
+    this.collectionIncapacityType = [];
+    if (event['id'] == 1) {
+      this.collectionIncapacityType = [
+        { 'iIdOrigenIncapacidad': 3549 ,'tOrigenIncapacidad': 'Accidente laboral' },
+        { 'iIdOrigenIncapacidad': 2 ,'tOrigenIncapacidad': 'Accidente de tránsito' },
+      ];
+    } else {
+      this.collectionIncapacityType = [
+        { 'iIdOrigenIncapacidad': 3551 ,'tOrigenIncapacidad': 'Enfermedad laboral' },
+        { 'iIdOrigenIncapacidad': 3550 ,'tOrigenIncapacidad': 'Enfermedad general' },
+      ];
+    }
+
+  }
+
+  fnAddNewEmployerPatient(collectionDataEmployers) {
+    console.log('collectionDataEmployers: ', collectionDataEmployers);
+    let dataSend = {};
+    dataSend['data'] = { module: '', title: 'Agregar empleador', description: 'En el siguiente formulario puedes agregar un nuevo empleador asociado al paciente.', collection: collectionDataEmployers };
+    this.dialogService.open(AgregarEmpleadorComponent, { context: dataSend }).onClose.subscribe((res) => {
+      console.log('res: ', res);
     });
   }
 

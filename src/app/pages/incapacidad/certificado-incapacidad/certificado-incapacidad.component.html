@@ -27,6 +27,7 @@
       </nb-card-header>
       <nb-card-body id="incapacityPDF" #incapacityPDF>
         <div class="container-fluid pl-5 pt-1 pr-5 pb-5">
+
           <div class="row card border-secondary" style="border-radius: 15px;">
             <div class="card-header border-secondary text-center" style="border-radius: 15px;">
               <h3 class="m-0">Certificado de Incapacidad M&eacute;dica Laboral</h3>
@@ -71,6 +72,7 @@
               </div>
             </div>
           </div>
+
           <div class="row card border-secondary mt-2" style="border-radius: 15px;">
             <h5 class="card-header border-secondary" style="border-radius: 15px;">
               <i class="fas fa-notes-medical"></i>&nbsp;Certificado de Incapacidad M&eacute;dica
@@ -290,44 +292,6 @@
             </div>
           </div>
 
-          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
-            <h5 class="card-header border-secondary" style="border-radius: 15px;">
-              <i class="fas fa-industry"></i>&nbsp;Datos empleador
-            </h5>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>NIT:&nbsp;</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.nit">{{ patientData?.empresa?.nit }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.nit">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Raz&oacute;n Social:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.tRazonSocial">{{ patientData?.empresa?.tRazonSocial }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.tRazonSocial">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>C&oacute;digo CIIU:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div style="margin-bottom: 0.5rem;">
-                    <small>Actividad economica:</small><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.tNombreActividad">{{ patientData?.empresa?.actividadEconomica?.tNombreActividad }}</h6>
-                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.tNombreActividad">No registra dato</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="row card border-secondary mt-2 mb-4" style="border-radius: 15px;">
             <h5 class="card-header border-secondary" style="border-radius: 15px;">
               <i class="fas fa-hospital-user"></i>&nbsp;Datos afiliaci&oacute;n EPS
@@ -367,6 +331,44 @@
             </div>
           </div>
 
+          <div class="row card border-secondary mt-2" style="border-radius: 15px;">
+            <h5 class="card-header border-secondary" style="border-radius: 15px;">
+              <i class="fas fa-industry"></i>&nbsp;Datos empleador
+            </h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>NIT:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.nit">{{ patientData?.empresa?.nit }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.nit">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Raz&oacute;n Social:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.tRazonSocial">{{ patientData?.empresa?.tRazonSocial }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.tRazonSocial">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>C&oacute;digo CIIU:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.ciiu">{{ patientData?.empresa?.actividadEconomica?.ciiu }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.ciiu">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Actividad economica:</small><br>
+                    <h6 style="color: #000;" *ngIf="patientData?.empresa?.actividadEconomica?.tNombreActividad">{{ patientData?.empresa?.actividadEconomica?.tNombreActividad }}</h6>
+                    <small style="color: #ccc;" *ngIf="!patientData?.empresa?.actividadEconomica?.tNombreActividad">No registra dato</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row align-items-end">
             <div class="col" style="position: relative">
               <div *ngIf="dataDoctor?.signature">
@@ -401,7 +403,6 @@
           </div>
 
         </div>
-        
       </nb-card-body>
     </nb-card>
 

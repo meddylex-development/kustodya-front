@@ -390,6 +390,30 @@
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row">
+                                  <!-- ********** START - Prorroga ********** -->
+                                  <div class="mt-2 mb-2 col-6">
+                                    <div class="form-group">
+                                      <label for="input-extensionIncapacity">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-calendar-plus"></i>&nbsp;Pr&oacute;rroga:&nbsp;
+                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
+                                        </h5>
+                                      </label>
+                                      <div>
+                                        <h5 class="d-inline-block m-3">NO</h5>&nbsp;
+                                        <label class="switch p-2">
+                                          <input 
+                                          id="input-extensionIncapacity"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          [(ngModel)]="patientData.diagnostic.extensionIncapacity"
+                                          type="checkbox" [checked]="(patientData.diagnostic.extensionIncapacity)?'checked':false">
+                                          <span class="slider round"></span>
+                                        </label>&nbsp;
+                                        <h5 class="d-inline-block m-3">SI</h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Prorroga *********** -->
                                   <!-- ********** START - Tipo de afección ********** -->
                                   <div class="col-6">
                                     <div class="form-group">
@@ -408,6 +432,7 @@
                                         placeholder="Seleccione tipo de afección" 
                                         [ngModelOptions]="{standalone: true}" 
                                         [(ngModel)]="patientData.diagnostic.afectionType"
+                                        (change)="fnAfectionType($event)"
                                         required 
                                         [disabled]="false" 
                                         [clearable]="false">
@@ -468,29 +493,7 @@
                                     </div>
                                   </div>
                                   <!-- *********** END - Palabras clave *********** -->
-                                  <!-- ********** START - Proroga ********** -->
-                                  <div class="mt-2 mb-2 col-6">
-                                    <div class="form-group">
-                                      <label for="input-attentionTypes">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-calendar-plus"></i>&nbsp;Proroga:&nbsp;
-                                          <span class="text-danger cursor-pointer" nbTooltip="Campo obligatorio">*</span>
-                                        </h5>
-                                      </label>
-                                      <div>
-                                        <h5 class="d-inline-block m-3">NO</h5>&nbsp;
-                                        <label class="switch p-2">
-                                          <input 
-                                          [ngModelOptions]="{standalone: true}" 
-                                          [(ngModel)]="patientData.diagnostic.soatInsurance"
-                                          type="checkbox" [checked]="(patientData.diagnostic.soatInsurance)?'checked':false">
-                                          <span class="slider round"></span>
-                                        </label>&nbsp;
-                                        <h5 class="d-inline-block m-3">SI</h5>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Proroga *********** -->
+                                  <!-- ********** START - Descripcion acontecimientos ********** -->
                                   <div class="col-12">
                                     <div class="form-group">
                                       <label for="input-patientModeDescription">
@@ -517,7 +520,7 @@
                                       </textarea>
                                     </div>
                                   </div>
-                                  
+                                  <!-- *********** END - Descripcion acontecimientos *********** -->
                                 </div>
                               </div>
                             </div>
@@ -736,7 +739,7 @@
                                         [ngModelOptions]="{standalone: true}" 
                                         [(ngModel)]="patientData.diagnostic.incapacityType"
                                         required 
-                                        [disabled]="false" 
+                                        [disabled]="collectionIncapacityType.length < 1" 
                                         [clearable]="false">
                                       </ng-select>
                                     </div>
@@ -897,6 +900,21 @@
                                 Valores incapacidades por empleador
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
+                                <div class="row pr-4 pl-4">
+                                  <div class="col p-0">
+                                    <button 
+                                      type="button" 
+                                      status="info"
+                                      size="giant" 
+                                      class="button_diagnostic font_family_roboto cursor-pointer" 
+                                      [disabled]="false" 
+                                      (click)="fnAddNewEmployerPatient(collectionDataEmployers)"
+                                      nbButton>
+                                      <i class="fas fa-industry"></i>&nbsp;
+                                      Agregar empleador
+                                    </button>
+                                  </div>
+                                </div>
                                 <div class="row p-4">
                                   <div *ngFor="let itemEmployer of collectionDataEmployers; let i = index;" class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                     <div class="row">

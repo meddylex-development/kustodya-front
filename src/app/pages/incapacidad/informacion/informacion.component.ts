@@ -51,8 +51,8 @@ export class InformacionComponent implements OnInit {
     const user_id = sessionStorage.getItem('user_id');
     const token = sessionStorage.getItem('payload');
     if (token && user_id) {
-      self.token = token;
-      let data = self.utilitiesService.fnGetDataShare();
+      this.token = token;
+      let data = this.utilitiesService.fnGetDataShare();
       if (data) {
         this.search = false;
         this.showTitleSearch = true;
@@ -71,12 +71,12 @@ export class InformacionComponent implements OnInit {
         this.documentTypeSelected = null;
         this.patientIncapacities = null;
         this.totalItems = 1;
-        // self.fnClearFormSearchPatient();
-        self.fnGetDocumentTypes(self.token);
+        // this.fnClearFormSearchPatient();
+        this.fnGetDocumentTypes(this.token);
       }
       console.log('data: ', data);
-      console.log('self.token: ', self.token);
-      self.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
+      console.log('this.token: ', this.token);
+      this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
     } else {
       // self.router.navigateByUrl('');
     }
