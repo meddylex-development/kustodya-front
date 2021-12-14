@@ -5,9 +5,10 @@ import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { ModalOverlaysModule } from './modal-overlays/modal-overlays.module';
-import { NbTooltipModule, NbCheckboxModule } from '@nebular/theme';
+import { NbTooltipModule, NbCheckboxModule, NbStepperModule } from '@nebular/theme';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { NgxCurrencyModule } from "ngx-currency";
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
@@ -29,11 +30,13 @@ const PAGES_COMPONENTS = [
 @NgModule({
   imports: [
     // NgbTimepicker,
+    NgxCurrencyModule,
     PagesRoutingModule,
     MiscellaneousModule,
     ThemeModule,
     NbTooltipModule,
     NbCheckboxModule,
+    NbStepperModule,
     TooltipModule.forRoot(),
     GoogleChartsModule.forRoot(),
     // Custome pages modules

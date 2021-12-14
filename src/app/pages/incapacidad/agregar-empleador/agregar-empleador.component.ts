@@ -9,6 +9,14 @@ import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { listLocales } from 'ngx-bootstrap/chronos';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { esLocale } from 'ngx-bootstrap/locale';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+defineLocale('es', esLocale);
+
 @Component({
   selector: 'ngx-agregar-empleador',
   templateUrl: './agregar-empleador.component.html',
@@ -31,11 +39,22 @@ export class AgregarEmpleadorComponent implements OnInit {
     'employerVerificationDigit': '',
     'employerName': '',
     'employerEconomicActivity': '',
+    'patientContractStatus': true,
+    'patientSalary': '',
   };
+  public colorTheme = 'theme-green';
+  public bsConfig: Partial<BsDatepickerConfig>;
+  public maxDate = new Date();
+  public locale = 'es';
+  public linearMode: boolean = true;
 
   public collectionEmployerEconomicActivity: any = [
     {  },
   ]
+
+  public myGroup: any = new FormGroup({
+    value: new FormControl('', Validators.required)
+  });
   
   constructor(
     protected ref: NbDialogRef<AgregarEmpleadorComponent>,
@@ -83,7 +102,7 @@ export class AgregarEmpleadorComponent implements OnInit {
     this.documentTypeSelected = $event;
   }
 
-  fnAddNewEmployer() {
+  fnAddDataEmployer() {
     let objEmployer = { 
       'nit': '900365863-0', 
       'tRazonSocial': 'ProyectaTSP S.A.S.', 
@@ -110,6 +129,18 @@ export class AgregarEmpleadorComponent implements OnInit {
 
     console.log('objEmployer: ', objEmployer);
 
+  }
+
+  fnAddDataPatientJob() {
+
+  }
+
+  fnAddDataPatientValuesJob() {
+    
+  }
+
+  fnSelectEconomicActivity($event) {
+    console.log('$event: ', $event);
   }
 
   dismiss(res?) {

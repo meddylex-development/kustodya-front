@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-header style="display: flex; justify-content: space-between;">
         Ayuda: {{ data?.title }}
-        <span (click)="fnCloseModal()" nbTooltip="Cerrar">
+        <span (click)="fnCloseModal()" tooltip="Cerrar" placement="top" container="body">
             <i class="fas fa-times cursor-pointer text-danger"></i>
         </span>
     </nb-card-header>

@@ -206,6 +206,7 @@ import { CapitalizePipe } from '../../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxCurrencyModule } from "ngx-currency";
 // import { HelpComponent } from '../../shared/components/modals/help/help.component';
 
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
@@ -523,6 +524,7 @@ const ENTRY_COMPONENTS = [
     InformacionComponent,
   ],
   imports: [
+    NgxCurrencyModule,
     ThemeModule,
     NbInputModule,
     NbCardModule,
