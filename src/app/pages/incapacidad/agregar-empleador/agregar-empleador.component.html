@@ -1,4 +1,4 @@
-<nb-card size="large" style="max-width: 100% !important;">
+<nb-card size="large" style="max-width: 100% !important; height: calc(90vh - 1rem) !important;">
   <nb-card-header style="display: flex !important; justify-content: space-between !important;">
     {{ data?.title }}
     <span class="cursor-pointer" (click)="fnCloseModal()">
@@ -218,7 +218,7 @@
                   </div>
                 
               </div>
-              <br>
+              <!-- <br>
               <button 
                   nbStepperNext
                   class="cursor-pointer mb-2"
@@ -228,18 +228,7 @@
                   [class.btn-pulse]="submitted" 
                   style="background-color: #3366ff; border-color: #3366ff; color: white;">
                   Siguiente
-              </button>
-              <br>
-              <button 
-                  class="cursor-pointer mb-2"
-                  nbButton 
-                  fullWidth 
-                  type="button"
-                  [class.btn-pulse]="submitted" 
-                  (click)="fnCancelData()"
-                  style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
-                  Cerrar
-              </button>
+              </button> -->
             </form>
           </div>
         </nb-step>
@@ -373,7 +362,7 @@
                   </div>
                 
               </div>
-              <br>
+              <!-- <br>
               <button 
                   nbStepperPrevious
                   class="cursor-pointer mb-2"
@@ -394,18 +383,7 @@
                   [class.btn-pulse]="submitted" 
                   style="background-color: #3366ff; border-color: #3366ff; color: white;">
                   Siguiente
-              </button>
-              <br>
-              <button 
-                  class="cursor-pointer mb-2"
-                  nbButton 
-                  fullWidth 
-                  type="button"
-                  [class.btn-pulse]="submitted" 
-                  (click)="fnCancelData()"
-                  style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
-                  Cerrar
-              </button>
+              </button> -->
             </form>
           </div>
         </nb-step>
@@ -475,7 +453,7 @@
                   </div>
                 
               </div>
-              <br>
+              <!-- <br>
               <button 
                   nbStepperPrevious
                   class="cursor-pointer mb-2"
@@ -495,30 +473,62 @@
                   [class.btn-pulse]="submitted" 
                   style="background-color: #3366ff; border-color: #3366ff; color: white;">
                   Guardar
-              </button>
-              <br>
-              <button 
-                  class="cursor-pointer mb-2"
-                  nbButton 
-                  fullWidth 
-                  type="button"
-                  [class.btn-pulse]="submitted" 
-                  (click)="fnCancelData()"
-                  style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
-                  Cerrar
-              </button>
+              </button> -->
             </form>
           </div>
         </nb-step>
-  
-        <nb-step [hidden]="true">
-          <div class="step-container">
-            <h3>Wizard completed!</h3>
-            <button nbButton (click)="stepper.reset()">Try again</button>
-          </div>
-        </nb-step>
+
       </nb-stepper>
       
     </div>
   </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button 
+          *ngIf="showBtnSave"
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="submit"
+          [class.btn-pulse]="submitted" 
+          style="background-color: #3366ff; border-color: #3366ff; color: white;">
+          <i class="fas fa-save"></i>&nbsp;
+          Guardar
+      </button>
+      <button 
+          *ngIf="showBtnPrev"
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="button" 
+          (click)="fnChangePrevStep()"
+          [class.btn-pulse]="submitted" 
+          style="background-color: #3366ff; border-color: #3366ff; color: white;">
+          <i class="fas fa-arrow-left"></i>&nbsp;
+          Anterior
+      </button>
+      <button 
+          *ngIf="showBtnNext"
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="button" 
+          (click)="fnChangeNextStep()"
+          [class.btn-pulse]="submitted" 
+          style="background-color: #3366ff; border-color: #3366ff; color: white;">
+          Siguiente
+          &nbsp;<i class="fas fa-arrow-right"></i>
+      </button>
+      <button 
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="button"
+          [class.btn-pulse]="submitted" 
+          (click)="fnCancelData()"
+          style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
+          Cerrar
+      </button>
+    </div>
+  </nb-card-footer>
 </nb-card>

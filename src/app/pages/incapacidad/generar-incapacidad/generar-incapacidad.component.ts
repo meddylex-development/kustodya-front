@@ -553,7 +553,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     console.log('collectionDataEmployers: ', collectionDataEmployers);
     let dataSend = {};
     dataSend['data'] = { module: '', title: 'Agregar empleador', description: 'En el siguiente formulario puedes agregar un nuevo empleador asociado al paciente.', collection: collectionDataEmployers };
-    this.dialogService.open(AgregarEmpleadorComponent, { context: dataSend }).onClose.subscribe((res) => {
+    this.dialogService.open(AgregarEmpleadorComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       console.log('res: ', res);
     });
   }

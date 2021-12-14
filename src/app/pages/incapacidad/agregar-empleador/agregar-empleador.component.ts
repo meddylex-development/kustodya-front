@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { NbDialogRef, NbStepperComponent } from '@nebular/theme';
 import { 
   NbToastrService, 
   NbDialogService, 
@@ -25,6 +25,7 @@ defineLocale('es', esLocale);
 export class AgregarEmpleadorComponent implements OnInit {
 
   @Input() data: any;
+  @ViewChild('stepper') stepper: NbStepperComponent;
   public token: string = '';
   public userData: any = null; 
   public submitted: boolean = false;
@@ -47,6 +48,10 @@ export class AgregarEmpleadorComponent implements OnInit {
   public maxDate = new Date();
   public locale = 'es';
   public linearMode: boolean = true;
+  public showBtnPrev: boolean = false;
+  public showBtnNext: boolean = true;
+  public showBtnSave: boolean = false;
+  public selectedIndex: number = 1;
 
   public collectionEmployerEconomicActivity: any = [
     {  },
@@ -141,6 +146,62 @@ export class AgregarEmpleadorComponent implements OnInit {
 
   fnSelectEconomicActivity($event) {
     console.log('$event: ', $event);
+  }
+
+  fnChangeNextStep() {
+    // this.selectedIndex
+    console.log('this.selectedIndex: ', this.selectedIndex);
+    // this.showBtnPrev
+    console.log('this.showBtnPrev: ', this.showBtnPrev);
+    // this.showBtnNext
+    console.log('this.showBtnNext: ', this.showBtnNext);
+    // this.showBtnSave
+    console.log('this.showBtnSave: ', this.showBtnSave);
+    // this.stepper.next();
+    switch (this.selectedIndex) {
+      case 1:
+        this.stepper.next();
+        this.showBtnPrev = true;
+        this.showBtnNext = true;
+        this.showBtnSave = false
+        this.selectedIndex = 2;
+        break;
+      case 2:
+        this.stepper.next();
+        this.showBtnPrev = true;
+        this.showBtnNext = false;
+        this.showBtnSave = true
+        this.selectedIndex = 3;
+        break;
+    }
+  }
+  
+  fnChangePrevStep() {
+    // this.selectedIndex
+    console.log('this.selectedIndex: ', this.selectedIndex);
+    // this.showBtnPrev
+    console.log('this.showBtnPrev: ', this.showBtnPrev);
+    // this.showBtnNext
+    console.log('this.showBtnNext: ', this.showBtnNext);
+    // this.showBtnSave
+    console.log('this.showBtnSave: ', this.showBtnSave);
+    // this.stepper.next();
+    switch (this.selectedIndex) {
+      case 2:
+        this.stepper.previous();
+        this.showBtnPrev = false;
+        this.showBtnNext = true;
+        this.showBtnSave = false
+        this.selectedIndex = 1;
+        break;
+      case 3:
+        this.stepper.previous();
+        this.showBtnPrev = true;
+        this.showBtnNext = true;
+        this.showBtnSave = false;
+        this.selectedIndex = 2;
+        break;
+    }
   }
 
   dismiss(res?) {
