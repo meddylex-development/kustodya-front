@@ -135,6 +135,52 @@ export class GenerarIncapacidadComponent implements OnInit {
       'valorDiaIncapcidad': 72640 
     },
   ];
+  public collectionWayType: any = [
+    { 'id': 1, 'name': 'Calle' },
+    { 'id': 2, 'name': 'Carrera' },
+    { 'id': 3, 'name': 'Transversal' },
+    { 'id': 4, 'name': 'Diagonal' },
+    { 'id': 5, 'name': 'Avenida Calle' },
+    { 'id': 6, 'name': 'Avenida Carrera' },
+    { 'id': 7, 'name': 'Avenida Transversal' },
+    { 'id': 8, 'name': 'Avenida Diagonal' },
+  ];
+  public collectionLetters: any = [
+    { 'id': 1, 'name': 'A' },
+    { 'id': 2, 'name': 'B' },
+    { 'id': 3, 'name': 'C' },
+    { 'id': 4, 'name': 'D' },
+    { 'id': 5, 'name': 'E' },
+    { 'id': 6, 'name': 'F' },
+    { 'id': 7, 'name': 'G' },
+    { 'id': 8, 'name': 'H' },
+    { 'id': 9, 'name': 'I' },
+    { 'id': 10, 'name': 'J' },
+    { 'id': 11, 'name': 'K' },
+    { 'id': 12, 'name': 'L' },
+    { 'id': 13, 'name': 'M' },
+    { 'id': 14, 'name': 'N' },
+    { 'id': 15, 'name': 'Ñ' },
+    { 'id': 16, 'name': 'O' },
+    { 'id': 17, 'name': 'P' },
+    { 'id': 18, 'name': 'Q' },
+    { 'id': 19, 'name': 'R' },
+    { 'id': 20, 'name': 'S' },
+    { 'id': 21, 'name': 'T' },
+    { 'id': 22, 'name': 'U' },
+    { 'id': 23, 'name': 'V' },
+    { 'id': 24, 'name': 'W' },
+    { 'id': 25, 'name': 'X' },
+    { 'id': 26, 'name': 'Y' },
+    { 'id': 27, 'name': 'Z' },
+  ];
+  public collectionBis: any = [
+    { 'id': 1, 'name': 'Bis' },
+  ]
+  public collectionCardinalSufix: any = [
+    { 'id': 1, 'name': 'Este' },
+    { 'id': 2, 'name': 'Sur' },
+  ]
 
   constructor(
     private location: Location,
@@ -556,6 +602,11 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.dialogService.open(AgregarEmpleadorComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       console.log('res: ', res);
     });
+  }
+
+  fnBuildAddress($event) {
+    console.log('$event: ', $event);
+    this.patientData.diagnostic.patientAddressWayType
   }
 
 }

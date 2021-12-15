@@ -322,15 +322,31 @@
                                     </div>
                                   </div>
                                   <div class="col-12">
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="form-group">
-                                          <label for="input-patientAddressCondition">
-                                            <h5 class="m-0">
-                                              <i class="fas fa-house-user"></i>&nbsp;Direcci&oacute;n:&nbsp;
-                                              <span class="cursor-pointer text-optional-field" tooltip="Campo opcional" placement="top" container="body">(Opcional)</span>
-                                            </h5>
-                                          </label>
+                                    <div class="form-group">
+                                      <label for="input-patientAddressCondition">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-house-user"></i>&nbsp;Direcci&oacute;n:&nbsp;
+                                          <span class="cursor-pointer text-optional-field" tooltip="Campo opcional" placement="top" container="body">(Opcional)</span>
+                                        </h5>
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-2">
+                                          <ng-select 
+                                            [items]="collectionWayType" 
+                                            bindLabel="name"
+                                            id="input-patientAddressWayType" 
+                                            name="patientAddressWayType" 
+                                            #patientAddressWayType="ngModel"
+                                            placeholder="Seleccione tipo via" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressWayType"
+                                            (change)="fnBuildAddress($event)"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1">
                                           <input 
                                             class=""
                                             nbInput
@@ -339,24 +355,79 @@
                                             type="text" 
                                             [readonly]="false" 
                                             [disabled]="false" 
-                                            placeholder="Ingrese la dirección paciente"
-                                            id="input-patientAddressCondition"  
-                                            name="patientAddressCondition" 
-                                            (focus)="patientData.diagnostic.patientAddressCondition = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressCondition" 
+                                            placeholder="Ingrese el número tipo via"
+                                            id="input-patientAddressFirstNumber"  
+                                            name="patientAddressFirstNumber" 
+                                            (focus)="patientData.diagnostic.patientAddressFirstNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstNumber" 
                                             [ngModelOptions]="{standalone: true}"
-                                            [status]="patientAddressCondition.dirty ? (patientAddressCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                            #patientAddressCondition="ngModel">
+                                            [status]="patientAddressFirstNumber.dirty ? (patientAddressFirstNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                            #patientAddressFirstNumber="ngModel">
                                         </div>
-                                      </div>
-                                      <div class="col">
-                                        <div class="form-group">
-                                          <label for="input-patientAddressPlaceCondition">
-                                            <h5 class="m-0">
-                                              <i class="fas fa-map-pin"></i>&nbsp;<small>(Barrio, Municipio, Vereda):</small>&nbsp;
-                                              <span class="cursor-pointer text-optional-field" tooltip="Campo opcional" placement="top" container="body">(Opcional)</span>
-                                            </h5>
-                                          </label>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionLetters" 
+                                            bindLabel="name"
+                                            id="input-patientAddressFirstLetter" 
+                                            name="patientAddressFirstLetter" 
+                                            #patientAddressFirstLetter="ngModel"
+                                            placeholder="Seleccione letra de número de via" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstLetter"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionBis" 
+                                            bindLabel="name"
+                                            id="input-patientAddressLetter" 
+                                            name="patientAddressLetter" 
+                                            #patientAddressLetter="ngModel"
+                                            placeholder="Seleccione letra de número de via" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressLetter"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionLetters" 
+                                            bindLabel="name"
+                                            id="input-patientAddressSecondLetter" 
+                                            name="patientAddressSecondLetter" 
+                                            #patientAddressSecondLetter="ngModel"
+                                            placeholder="Seleccione letra de número de via" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondLetter"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionCardinalSufix" 
+                                            bindLabel="name"
+                                            id="input-patientAddressFirstCardinalSufix" 
+                                            name="patientAddressFirstCardinalSufix" 
+                                            #patientAddressFirstCardinalSufix="ngModel"
+                                            placeholder="Seleccione sufijo cardinal" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstCardinalSufix"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1 text-center p-0" style="max-width: 30px !important;">
+                                          <h3 style="margin: 10px 0px;">#</h3>
+                                        </div>
+                                        <div class="col-1">
                                           <input 
                                             class=""
                                             nbInput
@@ -365,16 +436,114 @@
                                             type="text" 
                                             [readonly]="false" 
                                             [disabled]="false" 
-                                            placeholder="Seleccione fecha de inicio"
-                                            id="input-patientAddressPlaceCondition"  
-                                            name="patientAddressPlaceCondition" 
-                                            (focus)="patientData.diagnostic.patientAddressPlaceCondition = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressPlaceCondition" 
+                                            placeholder="Ingrese el número tipo via"
+                                            id="input-patientAddressSecondNumber"  
+                                            name="patientAddressSecondNumber" 
+                                            (focus)="patientData.diagnostic.patientAddressSecondNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondNumber" 
                                             [ngModelOptions]="{standalone: true}"
-                                            [status]="patientAddressPlaceCondition.dirty ? (patientAddressPlaceCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                            #patientAddressPlaceCondition="ngModel">
+                                            [status]="patientAddressSecondNumber.dirty ? (patientAddressSecondNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                            #patientAddressSecondNumber="ngModel">
+                                        </div>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionLetters" 
+                                            bindLabel="name"
+                                            id="input-patientAddressThirdLetter" 
+                                            name="patientAddressThirdLetter" 
+                                            #patientAddressThirdLetter="ngModel"
+                                            placeholder="Seleccione letra de número de via" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressThirdLetter"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
+                                        </div>
+                                        <div class="col-1 text-center p-0" style="max-width: 30px !important;">
+                                          <h3 style="margin: 10px 0px;">-</h3>
+                                        </div>
+                                        <div class="col-1">
+                                          <input 
+                                            class=""
+                                            nbInput
+                                            fullWidth 
+                                            fieldSize="large"  
+                                            type="text" 
+                                            [readonly]="false" 
+                                            [disabled]="false" 
+                                            placeholder="Ingrese el número tipo via"
+                                            id="input-patientAddressThirdNumber"  
+                                            name="patientAddressThirdNumber" 
+                                            (focus)="patientData.diagnostic.patientAddressThirdNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.patientAddressThirdNumber" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            [status]="patientAddressThirdNumber.dirty ? (patientAddressThirdNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                            #patientAddressThirdNumber="ngModel">
+                                        </div>
+                                        <div class="col-1">
+                                          <ng-select 
+                                            [items]="collectionCardinalSufix" 
+                                            bindLabel="name"
+                                            id="input-patientAddressSecondCardinalSufix" 
+                                            name="patientAddressSecondCardinalSufix" 
+                                            #patientAddressSecondCardinalSufix="ngModel"
+                                            placeholder="Seleccione sufijo cardinal" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondCardinalSufix"
+                                            required 
+                                            [disabled]="false" 
+                                            [clearable]="false">
+                                          </ng-select>
                                         </div>
                                       </div>
+                                      <div class="row">
+                                        <div class="col-12">
+                                          <h4>{{ patientData?.diagnostic?.patientAddressWayType?.name }}</h4>
+                                        </div>
+                                      </div>
+                                      <!-- <input 
+                                        class=""
+                                        nbInput
+                                        fullWidth 
+                                        fieldSize="large"  
+                                        type="text" 
+                                        [readonly]="false" 
+                                        [disabled]="false" 
+                                        placeholder="Ingrese la dirección paciente"
+                                        id="input-patientAddressCondition"  
+                                        name="patientAddressCondition" 
+                                        (focus)="patientData.diagnostic.patientAddressCondition = '';"
+                                        [(ngModel)]="patientData.diagnostic.patientAddressCondition" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [status]="patientAddressCondition.dirty ? (patientAddressCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                        #patientAddressCondition="ngModel"> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-12">
+                                    <div class="form-group">
+                                      <label for="input-patientAddressPlaceCondition">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-map-pin"></i>&nbsp;<small>(Barrio, Municipio, Vereda):</small>&nbsp;
+                                          <span class="cursor-pointer text-optional-field" tooltip="Campo opcional" placement="top" container="body">(Opcional)</span>
+                                        </h5>
+                                      </label>
+                                      <input 
+                                        class=""
+                                        nbInput
+                                        fullWidth 
+                                        fieldSize="large"  
+                                        type="text" 
+                                        [readonly]="false" 
+                                        [disabled]="false" 
+                                        placeholder="Seleccione fecha de inicio"
+                                        id="input-patientAddressPlaceCondition"  
+                                        name="patientAddressPlaceCondition" 
+                                        (focus)="patientData.diagnostic.patientAddressPlaceCondition = '';"
+                                        [(ngModel)]="patientData.diagnostic.patientAddressPlaceCondition" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [status]="patientAddressPlaceCondition.dirty ? (patientAddressPlaceCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                        #patientAddressPlaceCondition="ngModel">
                                     </div>
                                   </div>
                                 </div>
@@ -988,7 +1157,7 @@
                           
                           <div class="col-12">
                             <div>
-                              <button 
+                              <!-- <button 
                                 nbButton 
                                 fullWidth 
                                 type="submit" 
@@ -1010,6 +1179,17 @@
                                   dataIPS == null || 
                                   patientData.diagnostic.attentionTypes == null
                                 " 
+                                [class.btn-pulse]="submitted">
+                                Generar Certificado de Incapacidad
+                              </button> -->
+                              <button 
+                                nbButton 
+                                fullWidth 
+                                type="submit" 
+                                status="info"
+                                size="giant" 
+                                class="button_diagnostic font_family_roboto pointer"
+                                [disabled]="false" 
                                 [class.btn-pulse]="submitted">
                                 Generar Certificado de Incapacidad
                               </button>
