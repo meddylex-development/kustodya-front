@@ -702,8 +702,9 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientDiagnostics: this.patientData.diagnostic.patientDiagnostics.tFullDescripcion,
         patientDaysGaratedDescription: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientConditionMedicalDescription: this.patientData.diagnostic.patientConditionMedicalDescription,
-        email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.comelbotero@famisanar.com.co, mquinones@famisanar.com.co, scardenas@famisanar.com.co, csanchezb@famisanar.com.co, haguirre@famisanar.com.co, ovega@famisanar.com.co, dcastros@famisanar.com.co',
         subject: 'Kustodya Web App - Alerta Incapacidad',
+        
       }
 
       console.log('object_data_send: ', object_data_send);
