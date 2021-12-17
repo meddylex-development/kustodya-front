@@ -12,6 +12,7 @@ import { HistoricoPacienteComponent } from './incapacidad/historico-paciente/his
 import { CertificadoIncapacidadComponent } from './incapacidad/certificado-incapacidad/certificado-incapacidad.component';
 import { GenerarIncapacidadComponent } from './incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { VistaPreviaCertificadoIncapacidadComponent } from './incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component';
+import { AdministracionCorreosComponent } from './incapacidad/administracion-correos/administracion-correos.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
           {
             path: 'vista-previa-certificado',
             component: VistaPreviaCertificadoIncapacidadComponent,
+          }, 
+          {
+            path: 'administracion-correos',
+            component: AdministracionCorreosComponent,
           }, 
         ]
       },

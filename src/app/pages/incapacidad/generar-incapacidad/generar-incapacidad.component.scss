@@ -76,7 +76,11 @@
         height: 54px !important;
     }
 
-
+    ::ng-deep .nb-theme-default .btn.btn-outline-primary {
+        border: 2px solid #2c91ff;
+        color: #2c90ff;
+        background-color: transparent;
+    }
 
 
     ::ng-deep .ngx-pagination > li.current {

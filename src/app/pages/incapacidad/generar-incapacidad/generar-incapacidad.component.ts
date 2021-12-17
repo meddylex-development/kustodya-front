@@ -181,6 +181,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     { 'id': 1, 'name': 'Este' },
     { 'id': 2, 'name': 'Sur' },
   ]
+  public addressPlaceBuilded: string = '';
 
   constructor(
     private location: Location,
@@ -201,6 +202,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     console.log('this.dataIPS: ', this.dataIPS);
     if (data) {
       this.patientData = data['patientData'];
+
       if (!this.patientData['diagnostic']) {
         this.patientData['diagnostic'] = {
           'soatInsurance': false,
@@ -208,6 +210,18 @@ export class GenerarIncapacidadComponent implements OnInit {
           'laterality': null,
           'patientDaysGranted': 1,
           'patientConditionKeywords': null,
+          'addressPlace': {
+            // 'patientAddressFirstNumber': '',
+            // 'patientAddressFirstLetter': '',
+            // 'patientAddressSufixBis': '',
+            // 'patientAddressSecondLetter': '',
+            // 'patientAddressFirstCardinalSufix': '',
+            // 'patientAddressSecondNumber': '',
+            // 'patientAddressThirdLetter': '',
+            // 'patientAddressThirdNumber': '',
+            // 'patientAddressSecondCardinalSufix': '',
+            // 'patientAddressPlaceCondition': '',
+          },
         };
       } else {
         this.applyLaterality = (this.patientData['diagnostic']['laterality']) ? true : false;
@@ -232,9 +246,10 @@ export class GenerarIncapacidadComponent implements OnInit {
       this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
         const dataCountries = JSON.parse(JSON.stringify(response['body']));
         let dataContry = [];
-        dataCountries.forEach(element => {
-          dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
-        });
+        // dataCountries.forEach(element => {
+        //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
+        // });
+        dataContry = [{ name: ' Colombia', flag: 'null', allDataCountry: {} }];
         this.collectionCountries = dataContry;
         this.patientData['diagnostic']['patientCountryCondition'] = this.collectionCountries[34];
       }, (error) => {
@@ -541,6 +556,10 @@ export class GenerarIncapacidadComponent implements OnInit {
           //   'patientDaysGranted': 1,
           // };
           // this.applyLaterality = false;
+
+          // Consumir API que envia correo
+
+
           resolve(response);
         }
         if (response.status == 206) {
@@ -558,6 +577,10 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnGenerateIncapacity() {
     this.submitted = true;
+    // this.fnSendMailPatientAlert();
+    if (this.dataDiagnosticCorrelation['bProrroga']) {
+      this.fnSendMailPatientAlert();
+    }
     this.collectionDataEmployers.forEach((element, key) => {
       console.log('element: ', element);
       this.fnGenerateNewIncapacityCertificate().then(response => {
@@ -566,6 +589,10 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.submitted = false;
           return false;
         }
+
+        // if (this.dataDiagnosticCorrelation['bProrroga']) {
+        //   this.fnSendMailPatientAlert();
+        // }
 
         if(this.collectionDataEmployers.length == key + 1) {
           this.submitted = false;
@@ -606,7 +633,95 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnBuildAddress($event) {
     console.log('$event: ', $event);
-    this.patientData.diagnostic.patientAddressWayType
+    let addressPlaceBuilded = 
+      ((this.patientData.diagnostic.addressPlace.patientAddressWayType) ? this.patientData.diagnostic.addressPlace.patientAddressWayType.name : '') +' '+ 
+      ((this.patientData.diagnostic.addressPlace.patientAddressFirstNumber) ? this.patientData.diagnostic.addressPlace.patientAddressFirstNumber : '') +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressFirstLetter) ? this.patientData.diagnostic.addressPlace.patientAddressFirstLetter.name : '') +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressSufixBis) ? this.patientData.diagnostic.addressPlace.patientAddressSufixBis.name : '')  +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressSecondLetter) ? this.patientData.diagnostic.addressPlace.patientAddressSecondLetter.name : '')  +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressFirstCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressFirstCardinalSufix.name : '')  +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressSecondNumber) ? this.patientData.diagnostic.addressPlace.patientAddressSecondNumber : '') +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressThirdLetter) ? this.patientData.diagnostic.addressPlace.patientAddressThirdLetter.name : '')  +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressThirdNumber) ? this.patientData.diagnostic.addressPlace.patientAddressThirdNumber : '') +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix.name : '')  +' '+
+      ((this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition) ? this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition : '' );
+    console.log('addressPlaceBuilded: ', addressPlaceBuilded);
+    this.addressPlaceBuilded = addressPlaceBuilded
+}
+
+  fnSendMailPatientAlert() {
+    // this.patientData
+    console.log('this.patientData: ', this.patientData);
+
+    this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
+    let dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
+    if (this.dataDoctor) {
+      console.log('this.dataDoctor: ', this.dataDoctor);
+      const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
+      console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
+      const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
+      console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
+      const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
+      console.log('signature_doctor: ', signature_doctor);
+      // const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
+      // console.log('dataDoctorSignature: ', dataDoctorSignature);
+      this.dataDoctor['especiality'] = dataDoctorEspeciality;
+      this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
+      // this.dataDoctor['signature'] = dataDoctorSignature;
+      this.dataDoctor['email'] = sessionStorage.getItem('user_session');
+      this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
+      this.patientData['incapacities'] = { 'data': this.patientIncapacities, 'totalItems': this.totalItems };
+      // this.dataDiagnosticCorrelation
+      console.log('this.dataDiagnosticCorrelation: ', this.dataDiagnosticCorrelation);
+
+      let flagDiasDeIncapacidad =  this.patientData.diagnostic.patientDaysGranted > this.patientData.diagnostic.patientDiagnostics.iDiasMaxConsulta;
+      let diasDeIncapacidadOtorgados = this.patientData.diagnostic.patientDaysGranted;
+      let diasMaximoConsulta = this.patientData.diagnostic.patientDiagnostics.iDiasMaxConsulta;
+      let diasDeIncapacidadOtorgadosJustificacion = this.patientData.diagnostic.patientDaysGaratedDescription;
+
+      let object_data_send = {
+        patientname: this.patientData['tPrimerNombre'] + ' ' + this.patientData['tSegundoNombre'] + ' ' + this.patientData['tPrimerApellido'] + ' ' + this.patientData['tSegundoApellido'],
+        patientEmail: this.patientData['tEmail'],
+        patientDocumentNumber: this.patientData['tNumeroDocumento'],
+        doctorname: this.dataDoctor['name'],
+        doctorEmail: this.dataDoctor['email'],
+        doctorjobeps: dataEPS['tNombre'],
+        doctorjobips: dataIPS['tNombre'],
+        // data: this.patientData,
+        flagDiasDeIncapacidad: (flagDiasDeIncapacidad) ? 1 : 0,
+        diasDeIncapacidadOtorgados: diasDeIncapacidadOtorgados,
+        diasMaximoConsulta: diasMaximoConsulta,
+        diasDeIncapacidadOtorgadosJustificacion: diasDeIncapacidadOtorgadosJustificacion,
+        patientIncapacities: this.totalItems,
+        doctorDocumentNumber: this.dataDoctor['usuario']['tNumeroDocumento'],
+        doctorMedicalRegister: this.dataDoctor['medicalRegister'],
+        doctorEspeciality: this.dataDoctor['especiality'],
+        correlationIncapacity: (this.dataDiagnosticCorrelation['bProrroga']) ? 1 : 0,
+        diasAcumuladosProrroga: (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : 0,
+        patientDiagnostics: this.patientData.diagnostic.patientDiagnostics.tFullDescripcion,
+        patientDaysGaratedDescription: this.patientData.diagnostic.patientDaysGaratedDescription,
+        patientConditionMedicalDescription: this.patientData.diagnostic.patientConditionMedicalDescription,
+        email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        subject: 'Kustodya Web App - Alerta Incapacidad',
+      }
+
+      console.log('object_data_send: ', object_data_send);
+      this.incapacityService.fnHttpPostSendAlertMail(this.token, object_data_send).subscribe(response => {
+        console.log('response: ', response);
+        if (response.status == 200) {
+          let dataResposeMailSend = JSON.parse(JSON.stringify(response.body));
+          console.log('dataResposeMailSend: ', dataResposeMailSend);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error!', 'nb-alert');
+        }
+        // this.submitted = false;
+      }, error => {
+        this.utilitiesService.showToast('bottom-right', 'danger', error, 'nb-alert');
+        // this.submitted = false;
+      });
+    }
+
   }
 
 }

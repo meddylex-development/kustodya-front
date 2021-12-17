@@ -137,6 +137,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
           self.user_data = JSON.stringify(self.messages[0]['body']['usuario']);
           self.utilitiesService.fnSetSessionStorage('user_id', self.userId);
           self.utilitiesService.fnSetSessionStorage('user_data', self.user_data);
+          self.utilitiesService.fnSetSessionStorage('user_session', self.user['tEmail']);
           self.user = self.messages[0]['body'];
           self.utilitiesService.fnsetUser(self.user);
 

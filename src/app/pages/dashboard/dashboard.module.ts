@@ -191,6 +191,7 @@ import { OriginQualificationTranscriptionComponent } from '../origin-qualificati
 
 
 import { InformacionComponent } from '../incapacidad/informacion/informacion.component';
+import { AdministracionCorreosComponent } from '../incapacidad/administracion-correos/administracion-correos.component';
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
 import { GenerarIncapacidadComponent } from '../incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
@@ -365,6 +366,7 @@ const ENTRY_COMPONENTS = [
   ModalInactivityUserComponent,
   // Incapacidades
   InformacionComponent,
+  AdministracionCorreosComponent,
 ];
 
 @NgModule({
@@ -522,6 +524,7 @@ const ENTRY_COMPONENTS = [
     ModalInactivityUserComponent,
     // Incapacidades
     InformacionComponent,
+    AdministracionCorreosComponent,
   ],
   imports: [
     NgxCurrencyModule,

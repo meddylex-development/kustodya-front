@@ -192,4 +192,29 @@ export class IncapacityService {
       reportProgress: true,
     });
   }
+
+  fnHttpPostSendAlertMail(guid_user, data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post('http://localhost:3001/api/send-email', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataHistoryPatientDaysExced(): Observable<any> {
+    // console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.get('http://meddylex-001-site4.itempurl.com/API',
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+
 }

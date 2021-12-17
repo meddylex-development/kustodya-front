@@ -269,7 +269,7 @@
                                         [ngModelOptions]="{standalone: true}" 
                                         [(ngModel)]="patientData.diagnostic.patientCountryCondition"
                                         required 
-                                        [disabled]="true" 
+                                        [disabled]="false" 
                                         [clearable]="false">
                                       </ng-select>
                                     </div>
@@ -339,7 +339,7 @@
                                             #patientAddressWayType="ngModel"
                                             placeholder="Seleccione tipo via" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressWayType"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressWayType"
                                             (change)="fnBuildAddress($event)"
                                             required 
                                             [disabled]="false" 
@@ -358,8 +358,9 @@
                                             placeholder="Ingrese el número tipo via"
                                             id="input-patientAddressFirstNumber"  
                                             name="patientAddressFirstNumber" 
-                                            (focus)="patientData.diagnostic.patientAddressFirstNumber = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstNumber" 
+                                            (change)="fnBuildAddress($event)"
+                                            (focus)="patientData.diagnostic.addressPlace.patientAddressFirstNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressFirstNumber" 
                                             [ngModelOptions]="{standalone: true}"
                                             [status]="patientAddressFirstNumber.dirty ? (patientAddressFirstNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
                                             #patientAddressFirstNumber="ngModel">
@@ -373,8 +374,9 @@
                                             #patientAddressFirstLetter="ngModel"
                                             placeholder="Seleccione letra de número de via" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstLetter"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressFirstLetter"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
@@ -383,13 +385,14 @@
                                           <ng-select 
                                             [items]="collectionBis" 
                                             bindLabel="name"
-                                            id="input-patientAddressLetter" 
-                                            name="patientAddressLetter" 
-                                            #patientAddressLetter="ngModel"
+                                            id="input-patientAddressSufixBis" 
+                                            name="patientAddressSufixBis" 
+                                            #patientAddressSufixBis="ngModel"
                                             placeholder="Seleccione letra de número de via" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressLetter"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressSufixBis"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
@@ -403,8 +406,9 @@
                                             #patientAddressSecondLetter="ngModel"
                                             placeholder="Seleccione letra de número de via" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondLetter"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressSecondLetter"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
@@ -418,8 +422,9 @@
                                             #patientAddressFirstCardinalSufix="ngModel"
                                             placeholder="Seleccione sufijo cardinal" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressFirstCardinalSufix"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressFirstCardinalSufix"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
@@ -439,10 +444,11 @@
                                             placeholder="Ingrese el número tipo via"
                                             id="input-patientAddressSecondNumber"  
                                             name="patientAddressSecondNumber" 
-                                            (focus)="patientData.diagnostic.patientAddressSecondNumber = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondNumber" 
+                                            (focus)="patientData.diagnostic.addressPlace.patientAddressSecondNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressSecondNumber" 
                                             [ngModelOptions]="{standalone: true}"
                                             [status]="patientAddressSecondNumber.dirty ? (patientAddressSecondNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                            (change)="fnBuildAddress($event)"
                                             #patientAddressSecondNumber="ngModel">
                                         </div>
                                         <div class="col-1">
@@ -454,8 +460,9 @@
                                             #patientAddressThirdLetter="ngModel"
                                             placeholder="Seleccione letra de número de via" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressThirdLetter"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressThirdLetter"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
@@ -475,8 +482,9 @@
                                             placeholder="Ingrese el número tipo via"
                                             id="input-patientAddressThirdNumber"  
                                             name="patientAddressThirdNumber" 
-                                            (focus)="patientData.diagnostic.patientAddressThirdNumber = '';"
-                                            [(ngModel)]="patientData.diagnostic.patientAddressThirdNumber" 
+                                            (change)="fnBuildAddress($event)"
+                                            (focus)="patientData.diagnostic.addressPlace.patientAddressThirdNumber = '';"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressThirdNumber" 
                                             [ngModelOptions]="{standalone: true}"
                                             [status]="patientAddressThirdNumber.dirty ? (patientAddressThirdNumber.invalid  ? 'danger' : 'basic') : 'basic'" 
                                             #patientAddressThirdNumber="ngModel">
@@ -490,16 +498,28 @@
                                             #patientAddressSecondCardinalSufix="ngModel"
                                             placeholder="Seleccione sufijo cardinal" 
                                             [ngModelOptions]="{standalone: true}" 
-                                            [(ngModel)]="patientData.diagnostic.patientAddressSecondCardinalSufix"
+                                            [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix"
                                             required 
+                                            (change)="fnBuildAddress($event)"
                                             [disabled]="false" 
                                             [clearable]="false">
                                           </ng-select>
                                         </div>
                                       </div>
                                       <div class="row">
-                                        <div class="col-12">
-                                          <h4>{{ patientData?.diagnostic?.patientAddressWayType?.name }}</h4>
+                                        <div class="col-12 mt-3 mb-2" *ngIf="patientData?.diagnostic?.addressPlace?.patientAddressWayType?.name">
+                                          <label for="input-addresPlace">
+                                            <small class="m-0 cursor-pointer" (click)="fnShowContent('listAddresPlace')">
+                                              <i class="fas fa-chevron-right"></i>&nbsp;Direcci&oacute;n generada:&nbsp;
+                                            </small>
+                                          </label>
+                                          <div class="listAddresPlace m-2" style="display: block;">
+                                            <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; color: #000; padding: 5px; font-weight: 400;">
+                                              <h4>
+                                                {{ addressPlaceBuilded | uppercase }}
+                                              </h4>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                       <!-- <input 
@@ -539,8 +559,8 @@
                                         placeholder="Seleccione fecha de inicio"
                                         id="input-patientAddressPlaceCondition"  
                                         name="patientAddressPlaceCondition" 
-                                        (focus)="patientData.diagnostic.patientAddressPlaceCondition = '';"
-                                        [(ngModel)]="patientData.diagnostic.patientAddressPlaceCondition" 
+                                        (focus)="patientData.diagnostic.addressPlace.patientAddressPlaceCondition = '';"
+                                        [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressPlaceCondition" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientAddressPlaceCondition.dirty ? (patientAddressPlaceCondition.invalid  ? 'danger' : 'basic') : 'basic'" 
                                         #patientAddressPlaceCondition="ngModel">
