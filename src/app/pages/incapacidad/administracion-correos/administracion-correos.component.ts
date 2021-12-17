@@ -264,4 +264,17 @@ export class AdministracionCorreosComponent implements OnInit {
     this.utilitiesService.fnNavigateByUrl('pages/incapadades/generar-certificado');
   }
 
+  fnSendReport() {
+    return new Promise ((resolve,reject) => {
+      // const self = this;
+      let object_data_send = {
+        email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        subject: 'Kustodya Web App - Alerta Incapacidad',
+      }
+      this.incapacityService.fnHttpPostSendReportMail(object_data_send).subscribe(r => {
+        console.log('r: ', r);
+      });
+    });
+  }
+
 }

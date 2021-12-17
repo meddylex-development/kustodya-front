@@ -204,6 +204,18 @@ export class IncapacityService {
         reportProgress: true,
       });
   }
+  
+  fnHttpPostSendReportMail(data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post('http://localhost:3001/api/send-email-report', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
 
   fnHttpGetDataHistoryPatientDaysExced(): Observable<any> {
     // console.log('data_object: ', data_object);
