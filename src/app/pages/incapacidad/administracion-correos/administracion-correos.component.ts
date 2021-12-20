@@ -268,7 +268,8 @@ export class AdministracionCorreosComponent implements OnInit {
     return new Promise ((resolve,reject) => {
       // const self = this;
       let object_data_send = {
-        email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        // email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        email: 'jjalmonacid@gmail.com,gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
         subject: 'Kustodya Web App - Alerta Incapacidad',
       }
       this.incapacityService.fnHttpPostSendReportMail(object_data_send).subscribe(r => {
