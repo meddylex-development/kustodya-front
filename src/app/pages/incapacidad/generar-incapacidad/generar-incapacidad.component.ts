@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+
+
 import { AyudaComponent } from '../ayuda/ayuda.component';
 import { AgregarEmpleadorComponent } from '../agregar-empleador/agregar-empleador.component';
 import { resolve } from 'url';
@@ -182,6 +184,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     { 'id': 2, 'name': 'Sur' },
   ]
   public addressPlaceBuilded: string = '';
+  public dataUserSpecialist: any = null;
 
   constructor(
     private location: Location,
@@ -198,10 +201,13 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.bsLocaleService.use('es');
     let data = this.utilitiesService.fnGetDataShare();
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    console.log('this.dataDoctor: ', this.dataDoctor);
     this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
     console.log('this.dataIPS: ', this.dataIPS);
     if (data) {
       this.patientData = data['patientData'];
+      this.dataUserSpecialist = data['dataUserSpecialist'];
+      console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
 
       if (!this.patientData['diagnostic']) {
         this.patientData['diagnostic'] = {
@@ -579,29 +585,39 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.submitted = true;
     // this.fnSendMailPatientAlert();
     if (this.dataDiagnosticCorrelation['bProrroga']) {
-      this.fnSendMailPatientAlert();
+      // Envio de mail -  Alerta Paciente con prórroga acumulada
+      // 1 - Alerta Paciente con prórroga acumulada
+      this.fnSendMailPatientAlert(1);
+      // this.fnSendMailPatientAlert(2);
+      // this.fnSendMailPatientAlert(3);
     }
-    this.collectionDataEmployers.forEach((element, key) => {
-      console.log('element: ', element);
-      this.fnGenerateNewIncapacityCertificate().then(response => {
-        console.log('response: ', response);
-        if (!response) {
-          this.submitted = false;
-          return false;
-        }
 
-        // if (this.dataDiagnosticCorrelation['bProrroga']) {
-        //   this.fnSendMailPatientAlert();
-        // }
+    if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
+      // this.patientData.diagnostic.patientDaysGranted > this.patientData?.diagnostic?.patientDiagnostics?.iDiasMaxConsulta
+      // 2 - Alerta Incapacidad con días en exceso
+      this.fnSendMailPatientAlert(2);
+    }
+    // this.collectionDataEmployers.forEach((element, key) => {
+    //   console.log('element: ', element);
+    //   this.fnGenerateNewIncapacityCertificate().then(response => {
+    //     console.log('response: ', response);
+    //     if (!response) {
+    //       this.submitted = false;
+    //       return false;
+    //     }
 
-        if(this.collectionDataEmployers.length == key + 1) {
-          this.submitted = false;
-          setTimeout(() => {            
-            this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
-          }, 1000);
-        }
-      })
-    });
+    //     // if (this.dataDiagnosticCorrelation['bProrroga']) {
+    //     //   this.fnSendMailPatientAlert();
+    //     // }
+
+    //     if(this.collectionDataEmployers.length == key + 1) {
+    //       this.submitted = false;
+    //       setTimeout(() => {            
+    //         this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+    //       }, 1000);
+    //     }
+    //   })
+    // });
   }
 
   fnAfectionType(event) {
@@ -649,7 +665,8 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.addressPlaceBuilded = addressPlaceBuilded
 }
 
-  fnSendMailPatientAlert() {
+  fnSendMailPatientAlert(type_email) {
+    console.log('type_email: ', type_email);
     // this.patientData
     console.log('this.patientData: ', this.patientData);
 
@@ -703,7 +720,9 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientDaysGaratedDescription: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientConditionMedicalDescription: this.patientData.diagnostic.patientConditionMedicalDescription,
         // email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.comelbotero@famisanar.com.co, mquinones@famisanar.com.co, scardenas@famisanar.com.co, csanchezb@famisanar.com.co, haguirre@famisanar.com.co, ovega@famisanar.com.co, dcastros@famisanar.com.co',
-        email: 'jjalmonacid@gmail.com,gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        // email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        typeMail: type_email,
+        email: 'gpinilladev@gmail.com',
         subject: 'Kustodya Web App - Alerta Incapacidad',
         
       }

@@ -3,6 +3,8 @@ import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { NbDialogService } from '@nebular/theme';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
+import { UserService } from '../../../shared/api/services/user.service';
+import { RethusService } from '../../../shared/api/services/rethus.service';
 import { AyudaComponent } from '../ayuda/ayuda.component';
 declare var $: any;
 
@@ -34,10 +36,15 @@ export class InformacionComponent implements OnInit {
   public html: any = '';
   public totalItems: any = 1;
   public patientIncapacities: any = '';
+  public dataDoctor: any = '';
+  public flagShowAlertUser: boolean = false;
+  public dataUserSpecialist: any = '';
 
   constructor(
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private userService: UserService, 
+    private rethusService: RethusService, 
     private authService: NbAuthService,
     private dialogService: NbDialogService,
   ) { }
@@ -53,6 +60,9 @@ export class InformacionComponent implements OnInit {
     if (token && user_id) {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
+      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      console.log('this.dataDoctor: ', this.dataDoctor);
+
       if (data) {
         this.search = false;
         this.showTitleSearch = true;
@@ -74,6 +84,38 @@ export class InformacionComponent implements OnInit {
         // this.fnClearFormSearchPatient();
         this.fnGetDocumentTypes(this.token);
       }
+      this.fnGetDataUserById(this.token, user_id).then((response) => {
+        console.log('response: ', response);
+        if (response) {
+          let numeroIdentificacion = response['numeroIdentificacion'];
+          this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
+            // console.log('responseRethus: ', responseRethus);
+            if (responseRethus) {
+
+              this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+                // console.log('responseRethusDetail: ', responseRethusDetail);
+                if (responseRethusDetail) {
+                  this.dataUserSpecialist = responseRethusDetail['body'];
+                  console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
+                  let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+                  if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+                    console.log('Usted no esta autorizado');
+                    this.flagShowAlertUser = true;
+                  } else {
+                    console.log('Si tiene permisos para generar incapacidades');
+                    this.flagShowAlertUser = false;
+                  }
+                } 
+              });
+            } else {
+
+            }
+          });
+
+        } else {
+
+        }
+      })
       console.log('data: ', data);
       console.log('this.token: ', this.token);
       this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
@@ -248,6 +290,7 @@ export class InformacionComponent implements OnInit {
       documentNumberPatient: this.documentNumberPatient, 
       documentTypePatient: this.documentTypePatient, 
       documentTypeSelected: this.documentTypeSelected,
+      dataUserSpecialist: this.dataUserSpecialist,
     });
     this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
   }
@@ -260,8 +303,44 @@ export class InformacionComponent implements OnInit {
       documentNumberPatient: this.documentNumberPatient, 
       documentTypePatient: this.documentTypePatient, 
       documentTypeSelected: this.documentTypeSelected,
+      dataUserSpecialist: this.dataUserSpecialist,
     });
     this.utilitiesService.fnNavigateByUrl('pages/incapadades/generar-certificado');
   }
+
+  fnGetDoctorRethusByDNI(token, document_type, document_number) {
+    // Instancia de conexion servicio
+    return new Promise((resolve, reject) => {
+      this.rethusService.fnHttpGetListDoctorsRethusByDNI(token, document_type, document_number, '', '').subscribe(response => {
+          resolve(response);
+      }, err => {
+          reject(err);
+      });
+    });
+  }
+
+  fnGetDataUserById(token, user_id) {
+    // Instancia de conexion servicio
+    // this.loading_state = true;
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUserById(token, user_id).subscribe(response => {
+        if (response.status == 200) {
+          let data_user_full = JSON.parse(JSON.stringify(response['body']));
+          let data_list = JSON.parse(JSON.stringify(response['body']['correos']));
+          // let data_list_original = JSON.parse(JSON.stringify(response['body']['correos']));
+          // this.loading_state = false;
+          resolve(data_user_full);
+        } else {
+          let data_list = [];
+          resolve(false);
+          // this.loading_state = false;
+        }
+      }, err => {
+        resolve(new Error(err));
+          // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+      });
+    });
+  }
+
 
 }

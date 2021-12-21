@@ -84,6 +84,17 @@
           </div>
         </div>
 
+        <div style="background-color: #fff; padding: 10px 0; border-radius: 6px;" *ngIf="flagShowAlertUser">
+          <div class="alert alert-danger m-0" role="alert">
+            <i class="fas fa-exclamation-circle"></i>&nbsp;
+            Este perfil no tiene permisos para generar incapacidades.
+            <strong 
+              (click)="showModalHelp('Alerta', 'Perfil no autorizado', 'Perfil no autorizado', 'Este perfil no cuenta con los permisos suficientes para la generaci{on y consulta de incapacidades.')"
+              class="cursor-pointer" 
+              style="font-weight: 900; text-decoration: underline;">{{ dataUserSpecialist['detalles'][0]['ocupacion'] }}</strong>
+          </div>
+        </div>
+
         <div class="row ml-0 mr-0 mb-0 mt-2 " *ngIf="patientData">
           <div class="col text-center p-1">
             <button 
