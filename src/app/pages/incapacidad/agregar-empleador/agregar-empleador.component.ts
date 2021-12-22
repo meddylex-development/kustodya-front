@@ -60,6 +60,8 @@ export class AgregarEmpleadorComponent implements OnInit {
   public myGroup: any = new FormGroup({
     value: new FormControl('', Validators.required)
   });
+
+  public errors: string[] = [];
   
   constructor(
     protected ref: NbDialogRef<AgregarEmpleadorComponent>,

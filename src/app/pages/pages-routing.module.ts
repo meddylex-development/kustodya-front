@@ -13,6 +13,7 @@ import { CertificadoIncapacidadComponent } from './incapacidad/certificado-incap
 import { GenerarIncapacidadComponent } from './incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { VistaPreviaCertificadoIncapacidadComponent } from './incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component';
 import { AdministracionCorreosComponent } from './incapacidad/administracion-correos/administracion-correos.component';
+import { DatosOcrComponent } from './incapacidad/datos-ocr/datos-ocr.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
           {
             path: 'administracion-correos',
             component: AdministracionCorreosComponent,
+          }, 
+          {
+            path: 'data-ocr',
+            component: DatosOcrComponent,
           }, 
         ]
       },

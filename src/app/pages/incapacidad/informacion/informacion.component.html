@@ -91,7 +91,8 @@
             <strong 
               (click)="showModalHelp('Alerta', 'Perfil no autorizado', 'Perfil no autorizado', 'Este perfil no cuenta con los permisos suficientes para la generaci{on y consulta de incapacidades.')"
               class="cursor-pointer" 
-              style="font-weight: 900; text-decoration: underline;">{{ dataUserSpecialist['detalles'][0]['ocupacion'] }}</strong>
+              style="font-weight: 900; text-decoration: underline;">{{ (dataUserSpecialist) ? dataUserSpecialist['detalles'][0]['ocupacion'] : '' }}</strong>
+              <!-- <small>Fuernte <strong>e-Rethus</strong></small> -->
           </div>
         </div>
 

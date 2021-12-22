@@ -189,7 +189,6 @@ import { OriginQualificationComponent } from '../origin-qualification/origin-qua
 import { OriginQualificationListComponent } from '../origin-qualification/origin-qualification-list/origin-qualification-list.component';
 import { OriginQualificationTranscriptionComponent } from '../origin-qualification/origin-qualification-transcription/origin-qualification-transcription.component';
 
-
 import { InformacionComponent } from '../incapacidad/informacion/informacion.component';
 import { AdministracionCorreosComponent } from '../incapacidad/administracion-correos/administracion-correos.component';
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
@@ -198,7 +197,7 @@ import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
 import { AgregarEmpleadorComponent } from '../incapacidad/agregar-empleador/agregar-empleador.component';
 import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 import { VistaPreviaCertificadoIncapacidadComponent } from '../incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component'
-
+import { DatosOcrComponent } from '../incapacidad/datos-ocr/datos-ocr.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -367,6 +366,7 @@ const ENTRY_COMPONENTS = [
   // Incapacidades
   InformacionComponent,
   AdministracionCorreosComponent,
+  DatosOcrComponent,
 ];
 
 @NgModule({
@@ -525,6 +525,7 @@ const ENTRY_COMPONENTS = [
     // Incapacidades
     InformacionComponent,
     AdministracionCorreosComponent,
+    DatosOcrComponent,
   ],
   imports: [
     NgxCurrencyModule,

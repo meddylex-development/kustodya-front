@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+import { UserService } from '../../../shared/api/services/user.service';
+import { RethusService } from '../../../shared/api/services/rethus.service';
 
 
 import { AyudaComponent } from '../ayuda/ayuda.component';
@@ -185,11 +187,15 @@ export class GenerarIncapacidadComponent implements OnInit {
   ]
   public addressPlaceBuilded: string = '';
   public dataUserSpecialist: any = null;
+  public flagShowAlertUser: boolean = false;
+  public dataUserSpecialistRethus: any = '';
 
   constructor(
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private userService: UserService, 
+    private rethusService: RethusService, 
     private bsLocaleService: BsLocaleService,
     private dialogService: NbDialogService,
   ) {
@@ -201,6 +207,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.bsLocaleService.use('es');
     let data = this.utilitiesService.fnGetDataShare();
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    const user_id = sessionStorage.getItem('user_id');
     console.log('this.dataDoctor: ', this.dataDoctor);
     this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
     console.log('this.dataIPS: ', this.dataIPS);
@@ -208,6 +215,21 @@ export class GenerarIncapacidadComponent implements OnInit {
       this.patientData = data['patientData'];
       this.dataUserSpecialist = data['dataUserSpecialist'];
       console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
+      // this.dataUserSpecialist = responseRethusDetail['body'];
+      // console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
+      if(this.dataUserSpecialist) {
+        let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+        if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+          console.log('Usted no esta autorizado');
+          this.flagShowAlertUser = true;
+        } else {
+          console.log('Si tiene permisos para generar incapacidades');
+          this.flagShowAlertUser = false;
+        }
+      } else {
+        this.flagShowAlertUser = true;
+        this.dataUserSpecialist = null
+      }
 
       if (!this.patientData['diagnostic']) {
         this.patientData['diagnostic'] = {
@@ -235,6 +257,40 @@ export class GenerarIncapacidadComponent implements OnInit {
         this.fnGetCorrelationDiagnostic(objectDiagnosticPatient);
         this.loadingData = true;
       }
+
+      // this.fnGetDataUserById(this.token, user_id).then((response) => {
+      //   console.log('response: ', response);
+      //   if (response) {
+      //     let numeroIdentificacion = response['numeroIdentificacion'];
+      //     this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
+      //       // console.log('responseRethus: ', responseRethus);
+      //       if (responseRethus) {
+
+      //         this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+      //           // console.log('responseRethusDetail: ', responseRethusDetail);
+      //           if (responseRethusDetail) {
+      //             this.dataUserSpecialist = responseRethusDetail['body'];
+      //             console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
+      //             let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+      //             if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+      //               console.log('Usted no esta autorizado');
+      //               this.flagShowAlertUser = true;
+      //             } else {
+      //               console.log('Si tiene permisos para generar incapacidades');
+      //               this.flagShowAlertUser = false;
+      //             }
+      //           } 
+      //         });
+      //       } else {
+
+      //       }
+      //     });
+
+      //   } else {
+
+      //   }
+      // })
+
       this.patientIncapacities = data['patientIncapacities'];
       this.totalItems = data['patientIncapacities'].length;
       this.fnGetIncapacityAttentionTypes(this.token);
@@ -588,36 +644,34 @@ export class GenerarIncapacidadComponent implements OnInit {
       // Envio de mail -  Alerta Paciente con prórroga acumulada
       // 1 - Alerta Paciente con prórroga acumulada
       this.fnSendMailPatientAlert(1);
-      // this.fnSendMailPatientAlert(2);
-      // this.fnSendMailPatientAlert(3);
     }
 
     if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
-      // this.patientData.diagnostic.patientDaysGranted > this.patientData?.diagnostic?.patientDiagnostics?.iDiasMaxConsulta
+      // Envio de mail -  Alerta Incapacidad con días en exceso
       // 2 - Alerta Incapacidad con días en exceso
       this.fnSendMailPatientAlert(2);
     }
-    // this.collectionDataEmployers.forEach((element, key) => {
-    //   console.log('element: ', element);
-    //   this.fnGenerateNewIncapacityCertificate().then(response => {
-    //     console.log('response: ', response);
-    //     if (!response) {
-    //       this.submitted = false;
-    //       return false;
-    //     }
 
-    //     // if (this.dataDiagnosticCorrelation['bProrroga']) {
-    //     //   this.fnSendMailPatientAlert();
-    //     // }
+    if(this.flagShowAlertUser == true) {
+      this.fnSendMailPatientAlert(3);
+    }
 
-    //     if(this.collectionDataEmployers.length == key + 1) {
-    //       this.submitted = false;
-    //       setTimeout(() => {            
-    //         this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
-    //       }, 1000);
-    //     }
-    //   })
-    // });
+    this.collectionDataEmployers.forEach((element, key) => {
+      console.log('element: ', element);
+      this.fnGenerateNewIncapacityCertificate().then(response => {
+        console.log('response: ', response);
+        if (!response) {
+          this.submitted = false;
+          return false;
+        }
+        if(this.collectionDataEmployers.length == key + 1) {
+          this.submitted = false;
+          setTimeout(() => {            
+            this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+          }, 1000);
+        }
+      })
+    });
   }
 
   fnAfectionType(event) {
@@ -701,6 +755,8 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientname: this.patientData['tPrimerNombre'] + ' ' + this.patientData['tSegundoNombre'] + ' ' + this.patientData['tPrimerApellido'] + ' ' + this.patientData['tSegundoApellido'],
         patientEmail: this.patientData['tEmail'],
         patientDocumentNumber: this.patientData['tNumeroDocumento'],
+        patientDocumentType: this.patientData['tipoDocumento']['tTipoIdentificacion'],
+        patientPhoneNumber: this.patientData['tTelefono'],
         doctorname: this.dataDoctor['name'],
         doctorEmail: this.dataDoctor['email'],
         doctorjobeps: dataEPS['tNombre'],
@@ -709,9 +765,11 @@ export class GenerarIncapacidadComponent implements OnInit {
         flagDiasDeIncapacidad: (flagDiasDeIncapacidad) ? 1 : 0,
         diasDeIncapacidadOtorgados: diasDeIncapacidadOtorgados,
         diasMaximoConsulta: diasMaximoConsulta,
-        diasDeIncapacidadOtorgadosJustificacion: diasDeIncapacidadOtorgadosJustificacion,
+        diasDeIncapacidadOtorgadosJustificacion: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientIncapacities: this.totalItems,
         doctorDocumentNumber: this.dataDoctor['usuario']['tNumeroDocumento'],
+        doctorDocumentNumberType: this.dataDoctor['usuario']['tipoDocumento']['tNombre'],
+        doctorPhoneNumber: "+573004401625",
         doctorMedicalRegister: this.dataDoctor['medicalRegister'],
         doctorEspeciality: this.dataDoctor['especiality'],
         correlationIncapacity: (this.dataDiagnosticCorrelation['bProrroga']) ? 1 : 0,
@@ -720,14 +778,17 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientDaysGaratedDescription: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientConditionMedicalDescription: this.patientData.diagnostic.patientConditionMedicalDescription,
         // email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.comelbotero@famisanar.com.co, mquinones@famisanar.com.co, scardenas@famisanar.com.co, csanchezb@famisanar.com.co, haguirre@famisanar.com.co, ovega@famisanar.com.co, dcastros@famisanar.com.co',
-        // email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
         typeMail: type_email,
-        email: 'gpinilladev@gmail.com',
+        userProgramType: (this.dataUserSpecialist) ? this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'] : '',
+        userOcupation: (this.dataUserSpecialist) ? this.dataUserSpecialist['detalles'][0]['ocupacion'] : '',
+        // email: 'gpinilladev@gmail.com',
         subject: 'Kustodya Web App - Alerta Incapacidad',
         
       }
 
       console.log('object_data_send: ', object_data_send);
+      // return false;
       this.incapacityService.fnHttpPostSendAlertMail(this.token, object_data_send).subscribe(response => {
         console.log('response: ', response);
         if (response.status == 200) {
@@ -743,6 +804,40 @@ export class GenerarIncapacidadComponent implements OnInit {
       });
     }
 
+  }
+
+  fnGetDoctorRethusByDNI(token, document_type, document_number) {
+    // Instancia de conexion servicio
+    return new Promise((resolve, reject) => {
+      this.rethusService.fnHttpGetListDoctorsRethusByDNI(token, document_type, document_number, '', '').subscribe(response => {
+          resolve(response);
+      }, err => {
+          reject(err);
+      });
+    });
+  }
+
+  fnGetDataUserById(token, user_id) {
+    // Instancia de conexion servicio
+    // this.loading_state = true;
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUserById(token, user_id).subscribe(response => {
+        if (response.status == 200) {
+          let data_user_full = JSON.parse(JSON.stringify(response['body']));
+          let data_list = JSON.parse(JSON.stringify(response['body']['correos']));
+          let data_list_original = JSON.parse(JSON.stringify(response['body']['correos']));
+          // this.loading_state = false;
+          resolve(data_user_full);
+        } else {
+          let data_list = [];
+          resolve(false);
+          // this.loading_state = false;
+        }
+      }, err => {
+        resolve(new Error(err));
+          this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+      });
+    });
   }
 
 }

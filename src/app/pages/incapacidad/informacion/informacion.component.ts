@@ -39,6 +39,7 @@ export class InformacionComponent implements OnInit {
   public dataDoctor: any = '';
   public flagShowAlertUser: boolean = false;
   public dataUserSpecialist: any = '';
+  public errors: string[] = [];
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -89,12 +90,12 @@ export class InformacionComponent implements OnInit {
         if (response) {
           let numeroIdentificacion = response['numeroIdentificacion'];
           this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            // console.log('responseRethus: ', responseRethus);
-            if (responseRethus) {
+            console.log('responseRethus: ', responseRethus);
+            if (responseRethus['body']) {
 
               this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
                 // console.log('responseRethusDetail: ', responseRethusDetail);
-                if (responseRethusDetail) {
+                if (responseRethusDetail['body']) {
                   this.dataUserSpecialist = responseRethusDetail['body'];
                   console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
                   let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
@@ -108,14 +109,23 @@ export class InformacionComponent implements OnInit {
                 } 
               });
             } else {
-
+              this.flagShowAlertUser = true;
+              this.dataUserSpecialist = null
             }
           });
-
         } else {
-
+          this.flagShowAlertUser = true;
+          this.dataUserSpecialist = null
         }
       })
+
+      // this.utilitiesService.fnGetDataUserRethus(this.token, user_id).then((resp) => {
+      //   if (resp) {
+      //     this.dataUserSpecialist = resp['dataUserSpecialist'];
+      //     this.flagShowAlertUser = resp['flagShowAlertUser'];
+      //   }
+      // });
+
       console.log('data: ', data);
       console.log('this.token: ', this.token);
       this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
@@ -327,7 +337,7 @@ export class InformacionComponent implements OnInit {
         if (response.status == 200) {
           let data_user_full = JSON.parse(JSON.stringify(response['body']));
           let data_list = JSON.parse(JSON.stringify(response['body']['correos']));
-          // let data_list_original = JSON.parse(JSON.stringify(response['body']['correos']));
+          let data_list_original = JSON.parse(JSON.stringify(response['body']['correos']));
           // this.loading_state = false;
           resolve(data_user_full);
         } else {
@@ -337,10 +347,9 @@ export class InformacionComponent implements OnInit {
         }
       }, err => {
         resolve(new Error(err));
-          // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+          this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
       });
     });
   }
-
 
 }

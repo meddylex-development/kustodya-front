@@ -229,4 +229,29 @@ export class IncapacityService {
       });
   }
 
+  fnHttpGetDataOCRTranscription(): Observable<any> {
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      'Authorization': '',
+    });
+
+    // console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.get('http://meddylex-001-site4.itempurl.com/api/Transcripcion',
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnGetAllData(): Observable<any> {
+    return this.http.get<any>('http://meddylex-001-site4.itempurl.com/api/Transcripcion');
+  }
+
 }
