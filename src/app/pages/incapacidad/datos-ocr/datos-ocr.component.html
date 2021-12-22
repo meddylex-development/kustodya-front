@@ -33,7 +33,7 @@
                           Datos
                         </div>
                         <div class="card-body" style="padding-bottom: 3rem;">
-                          <div class="row">
+                          <div class="row" *ngIf="false">
                             <div class="col">
                               <div class="form-group">
                                 <label for="input-patientSigns">
@@ -55,6 +55,12 @@
                                 </label>
                                 
                               </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12" *ngFor="let item of this.dataOcr">
+                              <span>Data: </span>
+                              <h4>{{ item?.Texto | titlecase }}</h4>
                             </div>
                           </div>
                         </div>

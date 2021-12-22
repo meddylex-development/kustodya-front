@@ -230,22 +230,10 @@ export class IncapacityService {
   }
 
   fnHttpGetDataOCRTranscription(): Observable<any> {
-
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-      'Authorization': '',
-    });
-
-    // console.log('data_object: ', data_object);
-    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
-    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.get('http://meddylex-001-site4.itempurl.com/api/Transcripcion',
+    return this.http.get('http://localhost:3001/api/data-ocr',
       {
         observe: 'response',
-        headers: headers,
+        // headers: headers,
         reportProgress: true,
       });
   }

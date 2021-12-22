@@ -28,6 +28,7 @@ export class DatosOcrComponent implements OnInit {
   public html: any = '';
   public totalItems: any = 1;
   public patientIncapacities: any = '';
+  public dataOcr: any = '';
 
   constructor(
     private location: Location,
@@ -53,6 +54,13 @@ export class DatosOcrComponent implements OnInit {
 
       this.incapacityService.fnHttpGetDataOCRTranscription().subscribe((respDataOCR) => {
         console.log('respDataOCR: ', respDataOCR);
+        if (respDataOCR['status'] == 200) {
+          this.dataOcr = respDataOCR['body']['response'];
+          this.dataOcr.forEach(element => {
+            let myArray = element['Texto'].split(":");
+            console.log('myArray: ', myArray);
+          });
+        }
       });
       
     } else {
