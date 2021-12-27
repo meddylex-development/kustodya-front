@@ -92,54 +92,57 @@ export class GenerarIncapacidadComponent implements OnInit {
       'ocupacionPaciente': '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO', 
       'fechaIngreso': '22 Oct 2016', 
       'estadoContrato': true, 
-      'salario': 1200000, 
-      'ibc': 640000, 
+      'ibc': 1200000, 
+      // 'salario': 1200000, 
+      // 'ibc': 640000, 
       'valorDiaIncapcidad': 45000 
-    }, { 
-      'nit': '900456789-0', 
-      'tRazonSocial': 'Skynet S.A.S', 
-      'tDigitoVerificacion': '0',
-      'tDireccion': 'Calle 106 # 54 - 73 Oficina 201',
-      'tObjetoSocial': null,
-      'tipoDocumento': {
-        'iIdTipoIdentificacion': 10,
-        'tTipoIdentificacion': "Nit Empresarial",
-      },
-      'actividadEconomica': {
-        'ciiu': "K7220",
-        'iId': 603,
-        'tNombreActividad': "Consultores en programas de informática, elaboración y suministro de programas de informática",
-      },
-      'ciiu': 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática', 
-      'ocupacionPaciente': '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO', 
-      'fechaIngreso': '14 Sep 2017', 
-      'estadoContrato': true, 
-      'salario': 2300000, 
-      'ibc': 978500, 
-      'valorDiaIncapcidad': 82417 
-    }, { 
-      'nit': '930651876-3', 
-      'tRazonSocial': 'Compumundohypermegared S.A.S', 
-      'tDigitoVerificacion': '3',
-      'tDireccion': 'Calle 106 # 54 - 73 Oficina 201',
-      'tObjetoSocial': null,
-      'tipoDocumento': {
-        'iIdTipoIdentificacion': 10,
-        'tTipoIdentificacion': "Nit Empresarial",
-      },
-      'actividadEconomica': {
-        'ciiu': "K7220",
-        'iId': 603,
-        'tNombreActividad': "Consultores en programas de informática, elaboración y suministro de programas de informática",
-      },
-      'ciiu': 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática', 
-      'ocupacionPaciente': '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO', 
-      'fechaIngreso': '25 May 2019', 
-      'estadoContrato': true, 
-      'salario': 2000000, 
-      'ibc': 908400, 
-      'valorDiaIncapcidad': 72640 
-    },
+    }, 
+    // { 
+    //   'nit': '900456789-0', 
+    //   'tRazonSocial': 'Skynet S.A.S', 
+    //   'tDigitoVerificacion': '0',
+    //   'tDireccion': 'Calle 106 # 54 - 73 Oficina 201',
+    //   'tObjetoSocial': null,
+    //   'tipoDocumento': {
+    //     'iIdTipoIdentificacion': 10,
+    //     'tTipoIdentificacion': "Nit Empresarial",
+    //   },
+    //   'actividadEconomica': {
+    //     'ciiu': "K7220",
+    //     'iId': 603,
+    //     'tNombreActividad': "Consultores en programas de informática, elaboración y suministro de programas de informática",
+    //   },
+    //   'ciiu': 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática', 
+    //   'ocupacionPaciente': '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO', 
+    //   'fechaIngreso': '14 Sep 2017', 
+    //   'estadoContrato': true, 
+    //   'salario': 2300000, 
+    //   'ibc': 978500, 
+    //   'valorDiaIncapcidad': 82417 
+    // }, 
+    // { 
+    //   'nit': '930651876-3', 
+    //   'tRazonSocial': 'Compumundohypermegared S.A.S', 
+    //   'tDigitoVerificacion': '3',
+    //   'tDireccion': 'Calle 106 # 54 - 73 Oficina 201',
+    //   'tObjetoSocial': null,
+    //   'tipoDocumento': {
+    //     'iIdTipoIdentificacion': 10,
+    //     'tTipoIdentificacion': "Nit Empresarial",
+    //   },
+    //   'actividadEconomica': {
+    //     'ciiu': "K7220",
+    //     'iId': 603,
+    //     'tNombreActividad': "Consultores en programas de informática, elaboración y suministro de programas de informática",
+    //   },
+    //   'ciiu': 'K7220 - Consultores en programas de informática, elaboración y suministro de programas de informática', 
+    //   'ocupacionPaciente': '2511 - INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO', 
+    //   'fechaIngreso': '25 May 2019', 
+    //   'estadoContrato': true, 
+    //   'salario': 2000000, 
+    //   'ibc': 908400, 
+    //   'valorDiaIncapcidad': 72640 
+    // },
   ];
   public collectionWayType: any = [
     { 'id': 1, 'name': 'Calle' },
@@ -193,6 +196,8 @@ export class GenerarIncapacidadComponent implements OnInit {
   public dataUserSpecialistRethus: any = '';
   public dataAccountingBasicInfo: any = {};
   public idContabilidad: string = '';
+  public patientIBC: any = [];
+  public inputValueIBCPatient: string = '';
 
   constructor(
     private location: Location,
@@ -662,16 +667,26 @@ export class GenerarIncapacidadComponent implements OnInit {
     // this.submitted = true;
     return new Promise((resolve, reject) => {
 
+      // let object_send = {
+      //   // "claseDocumento": "Comprobante de emisión", // dataAccountingBasicInfo['claseDocumento'],
+      //   // "descripcionFicha": "Comprobante de emision - Nueva incapacidad", // dataAccountingBasicInfo['descripcionFicha'],
+      //   // // "fichaTecnicaAprobada": null, // dataAccountingBasicInfo['fichaTecnicaAprobada'],
+      //   // "folios": 0, // dataAccountingBasicInfo['folios'],
+      //   // "id": idContabilidad
+      //   "claseDocumento": "Comprobante de emisión\r\n",
+      //   "descripcionFicha": "Comprobante de emision - Nueva incapacidad",
+      //   "folios": 0,
+      //   "id": idContabilidad,
+      // };
       let object_send = {
-        // "claseDocumento": "Comprobante de emisión", // dataAccountingBasicInfo['claseDocumento'],
-        // "descripcionFicha": "Comprobante de emision - Nueva incapacidad", // dataAccountingBasicInfo['descripcionFicha'],
-        // // "fichaTecnicaAprobada": null, // dataAccountingBasicInfo['fichaTecnicaAprobada'],
-        // "folios": 0, // dataAccountingBasicInfo['folios'],
-        // "id": idContabilidad
-        "claseDocumento": "Comprobante de emisión\r\n",
         "descripcionFicha": "Comprobante de emision - Nueva incapacidad",
-        "folios": 0,
-        "id": idContabilidad,
+        "situacionEncontrada": "IEGA-0008070915-NI-830065842-CC-1024566604-12/2020",
+        "usuarioCreacionId": this.dataDoctor['userId'],
+        "contabilidadId": idContabilidad,
+        "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
+        "entidadId": 1,
+        "nroIncapacidad": "string",
+        "valor": 0
       };
       console.log('object_send: ', object_send);
       this.auditService.fnHttpPostContabilidadEncabezado(token, idContabilidad, object_send).subscribe( r => {
@@ -714,8 +729,8 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.submitted = false;
           return false;
         } else {
-          this.fnGenerateNewAccountingRegistry(this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((response) => {
-            if (response) {
+          this.fnGenerateNewAccountingRegistry(this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((responseAccounting) => {
+            if (responseAccounting) {
               if(this.collectionDataEmployers.length == key + 1) {
                 this.submitted = false;
                 setTimeout(() => {            
@@ -894,6 +909,13 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
       });
     });
+  }
+
+  fnCalcValueIncapacity(dataIBC, index, patientDaysGranted) {
+    console.log('patientDaysGranted: ', patientDaysGranted);
+    console.log('index: ', index);
+    console.log('dataIBC: ', dataIBC);
+    this.inputValueIBCPatient = dataIBC;
   }
 
 }

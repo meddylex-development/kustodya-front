@@ -56,10 +56,10 @@ const routes: Routes = [
             path: 'vista-previa-certificado',
             component: VistaPreviaCertificadoIncapacidadComponent,
           }, 
-          {
-            path: 'administracion-correos',
-            component: AdministracionCorreosComponent,
-          }, 
+          // {
+          //   path: 'administracion-correos',
+          //   component: AdministracionCorreosComponent,
+          // }, 
           {
             path: 'data-ocr',
             component: DatosOcrComponent,
@@ -71,8 +71,13 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'email-management',
-        component: EmailManagementComponent,
+        path: 'administracion',
+        children: [
+          {
+            path: 'correos-electronicos',
+            component: AdministracionCorreosComponent,
+          }, 
+        ],
       },
       {
         path: 'my-account',
