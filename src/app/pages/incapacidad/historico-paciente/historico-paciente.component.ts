@@ -92,7 +92,7 @@ export class HistoricoPacienteComponent implements OnInit {
           this.submitted = false;
           // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
         } else {
-          this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+          this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
           this.submitted = false;
         }
       }).catch((error) => {
@@ -101,7 +101,7 @@ export class HistoricoPacienteComponent implements OnInit {
       this.patientData = null;
       this.patientIncapacities = [];
       this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+      this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
     }
   }
 
@@ -185,7 +185,12 @@ export class HistoricoPacienteComponent implements OnInit {
 
   fnViewDagnosticCertificate(item) {
     let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/certificado/'+ diagnosticCodeDNI);
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/certificado/'+ diagnosticCodeDNI);
+  }
+
+  fnViewAccountingRegistry(item) {
+    let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/registro-contable/'+ diagnosticCodeDNI);
   }
 
 }

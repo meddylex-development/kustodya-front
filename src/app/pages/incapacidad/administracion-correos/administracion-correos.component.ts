@@ -249,7 +249,7 @@ export class AdministracionCorreosComponent implements OnInit {
       documentTypePatient: this.documentTypePatient, 
       documentTypeSelected: this.documentTypeSelected,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/historico');
   }
 
   fnRedirectGeneratePatientIncapacity() {
@@ -261,7 +261,7 @@ export class AdministracionCorreosComponent implements OnInit {
       documentTypePatient: this.documentTypePatient, 
       documentTypeSelected: this.documentTypeSelected,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/generar-certificado');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/generar-certificado');
   }
 
   fnSendReport() {

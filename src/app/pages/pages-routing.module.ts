@@ -14,6 +14,7 @@ import { GenerarIncapacidadComponent } from './incapacidad/generar-incapacidad/g
 import { VistaPreviaCertificadoIncapacidadComponent } from './incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component';
 import { AdministracionCorreosComponent } from './incapacidad/administracion-correos/administracion-correos.component';
 import { DatosOcrComponent } from './incapacidad/datos-ocr/datos-ocr.component';
+import { RegistroContableComponent } from './incapacidad/registro-contable/registro-contable.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: 'incapadades',
+        path: 'incapacidad',
         children: [
           {
             path: 'home',
@@ -62,6 +63,10 @@ const routes: Routes = [
           {
             path: 'data-ocr',
             component: DatosOcrComponent,
+          }, 
+          {
+            path: 'registro-contable/:diagnosticCodeDNI',
+            component: RegistroContableComponent,
           }, 
         ]
       },

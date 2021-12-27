@@ -18,6 +18,8 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { listLocales } from 'ngx-bootstrap/chronos';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
+import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
+import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 defineLocale('es', esLocale);
 
 @Component({
@@ -189,6 +191,8 @@ export class GenerarIncapacidadComponent implements OnInit {
   public dataUserSpecialist: any = null;
   public flagShowAlertUser: boolean = false;
   public dataUserSpecialistRethus: any = '';
+  public dataAccountingBasicInfo: any = {};
+  public idContabilidad: string = '';
 
   constructor(
     private location: Location,
@@ -198,6 +202,8 @@ export class GenerarIncapacidadComponent implements OnInit {
     private rethusService: RethusService, 
     private bsLocaleService: BsLocaleService,
     private dialogService: NbDialogService,
+    private parameterizationService: ParameterizationService,
+    private auditService: AuditService,
   ) {
   }
   
@@ -290,7 +296,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
       //   }
       // })
-
+      this.fnGetContabilidad(this.token, "001");
       this.patientIncapacities = data['patientIncapacities'];
       this.totalItems = data['patientIncapacities'].length;
       this.fnGetIncapacityAttentionTypes(this.token);
@@ -331,7 +337,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       this.patientData = null;
       this.patientIncapacities = null;
       this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+      this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
     }
   }
 
@@ -345,7 +351,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnViewDagnosticCertificate(item) {
     let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/certificado/'+ diagnosticCodeDNI);
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/certificado/'+ diagnosticCodeDNI);
   }
 
   fnShowContent(nameClass) {
@@ -510,7 +516,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       patientIncapacities: this.patientIncapacities, 
       dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/vista-previa-certificado');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/vista-previa-certificado');
   }
 
   fnGenerateNewIncapacityCertificate() {
@@ -620,8 +626,6 @@ export class GenerarIncapacidadComponent implements OnInit {
           // this.applyLaterality = false;
 
           // Consumir API que envia correo
-
-
           resolve(response);
         }
         if (response.status == 206) {
@@ -635,6 +639,52 @@ export class GenerarIncapacidadComponent implements OnInit {
       });
     });
 
+  }
+
+  fnGetContabilidad(token, value) {
+    // this.loading_state = true;
+    this.parameterizationService.fnHttpGetAccountingDetail(token, value).subscribe(r => {
+      if (r.status == 200) {
+        this.dataAccountingBasicInfo['claseDocumento'] = r.body['claseDocumentoPorDefecto'];
+        this.dataAccountingBasicInfo['descripcionFicha'] = r.body['descripcionMovimientoPorDefecto'];
+        this.dataAccountingBasicInfo['subcuenta'] = r.body['codigo'] + " - " + r.body['descripcion'];
+        this.idContabilidad = r.body['id'];
+      }
+    }, err => {
+      // this.collection_accounting = [];
+    });
+
+  }
+
+  fnGenerateNewAccountingRegistry(dataAccountingBasicInfo, token, idContabilidad) {
+    console.log('dataAccountingBasicInfo: ', dataAccountingBasicInfo);
+    console.log('idContabilidad: ', idContabilidad);
+    // this.submitted = true;
+    return new Promise((resolve, reject) => {
+
+      let object_send = {
+        // "claseDocumento": "Comprobante de emisión", // dataAccountingBasicInfo['claseDocumento'],
+        // "descripcionFicha": "Comprobante de emision - Nueva incapacidad", // dataAccountingBasicInfo['descripcionFicha'],
+        // // "fichaTecnicaAprobada": null, // dataAccountingBasicInfo['fichaTecnicaAprobada'],
+        // "folios": 0, // dataAccountingBasicInfo['folios'],
+        // "id": idContabilidad
+        "claseDocumento": "Comprobante de emisión\r\n",
+        "descripcionFicha": "Comprobante de emision - Nueva incapacidad",
+        "folios": 0,
+        "id": idContabilidad,
+      };
+      console.log('object_send: ', object_send);
+      this.auditService.fnHttpPostContabilidadEncabezado(token, idContabilidad, object_send).subscribe( r => {
+        console.log('r: ', r);
+        if (r.status == 201) {
+          resolve(true);
+          this.utilitiesService.showToast('top-right', 'success', 'Se ha creado la depuracion con exito');
+          // this.submitted = false;
+        }
+      }, err => {
+        reject(false);
+      });
+    });
   }
 
   fnGenerateIncapacity() {
@@ -663,14 +713,20 @@ export class GenerarIncapacidadComponent implements OnInit {
         if (!response) {
           this.submitted = false;
           return false;
+        } else {
+          this.fnGenerateNewAccountingRegistry(this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((response) => {
+            if (response) {
+              if(this.collectionDataEmployers.length == key + 1) {
+                this.submitted = false;
+                setTimeout(() => {            
+                  this.utilitiesService.fnNavigateByUrl('pages/incapacidad/historico');
+                }, 1000);
+              }
+            }
+  
+          });
         }
-        if(this.collectionDataEmployers.length == key + 1) {
-          this.submitted = false;
-          setTimeout(() => {            
-            this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
-          }, 1000);
-        }
-      })
+      });
     });
   }
 

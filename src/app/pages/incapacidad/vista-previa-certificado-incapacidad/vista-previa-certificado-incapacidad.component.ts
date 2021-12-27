@@ -109,7 +109,7 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
       this.patientData = null;
       this.patientIncapacities = null;
       this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapadades/home');
+      this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
     }
   }
 

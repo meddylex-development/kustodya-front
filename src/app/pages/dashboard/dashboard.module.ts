@@ -198,6 +198,7 @@ import { AgregarEmpleadorComponent } from '../incapacidad/agregar-empleador/agre
 import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 import { VistaPreviaCertificadoIncapacidadComponent } from '../incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component'
 import { DatosOcrComponent } from '../incapacidad/datos-ocr/datos-ocr.component';
+import { RegistroContableComponent } from '../incapacidad/registro-contable/registro-contable.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -215,6 +216,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const ENTRY_COMPONENTS = [
   // HelpComponent,
+  RegistroContableComponent,
   HistoricoPacienteComponent,
   GenerarIncapacidadComponent,
   AyudaComponent,
@@ -371,6 +373,7 @@ const ENTRY_COMPONENTS = [
 
 @NgModule({
   declarations: [
+    RegistroContableComponent, 
     HistoricoPacienteComponent,
     GenerarIncapacidadComponent,
     AyudaComponent,

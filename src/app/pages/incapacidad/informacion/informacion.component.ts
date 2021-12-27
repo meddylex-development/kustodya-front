@@ -302,7 +302,7 @@ export class InformacionComponent implements OnInit {
       documentTypeSelected: this.documentTypeSelected,
       dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/historico');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/historico');
   }
 
   fnRedirectGeneratePatientIncapacity() {
@@ -315,7 +315,7 @@ export class InformacionComponent implements OnInit {
       documentTypeSelected: this.documentTypeSelected,
       dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapadades/generar-certificado');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/generar-certificado');
   }
 
   fnGetDoctorRethusByDNI(token, document_type, document_number) {

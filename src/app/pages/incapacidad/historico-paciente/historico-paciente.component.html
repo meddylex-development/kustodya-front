@@ -131,6 +131,11 @@
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
                               </span>
                           </th>
+                          <th class="thead-column-action text-center">
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th>
                           <!-- <th class="thead-column-action">
                               <span>
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
@@ -158,6 +163,13 @@
                         <span (click)="fnViewDagnosticCertificate(item)" tooltip="Ver detalle incapacidad" placement="top" container="body">
                             <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
                             <i class="fas fa-eye cursor-pointer text-info"></i>
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
+                        <span (click)="fnViewAccountingRegistry(item)" tooltip="Ver registro contable" placement="top" container="body">
+                            <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
+                            <i class="fas fa-search-dollar cursor-pointer text-info"></i>
                         </span>
                       </td>
                       <!-- <td class="align-middle">

@@ -1,0 +1,170 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo listado de incapacidades...">
+  <div class="col-md-12">
+
+    <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+      <nb-card-front>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Movimiento contable</h3>
+              </div>
+              <div class="col text-right">
+                <button 
+                  type="button" 
+                  class="btn btn-link text-info cursor-pointer" 
+                  [useExistingCss]="true"
+                  printSectionId="detailAccountingRegistryPDF" 
+                  ngxPrint>
+                  {{ 'Imprimir' | titlecase }}&nbsp;
+                  <i class="fas fa-print"></i>
+                </button>
+              </div>
+            </div> 
+            
+            <!-- <span class=" mt-2 mb-3">
+              <i class="fas fa-arrow-left"></i>&nbsp;Regresar
+            </span> -->
+            
+          </nb-card-header>
+          <nb-card-body id="detailAccountingRegistryPDF" #detailAccountingRegistryPDF>
+            <div class="container-fluid pl-5 pt-1 pr-5 pb-5">
+            
+              <div>
+              Paciente: 
+              <h4><strong>
+                {{ patientData?.tPrimerNombre | titlecase }} 
+                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.tSegundoApellido | titlecase }} 
+              </strong></h4>
+              </div>
+              <p class="mb-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+              </p>
+
+              <div class="row card border-secondary" style="border-radius: 15px;">
+                <div class="card-header border-secondary text-center" style="border-radius: 15px;">
+                  <h3 class="m-0">Informaci&oacute;n moviemiento contable</h3>
+                </div>
+                <div class="card-body" style="/*height: 122px !important;*/">
+                  <div class="row">
+                    <div class="col">
+
+                      <div>
+                        <small>N&uacute;mero &uacute;nico de incapacidad:</small>&nbsp;<h4>{{ diagnosticCodeDNI || ' - ' }}</h4>
+                      </div>
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <div>
+                            <small>Fecha de elaboraci&oacute;n:</small>&nbsp;<h6>{{ 1640573625000 | date:'dd / MM / yyyy, hh:mm a' || ' - '  }}</h6>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div>
+                            <small>Tipo de comprobante:</small>&nbsp;<h6>{{ 'Comprobante de emisión - Nueva Incapacidad' || ' - ' }}</h6>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div>
+                            <small>Moneda:</small>&nbsp;<h6>{{ 'COP - Peso colombiano' || ' - ' }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div class="row card border-secondary mt-2" style="border-radius: 15px;">
+                <h5 class="card-header border-secondary" style="border-radius: 15px;">
+                  <i class="fas fa-file-invoice-dollar"></i>&nbsp;Detalle moviemiento contable
+                </h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Cuenta contable:</small><br>
+                        <h6 style="color: #000;">{{ '123213723483458734584543' || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Tercero:</small><br>
+                        <h6 style="color: #000;">{{ 'Nuevo tercero' || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="!dataCertificate?.tDescripcionSintomatologica">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <hr>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Detalle contable:</small><br>
+                        <h6 style="color: #000;">{{ 'Nuevo detalle contable' || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="!dataCertificate?.tipoAtencion?.tDescripcion">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Descripci&oacute;n :</small><br>
+                        <h6 style="color: #000;">{{ 'Nueva descripción del detalle' || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="!dataCertificate?.presuntoOrigenIncapacidad?.tOrigenIncapacidad">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>D&eacute;bito:&nbsp;</small><br>
+                        <h6 style="color: #000;">{{ "$2'000.000.00" || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="!dataCertificate?.nameLaterality?.tNombre">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Cr&eacute;dito:&nbsp;</small><br>
+                        <h6 style="color: #000;">{{ "$0.00" || ' - ' }}</h6>
+                        <!-- <small style="color: #ccc;" *ngIf="dataCertificate?.bProrroga == null">No registra dato</small> -->
+                      </div>
+                    </div>
+                    <!-- <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Total d&iacute;as de incapacidad:&nbsp;</small><br>
+                        <h6 style="color: #000;" *ngIf="dataCertificate?.iDiasIncapacidad">{{ dataCertificate?.iDiasIncapacidad }} d&iacute;as</h6>
+                        <small style="color: #ccc;" *ngIf="!dataCertificate?.iDiasIncapacidad">No registra dato</small>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Fecha inicio incapacidad:&nbsp;</small><br>
+                        <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaCreacion">{{ dataCertificate?.dtFechaCreacion | date:'dd / MM / yyyy' }}</h6>
+                        <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaCreacion">No registra dato</small>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div style="margin-bottom: 0.5rem;">
+                        <small>Fecha finalizaci&oacute;n incapacidad:&nbsp;</small><br>
+                        <h6 style="color: #000;" *ngIf="dataCertificate?.dtFechaFin">{{ dataCertificate?.dtFechaFin | date:'dd / MM / yyyy' }}</h6>
+                        <small style="color: #ccc;" *ngIf="!dataCertificate?.dtFechaFin">No registra dato</small>
+                      </div>
+                    </div> -->
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-front>
+      
+    </nb-flip-card>
+
+  </div>
+</div>
