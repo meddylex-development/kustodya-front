@@ -1174,14 +1174,38 @@
                                               [status]="'info'">
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
+                                            <h5 class="text-center text-primary fw-bolder">Valor IBC diario</h5>
                                             <h4 class="text-center">{{ valueDayJob | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Dias de incapacidad otorgados</h5>
+                                            <h4 class="text-center">{{ patientData.diagnostic.patientDaysGranted }} d&iacute;as</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Dias a pagar por la EPS</h5>
+                                            <h4 class="text-center">{{ daysEPSToPay }} d&iacute;as</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor a pagar por la EPS</h5>
+                                            <h4 class="text-center" *ngIf="EPSValuePay > 0">{{ EPSValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                                            <h4 class="text-center" *ngIf="EPSValuePay < 1">${{ '0,00' }} COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Dias a pagar por el empleador</h5>
+                                            <h4 class="text-center">{{ daysEmployerToPay }} d&iacute;as</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor a pagar por el empleador por los {{ patientData.diagnostic.patientDaysGranted - daysEPSToPay }} d&iacute;as</h5>
+                                            <h4 class="text-center">{{ employerValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
                                             <h2 class="text-center" style="font-weight: 700;">
-                                              <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                              <span *ngIf="totalPatientValueToPay > 0" class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
                                                 {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                                              </span>
+                                              <span *ngIf="totalPatientValueToPay < 1" class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                                                ${{ '0,00' }} COP
                                               </span>
                                             </h2>
                                           </div>

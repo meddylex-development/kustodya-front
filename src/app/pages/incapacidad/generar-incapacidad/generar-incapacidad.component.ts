@@ -934,7 +934,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     let diasAcumulados = dataDiagnosticCorrelation['iDiasAcumuladosPorroga'];
     let prorroga = dataDiagnosticCorrelation['bProrroga'];
 
-    // let totalDays = parseInt(patientDaysGranted) + parseInt(diasAcumulados);
+    let totalDaysAccumulated = parseInt(patientDaysGranted) + parseInt(diasAcumulados);
     let totalDays = parseInt(patientDaysGranted);
     let valueDayJob = parseInt(this.inputValueIBCPatient) / 30;
     this.valueDayJob = valueDayJob;
@@ -942,6 +942,9 @@ export class GenerarIncapacidadComponent implements OnInit {
     let daysEmployerToPay = 0;
     let totalPatientDaysToPay = 0;
     let totalPatientValueToPay = 0;
+    let formulaFamisanar = (2*(1/3));
+    let salarioMinimo = 908526;
+    let valorSalarioMinimoDia = salarioMinimo / 30;
 
 
     // Si no es prorroga, es decir, una incapacidad nueva
@@ -954,7 +957,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
         daysEPSToPay = totalDays - 2;
         console.log('daysEPSToPay: ', daysEPSToPay);
-        EPSValuePay = valueDayJob *  daysEPSToPay;
+        EPSValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
         console.log('EPSValuePay: ', EPSValuePay);
         this.daysEPSToPay = daysEPSToPay;
         this.EPSValuePay = EPSValuePay;
@@ -966,9 +969,9 @@ export class GenerarIncapacidadComponent implements OnInit {
         this.daysEmployerToPay = daysEmployerToPay;
         this.employerValuePay = employerValuePay;
 
-        totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+        totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
         console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-        totalPatientValueToPay = EPSValuePay + employerValuePay;
+        totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
         console.log('totalPatientValueToPay: ', totalPatientValueToPay);
         this.totalPatientDaysToPay = totalPatientDaysToPay;
         this.totalPatientValueToPay = totalPatientValueToPay;
@@ -980,13 +983,14 @@ export class GenerarIncapacidadComponent implements OnInit {
 
     if (prorroga == true) {
       
-      if(totalDays <= 90 && totalDays > 0) {
+      if(totalDaysAccumulated <= 90 && totalDaysAccumulated > 0) {
         
         if(totalDays <= 2 && totalDays > 0) {
 
           daysEPSToPay = totalDays - 2;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = valueDayJob *  daysEPSToPay;
+          // EPSValuePay = valueDayJob *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -998,9 +1002,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1009,7 +1013,7 @@ export class GenerarIncapacidadComponent implements OnInit {
           
           daysEPSToPay = totalDays;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = (valueDayJob * 0.6667) *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1021,9 +1025,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1032,13 +1036,14 @@ export class GenerarIncapacidadComponent implements OnInit {
 
       }
 
-      if(totalDays <= 180 && totalDays > 91) {
+      if(totalDaysAccumulated <= 180 && totalDaysAccumulated > 91) {
         
         if(totalDays <= 2 && totalDays > 0) {
 
           daysEPSToPay = totalDays - 2;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = valueDayJob *  daysEPSToPay;
+          // EPSValuePay = valueDayJob *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay;
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1050,18 +1055,19 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
+          
 
         } else {
           
           daysEPSToPay = totalDays;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1073,9 +1079,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1084,13 +1090,14 @@ export class GenerarIncapacidadComponent implements OnInit {
 
       }
 
-      if(totalDays <= 540 && totalDays > 181) {
+      if(totalDaysAccumulated <= 540 && totalDaysAccumulated > 181) {
         
         if(totalDays <= 2 && totalDays > 0) {
 
           daysEPSToPay = totalDays - 2;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = valueDayJob *  daysEPSToPay;
+          // EPSValuePay = valueDayJob *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1102,9 +1109,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1113,7 +1120,7 @@ export class GenerarIncapacidadComponent implements OnInit {
           
           daysEPSToPay = totalDays;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1125,9 +1132,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1136,13 +1143,14 @@ export class GenerarIncapacidadComponent implements OnInit {
 
       }
 
-      if(totalDays > 541) {
+      if(totalDaysAccumulated > 541) {
         
         if(totalDays <= 2 && totalDays > 0) {
 
           daysEPSToPay = totalDays - 2;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = valueDayJob *  daysEPSToPay;
+          // EPSValuePay = valueDayJob *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1154,9 +1162,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
@@ -1165,7 +1173,7 @@ export class GenerarIncapacidadComponent implements OnInit {
           
           daysEPSToPay = totalDays;
           console.log('daysEPSToPay: ', daysEPSToPay);
-          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia * daysEPSToPay
           console.log('EPSValuePay: ', EPSValuePay);
           this.daysEPSToPay = daysEPSToPay;
           this.EPSValuePay = EPSValuePay;
@@ -1177,9 +1185,9 @@ export class GenerarIncapacidadComponent implements OnInit {
           this.daysEmployerToPay = daysEmployerToPay;
           this.employerValuePay = employerValuePay;
 
-          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          totalPatientDaysToPay = daysEPSToPay; // daysEPSToPay + daysEmployerToPay;
           console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
-          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          totalPatientValueToPay = EPSValuePay; // EPSValuePay + employerValuePay;
           console.log('totalPatientValueToPay: ', totalPatientValueToPay);
           this.totalPatientDaysToPay = totalPatientDaysToPay;
           this.totalPatientValueToPay = totalPatientValueToPay;
