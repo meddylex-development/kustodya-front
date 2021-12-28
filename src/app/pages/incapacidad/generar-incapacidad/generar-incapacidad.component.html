@@ -1116,9 +1116,6 @@
                                     </button>
                                   </div>
                                 </div>
-                                <div>
-                                  {{ patientIBC | json }}
-                                </div>
                                 <div class="row p-4">
                                   <div *ngFor="let itemEmployer of collectionDataEmployers; let i = index;" class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                     <div class="row">
@@ -1132,7 +1129,7 @@
                                         <span>Valor total incapacidad:</span>
                                         <h3>
                                           <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                            {{ patientData?.diagnostic?.patientDaysGranted * itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }}
+                                            {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }}
                                           </span>
                                         </h3>
                                       </div>
@@ -1173,18 +1170,18 @@
                                               id="input-patientIBC"  
                                               name="patientIBC" 
                                               [(ngModel)]="patientIBC[i]" 
-                                              (input)="fnCalcValueIncapacity(patientIBC[i], i, patientData.diagnostic.patientDaysGranted)" 
+                                              (input)="fnCalcValueIncapacity(patientIBC[i], i, patientData.diagnostic.patientDaysGranted, dataDiagnosticCorrelation)" 
                                               [status]="'info'">
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
-                                            <h4 class="text-center">{{ itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                                            <h4 class="text-center">{{ valueDayJob | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
                                             <h2 class="text-center" style="font-weight: 700;">
                                               <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
-                                                {{ patientData?.diagnostic?.patientDaysGranted * itemEmployer?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                                                {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
                                               </span>
                                             </h2>
                                           </div>

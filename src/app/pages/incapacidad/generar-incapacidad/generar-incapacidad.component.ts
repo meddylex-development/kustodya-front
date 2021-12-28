@@ -198,6 +198,13 @@ export class GenerarIncapacidadComponent implements OnInit {
   public idContabilidad: string = '';
   public patientIBC: any = [];
   public inputValueIBCPatient: string = '';
+  public daysEPSToPay: any = 0;
+  public daysEmployerToPay: any = 0;
+  public EPSValuePay: any = 0;
+  public employerValuePay: any = 0;
+  public totalPatientDaysToPay: any = 0;
+  public totalPatientValueToPay: any = 0;
+  public valueDayJob: any = 0;
 
   constructor(
     private location: Location,
@@ -503,6 +510,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnSetPatientDaysGranted(event) {
     console.log('event: ', event);
+    this.fnCalcValueIncapacity(0, 0, this.patientData.diagnostic.patientDaysGranted, this.dataDiagnosticCorrelation);
   }
 
   showModalHelp(moduleName?, columnName?, title?, description?) {
@@ -911,11 +919,278 @@ export class GenerarIncapacidadComponent implements OnInit {
     });
   }
 
-  fnCalcValueIncapacity(dataIBC, index, patientDaysGranted) {
+  fnCalcValueIncapacity(dataIBC, index, patientDaysGranted, dataDiagnosticCorrelation) {
+    console.log('dataDiagnosticCorrelation: ', dataDiagnosticCorrelation);
     console.log('patientDaysGranted: ', patientDaysGranted);
     console.log('index: ', index);
     console.log('dataIBC: ', dataIBC);
+    console.log('this.patientData: ', this.patientData);
+
     this.inputValueIBCPatient = dataIBC;
+
+    let employerValuePay = 0;
+    let EPSValuePay = 0;
+
+    let diasAcumulados = dataDiagnosticCorrelation['iDiasAcumuladosPorroga'];
+    let prorroga = dataDiagnosticCorrelation['bProrroga'];
+
+    // let totalDays = parseInt(patientDaysGranted) + parseInt(diasAcumulados);
+    let totalDays = parseInt(patientDaysGranted);
+    let valueDayJob = parseInt(this.inputValueIBCPatient) / 30;
+    this.valueDayJob = valueDayJob;
+    let daysEPSToPay = 0;
+    let daysEmployerToPay = 0;
+    let totalPatientDaysToPay = 0;
+    let totalPatientValueToPay = 0;
+
+
+    // Si no es prorroga, es decir, una incapacidad nueva
+    if(prorroga == false) {
+      // Si son dos dias o menos paga el empleador el total de la incapcacidad
+      // Sea o no sea prorroga
+
+      if(totalDays <= 30 && totalDays > 0) {
+        // Si los dias son superiores a 2 entonces la incapacidad la paga la EPS
+
+        daysEPSToPay = totalDays - 2;
+        console.log('daysEPSToPay: ', daysEPSToPay);
+        EPSValuePay = valueDayJob *  daysEPSToPay;
+        console.log('EPSValuePay: ', EPSValuePay);
+        this.daysEPSToPay = daysEPSToPay;
+        this.EPSValuePay = EPSValuePay;
+
+        daysEmployerToPay = totalDays - daysEPSToPay;
+        console.log('daysEmployerToPay: ', daysEmployerToPay);
+        employerValuePay = valueDayJob * daysEmployerToPay;
+        console.log('employerValuePay: ', employerValuePay);
+        this.daysEmployerToPay = daysEmployerToPay;
+        this.employerValuePay = employerValuePay;
+
+        totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+        console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+        totalPatientValueToPay = EPSValuePay + employerValuePay;
+        console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+        this.totalPatientDaysToPay = totalPatientDaysToPay;
+        this.totalPatientValueToPay = totalPatientValueToPay;
+
+      }
+      
+      
+    }
+
+    if (prorroga == true) {
+      
+      if(totalDays <= 90 && totalDays > 0) {
+        
+        if(totalDays <= 2 && totalDays > 0) {
+
+          daysEPSToPay = totalDays - 2;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = valueDayJob *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = totalDays - daysEPSToPay;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        } else {
+          
+          daysEPSToPay = totalDays;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = (valueDayJob * 0.6667) *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = 0;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        }
+
+      }
+
+      if(totalDays <= 180 && totalDays > 91) {
+        
+        if(totalDays <= 2 && totalDays > 0) {
+
+          daysEPSToPay = totalDays - 2;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = valueDayJob *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = totalDays - daysEPSToPay;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        } else {
+          
+          daysEPSToPay = totalDays;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = 0;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        }
+
+      }
+
+      if(totalDays <= 540 && totalDays > 181) {
+        
+        if(totalDays <= 2 && totalDays > 0) {
+
+          daysEPSToPay = totalDays - 2;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = valueDayJob *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = totalDays - daysEPSToPay;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        } else {
+          
+          daysEPSToPay = totalDays;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = 0;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        }
+
+      }
+
+      if(totalDays > 541) {
+        
+        if(totalDays <= 2 && totalDays > 0) {
+
+          daysEPSToPay = totalDays - 2;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = valueDayJob *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = totalDays - daysEPSToPay;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        } else {
+          
+          daysEPSToPay = totalDays;
+          console.log('daysEPSToPay: ', daysEPSToPay);
+          EPSValuePay = (valueDayJob * 0.50) *  daysEPSToPay;
+          console.log('EPSValuePay: ', EPSValuePay);
+          this.daysEPSToPay = daysEPSToPay;
+          this.EPSValuePay = EPSValuePay;
+
+          daysEmployerToPay = 0;
+          console.log('daysEmployerToPay: ', daysEmployerToPay);
+          employerValuePay = valueDayJob * daysEmployerToPay;
+          console.log('employerValuePay: ', employerValuePay);
+          this.daysEmployerToPay = daysEmployerToPay;
+          this.employerValuePay = employerValuePay;
+
+          totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
+          console.log('totalPatientDaysToPay: ', totalPatientDaysToPay);
+          totalPatientValueToPay = EPSValuePay + employerValuePay;
+          console.log('totalPatientValueToPay: ', totalPatientValueToPay);
+          this.totalPatientDaysToPay = totalPatientDaysToPay;
+          this.totalPatientValueToPay = totalPatientValueToPay;
+
+        }
+
+      }
+
+    } 
+    
+
   }
 
 }
