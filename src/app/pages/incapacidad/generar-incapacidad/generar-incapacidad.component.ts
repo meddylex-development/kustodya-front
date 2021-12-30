@@ -74,7 +74,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   public loadingData: boolean = false;
   public collectionDataEmployers: any = [
-    { 'nit': '900365863-0', 
+    { 'nit': '900365863', 
       'tRazonSocial': 'ProyectaTSP S.A.S.', 
       'tDigitoVerificacion': '0',
       'tDireccion': 'Calle 106 # 54 - 73 Oficina 201',
@@ -638,8 +638,19 @@ export class GenerarIncapacidadComponent implements OnInit {
           // };
           // this.applyLaterality = false;
 
+          let dataResolve = {
+            'dates': {
+              'dateNowUnix': dateNowUnix,
+              'dateNowValueOf': dateNowValueOf,
+              'dateIncapcatity': date_incapcatity,
+              'dateObjectSend': new Date(),
+            },
+            'objectDataSend': object_data_test,
+            'dataResponse': response
+          }
+
           // Consumir API que envia correo
-          resolve(response);
+          resolve(dataResolve);
         }
         if (response.status == 206) {
           // this.submitted = false;
@@ -669,9 +680,22 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   }
 
-  fnGenerateNewAccountingRegistry(dataAccountingBasicInfo, token, idContabilidad) {
+  fnGenerateNewAccountingRegistry(dataIncapacityCreated, dataEmployer, dataAccountingBasicInfo, token, idContabilidad) {
+    console.log('dataIncapacityCreated: ', dataIncapacityCreated);
+    console.log('dataEmployer: ', dataEmployer);
     console.log('dataAccountingBasicInfo: ', dataAccountingBasicInfo);
     console.log('idContabilidad: ', idContabilidad);
+
+    dataIncapacityCreated
+    let datesDataIncapacityCreated = dataIncapacityCreated['dates'];
+    let objectDataSend = dataIncapacityCreated['objectDataSend'];
+    let dataResponse = dataIncapacityCreated['dataResponse']['body'];
+
+    let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf'], 'YYYY/MM/DD');
+    let monthDateIncapacity = dateIncapacity.format('MM');
+    let dayDateIncapacity = dateIncapacity.format('DD');
+    let yearDateIncapacity = dateIncapacity.format('YYYY');
+
     // this.submitted = true;
     return new Promise((resolve, reject) => {
 
@@ -687,23 +711,25 @@ export class GenerarIncapacidadComponent implements OnInit {
       //   "id": idContabilidad,
       // };
       let object_send = {
-        "descripcionFicha": "Comprobante de emision - Nueva incapacidad",
-        "situacionEncontrada": "IEGA-0008070915-NI-830065842-CC-1024566604-12/2020",
+        "descripcionFicha": "Comprobante de emisión - Nueva incapacidad",
+        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['tNumeroDocumento']}-12/2021`,
         "usuarioCreacionId": this.dataDoctor['userId'],
         "contabilidadId": idContabilidad,
         "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
         "entidadId": 1,
-        "nroIncapacidad": "string",
-        "valor": 0
+        "nroIncapacidad": dataResponse['uiCodigoDiagnostico'],
+        "nitEmpleador": dataEmployer['nit'],
+        "valor": Math.round(this.totalPatientValueToPay),
       };
       console.log('object_send: ', object_send);
-      this.auditService.fnHttpPostContabilidadEncabezado(token, idContabilidad, object_send).subscribe( r => {
+      this.auditService.fnHttpPostCrearMovimientoContable(token, dataResponse['uiCodigoDiagnostico'], object_send).subscribe( r => {
         console.log('r: ', r);
-        if (r.status == 201) {
-          resolve(true);
-          this.utilitiesService.showToast('top-right', 'success', 'Se ha creado la depuracion con exito');
-          // this.submitted = false;
-        }
+        resolve(true);
+        // if (r.status == 201) {
+        //   resolve(true);
+        //   this.utilitiesService.showToast('top-right', 'success', 'Se ha creado la depuracion con exito');
+        //   // this.submitted = false;
+        // }
       }, err => {
         reject(false);
       });
@@ -726,18 +752,23 @@ export class GenerarIncapacidadComponent implements OnInit {
     }
 
     if(this.flagShowAlertUser == true) {
+      // Envio de mail -  Alerta Incapacidad generada por personal no autorizado
+      // 3 - Alerta Incapacidad generada por personal no autorizado
       this.fnSendMailPatientAlert(3);
     }
 
     this.collectionDataEmployers.forEach((element, key) => {
       console.log('element: ', element);
+      let dataEmployer = element;
       this.fnGenerateNewIncapacityCertificate().then(response => {
         console.log('response: ', response);
         if (!response) {
           this.submitted = false;
           return false;
         } else {
-          this.fnGenerateNewAccountingRegistry(this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((responseAccounting) => {
+          let dataIncapacityCreated = response;
+          this.fnGenerateNewAccountingRegistry(dataIncapacityCreated, dataEmployer, this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((responseAccounting) => {
+            console.log('responseAccounting: ', responseAccounting);
             if (responseAccounting) {
               if(this.collectionDataEmployers.length == key + 1) {
                 this.submitted = false;
@@ -856,7 +887,32 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientDiagnostics: this.patientData.diagnostic.patientDiagnostics.tFullDescripcion,
         patientDaysGaratedDescription: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientConditionMedicalDescription: this.patientData.diagnostic.patientConditionMedicalDescription,
-        // email: 'gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.comelbotero@famisanar.com.co, mquinones@famisanar.com.co, scardenas@famisanar.com.co, csanchezb@famisanar.com.co, haguirre@famisanar.com.co, ovega@famisanar.com.co, dcastros@famisanar.com.co',
+        // email: `haguirre@famisanar.com.co, 
+        // erodriguezb@famisanar.com.co, 
+        // lceballos@famisanar.com.co, 
+        // egarzon@famisanar.com.co, 
+        // rburgos@famisanar.com.co, 
+        // aforero@famisanar.com.co, 
+        // ovega@famisanar.com.co, 
+        // covalle@famisanar.com.co, 
+        // mcano@famisanar.com.co, 
+        // fpinto@famisanar.com.co, 
+        // vbarrera@famisanar.com.co, 
+        // jestrada@famisanar.com.co, 
+        // meddylexs@gmail.com, 
+        // joseeduardoquinones@gmail.com,
+        // idonoso@famisanar.com.co, 
+        // aramirezp@famisanar.com.co, 
+        // dangulo@famisanar.com.co,
+        // gpinilladev@gmail.com, 
+        // juan.mendez@proyectatsp.com, 
+        // joseeduardoquinones@gmail.com, 
+        // jjalmonacid@gmail.com, 
+        // elbotero@famisanar.com.co, 
+        // mquinones@famisanar.com.co, 
+        // scardenas@famisanar.com.co, 
+        // csanchezb@famisanar.com.co, 
+        // dcastros@famisanar.com.co`,
         email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
         typeMail: type_email,
         userProgramType: (this.dataUserSpecialist) ? this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'] : '',

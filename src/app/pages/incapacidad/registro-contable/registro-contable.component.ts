@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 
 @Component({
   selector: 'ngx-registro-contable',
@@ -18,11 +19,13 @@ export class RegistroContableComponent implements OnInit {
   public patientData: any = null;
   public diagnosticCodeDNI: any;
   public dataDoctor: any;
+  public dataDetailAccounting: any;
 
   constructor(
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private auditService: AuditService,
     private route: ActivatedRoute,
   ) { }
 
@@ -57,6 +60,10 @@ export class RegistroContableComponent implements OnInit {
 
           this.patientData = data['patientData'];
           console.log('this.patientData: ', this.patientData);
+          this.fnGetDetailAccountingRegistry(this.diagnosticCodeDNI).then((respDataDetail) => {
+            console.log('respDataDetail: ', respDataDetail);
+            this.dataDetailAccounting = respDataDetail['body'];
+          });
         } else {
           this.patientData = null;
           this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
@@ -71,6 +78,21 @@ export class RegistroContableComponent implements OnInit {
     });
   }
 
+  fnGetDetailAccountingRegistry(idIncapacity) {
+    // this.submitted = true;
+    return new Promise((resolve, reject) => {
+      this.auditService.fnHttpGetDetalleMovimientoContable(idIncapacity).subscribe(respDetail => {
+        console.log('respDetail: ', respDetail);
+        // this.collectionAttentionTypes = JSON.parse(JSON.stringify(r.body));
+        // this.submitted = false;
+        resolve(respDetail);
+      }, err => {
+        reject(false);
+        // this.utilitiesService.showToast('bottom-right', 'danger', err, 'nb-alert');
+        // this.submitted = false;
+      });
+    });
+  }
 
   fnReturnPage(): void {
     this.location.back();

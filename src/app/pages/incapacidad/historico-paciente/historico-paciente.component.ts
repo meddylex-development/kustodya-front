@@ -25,12 +25,12 @@ export class HistoricoPacienteComponent implements OnInit {
     title: 'Días de incapacidad por diagnostico CIE10',
     type: 'PieChart',
     data: [
-      ['Firefox', 45.0],
-      ['IE', 26.8],
-      ['Chrome', 12.8],
-      ['Safari', 8.5],
-      ['Opera', 6.2],
-      ['Others', 0.7] 
+      // ['Firefox', 45.0],
+      // ['IE', 26.8],
+      // ['Chrome', 12.8],
+      // ['Safari', 8.5],
+      // ['Opera', 6.2],
+      // ['Others', 0.7] 
     ],
     columnNames: ['Browser', 'Percentage'],
     options: {
@@ -44,12 +44,12 @@ export class HistoricoPacienteComponent implements OnInit {
     title: 'Incapacidades emitidas por diagnostico CIE10',
     type: 'PieChart',
     data: [
-      ['Firefox', 45.0],
-      ['IE', 26.8],
-      ['Chrome', 12.8],
-      ['Safari', 8.5],
-      ['Opera', 6.2],
-      ['Others', 0.7] 
+      // ['Firefox', 45.0],
+      // ['IE', 26.8],
+      // ['Chrome', 12.8],
+      // ['Safari', 8.5],
+      // ['Opera', 6.2],
+      // ['Others', 0.7] 
     ],
     columnNames: ['Browser', 'Percentage'],
     options: {
