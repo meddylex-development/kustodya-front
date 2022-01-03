@@ -1146,7 +1146,7 @@
                                     </div>
                                     <div class="col-12 content-prices-detail content-prices-{{i}}" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                       <div class="row">
-                                        <div class="col-8">
+                                        <div class="col-12">
                                           <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.nit }}</h4>
                                           <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.tRazonSocial }}</h4>
                                           <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ itemEmployer?.ciiu | titlecase }}</h4>
@@ -1154,7 +1154,7 @@
                                           <span>Fecha de ingreso:</span>&nbsp;<h4>{{ itemEmployer?.fechaIngreso }}</h4>
                                           <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill text-light" [ngClass]="{'bg-success': itemEmployer?.estadoContrato, 'bg-danger': !itemEmployer?.estadoContrato }" style="padding: 7px; width: 65px;">{{ (itemEmployer?.estadoContrato) ? 'Activo' : 'Inactivo' }}</span></h5>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-12">
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">IBC</h5>
                                             <!-- <h4 class="text-center">{{ itemEmployer?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4> -->
@@ -1178,11 +1178,11 @@
                                             <h4 class="text-center">{{ valueDayJob | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Dias de incapacidad otorgados</h5>
+                                            <h5 class="text-center text-primary fw-bolder">D&iacute;as de incapacidad otorgados</h5>
                                             <h4 class="text-center">{{ patientData.diagnostic.patientDaysGranted }} d&iacute;as</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Dias a pagar por la EPS</h5>
+                                            <h5 class="text-center text-primary fw-bolder">D&acute;as a pagar por la EPS</h5>
                                             <h4 class="text-center">{{ daysEPSToPay }} d&iacute;as</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
@@ -1191,15 +1191,15 @@
                                             <h4 class="text-center" *ngIf="EPSValuePay < 1">${{ '0,00' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Dias a pagar por el empleador</h5>
+                                            <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por el empleador</h5>
                                             <h4 class="text-center">{{ daysEmployerToPay }} d&iacute;as</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Valor a pagar por el empleador por los {{ patientData.diagnostic.patientDaysGranted - daysEPSToPay }} d&iacute;as</h5>
+                                            <h5 class="text-center text-primary fw-bolder">Valor a pagar por el empleador</h5>
                                             <h4 class="text-center">{{ employerValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
+                                            <h5 class="text-center text-primary fw-bolder">Valor total incapacidad</h5>
                                             <h2 class="text-center" style="font-weight: 700;">
                                               <span *ngIf="totalPatientValueToPay > 0" class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
                                                 {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
