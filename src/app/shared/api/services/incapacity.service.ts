@@ -221,7 +221,7 @@ export class IncapacityService {
     // console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.get('http://meddylex-001-site4.itempurl.com/API',
+    return this.http.get('http://meddylex-001-site4.itempurl.com/api/Reporte',
       {
         observe: 'response',
         // headers: headers,

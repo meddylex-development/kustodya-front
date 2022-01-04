@@ -1170,7 +1170,25 @@
                                               id="input-patientIBC"  
                                               name="patientIBC" 
                                               [(ngModel)]="patientIBC[i]" 
-                                              (input)="fnCalcValueIncapacity(patientIBC[i], i, patientData.diagnostic.patientDaysGranted, dataDiagnosticCorrelation)" 
+                                              (input)="fnCalcValueIncapacity(patientDaysAccum[i], patientIBC[i], i, patientData.diagnostic.patientDaysGranted, dataDiagnosticCorrelation)" 
+                                              [status]="'info'">
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">D&iacute;as acumulados</h5>
+                                            <!-- <h4 class="text-center">{{ itemEmployer?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4> -->
+                                            <input 
+                                              class=""
+                                              nbInput
+                                              fullWidth 
+                                              fieldSize="large"  
+                                              type="text" 
+                                              [readonly]="false" 
+                                              [disabled]="false" 
+                                              placeholder="Ingrese días acumulados paciente"
+                                              id="input-patientDaysAccum"  
+                                              name="patientDaysAccum" 
+                                              [(ngModel)]="patientDaysAccum[i]" 
+                                              (input)="fnCalcValueIncapacity(patientDaysAccum[i], patientIBC[i], i, patientData.diagnostic.patientDaysGranted, dataDiagnosticCorrelation)" 
                                               [status]="'info'">
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
@@ -1182,13 +1200,22 @@
                                             <h4 class="text-center">{{ patientData.diagnostic.patientDaysGranted }} d&iacute;as</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
-                                            <h5 class="text-center text-primary fw-bolder">D&acute;as a pagar por la EPS</h5>
+                                            <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por la EPS</h5>
                                             <h4 class="text-center">{{ daysEPSToPay }} d&iacute;as</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">Valor a pagar por la EPS</h5>
                                             <h4 class="text-center" *ngIf="EPSValuePay > 0">{{ EPSValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
                                             <h4 class="text-center" *ngIf="EPSValuePay < 1">${{ '0,00' }} COP</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por la AFP</h5>
+                                            <h4 class="text-center">{{ daysAFPToPay }} d&iacute;as</h4>
+                                          </div>
+                                          <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                                            <h5 class="text-center text-primary fw-bolder">Valor a pagar por la AFP</h5>
+                                            <h4 class="text-center" *ngIf="AFPValueToPay > 0">{{ AFPValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                                            <h4 class="text-center" *ngIf="AFPValueToPay < 1">${{ '0,00' }} COP</h4>
                                           </div>
                                           <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
                                             <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por el empleador</h5>

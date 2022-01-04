@@ -53,6 +53,9 @@ export class AdministracionCorreosComponent implements OnInit {
     if (token && user_id) {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
+      this.fnGetDataHistoryPatientDaysExced().then((resp) => {
+        console.log('resp: ', resp);
+      });
       if (data) {
         this.search = false;
         this.showTitleSearch = true;
@@ -158,6 +161,22 @@ export class AdministracionCorreosComponent implements OnInit {
           // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
           // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
         }
+      }, err => {
+        console.log('err: ', err);
+        reject(false);
+        this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    });
+  }
+
+  fnGetDataHistoryPatientDaysExced() {
+    return new Promise ((resolve,reject) => {
+      // const self = this;
+      this.patientData = null;
+      this.incapacityService.fnHttpGetDataHistoryPatientDaysExced().subscribe(r => {
+        console.log('r: ', r);
+        resolve(r)
       }, err => {
         console.log('err: ', err);
         reject(false);
