@@ -478,6 +478,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     let idCIE10 = item_cie_10['iIdcie10'];
     this.incapacityService.fnHttpGetCorrelationDiagnostic(this.token, idCIE10, this.patientData['iIdpaciente']).subscribe(r => {
       this.dataDiagnosticCorrelation = JSON.parse(JSON.stringify(r.body));
+      this.patientData['diagnostic']['extensionIncapacity'] = this.dataDiagnosticCorrelation['bProrroga'];
       this.loadingData = true;
     }, err => {
       this.loadingData = false;
@@ -514,7 +515,8 @@ export class GenerarIncapacidadComponent implements OnInit {
       const dateNowUnix = moment(new Date()).unix();
       const dateNowValueOf = moment(new Date()).valueOf();
       const date_incapcatity = moment(moment(new Date()).add(this.patientData['diagnostic']['patientDaysGranted'], 'days')).valueOf();
-  
+      
+
       
       // this.dataIPS = dataIPS;
   
@@ -567,7 +569,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
         "tTiempo": (this.patientData['diagnostic']['dateStartPatientCondition']) ? this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'] : '',
         "uiCodigoDiagnostico": null,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']['iIDLateralidad']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : '',
+        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : '',
         "eps": (this.patientData['eps']) ? this.patientData['eps'] : '',
         "ips": (this.dataIPS) ? this.dataIPS : '',
       };
@@ -588,11 +590,11 @@ export class GenerarIncapacidadComponent implements OnInit {
         "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
         "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
         "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
-        "dtFechaCreacion": new Date(),
-        "dtFechaFin": new Date(),
+        "dtFechaCreacion": moment(dateNowValueOf).format(),
+        "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
         "bProrroga": (this.dataDiagnosticCorrelation['bProrroga']) ? this.dataDiagnosticCorrelation['bProrroga'] : false,
         "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']['iIDLateralidad']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : '',
+        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
       };
       // return false;
       // this.submitted = true;
@@ -650,36 +652,28 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnGenerateNewAccountingRegistry(dataIncapacityCreated, dataEmployer, dataAccountingBasicInfo, token, idContabilidad) {
 
-    dataIncapacityCreated
     let datesDataIncapacityCreated = dataIncapacityCreated['dates'];
     let objectDataSend = dataIncapacityCreated['objectDataSend'];
     let dataResponse = dataIncapacityCreated['dataResponse']['body'];
 
-    let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf'], 'YYYY/MM/DD');
-    let monthDateIncapacity = dateIncapacity.format('MM');
-    let dayDateIncapacity = dateIncapacity.format('DD');
-    let yearDateIncapacity = dateIncapacity.format('YYYY');
+    let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY/MM/DD');
+    let monthDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('MM');
+    console.log('monthDateIncapacity: ', monthDateIncapacity);
+    let dayDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('DD');
+    console.log('dayDateIncapacity: ', dayDateIncapacity);
+    let yearDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY');
+    console.log('yearDateIncapacity: ', yearDateIncapacity);
 
     // this.submitted = true;
     return new Promise((resolve, reject) => {
 
-      // let object_send = {
-      //   // "claseDocumento": "Comprobante de emisión", // dataAccountingBasicInfo['claseDocumento'],
-      //   // "descripcionFicha": "Comprobante de emision - Nueva incapacidad", // dataAccountingBasicInfo['descripcionFicha'],
-      //   // // "fichaTecnicaAprobada": null, // dataAccountingBasicInfo['fichaTecnicaAprobada'],
-      //   // "folios": 0, // dataAccountingBasicInfo['folios'],
-      //   // "id": idContabilidad
-      //   "claseDocumento": "Comprobante de emisión\r\n",
-      //   "descripcionFicha": "Comprobante de emision - Nueva incapacidad",
-      //   "folios": 0,
-      //   "id": idContabilidad,
-      // };
       let object_send = {
-        "descripcionFicha": "Comprobante de emisión - Nueva incapacidad",
-        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['tNumeroDocumento']}-12/2021`,
+        "EstadoId": 1,
+        // "descripcionFicha": "Comprobante de emisión - Nueva incapacidad",
+        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['tNumeroDocumento']}-${monthDateIncapacity}/${yearDateIncapacity}`,
         "usuarioCreacionId": this.dataDoctor['userId'],
         "contabilidadId": idContabilidad,
-        "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
+        // "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
         "entidadId": 1,
         "nroIncapacidad": dataResponse['uiCodigoDiagnostico'],
         "nitEmpleador": dataEmployer['nit'],
@@ -859,7 +853,8 @@ export class GenerarIncapacidadComponent implements OnInit {
         // scardenas@famisanar.com.co, 
         // csanchezb@famisanar.com.co, 
         // dcastros@famisanar.com.co`,
-        email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+        email: 'jjalmonacid@gmail.com, covalle@famisanar.com.co, haguirre@famisanar.com.co, erodriguezb@famisanar.com.co, framirez@famisanar.com.co, dangulo@famisanar.com.co, fcaicedo@famisanar.com.co, lceballos@famisanar.com.co, vbarrera@famisanar.com.co, joseeduardoquinones@gmail.com, meddylexs@gmail.com, gpinilladev@gmail.com, slopezb@famisanar.com.co, dcastros@famisanar.com.co',
+        // email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
         typeMail: type_email,
         userProgramType: (this.dataUserSpecialist) ? this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'] : '',
         userOcupation: (this.dataUserSpecialist) ? this.dataUserSpecialist['detalles'][0]['ocupacion'] : '',

@@ -125,6 +125,9 @@ export class UtilitiesService {
   fnGetHost() {
     return environment.apiUrl;
   }
+  fnGetHostSite4() {
+    return environment.apiUrlSite4;
+  }
   fnGetSite() {
     return environment.siteUrl;
   }

@@ -217,13 +217,15 @@ export class DashboardComponent implements OnInit {
   // }
 
   fnSetLevelData(level_menu, item_name, collection_level, item_childrens, index_menu) {
+    console.log('level_menu: ', level_menu);
+    console.log('item_name: ', item_name);
     console.log('collection_level: ', collection_level);
+    console.log('item_childrens: ', item_childrens);
+    console.log('index_menu: ', index_menu);
     this.title_name_module = item_name;
     const data_collection_breadcrumbs = JSON.parse(JSON.stringify(this.collection_levels_menu));
     this.show_content = false;
     this.current_item = collection_level[index_menu];
-    // this.current_item[index_menu]['esReporte'] = false;
-    console.log('this.current_item: ', this.current_item);
     if (collection_level[index_menu]['children'].length < 1) {
       if (collection_level[index_menu]['link'] == "" || collection_level[index_menu]['link'] == null || collection_level[index_menu]['link'] == undefined) {
         this.url_iframe_content = null;
@@ -237,7 +239,11 @@ export class DashboardComponent implements OnInit {
       } else {
         this.url_iframe_content = this.domSanitizer.bypassSecurityTrustResourceUrl(collection_level[index_menu]['link']);
       }
-    } else {
+    }
+
+    console.log("this.current_item['id']: ", this.current_item['id']);
+    if (this.current_item['id'] == 572) {
+      this.fnRedirectResolutionReport();
     }
 
     this.current_level_menu = level_menu;
@@ -334,9 +340,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   /************** END - Breadcrumbs **********************/
-
   /************** START - PRIMER MENU **********************/
-
   fnShowChildrens(index_menu, item_menu) {
     // this.current_item = item_menu;
     $('.current').removeClass('current');
@@ -353,7 +357,6 @@ export class DashboardComponent implements OnInit {
     }
 
   }
-
   fnValidContentSeconBarMenu(item_children, item_menu_children, item_menu, menu_items, index_child, index_menu) {
     $('#sidebar').css("z-index", 1);
     this.items_second_menu = item_children['children'];
@@ -388,11 +391,19 @@ export class DashboardComponent implements OnInit {
   }
 
   fnValidContentMenu(menu_sec, item_menu_sec, index_sec_menu) {
+    console.log('menu_sec: ', menu_sec);
+    console.log('item_menu_sec: ', item_menu_sec);
+    console.log('index_sec_menu: ', index_sec_menu);
     // this.items_second_menu = menu_sec['children'];
     this.fnSetLevelData(item_menu_sec['menuLevel'], item_menu_sec['title'], menu_sec, item_menu_sec['children'], index_sec_menu);
   }
   /************** END - SEGUNDO MENU **********************/
   fnGetDataAccounting(flag: any) {
+  }
+
+  fnRedirectResolutionReport() {
+    this.utilitiesService.fnSetSessionStorage('dataMenu', JSON.stringify(this.current_item));
+    this.utilitiesService.fnNavigateByUrl('pages/reporte/reporte-resolucion');
   }
 
 }

@@ -194,11 +194,14 @@ import { AdministracionCorreosComponent } from '../incapacidad/administracion-co
 import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
 import { GenerarIncapacidadComponent } from '../incapacidad/generar-incapacidad/generar-incapacidad.component';
 import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
+import { EstadoIncapacidadComponent } from '../incapacidad/estado-incapacidad/estado-incapacidad.component';
 import { AgregarEmpleadorComponent } from '../incapacidad/agregar-empleador/agregar-empleador.component';
 import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
 import { VistaPreviaCertificadoIncapacidadComponent } from '../incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component'
 import { DatosOcrComponent } from '../incapacidad/datos-ocr/datos-ocr.component';
 import { RegistroContableComponent } from '../incapacidad/registro-contable/registro-contable.component';
+import { ReporteIncapacidadesComponent } from '../incapacidad/reporte-incapacidades/reporte-incapacidades.component';
+import { ReporteResolucionComponent } from '../reporte/reporte-resolucion/reporte-resolucion.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -216,10 +219,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const ENTRY_COMPONENTS = [
   // HelpComponent,
+  ReporteResolucionComponent,
   RegistroContableComponent,
   HistoricoPacienteComponent,
   GenerarIncapacidadComponent,
   AyudaComponent,
+  EstadoIncapacidadComponent,
   AgregarEmpleadorComponent,
   CertificadoIncapacidadComponent,
   VistaPreviaCertificadoIncapacidadComponent,
@@ -368,15 +373,18 @@ const ENTRY_COMPONENTS = [
   // Incapacidades
   InformacionComponent,
   AdministracionCorreosComponent,
+  ReporteIncapacidadesComponent,
   DatosOcrComponent,
 ];
 
 @NgModule({
   declarations: [
+    ReporteResolucionComponent,
     RegistroContableComponent, 
     HistoricoPacienteComponent,
     GenerarIncapacidadComponent,
     AyudaComponent,
+    EstadoIncapacidadComponent,
     AgregarEmpleadorComponent,
     CertificadoIncapacidadComponent,
     VistaPreviaCertificadoIncapacidadComponent,
@@ -528,6 +536,7 @@ const ENTRY_COMPONENTS = [
     // Incapacidades
     InformacionComponent,
     AdministracionCorreosComponent,
+    ReporteIncapacidadesComponent,
     DatosOcrComponent,
   ],
   imports: [

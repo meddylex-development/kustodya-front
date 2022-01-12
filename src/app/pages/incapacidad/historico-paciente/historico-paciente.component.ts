@@ -1,7 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
+import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
 
 @Component({
   selector: 'ngx-historico-paciente',
@@ -59,7 +61,18 @@ export class HistoricoPacienteComponent implements OnInit {
     height: 400,
   };
 
+  public statusListIncapacity: any = [
+    { 'id': 1, 'name': 'Emitida' },
+    { 'id': 2, 'name': 'Transcrita' },
+    { 'id': 3, 'name': 'Liberada' },
+    { 'id': 4, 'name': 'Cobrada' },
+    { 'id': 5, 'name': 'Rechazada' },
+    { 'id': 6, 'name': 'Aprobada' },
+    { 'id': 7, 'name': 'Pagada' },
+  ];
+
   constructor(
+    private dialogService: NbDialogService,
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
@@ -106,7 +119,7 @@ export class HistoricoPacienteComponent implements OnInit {
   }
 
   fnReturnPage(): void {
-    this.location.back();
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
   }
 
   fnViewHistory() {
@@ -153,18 +166,16 @@ export class HistoricoPacienteComponent implements OnInit {
       // this.submitted = true;
       // this.patientIncapacities = [];
       //const idPaciente = 2;
-      this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
+      this.incapacityService.fnHttpGetIncapacidadesPaciente(token, idPaciente).subscribe(r => {
         if (r.status == 200) {
           let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-          // let collection = [];
-          // patientIncapacities.forEach((value, key) => {
-          //   value.cie10.forEach((cievalue, ciekey) => {
-          //     if (cievalue.iIdtipoCie === 1) {
-          //       value['cie10_diagnotic'] = cievalue;
-          //     }
-          //   });
-          //   collection.push(value);
-          // });
+          let collection = [];
+          patientIncapacities.forEach((value, key) => {
+            if(value['maxestado'] == null || value['maxestado'] == '') {
+              value['maxestado'] = 1;
+            }
+            // collection.push(value);
+          });
           
           let totalItems = patientIncapacities.length;
           // this.submitted = false;
@@ -191,6 +202,34 @@ export class HistoricoPacienteComponent implements OnInit {
   fnViewAccountingRegistry(item) {
     let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/registro-contable/'+ diagnosticCodeDNI);
+  }
+
+  fnShowModalChangeStatusIncapacity(item) {
+    console.log('item: ', item);
+    let dataSend = {};
+    dataSend['dataIncapacity'] = item;
+    this.dialogService.open(EstadoIncapacidadComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+      if (res) {
+        this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
+          console.log('response: ', response);
+          if (response) {
+            let patientIncapacities = response['patientIncapacities'];
+            console.log('patientIncapacities: ', patientIncapacities);
+            this.patientIncapacities = patientIncapacities;
+            console.log('this.patientIncapacities: ', this.patientIncapacities);
+            this.totalItems = response['totalItems'];
+            console.log('this.totalItems: ', this.totalItems);
+            this.submitted = false;
+            // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
+          } else {
+            this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+            this.submitted = false;
+          }
+        }).catch((error) => {
+        });
+      }
+    });
   }
 
 }

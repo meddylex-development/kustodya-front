@@ -6,7 +6,7 @@
         <div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
           <div class="" style="display: flex; justify-content: space-between;">
               <span class="">
-                  <i class="fas fa-clipboard-list" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; 
+                  <i class="fas fa-calendar" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; 
                   <span style="display: inline-block;">
                     <h5 class="m-0">Enviar reporte por correo electr&oacute;nico</h5>
                   </span>
@@ -15,7 +15,27 @@
           <div class="search-form" style="position: relative; margin-top: 15px; display: block;">
             <div class="row" >
               <div class="col">
-                Incapacidades prolongadas con más de 540 días en el ultimo mes.
+                Movimientos contables generados en el siguiente periodo: 
+              </div>
+              <div class="col">
+                <input nbInput 
+                  fullWidth
+                  autofocus 
+                  type="text" 
+                  [readonly]="true"
+                  [readonly]="true"
+                  placeholder="Filtro rango de fechas"
+                  id="inputRangeDate"  
+                  name="input_range_date" 
+                  style="height: 35px; width: 190px; border-color: #e8e8e8 !important;"
+                  (focus)="dateRangeReport = '';"
+                  [(ngModel)]="dateRangeReport" 
+                  [ngModelOptions]="{standalone: true}"
+                  [status]="input_range_date.dirty ? (input_range_date.invalid  ? 'danger' : 'basic') : ''" 
+                  #input_range_date="ngModel"
+                  bsDaterangepicker     
+                  [maxDate]="maxDate"
+                  [bsConfig]="{ rangeInputFormat : 'DD-MM-YYYY',dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
               </div>
               <div class="col">
                 <button 

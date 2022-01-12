@@ -4,17 +4,33 @@ import { NbDialogService } from '@nebular/theme';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { AyudaComponent } from '../ayuda/ayuda.component';
+
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { listLocales } from 'ngx-bootstrap/chronos';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { esLocale } from 'ngx-bootstrap/locale';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+defineLocale('es', esLocale);
+import * as moment from 'moment';
 declare var $: any;
 
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'ngx-administracion-correos',
-  templateUrl: './administracion-correos.component.html',
-  styleUrls: ['./administracion-correos.component.scss']
+  selector: 'ngx-reporte-incapacidades',
+  templateUrl: './reporte-incapacidades.component.html',
+  styleUrls: ['./reporte-incapacidades.component.scss']
 })
-export class AdministracionCorreosComponent implements OnInit {
+export class ReporteIncapacidadesComponent implements OnInit {
 
+  public colorTheme = 'theme-green';
+  public bsConfig: Partial<BsDatepickerConfig>;
+  public maxDate = new Date();
+  public locale = 'es';
+  dateRangeReport = [];
+  startDate: any = '';
+  endDate: any = '';
   public collectionDocumentTypes:any = [
     // { 'id': 1, 'nombre': 'Cedula de ciudadania' },
     // { 'id': 2, 'nombre': 'Cedula de extrangeria' },
@@ -340,44 +356,61 @@ export class AdministracionCorreosComponent implements OnInit {
   fnSendReport() {
     this.statusSpinner = true;
     this.spinnerMessage = "Enviando reporte ...";
-    return new Promise ((resolve,reject) => {
-      // const self = this;
-      let object_data_send = {
-        // email: `haguirre@famisanar.com.co, 
-        // erodriguezb@famisanar.com.co, 
-        // lceballos@famisanar.com.co, 
-        // egarzon@famisanar.com.co, 
-        // rburgos@famisanar.com.co, 
-        // aforero@famisanar.com.co, 
-        // ovega@famisanar.com.co, 
-        // covalle@famisanar.com.co, 
-        // mcano@famisanar.com.co, 
-        // fpinto@famisanar.com.co, 
-        // vbarrera@famisanar.com.co, 
-        // jestrada@famisanar.com.co, 
-        // meddylexs@gmail.com, 
-        // joseeduardoquinones@gmail.com,
-        // idonoso@famisanar.com.co, 
-        // aramirezp@famisanar.com.co, 
-        // dangulo@famisanar.com.co,
-        // gpinilladev@gmail.com, 
-        // juan.mendez@proyectatsp.com, 
-        // joseeduardoquinones@gmail.com, 
-        // jjalmonacid@gmail.com, 
-        // elbotero@famisanar.com.co, 
-        // mquinones@famisanar.com.co, 
-        // scardenas@famisanar.com.co, 
-        // csanchezb@famisanar.com.co, 
-        // dcastros@famisanar.com.co`,
-        email: 'jjalmonacid@gmail.com, covalle@famisanar.com.co, haguirre@famisanar.com.co, erodriguezb@famisanar.com.co, framirez@famisanar.com.co, dangulo@famisanar.com.co, fcaicedo@famisanar.com.co, lceballos@famisanar.com.co, vbarrera@famisanar.com.co, joseeduardoquinones@gmail.com, meddylexs@gmail.com, gpinilladev@gmail.com, slopezb@famisanar.com.co, dcastros@famisanar.com.co',
-        // email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
-        subject: 'Kustodya Web App - Reporte',
-      }
-      this.incapacityService.fnHttpPostSendReportMail(object_data_send).subscribe(r => {
-        console.log('r: ', r);
-        this.statusSpinner = false;
-        this.utilitiesService.showToast('top-right', 'success', 'Archivo enviado', 'nb-check');
-      });
+    this.fnFilterListByDaterange(this.dateRangeReport);
+  }
+
+  fnFilterListByDaterange(dateRangeInput) {
+    console.log('dateRangeInput: ', dateRangeInput);
+    this.statusSpinner = true;
+    const dateStartUnix = moment(this.dateRangeReport[0]).unix();
+    const dateStartValueof = (this.dateRangeReport.length > 0) ? moment(this.dateRangeReport[0]).valueOf() : '';
+    const dateEndUnix = moment(this.dateRangeReport[1]).unix();
+    const dateEndValueof = (this.dateRangeReport.length > 0) ? moment(this.dateRangeReport[1]).valueOf() : '';
+
+    this.startDate = dateStartValueof;
+    console.log('this.startDate: ', this.startDate);
+    this.endDate = dateEndValueof;
+    console.log('this.endDate: ', this.endDate);
+
+    let objectSend = {
+      'startDate': dateStartValueof,
+      'endDate': dateEndValueof,
+      // email: `haguirre@famisanar.com.co, 
+      // erodriguezb@famisanar.com.co, 
+      // lceballos@famisanar.com.co, 
+      // egarzon@famisanar.com.co, 
+      // rburgos@famisanar.com.co, 
+      // aforero@famisanar.com.co, 
+      // ovega@famisanar.com.co, 
+      // covalle@famisanar.com.co, 
+      // mcano@famisanar.com.co, 
+      // fpinto@famisanar.com.co, 
+      // vbarrera@famisanar.com.co, 
+      // jestrada@famisanar.com.co, 
+      // meddylexs@gmail.com, 
+      // joseeduardoquinones@gmail.com,
+      // idonoso@famisanar.com.co, 
+      // aramirezp@famisanar.com.co, 
+      // dangulo@famisanar.com.co,
+      // gpinilladev@gmail.com, 
+      // juan.mendez@proyectatsp.com, 
+      // joseeduardoquinones@gmail.com, 
+      // jjalmonacid@gmail.com, 
+      // elbotero@famisanar.com.co, 
+      // mquinones@famisanar.com.co, 
+      // scardenas@famisanar.com.co, 
+      // csanchezb@famisanar.com.co, 
+      // dcastros@famisanar.com.co`,
+      email: 'jjalmonacid@gmail.com, covalle@famisanar.com.co, haguirre@famisanar.com.co, erodriguezb@famisanar.com.co, framirez@famisanar.com.co, dangulo@famisanar.com.co, fcaicedo@famisanar.com.co, lceballos@famisanar.com.co, vbarrera@famisanar.com.co, joseeduardoquinones@gmail.com, meddylexs@gmail.com, gpinilladev@gmail.com, slopezb@famisanar.com.co, dcastros@famisanar.com.co',
+      // email: 'covalle@famisanar.com.co, haguirre@famisanar.com.co, erodriguezb@famisanar.com.co, framirez@famisanar.com.co, dangulo@famisanar.com.co, fcaicedo@famisanar.com.co, lceballos@famisanar.com.co, vbarrera@famisanar.com.co, joseeduardoquinones@gmail.com, meddylexs@gmail.com, gpinilladev@gmail.com, slopezb@famisanar.com.co, dcastros@famisanar.com.co',
+      // email: 'jjalmonacid@gmail.com, gpinilladev@gmail.com, juan.mendez@proyectatsp.com, joseeduardoquinones@gmail.com',
+      subject: 'Kustodya Web App - Reporte Incapacidades desde ' + moment(dateStartValueof).format('DD/MM/YYYY') + ' 00:00:00 a ' + moment(dateEndValueof).format('DD/MM/YYYY') + ' 23:59:59',
+    };
+    // this.fnGetOriginQualificationList(this.current_payload, this.currentPage, this.search_input, this.status_list, date_start_valueof, date_end_valueof);
+    this.incapacityService.fnHttpPostSendMailReportIncapacities(objectSend).subscribe(r => {
+      console.log('r: ', r);
+      this.statusSpinner = false;
+      this.utilitiesService.showToast('top-right', 'success', 'Archivo enviado', 'nb-check');
     });
   }
 

@@ -27,6 +27,7 @@ export class AuditService {
   urlGetListStatesAccountingAudit: any = '';
   urlPostCrearMovimientoContable: any = '';
   urlGetDetalleMovimientoContable: any = '';
+  urlGetIncapacidadesPaciente: any = '';
 
   constructor(private http: HttpClient, private utility: UtilitiesService) { }
 
@@ -242,42 +243,36 @@ export class AuditService {
   }
 
   fnHttpPostCrearMovimientoContable(guid_user, id_incapacidad, data_object) {
-    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     let headers = new HttpHeaders().set('Authorization', '');
     headers = new HttpHeaders().append('Content-Type', 'application/json');
-    // headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
-    // headers = new HttpHeaders().set('Access-Control-Allow-Methods', '*');
-    // this.urlPostCrearMovimientoContable = "http://meddylex-001-site4.itempurl.com/api/Contabilidad/" + id_incapacidad;
-    this.urlPostCrearMovimientoContable = "http://meddylex-001-site4.itempurl.com/api/Contabilidad";
-    // this.urlPostCrearMovimientoContable = "/api/api/Contabilidad/" + id_incapacidad;
-    // this.urlPostCrearMovimientoContable = '/api/Contabilidades/' + id_contabilidad + '/DepuracionesContables';
-    return this.http.post(this.urlPostCrearMovimientoContable, data_object,
+    this.urlPostCrearMovimientoContable = "/api/Contabilidad";
+    return this.http.post(this.utility.fnGetHostSite4() + this.urlPostCrearMovimientoContable, data_object,
     {
       observe: 'response',
       // headers: headers,
       reportProgress: true,
     });
-    // return new Promise((resolve, reject) => {
-    //   let xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    //   let theUrl = "/json-handler";
-    //   let urlPostCrearMovimientoContable = "http://meddylex-001-site4.itempurl.com/api/Contabilidad/" + id_incapacidad;
-    //   xmlhttp.open("POST", urlPostCrearMovimientoContable);
-    //   xmlhttp.setRequestHeader("Content-Type", "application/json");
-    //   xmlhttp.send(JSON.stringify(data_object));
-    //   xmlhttp.onreadystatechange = function () {
-    //     if (xmlhttp.readyState == 4 && xmlhttp.status === 200) {
-    //       resolve(true);
-    //     }
-    //   };
-    // });
   }
 
   fnHttpGetDetalleMovimientoContable(id_incapacidad): Observable<any> {
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     let headers = new HttpHeaders().set('Authorization', '');
     headers = new HttpHeaders().append('Content-Type', 'application/json');
-    this.urlGetDetalleMovimientoContable = "http://meddylex-001-site4.itempurl.com/api/Contabilidad/" + id_incapacidad;
-    return this.http.get(this.urlGetDetalleMovimientoContable,
+    this.urlGetDetalleMovimientoContable = "/api/Contabilidad/" + id_incapacidad;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetDetalleMovimientoContable,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetIncapacidadesPaciente(id_paciente): Observable<any> {
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    let headers = new HttpHeaders().set('Authorization', '');
+    headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlGetIncapacidadesPaciente = "/api/Incapacidad/" + id_paciente;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetIncapacidadesPaciente,
     {
       observe: 'response',
       headers: headers,

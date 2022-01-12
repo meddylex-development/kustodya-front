@@ -591,30 +591,6 @@
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row">
-                                  <!-- ********** START - Prorroga ********** -->
-                                  <div class="mt-2 mb-2 col-6">
-                                    <div class="form-group">
-                                      <label for="input-extensionIncapacity">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-calendar-plus"></i>&nbsp;Pr&oacute;rroga:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <div>
-                                        <h5 class="d-inline-block m-3">NO</h5>&nbsp;
-                                        <label class="switch p-2">
-                                          <input 
-                                          id="input-extensionIncapacity"
-                                          [ngModelOptions]="{standalone: true}" 
-                                          [(ngModel)]="patientData.diagnostic.extensionIncapacity"
-                                          type="checkbox" [checked]="(patientData.diagnostic.extensionIncapacity)?'checked':false">
-                                          <span class="slider round"></span>
-                                        </label>&nbsp;
-                                        <h5 class="d-inline-block m-3">SI</h5>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Prorroga *********** -->
                                   <!-- ********** START - Tipo de afección ********** -->
                                   <div class="col-6">
                                     <div class="form-group">
@@ -711,7 +687,6 @@
                                         placeholder="Ingrese la descripción de los acontecimientos y causas de la afección del paciente ..." 
                                         id="input-patientModeDescription"  
                                         name="patientModeDescription" 
-                                        (focus)="patientData.diagnostic.patientModeDescription = '';"
                                         [(ngModel)]="patientData.diagnostic.patientModeDescription" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientModeDescription.dirty ? (patientModeDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
@@ -963,7 +938,6 @@
                                         placeholder="Ingrese la descripción médica sintomatologica del paciente ..." 
                                         id="input-patientConditionMedicalDescription"  
                                         name="patientConditionMedicalDescription" 
-                                        (focus)="patientData.diagnostic.patientConditionMedicalDescription = '';"
                                         [(ngModel)]="patientData.diagnostic.patientConditionMedicalDescription" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientConditionMedicalDescription.dirty ? (patientConditionMedicalDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
@@ -986,21 +960,6 @@
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
                                 <div class="row">
-                                  <div class="col-6">
-                                    <div class="form-group">
-                                      <label for="input-patientSigns">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-user-clock"></i>&nbsp;Prorroga incapacidad:&nbsp;
-                                        </h5>
-                                      </label>
-                                      <br>
-                                      <div class="text mt-2 mb-4">
-                                        <h5 class="" *ngIf="dataDiagnosticCorrelation" [ngClass]="{ 'text-danger': (dataDiagnosticCorrelation?.bProrroga), 'text-success': (!dataDiagnosticCorrelation?.bProrroga) }" style="font-weight: 900; font-size: 2rem;">
-                                          <i class="fas fa-user-clock"></i>&nbsp;{{ (dataDiagnosticCorrelation?.bProrroga) ? 'Aplicada' : 'No Aplicada' }} 
-                                        </h5>
-                                      </div>
-                                    </div>
-                                  </div>
                                   <div class="col-6">
                                     <div class="form-group">
                                       <label>
@@ -1031,7 +990,77 @@
                                       </div>
                                     </div>
                                   </div>
+                                </div>
+                                <div class="row mt-3">
                                   <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-patientSigns">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-user-clock"></i>&nbsp;Prorroga incapacidad:&nbsp;
+                                        </h5>
+                                      </label>
+                                      <br>
+                                      <div class="text mt-2 mb-4">
+                                        <h5 class="" *ngIf="dataDiagnosticCorrelation" [ngClass]="{ 'text-danger': (dataDiagnosticCorrelation?.bProrroga), 'text-success': (!dataDiagnosticCorrelation?.bProrroga) }" style="font-weight: 900; font-size: 2rem;">
+                                          <i class="fas fa-user-clock"></i>&nbsp;{{ (dataDiagnosticCorrelation?.bProrroga) ? 'Aplicada' : 'No Aplicada' }} 
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- ********** START - Prorroga ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-extensionIncapacity">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-calendar-plus"></i>&nbsp;Pr&oacute;rroga:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <div>
+                                        <h5 class="d-inline-block m-3">NO</h5>&nbsp;
+                                        <label class="switch p-2">
+                                          <input 
+                                          id="input-extensionIncapacity"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          [(ngModel)]="patientData.diagnostic.extensionIncapacity"
+                                          type="checkbox" [checked]="(patientData.diagnostic.extensionIncapacity)?'checked':false">
+                                          <span class="slider round"></span>
+                                        </label>&nbsp;
+                                        <h5 class="d-inline-block m-3">SI</h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Prorroga *********** -->
+                                </div>
+                                <div class="row" *ngIf="(dataDiagnosticCorrelation?.bProrroga != patientData?.diagnostic?.extensionIncapacity)">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="input-patientDaysGaratedDescription">
+                                        <h5 class="m-0">
+                                          <i class="far fa-calendar-plus"></i>&nbsp;Justificaci&oacute;n cambio de prorroga:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <textarea 
+                                        nbInput 
+                                        fullWidth 
+                                        [readonly]="false" 
+                                        [disabled]="false" 
+                                        placeholder="Ingrese la descripción ó justificación del cambio de estado..." 
+                                        id="input-patientExtensionChangeDescription"  
+                                        name="patientExtensionChangeDescription" 
+                                        [(ngModel)]="patientData.diagnostic.patientExtensionChangeDescription" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [status]="patientExtensionChangeDescription.dirty ? (patientExtensionChangeDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                        #patientExtensionChangeDescription="ngModel" 
+                                        rows="6"
+                                      >
+                                      </textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-3">
+                                  <div class="col-12">
                                     <div class="form-group">
                                       <label for="input-patientDaysGranted">
                                         <h5 class="m-0">
@@ -1076,10 +1105,9 @@
                                         fullWidth 
                                         [readonly]="false" 
                                         [disabled]="false" 
-                                        placeholder="Ingrese la descripción de los acontecimientos y causas de la afección del paciente ..." 
+                                        placeholder="Ingrese la descripción ó justificación de los días adicionales otorgados ..." 
                                         id="input-patientDaysGaratedDescription"  
                                         name="patientDaysGaratedDescription" 
-                                        (focus)="patientData.diagnostic.patientDaysGaratedDescription = '';"
                                         [(ngModel)]="patientData.diagnostic.patientDaysGaratedDescription" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientDaysGaratedDescription.dirty ? (patientDaysGaratedDescription.invalid  ? 'danger' : 'basic') : 'basic'" 

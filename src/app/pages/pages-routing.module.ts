@@ -15,6 +15,8 @@ import { VistaPreviaCertificadoIncapacidadComponent } from './incapacidad/vista-
 import { AdministracionCorreosComponent } from './incapacidad/administracion-correos/administracion-correos.component';
 import { DatosOcrComponent } from './incapacidad/datos-ocr/datos-ocr.component';
 import { RegistroContableComponent } from './incapacidad/registro-contable/registro-contable.component';
+import { ReporteIncapacidadesComponent } from './incapacidad/reporte-incapacidades/reporte-incapacidades.component';
+import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte-resolucion.component';
 
 const routes: Routes = [
   {
@@ -77,8 +79,20 @@ const routes: Routes = [
             path: 'correos-electronicos',
             component: AdministracionCorreosComponent,
           }, 
+          {
+            path: 'reporte-incapacidades',
+            component: ReporteIncapacidadesComponent,
+          }, 
         ],
-      },
+      }, {
+        path: 'reporte',
+        children: [
+          {
+            path: 'reporte-resolucion',
+            component: ReporteResolucionComponent,
+          }
+        ],
+      }, 
       {
         path: 'my-account',
         component: MyAccountComponent,

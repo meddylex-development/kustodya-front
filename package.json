@@ -95,6 +95,7 @@
     "typeface-exo": "0.0.61",
     "typeface-poppins": "^1.1.13",
     "web-animations-js": "2.2.5",
+    "xlsx": "^0.17.4",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

@@ -80,6 +80,50 @@
         padding: 4px 10px;
     }
 
+    
+    .iframeContainer {
+        width: 100%;
+        height: 100%;
+        background-color: #FFFFFF;
+        padding: 0px;
+        clear: both;
+    }
+
+    .desktop-view {
+        background: #FFFFFF;
+        height: 80vh;
+    }
+
+
+    .desktop-view iframe{
+        border: none !important;
+    }
+
+    ::ng-deep #powerBIReportContainer {
+        width: 100%;
+        height: 750px;
+        background-color: white;
+        padding: 0px;
+        clear: both;
+    }
+    ::ng-deep .desktop-view iframe, .mobile-view iframe {
+        border: none;
+    }
+
+    #powerBIReportContainer > iframe {
+        border: none !important;
+    }
+
+    #imgEpsInforme {
+        width: 30em;
+    }
+
+    #tituloInforme {
+        margin: 40px; 
+        font-weight: 700; 
+        text-align: center;
+    }
+
     @media print {
 
         .card {
@@ -96,6 +140,41 @@
         .card {
             background-color: #f7f7f7 !important;
             border: 1px solid #929292 !important; 
+        }
+
+        #header-card-report {
+            display: none !important;
+        }
+        
+        #content-header {
+            display: none !important;
+        }
+
+        * {
+            -webkit-print-color-adjust: exact !important;   /* Chrome, Safari, Edge */
+            color-adjust: exact !important;                 /*Firefox*/
+        }
+
+        ::ng-deep #powerBIReportContainer {
+            width: 115%;
+            height: 750px;
+            background-color: white;
+            padding: 0px;
+            clear: both;
+            zoom: 160% !important;
+        }
+        ::ng-deep .desktop-view iframe, .mobile-view iframe {
+            border: none;
+        }
+
+        #imgEpsInforme {
+            width: 20em;
+        }
+
+        #tituloInforme {
+            margin: 40px; 
+            font-weight: 700; 
+            text-align: left;
         }
     }
 

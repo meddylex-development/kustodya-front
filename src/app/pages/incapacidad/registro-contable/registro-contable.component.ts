@@ -62,7 +62,8 @@ export class RegistroContableComponent implements OnInit {
           console.log('this.patientData: ', this.patientData);
           this.fnGetDetailAccountingRegistry(this.diagnosticCodeDNI).then((respDataDetail) => {
             console.log('respDataDetail: ', respDataDetail);
-            this.dataDetailAccounting = respDataDetail['body'];
+            // this.dataDetailAccounting = respDataDetail['body'];
+            this.dataDetailAccounting = respDataDetail;
           });
         } else {
           this.patientData = null;
@@ -83,9 +84,60 @@ export class RegistroContableComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.auditService.fnHttpGetDetalleMovimientoContable(idIncapacity).subscribe(respDetail => {
         console.log('respDetail: ', respDetail);
+        let collectionAccountingRegistry = respDetail['body'];
+        console.log('collectionAccountingRegistry: ', collectionAccountingRegistry);
+        let dataRegitroRTCNoLiquidada = [];
+        let dataRegitroRTCLiquidada = [];
+        let dataRegitroRTCCancelacion = [];
+        let dataRTCCancelacionNoLiquidada = [];
+
+        let dataAccounting = [];
+
+        collectionAccountingRegistry.forEach(element => {
+          console.log('element: ', element);
+          if (element['Descripcion'] == "Registro RTC no liquidada\r\n") {
+            dataRegitroRTCNoLiquidada.push(element);
+            // element['dataRegitroRTCNoLiquidada'] = dataRegitroRTCNoLiquidada;
+            // dataAccounting.push(dataRegitroRTCNoLiquidada);
+          }
+          if (element['Descripcion'] == "Registro RTC liquidada\r\n") {
+            dataRegitroRTCLiquidada.push(element);
+            // element['dataRegitroRTCLiquidada'] = dataRegitroRTCLiquidada;
+            // dataAccounting.push(dataRegitroRTCLiquidada);
+          }
+          if (element['Descripcion'] == "Cancelación RTC liquidada\r\n") {
+            dataRegitroRTCCancelacion.push(element);
+            // element['dataRegitroRTCCancelacion'] = dataRegitroRTCCancelacion;
+            // dataAccounting.push(dataRegitroRTCCancelacion);
+          }
+          if (element['Descripcion'] == "Cancelación RTC no liquidada\r\n") {
+            dataRTCCancelacionNoLiquidada.push(element);
+            // element['dataRegitroRTCCancelacion'] = dataRegitroRTCCancelacion;
+            // dataAccounting.push(dataRegitroRTCCancelacion);
+          }
+        });
+        // dataAccounting = [
+        //   dataRegitroRTCNoLiquidada,
+        //   dataRegitroRTCLiquidada,
+        //   dataRegitroRTCCancelacion,
+        // ];
+        if(dataRegitroRTCNoLiquidada.length > 0) {
+          dataAccounting.push(dataRegitroRTCNoLiquidada);
+        }
+        if(dataRegitroRTCLiquidada.length > 0) {
+          dataAccounting.push(dataRegitroRTCLiquidada);
+        }
+        if(dataRegitroRTCCancelacion.length > 0) {
+          dataAccounting.push(dataRegitroRTCCancelacion);
+        }
+        if(dataRTCCancelacionNoLiquidada.length > 0) {
+          dataAccounting.push(dataRTCCancelacionNoLiquidada);
+        }
+        console.log('dataAccounting: ', dataAccounting);
+        console.log('collectionAccountingRegistry: ', collectionAccountingRegistry);
         // this.collectionAttentionTypes = JSON.parse(JSON.stringify(r.body));
         // this.submitted = false;
-        resolve(respDetail);
+        resolve(dataAccounting);
       }, err => {
         reject(false);
         // this.utilitiesService.showToast('bottom-right', 'danger', err, 'nb-alert');

@@ -108,7 +108,8 @@
                               </span> -->
                           </th>
                           <th class="text-truncate" style="max-width: 235px;">
-                              Descripci&oacute;n sintomatol&oacute;gica&nbsp;
+                              <!-- Descripci&oacute;n sintomatol&oacute;gica&nbsp; -->
+                              Valor incapacidad
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                               </span>
@@ -136,6 +137,11 @@
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
                               </span>
                           </th>
+                          <th class="thead-column-action text-center">
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th>
                           <!-- <th class="thead-column-action">
                               <span>
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
@@ -146,16 +152,34 @@
                   <tbody>
                     <tr *ngFor="let item of patientIncapacities | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
                       <td class="align-middle text-center"><small style="font-size: 12px;">{{ item?.uiCodigoDiagnostico }}</small></td>
-                      <td class="align-middle text-center">{{ item?.fechaEmisionIncapacidad | date: 'dd/MM/yyyy' }}</td>
+                      <td class="align-middle text-center">{{ item?.dtFechaEmisionIncapacidad | date: 'dd/MM/yyyy' }}</td>
                       <td class="align-middle text-center">{{ item?.dtFechaCreacion | date: 'dd/MM/yyyy' }}</td>
                       <td class="align-middle text-center">{{ item?.dtFechaFin | date: 'dd/MM/yyyy' }}</td>
-                      <td class="align-middle text-left"><strong style="font-size: 12px;">{{ item?.cie10[0]?.tCie10 }}</strong> - <small style="font-size: 12px;">{{ item?.cie10[0]?.tDescripcion }}</small></td>
+                      <td class="align-middle text-left"><strong style="font-size: 12px;">{{ item?.tCIE10 }}</strong> - <small style="font-size: 12px;">{{ item?.tDescripcion }}</small></td>
                       <td class="align-middle text-center">{{ item?.iDiasIncapacidad }}</td>
                       <td class="align-middle text-center">{{ item?.iDiasAcumuladosPorroga }}</td>
-                      <td class="align-middle text-left"><small style="font-size: 12px;">{{ item?.tDescripcionSintomatologica }}</small></td>
+                      <!-- <td class="align-middle text-left"><small style="font-size: 12px;">{{ item?.tDescripcionSintomatologica }}</small></td> -->
+                      <td class="align-middle text-right">{{ (item?.valor) ? (item?.valor  | currency:'CAD':'symbol-narrow':'4.2-2') : '$0.00' }}</td>
                       <td class="align-middle text-center">
-                        <span class="badge rounded-pill text-light" [ngClass]="{'badge-state-2': item?.bProrroga, 'badge-state-1': !item?.bProrroga}">
+                        <span class="badge rounded-pill text-light" [ngClass]="{'badge-state-5': item?.bProrroga, 'badge-state-1': !item?.bProrroga}">
                           {{ (item?.bProrroga) ? 'Prorrogada' : 'Sin prorroga' }}
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <!-- <span (click)="fnViewDagnosticCertificate(item)" tooltip="Ver cambiar de estado" placement="top" container="body">
+                            <i class="fas fa-file-export cursor-pointer text-info"></i>
+                        </span> -->
+                        <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
+                        [ngClass]="{
+                          'badge-state-0': !item?.maxestado, 
+                          'badge-state-1': item?.maxestado == 1, 
+                          'badge-state-2': item?.maxestado == 2, 
+                          'badge-state-3': item?.maxestado == 3,
+                          'badge-state-4': item?.maxestado == 4,
+                          'badge-state-5': item?.maxestado == 5,
+                          'badge-state-6': item?.maxestado == 6,
+                          'badge-state-7': item?.maxestado == 7}">
+                          {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
                         </span>
                       </td>
                       <td class="align-middle text-center">

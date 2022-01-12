@@ -22,6 +22,7 @@ export class IncapacityService {
   urlGetListIncapacityAttentionTypes: any = '';
   urlGetCorrelationDiagnostic: any = '';
   urlGetListLateralities: any = '';
+  urlGetIncapacidadesPaciente: any = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -196,7 +197,7 @@ export class IncapacityService {
   fnHttpPostSendAlertMail(guid_user, data_object): Observable<any> {
     console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
-    this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post('http://localhost:3001/api/send-email', data_object,
       {
         observe: 'response',
@@ -216,12 +217,24 @@ export class IncapacityService {
         reportProgress: true,
       });
   }
+  
+  fnHttpPostSendMailReportIncapacities(data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post('http://localhost:3001/api/send-email-report-incapacities', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
 
   fnHttpGetDataHistoryPatientDaysExced(): Observable<any> {
     // console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.get('http://meddylex-001-site4.itempurl.com/api/Reporte',
+    return this.http.get(this.utility.fnGetHostSite4() + '/api/Reporte',
       {
         observe: 'response',
         // headers: headers,
@@ -239,7 +252,20 @@ export class IncapacityService {
   }
 
   fnGetAllData(): Observable<any> {
-    return this.http.get<any>('http://meddylex-001-site4.itempurl.com/api/Transcripcion');
+    return this.http.get<any>(this.utility.fnGetHostSite4() + '/api/Transcripcion');
+  }
+
+  fnHttpGetIncapacidadesPaciente(guid_user, id_paciente): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // let headers = new HttpHeaders().set('Authorization', '');
+    // headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlGetIncapacidadesPaciente = "/api/Incapacidad/" + id_paciente;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetIncapacidadesPaciente,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
   }
 
 }
