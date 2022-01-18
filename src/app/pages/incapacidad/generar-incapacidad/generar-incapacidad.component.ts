@@ -267,10 +267,29 @@ export class GenerarIncapacidadComponent implements OnInit {
           },
         };
       } else {
-        this.applyLaterality = (this.patientData['diagnostic']['laterality']) ? true : false;
-        let objectDiagnosticPatient = this.patientData['diagnostic']['patientDiagnostics'];
-        this.fnGetCorrelationDiagnostic(objectDiagnosticPatient);
-        this.loadingData = true;
+        this.patientData['diagnostic'] = {
+          'soatInsurance': false,
+          'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
+          'laterality': null,
+          'patientDaysGranted': 1,
+          'patientConditionKeywords': null,
+          'addressPlace': {
+            // 'patientAddressFirstNumber': '',
+            // 'patientAddressFirstLetter': '',
+            // 'patientAddressSufixBis': '',
+            // 'patientAddressSecondLetter': '',
+            // 'patientAddressFirstCardinalSufix': '',
+            // 'patientAddressSecondNumber': '',
+            // 'patientAddressThirdLetter': '',
+            // 'patientAddressThirdNumber': '',
+            // 'patientAddressSecondCardinalSufix': '',
+            // 'patientAddressPlaceCondition': '',
+          },
+        };
+        // this.applyLaterality = (this.patientData['diagnostic']['laterality']) ? true : false;
+        // let objectDiagnosticPatient = this.patientData['diagnostic']['patientDiagnostics'];
+        // this.fnGetCorrelationDiagnostic(objectDiagnosticPatient);
+        // this.loadingData = true;
       }
 
       // this.fnGetDataUserById(this.token, user_id).then((response) => {
@@ -472,6 +491,7 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGetCorrelationDiagnostic(item_cie_10) {
+    console.log('item_cie_10: ', item_cie_10);
     this.loadingData = false;
     this.applyLaterality =  item_cie_10['aplicaLateralidad'] || false;
     this.dataDiagnosticCorrelation = null;
@@ -564,8 +584,8 @@ export class GenerarIncapacidadComponent implements OnInit {
           "iid": 0,
           "nombreEmision": "string"
         },
-        "tLugar": (this.patientData['diagnostic']['patientCountryCondition']['name']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
-        "tLugarExpedicion": (this.patientData['diagnostic']['patientCountryCondition']['name']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
+        "tLugar": (this.patientData['diagnostic']['patientCountryCondition']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
+        "tLugarExpedicion": (this.patientData['diagnostic']['patientCountryCondition']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
         "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
         "tTiempo": (this.patientData['diagnostic']['dateStartPatientCondition']) ? this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'] : '',
         "uiCodigoDiagnostico": null,
@@ -592,7 +612,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
         "dtFechaCreacion": moment(dateNowValueOf).format(),
         "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
-        "bProrroga": (this.dataDiagnosticCorrelation['bProrroga']) ? this.dataDiagnosticCorrelation['bProrroga'] : false,
+        "bProrroga": (this.patientData['diagnostic']['extensionIncapacity']) ? this.patientData['diagnostic']['extensionIncapacity'] : false,
         "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
         "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
       };
@@ -922,7 +942,8 @@ export class GenerarIncapacidadComponent implements OnInit {
       // let diasAcumulados = dataDiagnosticCorrelation['iDiasAcumuladosPorroga'];
       let diasAcumulados = patientDaysAccum;
       console.log('diasAcumulados: ', diasAcumulados);
-      let prorroga = dataDiagnosticCorrelation['bProrroga'];
+      // let prorroga = dataDiagnosticCorrelation['bProrroga'];
+      let prorroga = this.patientData['diagnostic']['extensionIncapacity'];
   
       let daysAccumulated = parseInt(diasAcumulados);
       let totalDaysAccumulated = parseInt(patientDaysGranted) + parseInt(diasAcumulados);
