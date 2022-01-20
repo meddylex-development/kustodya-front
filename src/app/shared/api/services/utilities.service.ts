@@ -128,6 +128,9 @@ export class UtilitiesService {
   fnGetHostSite4() {
     return environment.apiUrlSite4;
   }
+  fnGetHostMiddlewareMails() {
+    return environment.apiUrlMiddlewareMails;
+  }
   fnGetSite() {
     return environment.siteUrl;
   }

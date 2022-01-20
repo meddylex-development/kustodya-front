@@ -7,6 +7,8 @@
   production: true,
   apiUrl: 'http://meddylex-001-site1.itempurl.com', 
   apiUrlSite4: 'http://meddylex-001-site4.itempurl.com', 
+  // apiUrlMiddlewareMails: 'http://localhost:3001',
+  apiUrlMiddlewareMails: 'https://kustodya.herokuapp.com',
   apiMedicos: 'https://kustodya-medicos.azurewebsites.net',
   codigoApiMedicos: 'clMLrHHJWiIleq2AjfZWDgVsLkkWUTSbbwH7KIq02l89tcnSm8ubpg==',
   codigoApiMedico: 'clMLrHHJWiIleq2AjfZWDgVsLkkWUTSbbwH7KIq02l89tcnSm8ubpg==',

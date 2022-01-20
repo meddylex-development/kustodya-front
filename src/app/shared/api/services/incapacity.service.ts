@@ -198,7 +198,7 @@ export class IncapacityService {
     console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.post('http://localhost:3001/api/send-email', data_object,
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email', data_object,
       {
         observe: 'response',
         // headers: headers,
@@ -210,7 +210,7 @@ export class IncapacityService {
     console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.post('http://localhost:3001/api/send-email-report', data_object,
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report', data_object,
       {
         observe: 'response',
         // headers: headers,
@@ -222,7 +222,7 @@ export class IncapacityService {
     console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
-    return this.http.post('http://localhost:3001/api/send-email-report-incapacities', data_object,
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report-incapacities', data_object,
       {
         observe: 'response',
         // headers: headers,
@@ -243,7 +243,7 @@ export class IncapacityService {
   }
 
   fnHttpGetDataOCRTranscription(): Observable<any> {
-    return this.http.get('http://localhost:3001/api/data-ocr',
+    return this.http.get(this.utility.fnGetHostMiddlewareMails() + '/api/data-ocr',
       {
         observe: 'response',
         // headers: headers,
