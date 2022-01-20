@@ -22,6 +22,7 @@
           <nb-card-body>
             <div class="row">
               <div class="col-md-12">
+                <!-- ********** START - Datos del paciente ********** -->
                 <div class="mb-2 animated fadeIn" *ngIf="patientData">
                   <div class="card mt-3 mb-3" style="border-color: #1e90ff;">
                     <div (click)="fnShowContent('content-patient-info')" class="cursor-pointer card-header" style="background-color: #1e90ff; color: #FFF; display: flex; justify-content: space-between;">
@@ -123,7 +124,8 @@
                     </div>
                   </div>
                 </div>
-                
+                <!-- *********** END - Datos del paciente *********** -->
+                <!-- ********** START - Alerta de usuario sin permiso ********** -->
                 <div style="background-color: #fff; padding: 0; border-radius: 6px;" *ngIf="flagShowAlertUser">
                   <div class="alert alert-danger m-0" role="alert">
                     <i class="fas fa-exclamation-circle"></i>&nbsp;
@@ -135,6 +137,8 @@
                       <!-- <small>Fuernte <strong>e-Rethus</strong></small> -->
                   </div>
                 </div>
+                <!-- *********** END - Alerta de usuario sin permiso *********** -->
+
               </div>
             </div>
             
@@ -147,54 +151,6 @@
                     <div class="card-body content-patient-info-1" style="display: block;">
                       <form #form="ngForm" (ngSubmit)="fnGenerateIncapacity()" #generateNewIncapacityCertificateForm="ngForm" aria-labelledby="title">
                         <div class="row">
-                          <!-- ********** START - Tipo de atencion ********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-attentionTypes">
-                                <h5 class="m-0">
-                                  <i class="fas fa-ambulance"></i>&nbsp;Tipo de atenci&oacute;n:&nbsp;
-                                  <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                </h5>
-                              </label>
-                              <ng-select 
-                                [items]="collectionAttentionTypes" 
-                                bindLabel="tTipoAtencion"
-                                id="input-attentionTypes" 
-                                name="attentionTypes" 
-                                #attentionTypes="ngModel"
-                                placeholder="Seleccione tipo de atención" 
-                                [ngModelOptions]="{standalone: true}" 
-                                [(ngModel)]="patientData.diagnostic.attentionTypes"
-                                required 
-                                [disabled]="false" 
-                                [clearable]="false">
-                              </ng-select>
-                            </div>
-                          </div>
-                          <!-- *********** END - Tipo de atencion *********** -->
-                          <!-- ********** START - SOAT ********** -->
-                          <div class="mt-2 mb-2 col-6">
-                            <div class="form-group">
-                              <label for="input-attentionTypes">
-                                <h5 class="m-0">
-                                  <i class="fas fa-car"></i>&nbsp;SOAT:&nbsp;
-                                  <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                </h5>
-                              </label>
-                              <div>
-                                <h5 class="d-inline-block m-3">NO</h5>&nbsp;
-                                <label class="switch p-2">
-                                  <input 
-                                  [ngModelOptions]="{standalone: true}" 
-                                  [(ngModel)]="patientData.diagnostic.soatInsurance"
-                                  type="checkbox" [checked]="(patientData.diagnostic.soatInsurance)?'checked':false">
-                                  <span class="slider round"></span>
-                                </label>&nbsp;
-                                <h5 class="d-inline-block m-3">SI</h5>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- *********** END - SOAT *********** -->
                           <!-- ********** START - Tiempo ********** -->
                           <div class="mt-2 mb-2 col-12">
                             <div class="card">
@@ -255,6 +211,198 @@
                             </div>
                           </div>
                           <!-- *********** END - Tiempo *********** -->
+                          <!-- ********** START - Modo ********** -->
+                          <div class="mt-2 mb-2 col-12">
+                            <div class="card">
+                              <div class="card-header">
+                                Modo
+                              </div>
+                              <div class="card-body" style="padding-bottom: 3rem;">
+                                <div class="row">
+                                  <!-- ********** START - Tipo de atencion ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-attentionTypes">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-ambulance"></i>&nbsp;Tipo de atenci&oacute;n:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionAttentionTypes" 
+                                        bindLabel="tTipoAtencion"
+                                        id="input-attentionTypes" 
+                                        name="attentionTypes" 
+                                        #attentionTypes="ngModel"
+                                        placeholder="Seleccione tipo de atención" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.attentionTypes"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Tipo de atencion *********** -->
+                                  <!-- ********** START - SOAT ********** -->
+                                  <div class="col-6" *ngIf="false">
+                                    <div class="form-group">
+                                      <label for="input-attentionTypes">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-car"></i>&nbsp;SOAT:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <div>
+                                        <h5 class="d-inline-block m-3">NO</h5>&nbsp;
+                                        <label class="switch p-2">
+                                          <input 
+                                          [ngModelOptions]="{standalone: true}" 
+                                          [(ngModel)]="patientData.diagnostic.soatInsurance"
+                                          type="checkbox" [checked]="(patientData.diagnostic.soatInsurance)?'checked':false">
+                                          <span class="slider round"></span>
+                                        </label>&nbsp;
+                                        <h5 class="d-inline-block m-3">SI</h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - SOAT *********** -->
+                                  <!-- ********** START - Tipo de afección ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-afectionType">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-band-aid"></i>&nbsp;Tipo de afecci&oacute;n:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionAfectionType" 
+                                        bindLabel="name" 
+                                        id="input-afectionType" 
+                                        name="afectionType" 
+                                        #afectionType="ngModel"
+                                        placeholder="Seleccione tipo de afección" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.afectionType"
+                                        (change)="fnAfectionType($event)"
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Tipo de afección *********** -->
+                                  <!-- ********** START - Origen ********** -->
+                                  <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="input-incapacityType">
+                                        <h5 class="m-0">
+                                          <i class="fab fa-accessible-icon"></i>&nbsp;Origen:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionIncapacityType" 
+                                        bindLabel="tOrigenIncapacidad"
+                                        id="input-incapacityType" 
+                                        name="incapacityType" 
+                                        #incapacityType="ngModel"
+                                        placeholder="Seleccione origen incapacidad" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        [(ngModel)]="patientData.diagnostic.incapacityType"
+                                        required 
+                                        [disabled]="collectionIncapacityType.length < 1" 
+                                        [clearable]="false">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Origen *********** -->
+                                  <!-- ********** START - Palabras clave ********** -->
+                                  <div class="col-6" *ngIf="true">
+                                    <div class="form-group">
+                                      <label for="input-patientConditionKeywords">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-spell-check"></i>&nbsp;Agregar palabras clave:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <ng-select 
+                                        [items]="collectionPatientConditionKeywords" 
+                                        [multiple]="true" 
+                                        [closeOnSelect]="false"
+                                        [searchable]="true" 
+                                        [hideSelected]="true" 
+                                        bindLabel="name"
+                                        id="input-patientConditionKeywords" 
+                                        name="patientConditionKeywords" 
+                                        #patientConditionKeywords="ngModel"
+                                        [(ngModel)]="patientData.diagnostic.patientConditionKeywords"
+                                        [ngModelOptions]="{standalone: true}" 
+                                        placeholder="Seleccione palabra(s) clave" 
+                                        required 
+                                        [disabled]="false" 
+                                        [clearable]="true">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                              <span class="ng-value-label">{{item.name}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                          </div>
+                                          <div class="ng-value" *ngIf="items.length > 2">
+                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                          </div>
+                                        </ng-template>
+                                      </ng-select>
+        
+                                      <div class="mt-3" *ngIf="patientData?.diagnostic?.patientConditionKeywords?.length > 0">
+                                        <label for="input-patientConditionKeywords">
+                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientConditionKeywords')">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;Palabras clave seleccionadas:&nbsp;
+                                          </small>
+                                        </label>
+                                        <div class="listPatientConditionKeywords m-2" style="display: none;">
+                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientConditionKeywords; let i=index">
+                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.name }}</span>
+                                            <i (click)="fnRemovePatientKeywords(item, i, patientData.diagnostic.patientConditionKeywords)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                          </div>
+                                        </div>
+                                      </div>
+        
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Palabras clave *********** -->
+                                  <!-- ********** START - Descripcion acontecimientos ********** -->
+                                  <div class="col-12">
+                                    <div class="form-group">
+                                      <label for="input-patientModeDescription">
+                                        <h5 class="m-0">
+                                          <i class="fas fa-globe-americas"></i>&nbsp;Descripci&oacute;n de los acontecimientos y causas:&nbsp;
+                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                        </h5>
+                                      </label>
+                                      <textarea 
+                                        nbInput 
+                                        fullWidth 
+                                        [readonly]="false" 
+                                        [disabled]="false" 
+                                        placeholder="Ingrese la descripción de los acontecimientos y causas de la afección del paciente ..." 
+                                        id="input-patientModeDescription"  
+                                        name="patientModeDescription" 
+                                        [(ngModel)]="patientData.diagnostic.patientModeDescription" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [status]="patientModeDescription.dirty ? (patientModeDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                        #patientModeDescription="ngModel" 
+                                        rows="6"
+                                      >
+                                      </textarea>
+                                    </div>
+                                  </div>
+                                  <!-- *********** END - Descripcion acontecimientos *********** -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- *********** END - Modo *********** -->
                           <!-- ********** START - Lugar ********** -->
                           <div class="mt-2 mb-2 col-12">
                             <div class="card">
@@ -583,125 +731,6 @@
                             </div>
                           </div>
                           <!-- *********** END - Lugar *********** -->
-                          <!-- ********** START - Modo ********** -->
-                          <div class="mt-2 mb-2 col-12">
-                            <div class="card">
-                              <div class="card-header">
-                                Modo
-                              </div>
-                              <div class="card-body" style="padding-bottom: 3rem;">
-                                <div class="row">
-                                  <!-- ********** START - Tipo de afección ********** -->
-                                  <div class="col-6">
-                                    <div class="form-group">
-                                      <label for="input-afectionType">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-band-aid"></i>&nbsp;Tipo de afecci&oacute;n:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionAfectionType" 
-                                        bindLabel="name" 
-                                        id="input-afectionType" 
-                                        name="afectionType" 
-                                        #afectionType="ngModel"
-                                        placeholder="Seleccione tipo de afección" 
-                                        [ngModelOptions]="{standalone: true}" 
-                                        [(ngModel)]="patientData.diagnostic.afectionType"
-                                        (change)="fnAfectionType($event)"
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="false">
-                                      </ng-select>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Tipo de afección *********** -->
-                                  <!-- ********** START - Palabras clave ********** -->
-                                  <div class="col-6" *ngIf="true">
-                                    <div class="form-group">
-                                      <label for="input-patientConditionKeywords">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-spell-check"></i>&nbsp;Agregar palabras clave:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionPatientConditionKeywords" 
-                                        [multiple]="true" 
-                                        [closeOnSelect]="false"
-                                        [searchable]="true" 
-                                        [hideSelected]="true" 
-                                        bindLabel="name"
-                                        id="input-patientConditionKeywords" 
-                                        name="patientConditionKeywords" 
-                                        #patientConditionKeywords="ngModel"
-                                        [(ngModel)]="patientData.diagnostic.patientConditionKeywords"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        placeholder="Seleccione palabra(s) clave" 
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="true">
-                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                              <span class="ng-value-label">{{item.name}}</span>
-                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                          </div>
-                                          <div class="ng-value" *ngIf="items.length > 2">
-                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                          </div>
-                                        </ng-template>
-                                      </ng-select>
-        
-                                      <div class="mt-3" *ngIf="patientData?.diagnostic?.patientConditionKeywords?.length > 0">
-                                        <label for="input-patientConditionKeywords">
-                                          <small class="m-0 cursor-pointer" (click)="fnShowContent('listPatientConditionKeywords')">
-                                            <i class="fas fa-chevron-right"></i>&nbsp;Palabras clave seleccionadas:&nbsp;
-                                          </small>
-                                        </label>
-                                        <div class="listPatientConditionKeywords m-2" style="display: none;">
-                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;" *ngFor="let item of patientData.diagnostic.patientConditionKeywords; let i=index">
-                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.name }}</span>
-                                            <i (click)="fnRemovePatientKeywords(item, i, patientData.diagnostic.patientConditionKeywords)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
-                                          </div>
-                                        </div>
-                                      </div>
-        
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Palabras clave *********** -->
-                                  <!-- ********** START - Descripcion acontecimientos ********** -->
-                                  <div class="col-12">
-                                    <div class="form-group">
-                                      <label for="input-patientModeDescription">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-globe-americas"></i>&nbsp;Descripci&oacute;n de los acontecimientos y causas:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <textarea 
-                                        nbInput 
-                                        fullWidth 
-                                        [readonly]="false" 
-                                        [disabled]="false" 
-                                        placeholder="Ingrese la descripción de los acontecimientos y causas de la afección del paciente ..." 
-                                        id="input-patientModeDescription"  
-                                        name="patientModeDescription" 
-                                        [(ngModel)]="patientData.diagnostic.patientModeDescription" 
-                                        [ngModelOptions]="{standalone: true}"
-                                        [status]="patientModeDescription.dirty ? (patientModeDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                        #patientModeDescription="ngModel" 
-                                        rows="6"
-                                      >
-                                      </textarea>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Descripcion acontecimientos *********** -->
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- *********** END - Modo *********** -->
                           <!-- ********** START - Diagnostico paciente ********** -->
                           <div class="mt-2 mb-2 col-12">
                             <div class="card">
@@ -896,31 +925,7 @@
                                     </div>
                                   </div>
                                   <!-- *********** END - Lateralidad *********** -->
-                                  <!-- ********** START - Origen ********** -->
-                                  <div class="col-6">
-                                    <div class="form-group">
-                                      <label for="input-incapacityType">
-                                        <h5 class="m-0">
-                                          <i class="fab fa-accessible-icon"></i>&nbsp;Origen:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionIncapacityType" 
-                                        bindLabel="tOrigenIncapacidad"
-                                        id="input-incapacityType" 
-                                        name="incapacityType" 
-                                        #incapacityType="ngModel"
-                                        placeholder="Seleccione origen incapacidad" 
-                                        [ngModelOptions]="{standalone: true}" 
-                                        [(ngModel)]="patientData.diagnostic.incapacityType"
-                                        required 
-                                        [disabled]="collectionIncapacityType.length < 1" 
-                                        [clearable]="false">
-                                      </ng-select>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Origen *********** -->
+
                                   <div class="col-12">
                                     <hr>
                                     <div class="form-group">
