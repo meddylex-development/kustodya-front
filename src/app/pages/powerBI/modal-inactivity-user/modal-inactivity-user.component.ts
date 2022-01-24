@@ -29,7 +29,7 @@ export class ModalInactivityUserComponent implements OnInit {
   ngOnInit() {
     const self = this;
     // self.data_alert
-    const payload = sessionStorage.getItem('payload');
+    const payload = sessionStorage.getItem("token");
     const user_id = sessionStorage.getItem('user_id');
     if (!payload) {
       // self.router.navigateByUrl('');

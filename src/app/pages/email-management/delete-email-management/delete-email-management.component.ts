@@ -46,7 +46,7 @@ export class DeleteEmailManagementComponent implements OnInit {
     //   }
     // });
     const self = this;
-    const payload = sessionStorage.getItem('payload');
+    const payload = sessionStorage.getItem("token");
     const user_id = sessionStorage.getItem('user_id');
     if (!payload) {
       self.router.navigateByUrl('');

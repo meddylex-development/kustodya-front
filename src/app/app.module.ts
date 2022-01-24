@@ -161,7 +161,7 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
 
           token: {
             class: NbAuthJWTToken,
-            key: 'payload', // this parameter tells where to look for the token
+            key: 'token', // this parameter tells where to look for the token
           },
 
           baseEndpoint: environment.apiUrl,

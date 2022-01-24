@@ -25,7 +25,7 @@ export class DeleteAccountingNumberComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     // self.route.params.subscribe(params => {
     //   if (params.token && params.entity) {
     //     self.current_payload = params.token;

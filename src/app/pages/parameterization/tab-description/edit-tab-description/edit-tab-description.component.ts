@@ -23,7 +23,7 @@ export class EditTabDescriptionComponent implements OnInit {
   ngOnInit() {
     const self = this;
     // self.data_tab_description
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     self.fnGetListaTipoContabilidad(self.current_payload);
   }
 

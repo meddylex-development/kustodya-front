@@ -37,7 +37,7 @@ export class RegistroContableComponent implements OnInit {
         console.log('this.diagnosticCodeDNI: ', this.diagnosticCodeDNI);
         // this.token = params.token;
         // console.log('this.token: ', this.token);
-        const token = sessionStorage.getItem('payload');
+        const token = sessionStorage.getItem("token");
         this.token = token;
         // this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
         let data = this.utilitiesService.fnGetDataShare();

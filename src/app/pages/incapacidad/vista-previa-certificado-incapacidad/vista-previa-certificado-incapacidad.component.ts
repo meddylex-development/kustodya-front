@@ -79,7 +79,7 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
   ngOnInit() {
     // this.token = params.token;
     // console.log('this.token: ', this.token);
-    const token = sessionStorage.getItem('payload');
+    const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
     console.log('data: ', data);

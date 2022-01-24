@@ -22,6 +22,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 // import { MyAccountModule } from './user/my-account/my-account.module';
 import { IncapacityModule } from './incapacity/incapacity.module';
 import { EmailManagementModule } from './email-management/email-management.module';
+import { CalificacionOrigenModule } from './calificacion-origen/calificacion-origen.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -46,6 +47,7 @@ const PAGES_COMPONENTS = [
     // MyAccountModule,
     ModalOverlaysModule,
     EmailManagementModule,
+    CalificacionOrigenModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

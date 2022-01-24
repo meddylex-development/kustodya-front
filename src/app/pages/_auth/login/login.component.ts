@@ -128,9 +128,11 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
         'rememberMe': true,
       };
       self.service.authenticate(self.strategy, obj_user_account).subscribe((resultAuth: NbAuthResult) => {
+        console.log('NbAuthResult: ', NbAuthResult);
 
         if (resultAuth.isSuccess() && resultAuth.getMessages()[0]['status'] === 200) {
           self.messages = resultAuth.getMessages();
+          console.log('self.messages: ', self.messages);
           self.token = self.messages[0]['body']['token'];
           self.utilitiesService.fnSetToken(self.token);
           self.userId = self.messages[0]['body']['userId'];

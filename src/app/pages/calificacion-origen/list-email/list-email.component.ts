@@ -1,23 +1,26 @@
+/* ************+ Import module auth ************ */
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
-import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
+import { OriginQualificationService } from '../../../shared/api/services/origin-qualification.service';
+import { EnumerationsService } from '../../../shared/api/services/enumerations.service';
+// import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
+
 
 @Component({
-  selector: 'ngx-historico-paciente',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './historico-paciente.component.html',
-  styleUrls: ['./historico-paciente.component.scss']
+  selector: 'ngx-list-email',
+  templateUrl: './list-email.component.html',
+  styleUrls: ['./list-email.component.scss']
 })
-export class HistoricoPacienteComponent implements OnInit {
+export class ListEmailComponent implements OnInit {
 
+  public dataSession: any = {};
   public patientData: any = null;
   public patientIncapacities: any = [];
-  public totalItems: any = null;
-  public currentPage: number = 1;
-  public itemsPerPage: number = 10;
+  
   public flipped: boolean = false;
   public submitted: boolean = false;
   public token: any;
@@ -70,53 +73,77 @@ export class HistoricoPacienteComponent implements OnInit {
     { 'id': 6, 'name': 'Aprobada' },
     { 'id': 7, 'name': 'Pagada' },
   ];
+  public listEmails: any = [];
+  public listEmailsOriginal: any = [];
+  public totalItems: any = null;
+  public currentPage: number = 1;
+  public itemsPerPage: number = 10;
+  public numItemsPage: any = [];
+  public prevPage: any = null;
+  public nextNext: any = null;
+  public totalPaginas: any = null;
+  public searchInput: any = '';
 
   constructor(
+    private authService: NbAuthService,
     private dialogService: NbDialogService,
     private location: Location,
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private originQualificationService: OriginQualificationService,
+    private enumerationsService: EnumerationsService,
   ) { }
 
   ngOnInit() {
-    // const self = this;
-    const token = sessionStorage.getItem("token");
-    this.token = token;
-    let data = this.utilitiesService.fnGetDataShare();
-    // console.log('data: ', data);
-    if (data) {
-      this.submitted = true;
-      this.patientData = data['patientData'];
-      console.log('this.patientData: ', this.patientData);
-      /// this.patientIncapacities = data['patientIncapacities'];
-      // this.totalItems = data['patientIncapacities'].length;
-      // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
-      // this.submitted = true;
-      // console.log('iIdpaciente: ', this.patientData['iIdpaciente']);
-      this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
-        console.log('response: ', response);
-        if (response) {
-          let patientIncapacities = response['patientIncapacities'];
-          console.log('patientIncapacities: ', patientIncapacities);
-          this.patientIncapacities = patientIncapacities;
-          console.log('this.patientIncapacities: ', this.patientIncapacities);
-          this.totalItems = response['totalItems'];
-          console.log('this.totalItems: ', this.totalItems);
-          this.submitted = false;
-          // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
-        } else {
-          this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-          this.submitted = false;
-        }
-      }).catch((error) => {
-      });
-    } else {
-      this.patientData = null;
-      this.patientIncapacities = [];
-      this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-    }
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      console.log('token: ', token);
+      if (token.isValid()) {
+        // here we receive a payload from the token and assigne it to our `dataSession` variable
+        this.dataSession = token.getPayload();
+        this.token = token["token"];
+        // this.fnGetOriginQualificationList(this.token, 1, '', this.data_object['status_list'], this.data_object['start_date'], this.data_object['end_date']);
+        console.log('this.dataSession: ', this.dataSession);
+        console.log('this.token: ', this.token);
+        // alert("Hola")
+        // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
+      }
+    });
   }
+
+  fnGetOriginQualificationListStates(current_payload) {
+    // const self = this;
+    // self.enumerationsService.fnHttpGetOriginQualificationListStates(current_payload).subscribe(resp_get_patients => {
+    //   if (resp_get_patients.status == 200) {
+    //     self.collection_data = JSON.parse(JSON.stringify(resp_get_patients.body));
+    //   }
+    // }, err => {
+    // });
+  }
+
+  fnGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date) {
+    this.submitted = true;
+    this.originQualificationService.fnHttpGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date).subscribe(respList => {
+      if (respList.status == 200) {
+        this.listEmails = JSON.parse(JSON.stringify(respList.body['correoOutputModel']));
+        this.listEmailsOriginal = JSON.parse(JSON.stringify(respList.body['correoOutputModel']));
+        this.totalItems = respList.body['paginacion']['totalItems'];
+        this.numItemsPage = respList.body['paginacion']['itemsPorPagina'];
+        this.currentPage = respList.body['paginacion']['paginaActual'];
+        this.prevPage = respList.body['paginacion']['anterior'];
+        this.nextNext = respList.body['paginacion']['siguiente'];
+        this.totalPaginas = respList.body['paginacion']['totalPaginas'];
+        this.submitted = false;
+      }
+    }, err => {
+      this.submitted = false;
+    });
+  }
+
+
+
+
+
+
 
   fnReturnPage(): void {
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
@@ -206,30 +233,6 @@ export class HistoricoPacienteComponent implements OnInit {
 
   fnShowModalChangeStatusIncapacity(item) {
     console.log('item: ', item);
-    let dataSend = {};
-    dataSend['dataIncapacity'] = item;
-    this.dialogService.open(EstadoIncapacidadComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
-      console.log('res: ', res);
-      if (res) {
-        this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
-          console.log('response: ', response);
-          if (response) {
-            let patientIncapacities = response['patientIncapacities'];
-            console.log('patientIncapacities: ', patientIncapacities);
-            this.patientIncapacities = patientIncapacities;
-            console.log('this.patientIncapacities: ', this.patientIncapacities);
-            this.totalItems = response['totalItems'];
-            console.log('this.totalItems: ', this.totalItems);
-            this.submitted = false;
-            // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
-          } else {
-            this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-            this.submitted = false;
-          }
-        }).catch((error) => {
-        });
-      }
-    });
   }
 
 }

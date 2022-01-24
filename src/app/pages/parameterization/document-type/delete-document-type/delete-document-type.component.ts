@@ -38,7 +38,7 @@ export class DeleteDocumentTypeComponent implements OnInit {
   ngOnInit() {
     // const self = this;
     // // self.document_type_data
-    // self.token = sessionStorage.getItem('payload');
+    // self.token = sessionStorage.getItem("token");
     // self.route.params.subscribe(params => {
     //   if (params.token && params.entity) {
     //     self.token = params.token;
@@ -54,7 +54,7 @@ export class DeleteDocumentTypeComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
     const user_id = sessionStorage.getItem('user_id');
-    const token = sessionStorage.getItem('payload');
+    const token = sessionStorage.getItem("token");
     if (token && user_id) {
       self.token = token;
       self.user_id = user_id;

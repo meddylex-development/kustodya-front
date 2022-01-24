@@ -223,7 +223,7 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
   
   ngOnInit() {
-    const token = sessionStorage.getItem('payload');
+    const token = sessionStorage.getItem("token");
     this.token = token;
     this.bsLocaleService.use('es');
     let data = this.utilitiesService.fnGetDataShare();

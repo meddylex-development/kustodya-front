@@ -50,8 +50,8 @@ export class UtilitiesService {
     // private userService: UserService, 
     // private rethusService: RethusService, 
   ) {
-    // const token = sessionStorage.getItem('payload');
-    this.headers = new HttpHeaders().set('Authorization', sessionStorage.getItem('payload'));
+    // const token = sessionStorage.getItem("token");
+    this.headers = new HttpHeaders().set('Authorization', sessionStorage.getItem("token"));
     this.dataChange = new Observable((observer: Observer<any>) => {
       this.dataChangeObserver = observer;
     });
@@ -86,14 +86,14 @@ export class UtilitiesService {
     return r.substring(0, l);
   }
   fnReturnKey() {
-    if (sessionStorage.getItem('payload')) {
+    if (sessionStorage.getItem("token")) {
       return true;
     } else {
       return false;
     }
   }
   fnDestroySession() {
-    sessionStorage.removeItem('payload');
+    sessionStorage.removeItem("token");
     localStorage.removeItem('startDate');
     localStorage.removeItem('endDate');
     sessionStorage.removeItem('listCompanies');
@@ -104,7 +104,7 @@ export class UtilitiesService {
     sessionStorage.clear();
   }
   fnDestroySessionGoLogin() {
-    sessionStorage.removeItem('payload');
+    sessionStorage.removeItem("token");
     localStorage.removeItem('startDate');
     localStorage.removeItem('endDate');
     sessionStorage.removeItem('listCompanies');
@@ -137,9 +137,9 @@ export class UtilitiesService {
   fnGetUser() {
     return sessionStorage.getItem('user');
   }
-  fnSetToken(payload) {
-    console.log('payload: ', payload);
-    sessionStorage.setItem('payload', payload);
+  fnSetToken(token) {
+    console.log('token: ', token);
+    sessionStorage.setItem("token", token);
   }
   fnSetSessionStorage(nameVar, dataVal) {
     sessionStorage.setItem(nameVar, dataVal);
@@ -160,7 +160,7 @@ export class UtilitiesService {
     localStorage.setItem('endDate', endDate);
   }
   fnGetToken = function () {
-    const t = sessionStorage.getItem('payload');
+    const t = sessionStorage.getItem("token");
     if (t) {
       return t;
     } else {
