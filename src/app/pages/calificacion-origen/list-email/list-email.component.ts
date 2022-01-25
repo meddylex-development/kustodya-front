@@ -83,6 +83,7 @@ export class ListEmailComponent implements OnInit {
   public nextNext: any = null;
   public totalPaginas: any = null;
   public searchInput: any = '';
+  public currentSearch: boolean = false;
 
   constructor(
     private authService: NbAuthService,
@@ -101,9 +102,27 @@ export class ListEmailComponent implements OnInit {
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
         this.token = token["token"];
-        // this.fnGetOriginQualificationList(this.token, 1, '', this.data_object['status_list'], this.data_object['start_date'], this.data_object['end_date']);
         console.log('this.dataSession: ', this.dataSession);
         console.log('this.token: ', this.token);
+        this.submitted = true;
+        this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
+          if(resp) {
+            console.log('resp: ', resp);
+            this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+            console.log('this.listEmails: ', this.listEmails);
+            this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+            this.totalItems = resp['body']['paginacion']['totalItems'];
+            this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+            this.currentPage = resp['body']['paginacion']['paginaActual'];
+            this.prevPage = resp['body']['paginacion']['anterior'];
+            this.nextNext = resp['body']['paginacion']['siguiente'];
+            this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+            this.submitted = false;
+          } else {
+            this.submitted = false;
+            this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
+          }
+        });
         // alert("Hola")
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
       }
@@ -112,127 +131,124 @@ export class ListEmailComponent implements OnInit {
 
   fnGetOriginQualificationListStates(current_payload) {
     // const self = this;
-    // self.enumerationsService.fnHttpGetOriginQualificationListStates(current_payload).subscribe(resp_get_patients => {
+    // this.enumerationsService.fnHttpGetOriginQualificationListStates(current_payload).subscribe(resp_get_patients => {
     //   if (resp_get_patients.status == 200) {
-    //     self.collection_data = JSON.parse(JSON.stringify(resp_get_patients.body));
+    //     this.collection_data = JSON.parse(JSON.stringify(resp_get_patients.body));
     //   }
     // }, err => {
     // });
   }
 
   fnGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date) {
-    this.submitted = true;
-    this.originQualificationService.fnHttpGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date).subscribe(respList => {
-      if (respList.status == 200) {
-        this.listEmails = JSON.parse(JSON.stringify(respList.body['correoOutputModel']));
-        this.listEmailsOriginal = JSON.parse(JSON.stringify(respList.body['correoOutputModel']));
-        this.totalItems = respList.body['paginacion']['totalItems'];
-        this.numItemsPage = respList.body['paginacion']['itemsPorPagina'];
-        this.currentPage = respList.body['paginacion']['paginaActual'];
-        this.prevPage = respList.body['paginacion']['anterior'];
-        this.nextNext = respList.body['paginacion']['siguiente'];
-        this.totalPaginas = respList.body['paginacion']['totalPaginas'];
+    return new Promise((resolve, reject) => {
+      this.submitted = true;
+      this.originQualificationService.fnHttpGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
         this.submitted = false;
-      }
-    }, err => {
-      this.submitted = false;
-    });
+      });
+    })
   }
 
-
-
-
-
-
-
-  fnReturnPage(): void {
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+  getPage(page: number) {
+    
+    // const date_start_unix = moment(this.date_range[0]).unix();
+    // const date_start_valueof = (this.date_range.length > 0) ? moment(this.date_range[0]).valueOf() : '';
+    // const date_end_unix = moment(this.date_range[1]).unix();
+    // const date_end_valueof = (this.date_range.length > 0) ? moment(this.date_range[1]).valueOf() : '';
+    this.submitted = true;
+    this.currentPage = page;
+    this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
+      console.log('resp: ', resp);
+      if(resp) {
+        console.log('resp: ', resp);
+        this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        console.log('this.listEmails: ', this.listEmails);
+        this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        this.totalItems = resp['body']['paginacion']['totalItems'];
+        this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+        this.currentPage = resp['body']['paginacion']['paginaActual'];
+        this.prevPage = resp['body']['paginacion']['anterior'];
+        this.nextNext = resp['body']['paginacion']['siguiente'];
+        this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+        this.submitted = false;
+      } else {
+        this.submitted = false;
+        this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
+      }
+    })
   }
 
   fnViewHistory() {
     this.flipped = (this.flipped) ? false : true;
   }
 
-  fnGetCantidadDiagnoticosIncapacidadByPaciente(token) {
-    // this.submitted = true;
-    /// this.listCantidadDiagnoticosIncapacidad = [];
-    let listCantidadDiagnoticosIncapacidad = [];
-    let idPaciente = this.patientData['iIdpaciente'];
-    // let self = this;
-    this.incapacityService.fnHttpGetCantidadDiagnoticosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-      if (r.status == 200) {
-        this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-        let dataChart1 = [];
-        let dataChart2 = [];
-        this.listCantidadDiagnoticosIncapacidad.forEach(i => {
-          let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];
-          // let char1_dataChart_gc.push(itemDiasIncapacidad);
-          dataChart1.push(itemDiasIncapacidad);
-          let itemIncapacidadesEmitidas = [i.tCie10, i.iIncapacidadesEmitidas];
-          dataChart2.push(itemIncapacidadesEmitidas);
-          // this.char2_dataChart_gc.push(itemIncapacidadesEmitidas);
-        });
-        this.chart1.data = dataChart1;
-        this.chart2.data = dataChart2;
-        // this.submitted = false;
-      } else {
-        // this.submitted = false;
-        this.utilitiesService.showToast('top-right', 'warning', 'Ocurrio un error', 'nb-alert');
-        setTimeout(() => {
-          this.fnReturnPage();
-        }, 1000);
-      }
-    }, err => {
-      // this.submitted = false;
-      this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
-    });
-  }
+  fnTextSearch(text_search) {
+    this.currentSearch = false;
+    if (text_search.length > 3 || text_search.length < 1) {
 
-  fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
-    return new Promise((resolve, reject) => {
-      // this.submitted = true;
-      // this.patientIncapacities = [];
-      //const idPaciente = 2;
-      this.incapacityService.fnHttpGetIncapacidadesPaciente(token, idPaciente).subscribe(r => {
-        if (r.status == 200) {
-          let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-          let collection = [];
-          patientIncapacities.forEach((value, key) => {
-            if(value['maxestado'] == null || value['maxestado'] == '') {
-              value['maxestado'] = 1;
-            }
-            // collection.push(value);
-          });
-          
-          let totalItems = patientIncapacities.length;
-          // this.submitted = false;
-          resolve({ 'patientIncapacities': patientIncapacities, 'totalItems': totalItems });
-        } else if (r.status == 206) {
-          resolve(false);
-          // this.submitted = false;
-          const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-          this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+      // const date_start_unix = moment(self.date_range[0]).unix();
+      // const date_start_valueof = (self.date_range.length > 0) ? moment(self.date_range[0]).valueOf() : '';
+      // const date_end_unix = moment(self.date_range[1]).unix();
+      // const date_end_valueof = (self.date_range.length > 0) ? moment(self.date_range[1]).valueOf() : '';
+
+      this.fnGetOriginQualificationList(this.token, this.currentPage, text_search, 1, null, null).then((resp) => {
+        if(resp) {
+          this.currentSearch = true;
+          console.log('resp: ', resp);
+          this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+          console.log('this.listEmails: ', this.listEmails);
+          this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+          this.totalItems = resp['body']['paginacion']['totalItems'];
+          this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+          this.currentPage = resp['body']['paginacion']['paginaActual'];
+          this.prevPage = resp['body']['paginacion']['anterior'];
+          this.nextNext = resp['body']['paginacion']['siguiente'];
+          this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+          this.submitted = false;
+        } else {
+          this.submitted = false;
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
         }
-      }, err => {
-        reject('Error');
-        // this.submitted = false;
-        this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
       });
-    });
+      // if (self.isSuperAdmin) {
+      //   self.fnGetUsersListAdmin(self.entity_id, self.current_payload, text_search, 1);
+      // } else {
+      //   // self.fnGetUsersList(self.token);
+      //   self.fnGetUsersList(self.entity_id, self.current_payload, text_search, 1);
+      // }
+    } else {
+      // text_search = '';
+      // self.search_input = '';
+      // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, text_search, self.status_list);
+    }
   }
 
-  fnViewDagnosticCertificate(item) {
-    let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/certificado/'+ diagnosticCodeDNI);
-  }
-
-  fnViewAccountingRegistry(item) {
-    let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/registro-contable/'+ diagnosticCodeDNI);
-  }
-
-  fnShowModalChangeStatusIncapacity(item) {
-    console.log('item: ', item);
+  fnClearCurrentSearch() {
+    this.currentSearch = false;
+    this.searchInput = '';
+    this.submitted = true;
+    this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
+      if(resp) {
+        console.log('resp: ', resp);
+        this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        console.log('this.listEmails: ', this.listEmails);
+        this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        this.totalItems = resp['body']['paginacion']['totalItems'];
+        this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+        this.currentPage = resp['body']['paginacion']['paginaActual'];
+        this.prevPage = resp['body']['paginacion']['anterior'];
+        this.nextNext = resp['body']['paginacion']['siguiente'];
+        this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+        this.submitted = false;
+      } else {
+        this.submitted = false;
+        this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
+      }
+    });      
   }
 
 }

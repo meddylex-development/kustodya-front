@@ -73,6 +73,7 @@ export class OriginQualificationListComponent implements OnInit {
     const self = this;
     self.bsLocaleService.use('es');
     // self.data_object
+    console.log('self.data_object: ', self.data_object);
     $(document).ready(function () {
     });
     /* **** END - JQuery definition **** */

@@ -106,4 +106,19 @@
         padding: 4px 10px;
     }
 
+    .inputSearch {
+        width: 70% !important;
+        border-color: #ccc !important;
+    }
+
+    .inputSearch :focus {
+        width: 70% !important;
+        border-color: #1e90ff !important;
+    }
+
+    ::ng-deep #buttonSearch, #buttonAdvanceSearch, #buttonClearSearch {
+        cursor: pointer;
+        line-height: 1.65 !important;
+    }
+
 }
