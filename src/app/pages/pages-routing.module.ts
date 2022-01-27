@@ -18,6 +18,7 @@ import { RegistroContableComponent } from './incapacidad/registro-contable/regis
 import { ReporteIncapacidadesComponent } from './incapacidad/reporte-incapacidades/reporte-incapacidades.component';
 import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte-resolucion.component';
 import { ListEmailComponent } from './calificacion-origen/list-email/list-email.component';
+import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
 
 const routes: Routes = [
   {
@@ -93,10 +94,10 @@ const routes: Routes = [
             path: 'listado-correos',
             component: ListEmailComponent,
           }, 
-          // {
-          //   path: 'reporte-incapacidades',
-          //   component: ReporteIncapacidadesComponent,
-          // }, 
+          {
+            path: 'transcripcion/:idEmail',
+            component: TranscriptionComponent,
+          }, 
         ],
       }, 
       {

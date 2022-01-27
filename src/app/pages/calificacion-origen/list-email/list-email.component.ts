@@ -7,8 +7,9 @@ import { UtilitiesService } from '../../../shared/api/services/utilities.service
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { OriginQualificationService } from '../../../shared/api/services/origin-qualification.service';
 import { EnumerationsService } from '../../../shared/api/services/enumerations.service';
+import { BusquedaAvanzadaComponent } from '../busqueda-avanzada/busqueda-avanzada.component';
 // import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-list-email',
@@ -84,6 +85,7 @@ export class ListEmailComponent implements OnInit {
   public totalPaginas: any = null;
   public searchInput: any = '';
   public currentSearch: boolean = false;
+  public dataSearchAdvance: any = {};
 
   constructor(
     private authService: NbAuthService,
@@ -104,26 +106,7 @@ export class ListEmailComponent implements OnInit {
         this.token = token["token"];
         console.log('this.dataSession: ', this.dataSession);
         console.log('this.token: ', this.token);
-        this.submitted = true;
-        this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
-          if(resp) {
-            console.log('resp: ', resp);
-            this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-            console.log('this.listEmails: ', this.listEmails);
-            this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-            this.totalItems = resp['body']['paginacion']['totalItems'];
-            this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
-            this.currentPage = resp['body']['paginacion']['paginaActual'];
-            this.prevPage = resp['body']['paginacion']['anterior'];
-            this.nextNext = resp['body']['paginacion']['siguiente'];
-            this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
-            this.submitted = false;
-          } else {
-            this.submitted = false;
-            this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
-          }
-        });
-        // alert("Hola")
+        this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, '', '', '', false);
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
       }
     });
@@ -154,32 +137,12 @@ export class ListEmailComponent implements OnInit {
   }
 
   getPage(page: number) {
-    
-    // const date_start_unix = moment(this.date_range[0]).unix();
-    // const date_start_valueof = (this.date_range.length > 0) ? moment(this.date_range[0]).valueOf() : '';
-    // const date_end_unix = moment(this.date_range[1]).unix();
-    // const date_end_valueof = (this.date_range.length > 0) ? moment(this.date_range[1]).valueOf() : '';
-    this.submitted = true;
     this.currentPage = page;
-    this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
-      console.log('resp: ', resp);
-      if(resp) {
-        console.log('resp: ', resp);
-        this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-        console.log('this.listEmails: ', this.listEmails);
-        this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-        this.totalItems = resp['body']['paginacion']['totalItems'];
-        this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
-        this.currentPage = resp['body']['paginacion']['paginaActual'];
-        this.prevPage = resp['body']['paginacion']['anterior'];
-        this.nextNext = resp['body']['paginacion']['siguiente'];
-        this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
-        this.submitted = false;
-      } else {
-        this.submitted = false;
-        this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
-      }
-    })
+    this.searchInput = (this.dataSearchAdvance['textSearch']) ? this.dataSearchAdvance['textSearch'] : '';
+    let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
+    let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
+    let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch);
   }
 
   fnViewHistory() {
@@ -189,37 +152,10 @@ export class ListEmailComponent implements OnInit {
   fnTextSearch(text_search) {
     this.currentSearch = false;
     if (text_search.length > 3 || text_search.length < 1) {
-
-      // const date_start_unix = moment(self.date_range[0]).unix();
-      // const date_start_valueof = (self.date_range.length > 0) ? moment(self.date_range[0]).valueOf() : '';
-      // const date_end_unix = moment(self.date_range[1]).unix();
-      // const date_end_valueof = (self.date_range.length > 0) ? moment(self.date_range[1]).valueOf() : '';
-
-      this.fnGetOriginQualificationList(this.token, this.currentPage, text_search, 1, null, null).then((resp) => {
-        if(resp) {
-          this.currentSearch = true;
-          console.log('resp: ', resp);
-          this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-          console.log('this.listEmails: ', this.listEmails);
-          this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-          this.totalItems = resp['body']['paginacion']['totalItems'];
-          this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
-          this.currentPage = resp['body']['paginacion']['paginaActual'];
-          this.prevPage = resp['body']['paginacion']['anterior'];
-          this.nextNext = resp['body']['paginacion']['siguiente'];
-          this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
-          this.submitted = false;
-        } else {
-          this.submitted = false;
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
-        }
-      });
-      // if (self.isSuperAdmin) {
-      //   self.fnGetUsersListAdmin(self.entity_id, self.current_payload, text_search, 1);
-      // } else {
-      //   // self.fnGetUsersList(self.token);
-      //   self.fnGetUsersList(self.entity_id, self.current_payload, text_search, 1);
-      // }
+      let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
+      let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
+      let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
+      this.fnBuildDataOriginQualification(this.token, this.currentPage, text_search, state, dateStartValueof, dateEndValueof, true);
     } else {
       // text_search = '';
       // self.search_input = '';
@@ -230,9 +166,45 @@ export class ListEmailComponent implements OnInit {
   fnClearCurrentSearch() {
     this.currentSearch = false;
     this.searchInput = '';
+    this.dataSearchAdvance = {
+      state: 1,
+      statusInfo: { name: 'Por gestionar', value: 1 },
+    };
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, '', '', '', false);
+  }
+
+  fnShowAdvanceSearch() {
+      let dataSend = {};
+      dataSend['data'] = { 
+        module: 'calificacion-origen', 
+        title: 'Busqueda avanzada', 
+        description: 'En el siguiente formulario puedes filtrar los correos electrónicos por otros criterio como rango de fechas ó estado de auditoria.', 
+        textSearchInput: (this.dataSearchAdvance['textSearch']) ? this.dataSearchAdvance['textSearch'] : this.searchInput, 
+        statusAudit: (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : null,
+        dateRange: (this.dataSearchAdvance['daterange']) ? this.dataSearchAdvance['daterange'] : '',
+        statusInfo: (this.dataSearchAdvance['statusInfo']) ? this.dataSearchAdvance['statusInfo'] : {},
+      };
+      console.log('dataSend: ', dataSend);
+      this.dialogService.open(BusquedaAvanzadaComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+        console.log('res: ', res);
+        if (res) {
+          this.dataSearchAdvance = res;
+          this.searchInput = (res['textSearch']) ? res['textSearch'] : '';
+          let state = (res['state']) ? res['state'] : '';
+          let dateStartValueof = (res['daterange']) ? moment(res['daterange'][0]).valueOf() : '';
+          let dateEndValueof = (res['daterange']) ? moment(res['daterange'][1]).valueOf() : '';
+          // let dateStartUnix = moment(res['daterange'][0]).unix();
+          // let dateEndUnix = moment(res['daterange'][1]).unix();
+          this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, true);
+        }
+      });
+  }
+
+  fnBuildDataOriginQualification(token, currentPage, searchInput, state, startDate, endDate, stateSearch) {
     this.submitted = true;
-    this.fnGetOriginQualificationList(this.token, this.currentPage, this.searchInput, 1, null, null).then((resp) => {
+    this.fnGetOriginQualificationList(token, currentPage, searchInput, state, startDate, endDate).then((resp) => {
       if(resp) {
+        this.currentSearch = stateSearch;
         console.log('resp: ', resp);
         this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
         console.log('this.listEmails: ', this.listEmails);
@@ -248,7 +220,90 @@ export class ListEmailComponent implements OnInit {
         this.submitted = false;
         this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
       }
-    });      
+    });
+  }
+
+  fnRemoveSearchFilter(typeFilterSearch) {
+
+    let searchInput;
+    let state;
+    let dateStart = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
+    let dateEnd = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
+    let stateSearch;
+
+      
+
+    switch (typeFilterSearch) {
+      // 1 - Busqueda de texto
+      case 1:
+        searchInput = this.dataSearchAdvance['textSearch'] = this.searchInput = '';
+        state = this.dataSearchAdvance['state'];
+        // dateStart = this.dataSearchAdvance['daterange'][0];
+        // dateEnd = this.dataSearchAdvance['daterange'][1];
+        break;
+      // 2 - Busqueda por estado
+      case 2:
+        searchInput = this.searchInput;
+        this.dataSearchAdvance['statusInfo'] = {};
+        state = this.dataSearchAdvance['state'] = 1;
+        // dateStart = this.dataSearchAdvance['daterange'][0];
+        // dateEnd = this.dataSearchAdvance['daterange'][1];
+        break;
+      // 3 - Busqueda por rango de fechas
+      case 3:
+        searchInput = this.searchInput;
+        state = this.dataSearchAdvance['state'];
+        this.dataSearchAdvance['daterange'] = '';
+        dateStart = '';
+        dateEnd = '';
+        break;
+    }
+
+    if ((this.searchInput == '' || this.searchInput == null) && 
+      (this.dataSearchAdvance['state'] == '' || this.dataSearchAdvance['state'] == null) && 
+      (this.dataSearchAdvance['daterange'] == '' || this.dataSearchAdvance['daterange'] == null)) {
+      stateSearch = false;
+      this.currentPage = 1;
+    } else {
+      stateSearch = true;
+    }
+
+    console.log('searchInput: ', searchInput);
+    console.log('state: ', state);
+    console.log('dateStart: ', dateStart);
+    console.log('dateEnd: ', dateEnd);
+    console.log('stateSearch: ', stateSearch);
+    console.log('this.dataSearchAdvance["statusInfo"]: ', this.dataSearchAdvance['statusInfo']);
+    
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+  }
+
+  fnSelectState(dataState) {
+    console.log('dataState: ', dataState);
+
+    let searchInput = this.searchInput;
+    let state;
+    let dateStart = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
+    let dateEnd = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
+    let stateSearch = this.currentSearch;
+    // this.dataSearchAdvance = {};
+    switch (dataState['tabTitle']) {
+      case 'Por gestionar':
+        state = 1;
+        this.dataSearchAdvance['statusInfo'] = { name: 'Por gestionar', value: 1 };      
+        break;
+      case 'Sin transcribir':
+        state = 2;
+        this.dataSearchAdvance['statusInfo'] = { name: 'Sin transcribir', value: 2 };
+        break;
+      case 'Transcrito':
+        state = 3;
+        this.dataSearchAdvance['statusInfo'] = { name: 'Transcrito', value: 3 };
+        break;
+    }
+    this.dataSearchAdvance['state'] = state;
+
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
 }

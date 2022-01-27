@@ -3,6 +3,9 @@
 @import "~@nebular/theme/styles/global/breakpoints";
 
 @include nb-install-component() {
+
+    $text-primary-color: #1e90ff !important;
+
     ::ng-deep nb-card {
         margin: 10px !important;
         height: calc(100vh - 3rem) !important;
@@ -72,7 +75,7 @@
     }
 
     .badge-state-1 {
-        background-color: #0d6efd !important;
+        background-color: #1e90ff !important;
         padding: 4px 10px;
     }
     
@@ -119,6 +122,22 @@
     ::ng-deep #buttonSearch, #buttonAdvanceSearch, #buttonClearSearch {
         cursor: pointer;
         line-height: 1.65 !important;
+    }
+
+    ::ng-deep .tabset {
+        padding: 0;
+        li.active {
+            background: #f2f2f2 !important;
+        }
+        li {
+            width: 100%;
+            a, i, span {
+                color: #1e90ff;
+            }
+            a::before {
+                background: #1e90ff !important;
+            }
+        }
     }
 
 }

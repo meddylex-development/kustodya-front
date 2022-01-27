@@ -1,0 +1,127 @@
+<nb-card size="tiny">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    {{ data?.title }}
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0">
+      <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
+        <div class="col-12 pl-0 pr-0">
+          <p>
+              {{ data?.description }}
+          </p>
+        </div>
+        <div class="col-12 p-0">
+          <div class="row">
+             <!-- ********** START - Busqueda de texto ********** -->
+             <div class="mt-0 mb-2 col-12">
+              <div class="form-group">
+                <label for="input-textSearch">
+                  <h5 class="m-0">
+                    <i class="far fa-id-card"></i>&nbsp;Busqueda texto:&nbsp;
+                    <small style="font-size: 66% !important;">(Opcional)</small>&nbsp;
+                    <small style="font-size: 66% !important;">(Remitente, correo, asunto, etc)</small>
+                  </h5>
+                </label>
+                <input 
+                    class=""
+                    nbInput
+                    fullWidth 
+                    fieldSize="large"  
+                    type="text" 
+                    [readonly]="false" 
+                    [disabled]="false" 
+                    placeholder="Ingrese texto de busqueda"
+                    id="input-textSearch"  
+                    name="textSearch" 
+                    [(ngModel)]="dataAdavanceSearch.textSearch" 
+                    [ngModelOptions]="{standalone: true}"
+                    [status]="textSearch.dirty ? (textSearch.invalid  ? 'danger' : 'basic') : 'basic'" 
+                    #textSearch="ngModel">
+              </div>
+            </div>
+            <!-- *********** END - Busqueda de texto *********** -->
+            <!-- ********** START - Busqueda por estado ********** -->
+            <div class="mt-0 mb-2 col-12">
+              <div class="form-group">
+                <label for="input-selectStates">
+                  <h5 class="m-0">
+                    <i class="fas fa-id-card-alt"></i>&nbsp;Estado de auditoria:&nbsp;
+                    <small style="font-size: 66% !important;">(Opcional)</small>&nbsp;
+                  </h5>
+                </label>
+                <ng-select 
+                  id="input-selectStates"
+                  [items]="collectionStates" 
+                  bindLabel="name" 
+                  bindValue="value" 
+                  name="selectStates"
+                  #selectStates="ngModel" 
+                  status="basic"
+                  placeholder="Seleccione el estado"
+                  [ngModelOptions]="{standalone: true}" 
+                  [(ngModel)]="dataAdavanceSearch.state" 
+                  (change)="fnSetStatusEmailSearch($event);"
+                  required>
+                </ng-select>
+              </div>
+            </div>
+            <!-- *********** END - Busqueda por estado *********** -->
+            <!-- ********** START - Busqueda por rango de fechas ********** -->
+            <div class="mt-0 mb-2 col-12">
+              <div class="form-group">
+                <label for="input-daterange">
+                  <h5 class="m-0">
+                    <i class="far fa-id-card"></i>&nbsp;Rango de fechas:&nbsp;
+                    <small style="font-size: 66% !important;">(Opcional)</small>&nbsp;
+                  </h5>
+                </label>
+                <input 
+                    class=""
+                    nbInput
+                    fullWidth 
+                    fieldSize="large"  
+                    type="text" 
+                    [readonly]="false" 
+                    [disabled]="false" 
+                    placeholder="Seleccione el rango de fechas"
+                    id="input-daterange"  
+                    name="daterange" 
+                    [(ngModel)]="dataAdavanceSearch.daterange" 
+                    [ngModelOptions]="{standalone: true}"
+                    [status]="daterange.dirty ? (daterange.invalid  ? 'danger' : 'basic') : 'basic'" 
+                    bsDaterangepicker     
+                    [maxDate]="maxDate"
+                    [bsConfig]="{ rangeInputFormat : 'DD-MM-YYYY',dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"
+                    #daterange="ngModel">
+              </div>
+            </div>
+            <!-- *********** END - Busqueda por rango de fechas *********** -->
+          </div>
+        </div>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button"
+            [class.btn-pulse]="submitted" 
+            (click)="fnSearch(dataAdavanceSearch)"
+            style="background-color: #3366ff; border-color: #3366ff; color: white;">
+            Buscar
+        </button>
+        <button 
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="button"
+          [class.btn-pulse]="submitted" 
+          (click)="fnCancelData()"
+          style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
+          Cerrar
+        </button>
+      </form>
+  </div>
+  </nb-card-body>
+</nb-card>
