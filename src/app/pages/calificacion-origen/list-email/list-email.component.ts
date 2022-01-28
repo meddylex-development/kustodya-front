@@ -306,4 +306,20 @@ export class ListEmailComponent implements OnInit {
     this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
+  fnViewDetailMail(item) {
+    let emailId = item['id'];
+    this.utilitiesService.fnSetDataShare({ 
+      // patientData: this.patientData, 
+      // patientIncapacities: this.patientIncapacities, 
+      // collectionDocumentTypes: this.collectionDocumentTypes, 
+      // documentNumberPatient: this.documentNumberPatient, 
+      // documentTypePatient: this.documentTypePatient, 
+      // documentTypeSelected: this.documentTypeSelected,
+      // dataUserSpecialist: this.dataUserSpecialist,
+      dataAdvanceSearch: this.dataSearchAdvance,
+      emailData: item,
+    }, true);
+    this.utilitiesService.fnNavigateByUrl('pages/calificacion-origen/transcripcion/'+ emailId);
+  }
+
 }

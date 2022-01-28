@@ -35,6 +35,7 @@ export class UtilitiesService {
   dataChangeObserver: any;
   data: any;
   public dataShare: any = null;
+  public dataShareOrigin: any = null;
 
   private index: number = 0;
   public token: string = '';
@@ -706,12 +707,20 @@ export class UtilitiesService {
     this.router.navigateByUrl(url);
   }
 
-  fnSetDataShare(data) {
-    this.dataShare = data;
+  fnSetDataShare(data, originMod?) {
+    if (originMod) {
+      this.dataShareOrigin = data;
+    } else {
+      this.dataShare = data;
+    }
   }
 
-  fnGetDataShare() {
-    return this.dataShare;
+  fnGetDataShare(originMod?) {
+    if (originMod) {
+      return this.dataShareOrigin;
+    } else {
+      return this.dataShare;
+    }
   }
 
   fnGetCountryNames() {
