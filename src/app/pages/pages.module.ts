@@ -23,6 +23,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { IncapacityModule } from './incapacity/incapacity.module';
 import { EmailManagementModule } from './email-management/email-management.module';
 import { CalificacionOrigenModule } from './calificacion-origen/calificacion-origen.module';
+import { DictamenPericialModule } from './dictamen-pericial/dictamen-pericial.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -48,6 +49,7 @@ const PAGES_COMPONENTS = [
     ModalOverlaysModule,
     EmailManagementModule,
     CalificacionOrigenModule,
+    DictamenPericialModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

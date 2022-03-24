@@ -246,6 +246,12 @@ export class DashboardComponent implements OnInit {
       this.fnRedirectResolutionReport();
     }
 
+        
+    if (this.current_item['id'] == 579) {
+      console.log('Queensryche - Best I Can');
+      this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/listado-casos');
+    }
+
     this.current_level_menu = level_menu;
 
     if (level_menu == 1) {
