@@ -9,8 +9,8 @@ declare var $: any;
 })
 export class RehabilitationConceptTabsDashboardComponent implements OnInit {
 
-  content_tab_dashboard: boolean = true;
-  content_tab_patients: boolean = false;
+  content_tab_dashboard: boolean = false;
+  content_tab_patients: boolean = true;
 
   @Input() data_object: any;
   @Output() flagCreateEntity = new EventEmitter<object>();

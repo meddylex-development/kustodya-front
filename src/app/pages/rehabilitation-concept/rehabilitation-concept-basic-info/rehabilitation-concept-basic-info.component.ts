@@ -101,16 +101,15 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
     // {'value': 2, 'name': 'Curativo'},
   ];
   collection_medical_concept: any = [
-    {'value': null, 'name': 'Seleccione concepto'},
-    // {'value': 1, 'name': 'Favorable'},
-    // {'value': 2, 'name': 'Desfavorable'},
+    {'value': 1, 'name': 'Favorable'},
+    {'value': 2, 'name': 'Desfavorable'},
   ];
   collection_diagnotics_patient: any = [];
   collection_sequels_patient: any = [];
   state_concept: any = null;
   name_tratement: any = null;
-  show_form_add_diagnostic: boolean = false;
-  show_form_add_sequels: boolean = false;
+  show_form_add_diagnostic: boolean = true;
+  show_form_add_sequels: boolean = true;
   show_form_add_therapy: boolean = true;
   show_form_add_pronostic: boolean = true;
 
@@ -123,6 +122,9 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
   error_medium_term: boolean = false;
   error_medical_concept: boolean = false;
   error_checks_therapy: boolean = false;
+
+  public dataCollectionConcepts: any = [];
+  public unfavType: any = null;
 
   constructor(
     public router: Router,
@@ -178,8 +180,8 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
         self.object_data_patient['check_other_therapy'] =  response['body']['otrosTramites'];
         self.object_data_patient['short_term'] =  response['body']['cortoPlazo'];
         self.object_data_patient['medium_term'] =  response['body']['medianoPlazo'];
-        self.object_data_patient['medical_concept'] =  self.collection_medical_concept.find(x => x.pronosticoConceptoId === response['body']['concepto'])['descripcionPronostico'];
-        self.object_data_patient['text_medical_concept'] =  self.collection_medical_concept.find(x => x.pronosticoConceptoId === response['body']['concepto'])['texto'];
+        // self.object_data_patient['medical_concept'] =  self.collection_medical_concept.find(x => x.pronosticoConceptoId === response['body']['concepto'])['descripcionPronostico'];
+        // self.object_data_patient['text_medical_concept'] =  self.collection_medical_concept.find(x => x.pronosticoConceptoId === response['body']['concepto'])['texto'];
         
         const collection_diagnotics = JSON.parse(JSON.stringify(response['body']['diagnosticos']));
         self.collection_diagnotics_patient = collection_diagnotics;
@@ -246,7 +248,10 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
     // Instancia de conexion servicio
     this.rehabilitationConceptService.fnHttpGetDataMedicalConceptEnum(token).subscribe(response => {
       if (response.status == 200) {
-        this.collection_medical_concept = response['body'];
+        // this.collection_medical_concept = response['body'];
+        this.dataCollectionConcepts = response['body'];
+        console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
+        console.log('this.collection_medical_concept: ', this.collection_medical_concept);
         // this.collection_medical_concept = this.collection_medical_concept.concat(response['body']);
         this.object_data_patient['medical_concept'] = {
           'pronosticoConceptoId': 1,
@@ -428,6 +433,38 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
       self.fnSetCreateNewConceptByPatient(object_data_patient, collection_diagnotics_patient, collection_sequels_patient);
     }
 
+  }
+
+  fnSetMedicalConcept(data_concept) {
+    console.log('data_concept: ', data_concept);
+    switch (data_concept["value"]) {
+      case 1:
+        console.log("Favorable");
+        // this.dataCollectionConcepts[0]; // Favorable
+        this.object_data_patient['text_medical_concept'] = this.dataCollectionConcepts[0]['texto'];
+        break;
+      case 2:
+        console.log("Desfavorable");
+        // this.dataCollectionConcepts
+        console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
+        // this.text
+        // this.dataCollectionConcepts[1]; // Desfavorable - con incapacidad
+        // this.dataCollectionConcepts[2]; // Desfavorable - sin incapacidad
+        break;
+    }
+  }
+
+  fnCheckUnFavType(unfav_type) {
+    console.log('unfav_type: ', unfav_type);
+    this.unfavType = unfav_type;
+    switch (unfav_type) {
+      case 1:
+        
+        break;
+      case 2:
+        
+        break;
+    }
   }
 
 }

@@ -19,6 +19,7 @@ import { ReporteIncapacidadesComponent } from './incapacidad/reporte-incapacidad
 import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte-resolucion.component';
 import { ListEmailComponent } from './calificacion-origen/list-email/list-email.component';
 import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
+import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,14 @@ const routes: Routes = [
             component: TranscriptionComponent,
           }, 
         ],
+      }, {
+        path: 'concepto-de-rehabilitacion',
+        children: [
+          {
+            path: 'certificado-crhb/:idConcepto',
+            component: CertificadoCrhbComponent
+          }
+        ]
       }, 
       {
         path: 'reporte',
