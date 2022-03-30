@@ -447,7 +447,6 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
         console.log("Desfavorable");
         // this.dataCollectionConcepts
         console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
-        // this.text
         // this.dataCollectionConcepts[1]; // Desfavorable - con incapacidad
         // this.dataCollectionConcepts[2]; // Desfavorable - sin incapacidad
         break;
@@ -459,12 +458,30 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
     this.unfavType = unfav_type;
     switch (unfav_type) {
       case 1:
-        
+        this.object_data_patient['medical_concept']['pronosticoConceptoId'] = this.dataCollectionConcepts[1]['pronosticoConceptoId'];
         break;
       case 2:
-        
+        this.object_data_patient['medical_concept']['pronosticoConceptoId'] = this.dataCollectionConcepts[2]['pronosticoConceptoId'];
         break;
     }
+  }
+
+  fnShowPreview() {
+    // let emailId = item['id'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   // patientData: this.patientData, 
+    //   // patientIncapacities: this.patientIncapacities, 
+    //   // collectionDocumentTypes: this.collectionDocumentTypes, 
+    //   // documentNumberPatient: this.documentNumberPatient, 
+    //   // documentTypePatient: this.documentTypePatient, 
+    //   // documentTypeSelected: this.documentTypeSelected,
+    //   // dataUserSpecialist: this.dataUserSpecialist,
+    //   dataAdvanceSearch: this.dataSearchAdvance,
+    //   emailData: item,
+    // }, true);
+    
+    window.open('http://localhost:4200/#/pages/concepto-de-rehabilitacion/certificado-crhb/1234', "_blank");
+    // this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/1234');
   }
 
 }

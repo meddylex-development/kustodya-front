@@ -154,8 +154,7 @@
                 <div class="col-3 pb-4 form-control-group animate fadeIn">
                   <label class="label" for="date_create_concept">Fecha de diagn&oacute;stico:</label>
                   <input nbInput
-                    fullWidth
-                    autofocus 
+                    fullWidth  
                     type="text"
                     class="kstdy-input-date" 
                     placeholder="Seleccione fecha de diagnóstico"
@@ -278,8 +277,7 @@
                 <div class="col-6 pb-4 form-control-group animate fadeIn">
                   <label class="label" for="description_sequel">Descripci&oacute;n:</label>
                   <input nbInput
-                    fullWidth
-                    autofocus 
+                    fullWidth  
                     type="text"
                     class="kstdy-input-date" 
                     placeholder="Ingrese una descripción de la secuela"
@@ -688,23 +686,8 @@
               </div>
 
               <div class="row">
-                <div class="col-12">
-                  <pre>
-                    {{
-                      state_concept | json
-                    }}
-                  </pre>
-                  <pre>
-                    {{
-                      object_data_patient.medical_concept | json
-                    }}
-                  </pre>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-12 mt-5" *ngIf="state_concept == 'Por Emitir'">
-                  <label class="label" style="font-weight:bold;">---Remisi&oacute;n administradora de fondo de pensiones *</label>
+                <div class="col-12 mt-3" *ngIf="state_concept == 'Por Emitir'">
+                  <label class="label text-primary" style="font-weight:bold;">Remisi&oacute;n administradora de fondo de pensiones *</label>
                   <div *ngIf="object_data_patient.medical_concept?.value == 1">
                     <p>
                       {{ object_data_patient?.text_medical_concept }}
@@ -714,7 +697,7 @@
                     
                     <div class="col-12 mt-2 mb-2 d-flex justify-content-between align-items-center">
                       <p style="margin-right: 2rem;margin-bottom: 0;">
-                        {{ object_data_patient?.text_medical_concept }}
+                        {{ dataCollectionConcepts[1]['texto'] }}
                       </p>
                       <span style="cursor: pointer;" (click)="fnCheckUnFavType(1);">
                         <i class="far " [ngClass]="{'fa-check-circle text-success': unfavType == 1, 'fa-circle text-secondary': unfavType != 1 }" style="font-size: 1.5rem;"></i>
@@ -723,7 +706,7 @@
                     </div>
                     <div class="col-12 mt-2 mb-2 d-flex justify-content-between align-items-center">
                       <p style="margin-right: 2rem;margin-bottom: 0;">
-                        {{ object_data_patient?.text_medical_concept }}
+                        {{ dataCollectionConcepts[2]['texto'] }}
                       </p>
                       <span style="cursor: pointer;" (click)="fnCheckUnFavType(2);">
                         <i class="far " [ngClass]="{'fa-check-circle text-success': unfavType == 2, 'fa-circle text-secondary': unfavType != 2}" style="font-size: 1.5rem;"></i>
@@ -752,19 +735,47 @@
 
   <div class="mt-1 mb-1 pt-2 pb-2" style="border: 0px solid #CCC; border-radius: 10px;">
     <div class="col-12 row mt-5 mb-5 m-0 p-0 justify-content-center">
-      <div class="col-4 text-center" *ngIf="state_concept == 'Por Emitir'">
-        <button 
+      <div class="col-4 text-center">
+        <!-- <button 
         class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" 
         id="button_add_diagnostic" 
         style="cursor: pointer;" 
-        (click)="fnValidFormRehabilitationConcept(object_data_patient, collection_diagnotics_patient, collection_sequels_patient)">Generar</button>
+        (click)="fnShowPreview()">Ver vista preliminar</button> -->
+        <button 
+          class="cursor-pointer"
+          nbButton 
+          status="primary"
+          (click)="fnShowPreview()">
+          Ver vista preliminar
+        </button>
+      </div>
+      <div class="col-4 text-center" *ngIf="state_concept == 'Por Emitir'">
+        <!-- <button 
+        class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" 
+        id="button_add_diagnostic" 
+        style="cursor: pointer;" 
+        (click)="fnValidFormRehabilitationConcept(object_data_patient, collection_diagnotics_patient, collection_sequels_patient)">Generar</button> -->
+        <button 
+          class="cursor-pointer"
+          nbButton 
+          status="primary"
+          (click)="fnValidFormRehabilitationConcept(object_data_patient, collection_diagnotics_patient, collection_sequels_patient)">
+          Generar Concepto CRHB
+        </button>
       </div>
       <div class="col-4 text-center" *ngIf="state_concept == 'Emitido'">
-        <button 
+        <!-- <button 
         class="btn btn-primary font_family_roboto" 
         id="button_add_diagnostic" 
         style="cursor: pointer; background-color: #1e90ff;" 
-        (click)="fnGoBackList()">Regresar al listado anterior</button>
+        (click)="fnGoBackList()">Regresar al listado anterior</button> -->
+        <button 
+          class="cursor-pointer"
+          nbButton 
+          status="primary"
+          (click)="fnGoBackList()">
+          Generar Concepto CRHB
+        </button>
       </div>
     </div>
   </div>

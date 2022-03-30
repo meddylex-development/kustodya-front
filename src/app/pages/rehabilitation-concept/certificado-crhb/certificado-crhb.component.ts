@@ -63,6 +63,8 @@ export class CertificadoCrhbComponent implements OnInit {
   public dataCertificate: any;
   public dataDoctor: any;
   public listLateralities: any = [];
+  public digitalSignDoctorCert1: boolean = true;
+  public digitalSignDoctorCert2: boolean = true;
 
   constructor(
     private location: Location,

@@ -438,7 +438,7 @@
     background: #303030;
     color: #fff;
     transition: all 1s;
-    height: 100vh;
+    // height: 100vh;
   }
 
   #sidebar-two.active {
@@ -503,7 +503,7 @@
 
   .divIframe,
   .divComponent {
-    height: 80vh;
+    // height: 80vh;
     background-color: transparent !important;
     overflow: scroll;
   }

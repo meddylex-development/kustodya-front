@@ -13,7 +13,7 @@
             <h3 style="margin-top: 6px;">Certificado concepto de rehabilitaci&oacute;n CRHB</h3>
           </div>
           <div class="col text-right">
-            <button 
+            <!-- <button 
               type="button" 
               class="btn btn-link text-info cursor-pointer" 
               [useExistingCss]="true"
@@ -30,7 +30,7 @@
               ngxPrint>
               {{ 'Imprimir Carta' | titlecase }}&nbsp;
               <i class="fas fa-print"></i>
-            </button>
+            </button> -->
           </div>
         </div>
       </nb-card-header>
@@ -39,12 +39,49 @@
 
           <div class="row justify-content-center">
             <div class="col-4">
-
+              <div class="justify-content-center d-flex mb-2" *ngIf="true">
+                <span class="cursor-pointer m-1" tooltip="Imprimir Carta Concepto" placement="top" container="body">
+                  <button 
+                    class="btn btn-primary"
+                    [useExistingCss]="true"
+                    printSectionId="CartaConceptoCRHB"   
+                    ngxPrint>
+                    <i class="fas fa-print text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Editar Carta Concepto" placement="top" container="body">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-edit text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Enviar por correo" placement="top" container="body">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-paper-plane text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Agregar firma digital" placement="top" container="body">
+                  <!-- Rounded switch -->
+                  <label class="switch" style="margin-top: 0.2rem;">
+                    <input 
+                      [ngModelOptions]="{standalone: true}" 
+                      [(ngModel)]="digitalSignDoctorCert1"
+                      type="checkbox" 
+                      [checked]="(digitalSignDoctorCert1)?'checked':false">
+                    <span class="slider round"></span>
+                  </label>
+                </span>
+              </div>
               <div style="border: 1px solid #929292; padding: 2rem; zoom: 0.5;">
 
                 <div id="CartaConceptoCRHB" #CartaConceptoCRHB>
-                  <div>
-                    <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset="">
+                  <div class="d-flex">
+                    <!-- <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset=""> -->
+                    <span>
+                        <img src="../../../../assets/images/imgs/Logokustodyahorizontal.png" width="45%" alt="" srcset="">
+                    </span>
+                    <span class="text-right">
+                      <img src="../../../../assets/images/imgs/meddilexlogo.png" width="30%" alt="" srcset="">
+                    </span>
                   </div>
                   <div>
                     <p style="margin-top: 5rem;margin-left: 4rem; font-size: 1.3rem;">Bogotá D.C, 24 de abril de 2020</p>
@@ -100,8 +137,8 @@
                     </p>
                   </div>
                   <div>
-                    <div style="margin-top: 3rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
-                      <img src="../../../../assets/images/imgs/firmaConceptoRehabilitacion.png" alt="firma carta concepto de rehabilitacion">
+                    <div style="margin-top: 3rem; min-height: 5rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                      <img *ngIf="digitalSignDoctorCert1" src="../../../../assets/images/imgs/firmaConceptoRehabilitacion.png" alt="firma carta concepto de rehabilitacion">
                     </div>
                   </div>
                   <div>
@@ -140,11 +177,48 @@
 
             </div>
             <div class="col-4">
-
+              <div class="justify-content-center d-flex mb-2" *ngIf="true">
+                <span class="cursor-pointer m-1" tooltip="Imprimir Certificado Concepto" placement="top" container="body">
+                  <button 
+                    class="btn btn-primary"
+                    [useExistingCss]="true"
+                    printSectionId="certificadoConceptoCRHB" 
+                    ngxPrint>
+                    <i class="fas fa-print text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Editar Carta Concepto" placement="top" container="body">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-edit text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Enviar por correo" placement="top" container="body">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-paper-plane text-ligth"></i>
+                  </button>
+                </span>
+                <span class="cursor-pointer m-1" tooltip="Agregar firma digital" placement="top" container="body">
+                  <!-- Rounded switch -->
+                  <label class="switch" style="margin-top: 0.2rem;">
+                    <input 
+                      [ngModelOptions]="{standalone: true}" 
+                      [(ngModel)]="digitalSignDoctorCert2"
+                      type="checkbox" 
+                      [checked]="(digitalSignDoctorCert2)?'checked':false">
+                    <span class="slider round"></span>
+                  </label>
+                </span>
+              </div>
               <div style="border: 1px solid #929292; padding: 2rem; zoom: 0.5;">
                 <div id="certificadoConceptoCRHB" #certificadoConceptoCRHB>
-                  <div>
-                    <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset="">
+                  <div class="d-flex">
+                    <!-- <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset=""> -->
+                    <span>
+                        <img src="../../../../assets/images/imgs/Logokustodyahorizontal.png" width="45%" alt="" srcset="">
+                    </span>
+                    <span class="text-right">
+                      <img src="../../../../assets/images/imgs/meddilexlogo.png" width="30%" alt="" srcset="">
+                    </span>
                   </div>
                   <div>
                     <h5 class="text-center"><strong>CONCEPTO DE REHABILITACIÓN</strong></h5>
@@ -835,8 +909,8 @@
     
                   <div class="row align-items-end">
                     <div class="col" style="position: relative">
-                      <div *ngIf="true" style="text-align: center;margin-top: 2rem;">
-                        <img src="../../../../assets/images/imgs/firmMedicoConceptoCRHB.png" alt="Firma Medico" style="width: 50%" />
+                      <div *ngIf="true" style="text-align: center; margin-top: 2rem; min-height: 5rem;">
+                        <img *ngIf="digitalSignDoctorCert2" src="../../../../assets/images/imgs/firmMedicoConceptoCRHB.png" alt="Firma Medico" style="width: 50%" />
                         <!-- <img [src]="dataDoctor?.signature" alt="Firma Medico" style="width: 100%" />   -->
                       </div>
                       <div class="infoDoctor col-10 text-center" *ngIf="true">
