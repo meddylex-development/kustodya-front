@@ -24,7 +24,7 @@ import { IncapacityModule } from './incapacity/incapacity.module';
 import { EmailManagementModule } from './email-management/email-management.module';
 import { CalificacionOrigenModule } from './calificacion-origen/calificacion-origen.module';
 import { RehabilitationConceptModule } from './rehabilitation-concept/rehabilitation-concept.module';
-
+import { ConceptoRehabilitacionModule } from './concepto-rehabilitacion/concepto-rehabilitacion.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -32,6 +32,7 @@ const PAGES_COMPONENTS = [
 
 @NgModule({
   imports: [
+    ConceptoRehabilitacionModule,
     RehabilitationConceptModule,
     // NgbTimepicker,
     NgxCurrencyModule,

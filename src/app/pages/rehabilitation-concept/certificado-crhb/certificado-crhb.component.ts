@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
+import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-certificado-crhb',
@@ -65,6 +67,9 @@ export class CertificadoCrhbComponent implements OnInit {
   public listLateralities: any = [];
   public digitalSignDoctorCert1: boolean = true;
   public digitalSignDoctorCert2: boolean = true;
+  public dataSession: any = {};
+  public dataConceptCRHB: any = {};
+  public idUser: any;
 
   constructor(
     private location: Location,
@@ -72,60 +77,109 @@ export class CertificadoCrhbComponent implements OnInit {
     private incapacityService: IncapacityService,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
+    private rehabilitationConceptService: RehabilitationConceptService,
+    private authService: NbAuthService,
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      console.log('params: ', params);
-      this.dataCertificate = {};
-      this.dataCertificate['qrcode'] = "http://localhost:4200/#/auth/login";
-      console.log('this.dataCertificate: ', this.dataCertificate);
 
-      if (params['diagnosticCodeDNI']) {
-        this.diagnosticCodeDNI = params['diagnosticCodeDNI'];
-        console.log('this.diagnosticCodeDNI: ', this.diagnosticCodeDNI);
-        // this.token = params.token;
-        // console.log('this.token: ', this.token);
-        const token = sessionStorage.getItem("token");
-        this.token = token;
-        this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.dataSession = token.getPayload();
+        this.token = token["token"];
+        console.log('this.token: ', this.token);
         let data = this.utilitiesService.fnGetDataShare();
-        this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-        
-        if (data && this.dataDoctor) {
-          console.log('this.dataDoctor: ', this.dataDoctor);
-          const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-          console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
-          const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-          console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
-          const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-          console.log('signature_doctor: ', signature_doctor);
-          const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-          console.log('dataDoctorSignature: ', dataDoctorSignature);
-          this.dataDoctor['especiality'] = dataDoctorEspeciality;
-          this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
-          this.dataDoctor['signature'] = dataDoctorSignature;
-          this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
+        console.log('data: ', data);
 
-          this.patientData = data['patientData'];
-          console.log('this.patientData: ', this.patientData);
-        } else {
-          this.patientData = null;
-          this.patientIncapacities = null;
-          this.totalItems = null;
-          this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-        }
-      } else {
-        
-        console.log("I'll Get Even!");
-        // this.utilitiesService.fnSignOutUser().then(resp => {
-        //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        // }).catch((error) => {
-        //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        // })
+        this.route.params.subscribe(params => {
+          console.log('params: ', params);
+          this.dataCertificate = {};
+          
+          if (params['idUser']) {
+            this.idUser = params['idUser'];
+            console.log('this.idUser: ', this.idUser);
+            
+            this.dataCertificate['qrcode'] = "http://localhost:4200/#/auth/login";
+            console.log('this.dataCertificate: ', this.dataCertificate);
+            
+            this.fnGetDataPatientById(this.token, this.idUser).then((resp) => {
+              console.log('resp: ', resp);
+              if (!resp) {
+                
+              } else {
+                try {
+                  if (resp['status'] == 200) {
+                    this.dataConceptCRHB = resp['body'] || {};
+                    console.log('this.dataConceptCRHB: ', this.dataConceptCRHB);
+                  }
+                } catch (error) {
+                  this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              }
+            }).catch((err) => {
+              console.log('err: ', err);
+            });
+            // this.token = params.token;
+            // console.log('this.token: ', this.token);
+            // const token = sessionStorage.getItem("token");
+            // this.token = token;
+            // this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
+            // let data = this.utilitiesService.fnGetDataShare();
+            // this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+            
+            // if (data && this.dataDoctor) {
+            //   console.log('this.dataDoctor: ', this.dataDoctor);
+            //   const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
+            //   console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
+            //   const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
+            //   console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
+            //   const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
+            //   console.log('signature_doctor: ', signature_doctor);
+            //   const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
+            //   console.log('dataDoctorSignature: ', dataDoctorSignature);
+            //   this.dataDoctor['especiality'] = dataDoctorEspeciality;
+            //   this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
+            //   this.dataDoctor['signature'] = dataDoctorSignature;
+            //   this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
+    
+            //   this.patientData = data['patientData'];
+            //   console.log('this.patientData: ', this.patientData);
+            // } else {
+            //   this.patientData = null;
+            //   this.patientIncapacities = null;
+            //   this.totalItems = null;
+            //   this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+            // }
+          } else {
+            
+            this.utilitiesService.fnSignOutUser().then(resp => {
+              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }).catch((error) => {
+              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            })
+          }
+        });
+
       }
     });
+
   }
+
+  fnGetDataPatientById(token, user_id) {
+    return new Promise((resolve, reject) => {
+      this.rehabilitationConceptService.fnHttpGetDataPatientById(token, user_id).subscribe(response => {
+        resolve(response);
+      }, (err) => {
+        console.log('err: ', err);
+        reject(err);
+      });
+    });
+  }
+
+
+
+
+
 
   fnGetLateralities(token) {
     let collectionLateralidad = [];
@@ -208,8 +262,8 @@ export class CertificadoCrhbComponent implements OnInit {
         
       }
       // if (r.status == 200) {
-      //   self.submitted = false;
-      //   self.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
+      //   this.submitted = false;
+      //   this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
       //   console.log('self.listCantidadDiagnoticosIncapacidad: ', self.listCantidadDiagnoticosIncapacidad);
       //   self.listCantidadDiagnoticosIncapacidad.forEach(i => {
       //     let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];

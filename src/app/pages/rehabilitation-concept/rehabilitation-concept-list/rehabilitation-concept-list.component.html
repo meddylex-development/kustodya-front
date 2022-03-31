@@ -62,7 +62,7 @@
           <tbody>
               <tr *ngFor="let data_patient of list_patients | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
                 <td class="kstdy-table-actions text-center p-3">
-                  <i class="fas fa-print kstdy-pointer kstdy-icon_color" style="cursor: pointer;" (click)="fnShowModalPreviewDetail(data_patient, status_list)"></i>
+                  <i class="fas fa-eye kstdy-pointer kstdy-icon_color" style="cursor: pointer;" (click)="fnShowModalPreviewDetail(data_patient, status_list)"></i>
                 </td>
                 <td class="kstdy-table-actions text-center p-3">
                   <i class="fas kstdy-pointer kstdy-icon_color" [ngClass]="{'fa-edit': (status_list == 1), 'fa-eye': (status_list == 2 || status_list == 3) }" style="cursor: pointer;" (click)="fnShowConcept(data_patient, status_list)"></i>

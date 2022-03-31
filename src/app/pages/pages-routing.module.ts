@@ -20,6 +20,7 @@ import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte
 import { ListEmailComponent } from './calificacion-origen/list-email/list-email.component';
 import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
 import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
+import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion/concepto-rehabilitacion.component';
 
 const routes: Routes = [
   {
@@ -104,9 +105,17 @@ const routes: Routes = [
         path: 'concepto-de-rehabilitacion',
         children: [
           {
-            path: 'certificado-crhb/:idConcepto',
+            path: 'listado-casos',
+            component: ConceptoRehabilitacionComponent
+          },
+          // {
+          //   path: 'listado-casos',
+          //   component: CertificadoCrhbComponent
+          // },
+          {
+            path: 'certificado-crhb/:idUser',
             component: CertificadoCrhbComponent
-          }
+          },
         ]
       }, 
       {

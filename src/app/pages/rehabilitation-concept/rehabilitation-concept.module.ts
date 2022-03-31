@@ -38,7 +38,9 @@ const ENTRY_COMPONENTS = [
 ];
 
 @NgModule({
-  declarations: [CertificadoCrhbComponent],
+  declarations: [
+    CertificadoCrhbComponent,
+  ],
   imports: [
     CommonModule,
     NgxCurrencyModule,

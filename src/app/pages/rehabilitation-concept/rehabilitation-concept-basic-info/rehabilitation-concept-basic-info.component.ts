@@ -468,20 +468,16 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
 
   fnShowPreview() {
     // let emailId = item['id'];
-    // this.utilitiesService.fnSetDataShare({ 
-    //   // patientData: this.patientData, 
-    //   // patientIncapacities: this.patientIncapacities, 
-    //   // collectionDocumentTypes: this.collectionDocumentTypes, 
-    //   // documentNumberPatient: this.documentNumberPatient, 
-    //   // documentTypePatient: this.documentTypePatient, 
-    //   // documentTypeSelected: this.documentTypeSelected,
-    //   // dataUserSpecialist: this.dataUserSpecialist,
-    //   dataAdvanceSearch: this.dataSearchAdvance,
-    //   emailData: item,
-    // }, true);
+    // this.data_object_tab
+    console.log('this.data_object_tab: ', this.data_object_tab);
+    console.log('this.object_data_patient: ', this.object_data_patient);
+    this.utilitiesService.fnSetDataShare({ 
+      dataConcept: this.object_data_patient,
+      dataPatient: this.data_object_tab,
+    }, true);
     
-    window.open('http://localhost:4200/#/pages/concepto-de-rehabilitacion/certificado-crhb/1234', "_blank");
-    // this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/1234');
+    // window.open('http://localhost:4200/#/pages/concepto-de-rehabilitacion/certificado-crhb/1234', "_blank");
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + this.data_object_tab['idpacienteporemitir']);
   }
 
 }
