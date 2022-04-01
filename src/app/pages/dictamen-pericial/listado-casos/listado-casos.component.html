@@ -13,7 +13,7 @@
                 &nbsp;
               </div>
               <div class="col text-center">
-                <h3 style="margin-top: 6px;">Concepto de rehabilitaci&oacute;n</h3>
+                <h3 style="margin-top: 6px;">Dictamen Pericial</h3>
               </div>
               <div class="col text-right">
                 <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
@@ -145,7 +145,7 @@
                                 </span> -->
                               </th>
                               <th class="text-truncate">
-                                  N&uacute;mero de documento&nbsp;
+                                  C&oacute;digo&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -154,7 +154,7 @@
                                   </span> -->
                               </th>
                               <th class="text-truncate">
-                                  Nombres y apellidos&nbsp;
+                                  Autores peritaje&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -163,7 +163,7 @@
                                   </span> -->
                               </th>
                               <th class="text-truncate">
-                                  Tipo afiliaci&oacute;n&nbsp;
+                                  Demandante(s)&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -172,7 +172,7 @@
                                   </span> -->
                               </th>
                               <th class="text-truncate">
-                                  Cantidad de incapacidades&nbsp;
+                                  Demandado(s)&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -181,7 +181,7 @@
                                   </span> -->
                               </th>
                               <th class="text-truncate">
-                                  Fecha asignacion&nbsp;
+                                  Asunto&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -221,7 +221,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of dataListCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                        <tr *ngFor="let item of dictamensCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
                           <!-- <td class="align-middle text-center">
                             <span tooltip="Ver detalle" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
@@ -299,10 +299,10 @@
                 <div class="col-12 mt-2 mb-5">
                   <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                      <div class="text-center kstdy-font_paginator" *ngIf="dataListCollection?.length > 0">
+                      <div class="text-center kstdy-font_paginator" *ngIf="dictamensCollection?.length > 0">
                         <div class="text-left kstdy-font_paginator">
                           Mostrando {{ (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) + 1 ) }} -
-                          {{ ((currentPage * itemsPerPage) >= dataListCollection.length) ? (dataListCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
+                          {{ ((currentPage * itemsPerPage) >= dictamensCollection.length) ? (dictamensCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
                           de {{ totalItems }}
                         </div>
                       </div>
@@ -405,7 +405,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of dataListCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                        <tr *ngFor="let item of dictamensCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
                           <!-- <td class="align-middle text-center">
                             <span tooltip="Ver detalle" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
@@ -464,10 +464,10 @@
                 <div class="col-12 mt-2 mb-5">
                   <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                      <div class="text-center kstdy-font_paginator" *ngIf="dataListCollection?.length > 0">
+                      <div class="text-center kstdy-font_paginator" *ngIf="dictamensCollection?.length > 0">
                         <div class="text-left kstdy-font_paginator">
                           Mostrando {{ (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) + 1 ) }} -
-                          {{ ((currentPage * itemsPerPage) >= dataListCollection.length) ? (dataListCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
+                          {{ ((currentPage * itemsPerPage) >= dictamensCollection.length) ? (dictamensCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
                           de {{ totalItems }}
                         </div>
                       </div>
@@ -570,7 +570,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of dataListCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                        <tr *ngFor="let item of dictamensCollection | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
                           <!-- <td class="align-middle text-center">
                             <span tooltip="Ver detalle" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
@@ -629,10 +629,10 @@
                 <div class="col-12 mt-2 mb-5">
                   <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                      <div class="text-center kstdy-font_paginator" *ngIf="dataListCollection?.length > 0">
+                      <div class="text-center kstdy-font_paginator" *ngIf="dictamensCollection?.length > 0">
                         <div class="text-left kstdy-font_paginator">
                           Mostrando {{ (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) + 1 ) }} -
-                          {{ ((currentPage * itemsPerPage) >= dataListCollection.length) ? (dataListCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
+                          {{ ((currentPage * itemsPerPage) >= dictamensCollection.length) ? (dictamensCollection.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
                           de {{ totalItems }}
                         </div>
                       </div>

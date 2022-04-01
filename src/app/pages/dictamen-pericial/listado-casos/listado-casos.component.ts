@@ -7,18 +7,16 @@ import { UtilitiesService } from '../../../shared/api/services/utilities.service
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { OriginQualificationService } from '../../../shared/api/services/origin-qualification.service';
 import { EnumerationsService } from '../../../shared/api/services/enumerations.service';
-import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
-
 // import { BusquedaAvanzadaComponent } from '../busqueda-avanzada/busqueda-avanzada.component';
 // import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'ngx-list-concept-crhb',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'ngx-listado-casos',
+  templateUrl: './listado-casos.component.html',
+  styleUrls: ['./listado-casos.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListadoCasosComponent implements OnInit {
 
   public dataSession: any = {};
   public patientData: any = null;
@@ -76,8 +74,8 @@ export class ListComponent implements OnInit {
     { 'id': 6, 'name': 'Aprobada' },
     { 'id': 7, 'name': 'Pagada' },
   ];
-  public dataListCollection: any = [];
-  public dataListCollectionOriginal: any = [];
+  public listEmails: any = [];
+  public listEmailsOriginal: any = [];
   public totalItems: any = null;
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
@@ -264,7 +262,6 @@ export class ListComponent implements OnInit {
     private incapacityService: IncapacityService,
     private originQualificationService: OriginQualificationService,
     private enumerationsService: EnumerationsService,
-    private rehabilitationConceptService: RehabilitationConceptService,
   ) { }
 
   ngOnInit() {
@@ -276,7 +273,7 @@ export class ListComponent implements OnInit {
         this.token = token["token"];
         console.log('this.dataSession: ', this.dataSession);
         console.log('this.token: ', this.token);
-        // this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false);
+        // this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, '', '', '', false);
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
       }
     });
@@ -292,24 +289,10 @@ export class ListComponent implements OnInit {
     // });
   }
 
-  fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date) {
+  fnGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date) {
     return new Promise((resolve, reject) => {
       this.submitted = true;
-      this.rehabilitationConceptService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
-        if (respList.status == 200) {
-          resolve(respList);
-        }
-      }, err => {
-        reject(false);
-        this.submitted = false;
-      });
-    })
-  }
-
-  fnGetDataUserByID(token, id_user) {
-    return new Promise((resolve, reject) => {
-      this.submitted = true;
-      this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
+      this.originQualificationService.fnHttpGetOriginQualificationList(current_payload, current_page, search_input, status_list, start_date, end_date).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         }
@@ -326,7 +309,7 @@ export class ListComponent implements OnInit {
     let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
     let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
     let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
-    this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch);
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch);
   }
 
   fnViewHistory() {
@@ -339,11 +322,11 @@ export class ListComponent implements OnInit {
       let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
       let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
       let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
-      this.fnBuildData(this.token, this.currentPage, text_search, state, dateStartValueof, dateEndValueof, true);
+      this.fnBuildDataOriginQualification(this.token, this.currentPage, text_search, state, dateStartValueof, dateEndValueof, true);
     } else {
       // text_search = '';
       // self.search_input = '';
-      // self.fnGetDataList(self.current_payload, self.currentPage, text_search, self.status_list);
+      // self.fnGetOriginQualificationList(self.current_payload, self.currentPage, text_search, self.status_list);
     }
   }
 
@@ -354,7 +337,7 @@ export class ListComponent implements OnInit {
       state: 1,
       statusInfo: { name: 'Por gestionar', value: 1 },
     };
-    this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false);
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, '', '', '', false);
   }
 
   fnShowAdvanceSearch() {
@@ -379,47 +362,27 @@ export class ListComponent implements OnInit {
       //     let dateEndValueof = (res['daterange']) ? moment(res['daterange'][1]).valueOf() : '';
       //     // let dateStartUnix = moment(res['daterange'][0]).unix();
       //     // let dateEndUnix = moment(res['daterange'][1]).unix();
-      //     this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, true);
+      //     this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, true);
       //   }
       // });
   }
 
-  fnBuildData(token, currentPage, searchInput, state, startDate, endDate, stateSearch) {
+  fnBuildDataOriginQualification(token, currentPage, searchInput, state, startDate, endDate, stateSearch) {
     this.submitted = true;
-    this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate).then((resp) => {
+    this.fnGetOriginQualificationList(token, currentPage, searchInput, state, startDate, endDate).then((resp) => {
       if(resp) {
         this.currentSearch = stateSearch;
         console.log('resp: ', resp);
-        if (resp['status'] == 200) {
-          let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
-          let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
-          this.totalItems = resp['body']['paginacion']['totalItems'];
-          this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
-          this.currentPage = resp['body']['paginacion']['paginaActual'];
-          this.prevPage = resp['body']['paginacion']['anterior'];
-          this.nextNext = resp['body']['paginacion']['siguiente'];
-          this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
-
-          dataListCollection.forEach((val, key) => {
-            // console.log('val: ', val);
-            this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
-              console.log('respDataUser: ', respDataUser);
-              val['dataUser'] = respDataUser['body'];
-              this.dataListCollection.push(val);
-              console.log('this.dataListCollection: ', this.dataListCollection);
-            });
-            this.fnGetDiagnosicosIncapacidadByPaciente(token, val['idPaciente']).then((respDataIncap) => {
-              console.log('respDataIncap: ', respDataIncap);
-              val['incapacidades'] = JSON.parse(JSON.stringify(respDataIncap['data']));
-            });
-            
-          });
-          this.dataListCollectionOriginal = this.dataListCollection;
-          // console.log('this.dataListCollection: ', this.dataListCollection);
-          this.submitted = false;
-        } else {
-          this.submitted = false;
-        }
+        this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        console.log('this.listEmails: ', this.listEmails);
+        this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
+        this.totalItems = resp['body']['paginacion']['totalItems'];
+        this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+        this.currentPage = resp['body']['paginacion']['paginaActual'];
+        this.prevPage = resp['body']['paginacion']['anterior'];
+        this.nextNext = resp['body']['paginacion']['siguiente'];
+        this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+        this.submitted = false;
       } else {
         this.submitted = false;
         this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
@@ -479,7 +442,7 @@ export class ListComponent implements OnInit {
     console.log('stateSearch: ', stateSearch);
     console.log('this.dataSearchAdvance["statusInfo"]: ', this.dataSearchAdvance['statusInfo']);
     
-    this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
   fnSelectState(dataState) {
@@ -507,7 +470,7 @@ export class ListComponent implements OnInit {
     }
     this.dataSearchAdvance['state'] = state;
 
-    this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+    this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
   fnViewDetailMail(item) {
@@ -517,48 +480,6 @@ export class ListComponent implements OnInit {
       dataDictamen: item,
     }, true);
     this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
-  }
-
-  fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
-    // this.submitted = true;
-    return new Promise((resolve, reject) => {
-      this.patientIncapacities = [];
-      //const idPaciente = 2;
-      this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-        if (r.status == 200) {
-          this.submitted = false;
-          let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-          console.log('patientIncapacities: ', patientIncapacities);
-          
-          if (patientIncapacities) {
-            patientIncapacities.forEach((value, key) => {
-              value.cie10.forEach((cievalue, ciekey) => {
-                if (cievalue.iIdtipoCie === 1) {
-                  value['cie10_diagnotic'] = cievalue;
-                }
-              });
-              // this.patientIncapacities.push(value);
-            });
-            
-            // console.log('this.patientIncapacities: ', this.patientIncapacities);
-            // this.totalItems = this.patientIncapacities.length;
-            resolve({ state: true, data: patientIncapacities });
-          } else {
-            resolve({ state: true, data: [] });
-          }
-
-        } else if (r.status == 206) {
-          reject({ state: false, data: null });
-          // this.submitted = false;
-          // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-          // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
-        }
-      }, err => {
-        reject({ state: false, data: null });
-        // this.submitted = false;
-        // this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
-      });
-    });
   }
 
 }

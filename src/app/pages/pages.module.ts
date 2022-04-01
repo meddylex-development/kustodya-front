@@ -25,6 +25,7 @@ import { EmailManagementModule } from './email-management/email-management.modul
 import { CalificacionOrigenModule } from './calificacion-origen/calificacion-origen.module';
 import { RehabilitationConceptModule } from './rehabilitation-concept/rehabilitation-concept.module';
 import { ConceptoRehabilitacionModule } from './concepto-rehabilitacion/concepto-rehabilitacion.module';
+import { DictamenPericialModule } from './dictamen-pericial/dictamen-pericial.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -52,6 +53,7 @@ const PAGES_COMPONENTS = [
     ModalOverlaysModule,
     EmailManagementModule,
     CalificacionOrigenModule,
+    DictamenPericialModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

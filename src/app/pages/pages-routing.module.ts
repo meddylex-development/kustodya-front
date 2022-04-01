@@ -21,6 +21,8 @@ import { ListEmailComponent } from './calificacion-origen/list-email/list-email.
 import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
 import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
 import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion/concepto-rehabilitacion.component';
+import { DictamenPericialComponent } from './dictamen-pericial/dictamen-pericial.component';
+import { AuditarCasoComponent } from './dictamen-pericial/auditar-caso/auditar-caso.component';
 
 const routes: Routes = [
   {
@@ -117,6 +119,19 @@ const routes: Routes = [
             component: CertificadoCrhbComponent
           },
         ]
+      }, 
+      {
+        path: 'dictamen-pericial',
+        children: [
+          {
+            path: 'listado-casos',
+            component: DictamenPericialComponent,
+          }, 
+          {
+            path: 'auditar-caso/:idCaso',
+            component: AuditarCasoComponent,
+          }, 
+        ],
       }, 
       {
         path: 'reporte',
