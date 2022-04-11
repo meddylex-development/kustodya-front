@@ -248,8 +248,11 @@ export class DashboardComponent implements OnInit {
 
         
     if (this.current_item['id'] == 579) {
-      console.log('Queensryche - Best I Can');
       this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/listado-casos');
+    }
+        
+    if (this.current_item['id'] == 580) {
+      this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/listado-casos');
     }
 
     this.current_level_menu = level_menu;

@@ -37,6 +37,8 @@ import { AddComponent } from './add/add.component';
 import { DeleteComponent } from './delete/delete.component';
 import { DeleteAllComponent } from './delete-all/delete-all.component';
 import { PrintPreviewComponent } from './print-preview/print-preview.component';
+import { AssignCaseComponent } from './assign-case/assign-case.component';
+import { ReAssignCaseComponent } from './re-assign-case/re-assign-case.component';
 
 const ENTRY_COMPONENTS = [
   BsDatepickerModule,
@@ -50,7 +52,9 @@ const ENTRY_COMPONENTS = [
     AddComponent, 
     DeleteComponent, 
     DeleteAllComponent, 
-    PrintPreviewComponent
+    PrintPreviewComponent, 
+    AssignCaseComponent, 
+    ReAssignCaseComponent, 
   ],
   imports: [
     CommonModule,
@@ -77,6 +81,17 @@ const ENTRY_COMPONENTS = [
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,
+  ],
+  entryComponents: [
+    ConceptoRehabilitacionComponent, 
+    ListComponent, 
+    EditComponent, 
+    AddComponent, 
+    DeleteComponent, 
+    DeleteAllComponent, 
+    PrintPreviewComponent, 
+    AssignCaseComponent, 
+    ReAssignCaseComponent, 
   ],
 })
 export class ConceptoRehabilitacionModule { }

@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { Observable, Observer } from 'rxjs';
 
 import { NbDialogService, NbToastrService } from '@nebular/theme';
+import { ngCopy } from 'angular-6-clipboard';
 
 // import { UtilitiesService } from '../services/utilities.service';
 // import { HelpComponent } from '../../components/modals/help/help.component'
@@ -773,6 +774,27 @@ export class UtilitiesService {
 
   fnReturnUrlApiMapDivPolColombia() {
     return this.urlApiMapDivPolColombia;
+  }
+
+  fnGetDataJson(file_name: string) {
+    const urlFileJson = '../../../../assets/data/' + file_name ;
+    return this.http.get(urlFileJson,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnCopyDataToClipboard(data_to_copy: string) {
+    return new Promise((resolve, reject) => {
+      if (!data_to_copy) {
+        reject(false);
+      } else {
+        // navigator.clipboard.writeText(data_to_copy);
+        ngCopy(data_to_copy);
+        resolve(true);
+      }
+    })
   }
 
   /*

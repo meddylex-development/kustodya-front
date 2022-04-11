@@ -72,41 +72,61 @@
     .badge-state-0 {
         background-color: #6c757d !important;
         padding: 4px 10px;
+        width: 100%,
     }
 
     .badge-state-1 {
         background-color: #1e90ff !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-2 {
         background-color: #14342B !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-3 {
         background-color: #820263 !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-4 {
         background-color: #6f42c1 !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-5 {
         background-color: #ff5f5f !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-6 {
         background-color: #ffce47 !important;
         padding: 4px 10px;
+        width: 100%,
     }
     
     .badge-state-7 {
         background-color: #28a745 !important;
         padding: 4px 10px;
+        width: 100%,
+    }
+    
+    .badge-state-8 {
+        background-color: #ff993a !important;
+        padding: 4px 10px;
+        width: 100%,
+    }
+    
+    .badge-state-9 {
+        background-color: #ff3a8c !important;
+        padding: 4px 10px;
+        width: 100%,
     }
 
     .inputSearch {
@@ -137,6 +157,13 @@
             a::before {
                 background: #1e90ff !important;
             }
+        }
+    }
+
+    ::ng-deep nb-badge {
+        span{
+            color: #f2f2f2 !important;;
+            background: #1e90ff !important;;
         }
     }
 

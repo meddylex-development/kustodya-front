@@ -3,15 +3,18 @@ import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
+
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { OriginQualificationService } from '../../../shared/api/services/origin-qualification.service';
 import { EnumerationsService } from '../../../shared/api/services/enumerations.service';
-import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
+import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
 
 // import { BusquedaAvanzadaComponent } from '../busqueda-avanzada/busqueda-avanzada.component';
 // import { EstadoIncapacidadComponent } from '../estado-incapacidad/estado-incapacidad.component';
 import * as moment from 'moment';
+import { AssignCaseComponent } from '../assign-case/assign-case.component';
+import { ReAssignCaseComponent } from '../re-assign-case/re-assign-case.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -76,8 +79,16 @@ export class ListComponent implements OnInit {
     { 'id': 6, 'name': 'Aprobada' },
     { 'id': 7, 'name': 'Pagada' },
   ];
+  public collectionPorAsignar: any = [];
+  public collectionAsignados: any = [];
+  public collectionEnProceso: any = [];
+  public collectionGestionados: any = [];
+  public collectionAnulados: any = [];
+  public collectionNotificados: any = [];
+
   public dataListCollection: any = [];
   public dataListCollectionOriginal: any = [];
+
   public totalItems: any = null;
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
@@ -85,176 +96,72 @@ export class ListComponent implements OnInit {
   public prevPage: any = null;
   public nextNext: any = null;
   public totalPaginas: any = null;
+  public clipBoardData: any = null;
+
+  public paginationTabs: any = {
+    'pagPorAsignar': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+    'pagAsignados': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+    'pagEnProceso': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+    'pagGestionados': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+    'pagAnulados': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+    'pagNotificados': {
+      'totalItems': null,
+      'currentPage': 1,
+      'itemsPerPage': 10,
+      'numItemsPage': [],
+      'prevPage': null,
+      'nextNext': null,
+      'totalPaginas': null,
+    },
+  }
+
+  public checkBlockCases: boolean = false;
+  public collectionCheckedCases: any = [];
+
   public searchInput: any = '';
   public currentSearch: boolean = false;
   public dataSearchAdvance: any = {};
-  public dictamensCollection = [
-    {
-      "idDictamen": 2348945645,
-      "nameDictamen": "Caso 2348945645 - David Gomez Rojas",
-      "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-      "authorsExpertise": [
-          {
-              "idUser": "345736765876890089",
-              "idState": "3242342353454353",
-              "idProfile": "565635464563456456",
-              "firstName": "David",
-              "secondFirstName": "Leonardo",
-              "lastName": "Gomez",
-              "secondLastName": "Rojas",
-              "idDocumentType": "45646746545676577",
-              "specialities": [
-                  {
-                      "idSpecility": "345736765876890089",
-                      "name": "Medicina General",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  },
-                  {
-                      "idSpecility": "345736765876890090",
-                      "name": "Cardiologia",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  }, 
-                  {
-                      "idSpecility": "345736765876890090",
-                      "name": "Ortopedia",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  }
-              ],
-              "documentNumber": "1233434534545",
-              "documentDateExpedition": 23342453452345234,
-              "email": "david.gomez@gmail.com",
-              "address": "CLL 123 B 123",
-              "phoneNumber": "3245465645",
-              "technicalAdvisor": false,
-              "birthDate": 6546354635464564,
-              "dateCreated": 23423422434233224,
-              "dateUpdated": 456546546456455465
-          },
-          {
-              "idUser": "345736765876890089",
-              "idState": "3242342353454353",
-              "idProfile": "565635464563456456",
-              "firstName": "Andres",
-              "secondFirstName": "Felipe",
-              "lastName": "Gutierrez",
-              "secondLastName": "Manzano",
-              "idDocumentType": "45646746545676577",
-              "specialities": [
-                  {
-                      "idSpecility": "345736765876890089",
-                      "name": "Medicina General",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  },
-                  {
-                      "idSpecility": "345736765876890090",
-                      "name": "Cardiologia",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  }, 
-                  {
-                      "idSpecility": "345736765876890090",
-                      "name": "Ortopedia",
-                      "description": "hsfbskjfjgksfsfbgksfbgskfbhgsf",
-                      "dateCreated": 23423422434233224,
-                      "dateUpdated": 456546546456455465
-                  }
-              ],
-              "documentNumber": "1233434534545",
-              "documentDateExpedition": 23342453452345234,
-              "email": "andres.gutierrez@gmail.com",
-              "address": "CLL 123 B 123",
-              "phoneNumber": "3245465645",
-              "technicalAdvisor": false,
-              "birthDate": 6546354635464564,
-              "dateCreated": 23423422434233224,
-              "dateUpdated": 456546546456455465
-          },
-      ],
-      "usersClaimant": [
-          {
-              "idUser": "345736765876890089",
-              "idState": "3242342353454353",
-              "idProfile": "565635464563456456",
-              "firstName": "David",
-              "secondFirstName": "Leonardo",
-              "lastName": "Gomez",
-              "secondLastName": "Rojas",
-              "idDocumentType": "45646746545676577",
-              "documentNumber": "1233434534545",
-              "documentDateExpedition": 23342453452345234,
-              "email": "qwerty@gmail.com",
-              "address": "CLL 123 B 123",
-              "phoneNumber": "3245465645",
-              "technicalAdvisor": false,
-              "birthDate": 6546354635464564,
-              "dateCreated": 23423422434233224,
-          }    
-      ],
-      "usersDefendant": [
-          {
-              "idUser": "345736765876890089",
-              "idState": "3242342353454353",
-              "idProfile": "565635464563456456",
-              "firstName": "Carlos",
-              "secondFirstName": "Alberto",
-              "lastName": "Diaz",
-              "secondLastName": "Martinez",
-              "idDocumentType": "45646746545676577",
-              "documentNumber": "1233434534545",
-              "documentDateExpedition": 23342453452345234,
-              "email": "qwerty@gmail.com",
-              "address": "CLL 123 B 123",
-              "phoneNumber": "3245465645",
-              "technicalAdvisor": false,
-              "birthDate": 6546354635464564,
-              "dateCreated": 23423422434233224,
-              "dateUpdated": 456546546456455465
-          }
-      ],
-      "idCountry": "546345654634563546354",
-      "idCity": "546345654634563546354",
-      "addressExpedition": "Carrera 123 # 123 - 123",
-      "idState": "546345654634563546354",
-      "documentDateExpedition": 3453452345234545,
-      "tribunal": [
-          {
-              "idUser": "345736765876890089",
-              "idState": "3242342353454353",
-              "name": "Juazgado 10",
-              "email": "qwerty@gmail.com",
-              "address": "CLL 123 B 123",
-              "phoneNumber": "3245465645",
-              "dateCreated": 23423422434233224,
-              "dateUpdated": 456546546456455465
-          }
-      ],
-      "attachments": [
-        {
-          "name": "Historia clinica",
-          "url": "https://www.orimi.com/pdf-test.pdf",
-        },
-        {
-          "name": "Soporte de pago clinica",
-          "url": "https://www.orimi.com/pdf-test.pdf",
-        },
-        {
-          "name": "Carta emitida",
-          "url": "https://www.orimi.com/pdf-test.pdf",
-        },
-      ],
-      "dateCreated": 1647350536000,
-      "dateUpdated": 1647626685000
-    }
-  ]
+  public dictamensCollection = [];
 
   constructor(
     private authService: NbAuthService,
@@ -264,7 +171,7 @@ export class ListComponent implements OnInit {
     private incapacityService: IncapacityService,
     private originQualificationService: OriginQualificationService,
     private enumerationsService: EnumerationsService,
-    private rehabilitationConceptService: RehabilitationConceptService,
+    private conceptoRehabilitacionService: ConceptoRehabilitacionService,
   ) { }
 
   ngOnInit() {
@@ -278,24 +185,19 @@ export class ListComponent implements OnInit {
         console.log('this.token: ', this.token);
         // this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false);
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
+        this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null);
+        this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null);
+        this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null);
+        this.fnBuildData(this.token, this.currentPage, null, 5, null, null, null);
       }
     });
-  }
-
-  fnGetOriginQualificationListStates(current_payload) {
-    // const self = this;
-    // this.enumerationsService.fnHttpGetOriginQualificationListStates(current_payload).subscribe(resp_get_patients => {
-    //   if (resp_get_patients.status == 200) {
-    //     this.collection_data = JSON.parse(JSON.stringify(resp_get_patients.body));
-    //   }
-    // }, err => {
-    // });
   }
 
   fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date) {
     return new Promise((resolve, reject) => {
       this.submitted = true;
-      this.rehabilitationConceptService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
+      this.utilitiesService.fnGetDataJson('response_casos_conceptos_CRHB.json').subscribe(respList => {
+      // this.conceptoRehabilitacionService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         }
@@ -320,10 +222,36 @@ export class ListComponent implements OnInit {
     })
   }
 
-  getPage(page: number) {
-    this.currentPage = page;
+  getPage(page: number, tab: number) {
+    let state = 0;
+    switch (tab) {
+      case 1:
+        state = 1;
+        this.currentPage = this.paginationTabs['pagPorAsignar']['currentPage'] = page;
+        break;
+      case 2:
+        state = 2;
+        this.currentPage = this.paginationTabs['pagAsignados']['currentPage'] = page;
+        break;
+      case 3:
+        state = 3;
+        this.currentPage = this.paginationTabs['pagEnProceso']['currentPage'] = page;
+        break;
+      case 4:
+        state = 4;
+          this.currentPage = this.paginationTabs['pagAnulados']['currentPage'] = page;
+          break;
+      case 5:
+        state = 5;
+        this.currentPage = this.paginationTabs['pagGestionados']['currentPage'] = page;
+        break;
+      case 6:
+        state = 6;
+        this.currentPage = this.paginationTabs['pagNotificados']['currentPage'] = page;
+        break;
+    }
     this.searchInput = (this.dataSearchAdvance['textSearch']) ? this.dataSearchAdvance['textSearch'] : '';
-    let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
+    // let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
     let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
     let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
     this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch);
@@ -393,28 +321,110 @@ export class ListComponent implements OnInit {
         if (resp['status'] == 200) {
           let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
           let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
-          this.totalItems = resp['body']['paginacion']['totalItems'];
-          this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
-          this.currentPage = resp['body']['paginacion']['paginaActual'];
-          this.prevPage = resp['body']['paginacion']['anterior'];
-          this.nextNext = resp['body']['paginacion']['siguiente'];
-          this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
+          // this.totalItems = resp['body']['paginacion']['totalItems'];
+          // this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
+          // this.currentPage = resp['body']['paginacion']['paginaActual'];
+          // this.prevPage = resp['body']['paginacion']['anterior'];
+          // this.nextNext = resp['body']['paginacion']['siguiente'];
+          // this.totalPaginas = resp['body']['paginacion']['totalPaginas'];
 
+          let collection = [];
           dataListCollection.forEach((val, key) => {
             // console.log('val: ', val);
             this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
               console.log('respDataUser: ', respDataUser);
               val['dataUser'] = respDataUser['body'];
-              this.dataListCollection.push(val);
-              console.log('this.dataListCollection: ', this.dataListCollection);
+              val['progress'] = Math.floor(Math.random() * 101);
+              val['checked'] = false;
+              collection.push(val);
+              // console.log('collection: ', collection);
+              switch (state) {
+                case 1:
+                    this.collectionPorAsignar = collection;
+                    this.paginationTabs['pagPorAsignar'] = {
+                      'totalItems': resp['body']['paginacion']['totalItems'],
+                      'currentPage': 1,
+                      'itemsPerPage': 10,
+                      'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                      'prevPage': resp['body']['paginacion']['anterior'],
+                      'nextNext': resp['body']['paginacion']['siguiente'],
+                      'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    }
+                    // this.collectionAsignados = collection;
+                    // this.collectionEnProceso = collection;
+                    // this.collectionGestionados = collection;
+                    // this.collectionAnulados = collection;
+                    // this.collectionNotificados = collection;
+                  break;
+                case 2:
+                    this.collectionAsignados = collection;
+                    this.paginationTabs['pagAsignados'] = {
+                      'totalItems': resp['body']['paginacion']['totalItems'],
+                      'currentPage': 1,
+                      'itemsPerPage': 10,
+                      'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                      'prevPage': resp['body']['paginacion']['anterior'],
+                      'nextNext': resp['body']['paginacion']['siguiente'],
+                      'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    }
+                  break;
+                case 3:
+                    this.collectionEnProceso = collection;
+                    this.paginationTabs['pagEnProceso'] = {
+                      'totalItems': resp['body']['paginacion']['totalItems'],
+                      'currentPage': 1,
+                      'itemsPerPage': 10,
+                      'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                      'prevPage': resp['body']['paginacion']['anterior'],
+                      'nextNext': resp['body']['paginacion']['siguiente'],
+                      'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    }
+                  break;
+                case 4:
+                  this.collectionAnulados = collection;
+                  this.paginationTabs['pagAnulados'] = {
+                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'currentPage': 1,
+                    'itemsPerPage': 10,
+                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    'prevPage': resp['body']['paginacion']['anterior'],
+                    'nextNext': resp['body']['paginacion']['siguiente'],
+                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                  }
+                  break;
+                case 5:
+                  this.collectionGestionados = collection;
+                  this.paginationTabs['pagGestionados'] = {
+                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'currentPage': 1,
+                    'itemsPerPage': 10,
+                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    'prevPage': resp['body']['paginacion']['anterior'],
+                    'nextNext': resp['body']['paginacion']['siguiente'],
+                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                  }
+                  break;
+                case 6:
+                  this.collectionNotificados = collection;
+                  this.paginationTabs['pagNotificados'] = {
+                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'currentPage': 1,
+                    'itemsPerPage': 10,
+                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    'prevPage': resp['body']['paginacion']['anterior'],
+                    'nextNext': resp['body']['paginacion']['siguiente'],
+                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                  }
+                  break;
+              }
             });
-            this.fnGetDiagnosicosIncapacidadByPaciente(token, val['idPaciente']).then((respDataIncap) => {
-              console.log('respDataIncap: ', respDataIncap);
-              val['incapacidades'] = JSON.parse(JSON.stringify(respDataIncap['data']));
-            });
+            // this.fnGetDiagnosicosIncapacidadByPaciente(token, val['idPaciente']).then((respDataIncap) => {
+            //   console.log('respDataIncap: ', respDataIncap);
+            //   val['incapacidades'] = JSON.parse(JSON.stringify(respDataIncap['data']));
+            // });
             
           });
-          this.dataListCollectionOriginal = this.dataListCollection;
+          // this.dataListCollectionOriginal = this.dataListCollection;
           // console.log('this.dataListCollection: ', this.dataListCollection);
           this.submitted = false;
         } else {
@@ -491,32 +501,70 @@ export class ListComponent implements OnInit {
     let dateEnd = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
     let stateSearch = this.currentSearch;
     // this.dataSearchAdvance = {};
+    let currentPage = null;
     switch (dataState['tabTitle']) {
-      case 'Por gestionar':
+      case 'Por asignar':
         state = 1;
-        this.dataSearchAdvance['statusInfo'] = { name: 'Por gestionar', value: 1 };      
+        currentPage = this.paginationTabs['pagPorAsignar']['currentPage'];
+        // this.dataSearchAdvance['statusInfo'] = { name: 'Por asignar', value: 1 };      
         break;
-      case 'Sin transcribir':
+      case 'Asignados':
         state = 2;
-        this.dataSearchAdvance['statusInfo'] = { name: 'Sin transcribir', value: 2 };
+        currentPage = this.paginationTabs['pagAsignados']['currentPage'];
+        // this.dataSearchAdvance['statusInfo'] = { name: 'Asignados', value: 2 };
         break;
-      case 'Transcrito':
+      case 'En proceso':
         state = 3;
-        this.dataSearchAdvance['statusInfo'] = { name: 'Transcrito', value: 3 };
+        currentPage = this.paginationTabs['pagEnProceso']['currentPage'];
+        // this.dataSearchAdvance['statusInfo'] = { name: 'En proceso', value: 3 };
+        break;
+      case 'Anulados':
+          state = 4;
+          currentPage = this.paginationTabs['pagAnulados']['currentPage'];
+          // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
+          break;
+      case 'Gestionados':
+        state = 5;
+        currentPage = this.paginationTabs['pagGestionados']['currentPage'];
+        // this.dataSearchAdvance['statusInfo'] = { name: 'Gestionados', value: 4 };
+        break;
+      case 'Notificados':
+        state = 6;
+        currentPage = this.paginationTabs['pagNotificados']['currentPage'];
+        // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
         break;
     }
-    this.dataSearchAdvance['state'] = state;
+    // this.dataSearchAdvance['state'] = state;
 
-    this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+    this.fnBuildData(this.token, currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
-  fnViewDetailMail(item) {
+  fnAssignCase(item) {
     console.log('item: ', item);
-    let idDictamen = item['idDictamen'];
-    this.utilitiesService.fnSetDataShare({ 
-      dataDictamen: item,
-    }, true);
-    this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    let dataSend = {};
+    dataSend['dataCase'] = item
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(AssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
+  }
+
+  fnReAssignCase(item) {
+    console.log('item: ', item);
+    let dataSend = {};
+    dataSend['dataCase'] = item
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(ReAssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
   }
 
   fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
@@ -559,6 +607,55 @@ export class ListComponent implements OnInit {
         // this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
       });
     });
+  }
+
+  fnRedirectViewPatientIncapacitiesHistory(item) {
+    console.log('item: ', item);
+    this.utilitiesService.fnSetDataShare({ 
+      patientData: item['dataUser'], 
+      // patientIncapacities: this.patientIncapacities, 
+      // collectionDocumentTypes: this.collectionDocumentTypes, 
+      // documentNumberPatient: this.documentNumberPatient, 
+      // documentTypePatient: this.documentTypePatient, 
+      // documentTypeSelected: this.documentTypeSelected,
+      // dataUserSpecialist: this.dataUserSpecialist,
+    });
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/historico');
+  }
+
+  fnRandomNum(item) {
+    // return Math.floor(Math.random() * 101);
+    item['progress'] = Math.floor(Math.random() * 101);
+  }
+
+  fnShowCheckListCases() {
+    this.checkBlockCases = (this.checkBlockCases == true) ? false : true;
+  }
+
+  fnCheckListCase(item, index) {
+    console.log('item: ', item);
+    if (item['checked'] == false) {
+      item['checked'] = true;
+      this.collectionCheckedCases[index] = item;
+      console.log('this.collectionCheckedCases: ', this.collectionCheckedCases);
+    } else {
+      item['checked'] = false;
+      this.collectionCheckedCases.splice(index, 1);
+      console.log('this.collectionCheckedCases: ', this.collectionCheckedCases);
+    }
+  }
+
+  fnCopyToClipboard(data_copy) {
+    this.clipBoardData = data_copy;
+    console.log('this.clipBoardData: ', this.clipBoardData);
+    this.utilitiesService.fnCopyDataToClipboard(data_copy).then(respCopy => {
+      if (!respCopy) {
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      } else {
+        this.utilitiesService.showToast('top-right', 'success', 'Número de documento copiado!');
+      }
+    });
+
   }
 
 }
