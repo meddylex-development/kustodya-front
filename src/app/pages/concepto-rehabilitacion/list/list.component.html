@@ -545,7 +545,7 @@
                       <tbody>
                         <tr *ngFor="let item of collectionAsignados | paginate: { id: 'pagPorAsignar', itemsPerPage: paginationTabs['pagPorAsignar'].itemsPerPage, currentPage: paginationTabs['pagPorAsignar'].currentPage, totalItems: paginationTabs['pagPorAsignar'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnReAssignCase(item);" tooltip="Iniciar concepto CRHB" placement="top" container="body">
+                            <span (click)="fnStartCHRBConceptCase(item);" tooltip="Iniciar concepto CRHB" placement="top" container="body">
                                 <!-- <i class="fas fa-user-edit cursor-pointer text-info"></i> -->
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
                             </span>

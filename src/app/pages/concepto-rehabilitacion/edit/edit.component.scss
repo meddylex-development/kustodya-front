@@ -1,0 +1,269 @@
+@import "../../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+    ::ng-deep nb-card {
+        margin: 10px !important;
+        height: calc(100vh - 3rem) !important;
+        max-width: 100%;
+        opacity: 1;
+    }
+
+    ::ng-deep ngx-historico-paciente {
+        overflow-x: hidden !important;
+    }
+
+    ::ng-deep .front-container {
+        width: 100% !important;
+    }
+
+    ::ng-deep a:hover, a:focus {
+        color: #01BDFF !important;
+    }
+
+    ::ng-deep .nb-theme-default a:hover, .nb-theme-default a:focus {
+        color: #01BDFF;
+    }
+
+    ::ng-deep nb-card-header {
+        display: block !important;
+    }
+
+    ::ng-deep #buttonAddDiagnostic {
+        cursor: pointer;
+        line-height: 1.65 !important;
+        margin-top: 12px !important;
+    }
+
+    ::ng-deep nb-card-body {
+        /* overflow: hidden !important; */
+        box-shadow: none !important;
+    }
+
+    ::ng-deep .ng-select .ng-select-container {
+        border-color: none !important;
+        min-height: 54px !important;
+    }
+
+    ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input>input {
+        height: 44px;
+    }
+
+    ::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+        top: 18px !important;
+        padding-bottom: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    ::ng-deep .ngb-tp-hour > .btn {
+        color: #007bff !important;
+        box-shadow: none !important;
+    }
+
+    .ngb-tp-hour > .btn :focus {
+        box-shadow: none !important;
+    }
+    
+    ::ng-deep .ngb-tp-minute > .btn {
+        color: #007bff !important;
+        box-shadow: none !important;
+    }
+
+    .ngb-tp-minute > .btn :focus {
+        box-shadow: none !important;
+    }
+
+    ::ng-deep .ngb-tp-hour > .ngb-tp-input {
+        height: 54px !important;
+    }
+
+    ::ng-deep .ngb-tp-minute > .ngb-tp-input {
+        height: 54px !important;
+    }
+
+    ::ng-deep .nb-theme-default .btn.btn-outline-primary {
+        border: 2px solid #2c91ff;
+        color: #2c90ff;
+        background-color: transparent;
+    }
+
+
+    ::ng-deep .ngx-pagination > li.current {
+        border-radius: 15px;
+    }
+
+    ::ng-deep .ngx-pagination a:hover, .ngx-pagination button:hover {
+        background: #e6e6e6;
+        border-radius: 10px;
+    }
+
+    ::ng-deep .btn {
+        text-transform: none;
+    }
+
+    nb-card-body {
+        /* overflow: hidden !important; */
+        box-shadow: none !important;
+    }
+
+    nb-card-header {
+        display: block !important;
+    }
+
+    .alert-danger {
+        background-color: #ff6780 !important;
+        border: none !important;
+        color: #fff !important;
+    }
+
+    .text-optional-field {
+        color: #a5a5a5 !important;
+        font-size: 12px !important;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .content-pagination {
+        display: flex; 
+        justify-content: space-around;
+    }
+
+    .badge-state-1 {
+        background-color: #0d6efd !important;
+        padding: 4px 10px;
+    }
+    
+    .badge-state-2 {
+        background-color: #ffc107 !important;
+        padding: 4px 10px;
+    }
+
+
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+      
+      .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+      
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+      
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+      
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+      
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+     /* The switch - the box around the slider */
+     .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+  
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+  
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+}

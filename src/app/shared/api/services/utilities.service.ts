@@ -785,6 +785,15 @@ export class UtilitiesService {
     });
   }
 
+  fnGetDataCie10Json(file_name: string) {
+    const urlFileJson = '../../../../app/shared/api/mock/' + file_name ;
+    return this.http.get(urlFileJson,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
   fnCopyDataToClipboard(data_to_copy: string) {
     return new Promise((resolve, reject) => {
       if (!data_to_copy) {

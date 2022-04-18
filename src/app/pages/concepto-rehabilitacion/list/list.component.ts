@@ -196,8 +196,8 @@ export class ListComponent implements OnInit {
   fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date) {
     return new Promise((resolve, reject) => {
       this.submitted = true;
-      this.utilitiesService.fnGetDataJson('response_casos_conceptos_CRHB.json').subscribe(respList => {
-      // this.conceptoRehabilitacionService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
+      // this.utilitiesService.fnGetDataJson('response_casos_conceptos_CRHB.json').subscribe(respList => {
+      this.conceptoRehabilitacionService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         }
@@ -656,6 +656,21 @@ export class ListComponent implements OnInit {
       }
     });
 
+  }
+
+  fnStartCHRBConceptCase(item) {
+    console.log('item: ', item);
+    this.utilitiesService.fnSetDataShare({ 
+      patientData: item['dataUser'], 
+      patientConcept: item,
+      // patientIncapacities: this.patientIncapacities, 
+      // collectionDocumentTypes: this.collectionDocumentTypes, 
+      // documentNumberPatient: this.documentNumberPatient, 
+      // documentTypePatient: this.documentTypePatient, 
+      // documentTypeSelected: this.documentTypeSelected,
+      // dataUserSpecialist: this.dataUserSpecialist,
+    });
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['idpacienteporemitir']);
   }
 
 }

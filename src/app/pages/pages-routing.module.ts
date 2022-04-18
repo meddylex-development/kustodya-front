@@ -23,6 +23,7 @@ import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-c
 import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion/concepto-rehabilitacion.component';
 import { DictamenPericialComponent } from './dictamen-pericial/dictamen-pericial.component';
 import { AuditarCasoComponent } from './dictamen-pericial/auditar-caso/auditar-caso.component';
+import { EditComponent } from './concepto-rehabilitacion/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -110,10 +111,10 @@ const routes: Routes = [
             path: 'listado-casos',
             component: ConceptoRehabilitacionComponent
           },
-          // {
-          //   path: 'listado-casos',
-          //   component: CertificadoCrhbComponent
-          // },
+          {
+            path: 'editar-concepto/:idCaso',
+            component: EditComponent,
+          }, 
           {
             path: 'certificado-crhb/:idUser',
             component: CertificadoCrhbComponent
@@ -126,7 +127,7 @@ const routes: Routes = [
           {
             path: 'listado-casos',
             component: DictamenPericialComponent,
-          }, 
+          },
           {
             path: 'auditar-caso/:idCaso',
             component: AuditarCasoComponent,
