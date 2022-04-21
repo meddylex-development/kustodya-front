@@ -21,6 +21,7 @@ import { esLocale } from 'ngx-bootstrap/locale';
 import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
+import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
 defineLocale('es', esLocale);
 
 @Component({
@@ -153,6 +154,7 @@ export class EditComponent implements OnInit {
   public selectPatientMedicalPrognosis: any = '';
   public patientInputSequelDescription: any = '';
   public patientInputClinicHistorySummary: any = '';
+  public patientInputOtherTreatments: any = '';
   
   public checkPharmacological: boolean = false;
   public checkOccupationalTherapy: boolean = false;
@@ -193,10 +195,12 @@ export class EditComponent implements OnInit {
     private parameterizationService: ParameterizationService,
     private auditService: AuditService,
     private rehabilitationConceptService: RehabilitationConceptService,
+    private conceptoRehabilitacionService: ConceptoRehabilitacionService,
   ) {
   }
   
   ngOnInit() {
+    // /api/K2ConceptoRehabilitacion/ConceptoRehabilitacion/{pacienteporEmitirId}
     const token = sessionStorage.getItem("token");
     this.token = token;
     console.log('this.token: ', this.token);
@@ -212,6 +216,16 @@ export class EditComponent implements OnInit {
       this.patientData = data['patientData'];
       this.patientConcept = data['patientConcept'];
       console.log('this.patientConcept: ', this.patientConcept);
+
+      this.fnGetDataConcept(this.token, this.patientConcept['idpacienteporemitir']).then((response6) => {
+        console.log('response6: ', response6);
+        if (response6) {
+          // this.collectionMedicalConcept = response6['body'];
+          // console.log('this.collectionMedicalConcept: ', this.collectionMedicalConcept);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+        }
+      });
 
       this.fnGetDataUserById(this.token, user_id).then((response) => {
         console.log('response: ', response);
@@ -292,6 +306,7 @@ export class EditComponent implements OnInit {
           this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
         }
       });
+      
 
     } else {
       this.patientData = null;
@@ -510,6 +525,71 @@ export class EditComponent implements OnInit {
     
   }
 
+  fnShoewPreviewCRHB() {
+    // this.patientData = data['patientData'];
+    console.log('this.patientData: ', this.patientData);
+    // this.patientConcept = data['patientConcept'];
+    console.log('this.patientConcept: ', this.patientConcept);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/123456');
+  }
+
+  fnGetDataConcept(token, id_user) {
+
+    return new Promise((resolve, reject) => {
+      this.submitted = true;
+      this.conceptoRehabilitacionService.fnHttpGetDataConcept(token, id_user).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        } else {
+          reject(false);
+          this.submitted = false;
+        }
+      }, err => {
+        reject(false);
+        this.submitted = false;
+      });
+    })
+
+  }
+
+  fnSetUpdateConcept(token, obj_concept) {
+    return new Promise((resolve, reject) => {
+      this.submitted = true;
+      this.conceptoRehabilitacionService.fnHttpSetUpdateConcept(token, obj_concept).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+          this.submitted = false;
+        }
+      }, err => {
+        reject(false);
+        this.submitted = false;
+      });
+    })
+  }
+
+  fnUpdateConcept() {
+    let dataObjectSend = {
+      "id": this.patientConcept['idpacienteporemitir'],
+      "resumenHistoriaClinica": this.patientInputClinicHistorySummary,
+      "finalidadTratamientos": this.selectPatientTypeSequel,
+      "esFarmacologico": this.checkPharmacological,
+      "esTerapiaOcupacional": this.checkOccupationalTherapy,
+      "esFonoaudiologia": this.checkSpeechTherapy,
+      "esQuirurgico": this.checkSurgical,
+      "esTerapiaFisica": this.checkPhysicalTherapy,
+      "esOtrosTratamientos": this.checkOtherTherapy,
+      "descripcionOtrosTratamientos": this.patientInputOtherTreatments,
+      "plazoCorto": 0,
+      "plazoMediano": 0,
+      "concepto": this.selectMedicalConcept,
+      "remisionAdministradoraFondoPension": "string",
+      "progreso": 10,
+    }
+    console.log('dataObjectSend: ', dataObjectSend);
+  }
+
   fnReturnPage(): void {
     this.location.back();
   }
@@ -521,10 +601,6 @@ export class EditComponent implements OnInit {
   fnViewDagnosticCertificate(item) {
     let diagnosticCodeDNI = item['uiCodigoDiagnostico'];
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/certificado/'+ diagnosticCodeDNI);
-  }
-
-  fnShowContent(nameClass) {
-    $('.' + nameClass).slideToggle();
   }
 
   fnGetIncapacityType(token) {

@@ -88,7 +88,15 @@ export class EditUserComponent implements OnInit {
 
             self.fnGetListIdentificationTypes(self.token);
             self.fnGetListGenders(self.token);
-            self.fnGetListProfiles(self.token);
+            self.fnGetListProfiles(self.token).then((resProfiles) => {
+              console.log('resProfiles: ', resProfiles);
+              if (resProfiles) {
+                this.collection_profiles = resProfiles['body'];
+                console.log('this.collection_profiles: ', this.collection_profiles);
+              }
+            }).catch((err) => {
+              console.log('err: ', err);
+            });
             if (self.isSuperAdmin === 'true') {
               self.fnGetListEntitiesAdmin(self.token);
             } else {
@@ -188,31 +196,48 @@ export class EditUserComponent implements OnInit {
     // const day = moment("25-12-1994");
 
 
-    const objSendService = {
-      'id': self.user_edit_id,
-      'tipoIdentificacion': parseInt(data_user_basic_info['document_type']),
-      'numeroIdentificacion': data_user_basic_info['document_number'],
-      'primerNombre': data_user_basic_info['first_name'],
-      'segundoNombre': (data_user_basic_info['second_name']) ? data_user_basic_info['second_name'] : '',
-      'primerApellido': data_user_basic_info['first_last_name'],
-      'segundoApellido': (data_user_basic_info['second_last_name']) ? data_user_basic_info['second_last_name'] : '',
-      'correo': (data_user_basic_info['email']) ? data_user_basic_info['email'] : '',
-      'sexo':  parseInt(data_user_basic_info['gender_type']),
-      'fechaNacimiento': 0,
-      // 'fechaNacimiento': 0,
-      'perfilId':  parseInt(data_user_basic_info['profile_type']),
-      'esMedico': (data_user_basic_info['isProfessionalDoctor']) ? true : false,
-      'registroMedico': (data_user_basic_info['medical_register']) ? data_user_basic_info['medical_register'] : '',
-      'otrosTratamientos': false,
-      'activo': true,
-      'telefonos': [],
-      'direcciones': [],
-      'correos': [],
-      'redesSociales': [],
-      'epSs': [],
-      'firma': '',
-      'entidades': list_entities_selected,
-    };
+    // let objSendService = {
+    //   'id': self.user_edit_id,
+    //   'tipoIdentificacion': parseInt(data_user_basic_info['document_type']),
+    //   'numeroIdentificacion': data_user_basic_info['document_number'],
+    //   'primerNombre': data_user_basic_info['first_name'],
+    //   'segundoNombre': (data_user_basic_info['second_name']) ? data_user_basic_info['second_name'] : '',
+    //   'primerApellido': data_user_basic_info['first_last_name'],
+    //   'segundoApellido': (data_user_basic_info['second_last_name']) ? data_user_basic_info['second_last_name'] : '',
+    //   'correo': (data_user_basic_info['email']) ? data_user_basic_info['email'] : '',
+    //   'sexo':  parseInt(data_user_basic_info['gender_type']),
+    //   'fechaNacimiento': 0,
+    //   // 'fechaNacimiento': 0,
+    //   'perfilId':  parseInt(data_user_basic_info['profile_type']),
+    //   'esMedico': (data_user_basic_info['isProfessionalDoctor']) ? true : false,
+    //   'registroMedico': (data_user_basic_info['medical_register']) ? data_user_basic_info['medical_register'] : '',
+    //   'otrosTratamientos': false,
+    //   'activo': true,
+    //   'telefonos': [],
+    //   'direcciones': [],
+    //   'correos': [],
+    //   'redesSociales': [],
+    //   'epSs': [],
+    //   'firma': '',
+    //   'entidades': list_entities_selected,
+    // };
+
+    let objSendService = {
+      "tipoIdentificacion": parseInt(data_user_basic_info['document_type']),
+      "numeroIdentificacion": data_user_basic_info['document_number'],
+      "primerNombre": data_user_basic_info['first_name'],
+      "segundoNombre": (data_user_basic_info['second_name']) ? data_user_basic_info['second_name'] : '',
+      "primerApellido": data_user_basic_info['first_last_name'],
+      "segundoApellido": (data_user_basic_info['second_last_name']) ? data_user_basic_info['second_last_name'] : '',
+      "sexo": parseInt(data_user_basic_info['gender_type']),
+      "correo": data_user_basic_info['email'],
+      "fechaNacimiento": 0,
+      "perfilId": parseInt(data_user_basic_info['profile_type']),
+      "esMedico": (data_user_basic_info['isProfessionalDoctor']) ? true : false,
+      "registroMedico": (data_user_basic_info['medical_register']) ? data_user_basic_info['medical_register'] : '',
+      "otrosTratamientos": false,
+      "activo": true,
+    }
     // return false;
     // this.data_search
     // const self = this;
@@ -283,21 +308,25 @@ export class EditUserComponent implements OnInit {
   }
 
   fnGetListProfiles(token) {
-    // Instancia de conexion servicio
-    this.profilesService.fnHttpGetListProfiles(token, '', 1).subscribe(response => {
-      if (response.status == 200) {
-        this.collection_profiles = response['body']['perfiles'];
-        // const obj_admin = response['body']['perfiles'][1];
-        // const collection_profiles_admin = [];
-        // collection_profiles_admin.push(obj_admin);
-        // this.collection_profiles = collection_profiles_admin;
-        // // this.data_user_basic_info['profile_type'] = 2;
-      } else {
-        this.collection_profiles = [];
-      }
-    }, err => {
-      this.collection_profiles = [];
-        // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+    return new Promise((resolve, reject) => {
+      this.profilesService.fnHttpGetListProfilesK2(token).subscribe(response => {
+        if (response.status == 200) {
+          // this.collection_profiles = response['body']['perfiles'];
+          // const obj_admin = response['body']['perfiles'][1];
+          // const collection_profiles_admin = [];
+          // collection_profiles_admin.push(obj_admin);
+          // this.collection_profiles = collection_profiles_admin;
+          // // this.data_user_basic_info['profile_type'] = 2;
+          resolve(response);
+        } else {
+          // this.collection_profiles = [];
+          reject(false);
+        }
+      }, err => {
+        reject(false);
+        // this.collection_profiles = [];
+          // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+      });
     });
   }
 

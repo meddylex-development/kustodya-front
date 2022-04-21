@@ -15,6 +15,8 @@ import { ConceptoRehabilitacionService } from '../../../shared/api/services/conc
 import * as moment from 'moment';
 import { AssignCaseComponent } from '../assign-case/assign-case.component';
 import { ReAssignCaseComponent } from '../re-assign-case/re-assign-case.component';
+import { ProfilesService } from '../../../shared/api/services/profiles.service';
+import { UserService } from '../../../shared/api/services/user.service';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -162,6 +164,8 @@ export class ListComponent implements OnInit {
   public currentSearch: boolean = false;
   public dataSearchAdvance: any = {};
   public dictamensCollection = [];
+  public profileUser: any = '';
+  public userIdSession: any = '';
 
   constructor(
     private authService: NbAuthService,
@@ -172,32 +176,53 @@ export class ListComponent implements OnInit {
     private originQualificationService: OriginQualificationService,
     private enumerationsService: EnumerationsService,
     private conceptoRehabilitacionService: ConceptoRehabilitacionService,
+    private profilesService: ProfilesService,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       console.log('token: ', token);
       if (token.isValid()) {
+
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
         this.token = token["token"];
         console.log('this.dataSession: ', this.dataSession);
         console.log('this.token: ', this.token);
-        // this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false);
+
+        this.fnGetInfoProfileById(token, this.dataSession['IdProfile']).then((respDataProfile) => {
+          console.log('respDataProfile: ', respDataProfile);
+          if (respDataProfile) {
+            this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto" ) ? 2 : (respDataProfile['body']['nombre'] == "Administrador Concepto" ) ? 1 : null;
+            console.log('this.profileUser: ', this.profileUser);
+            this.userIdSession = this.dataSession['UserId'];
+            console.log('this.userIdSession: ', this.userIdSession);
+
+            this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
+            this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
+            this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null, this.profileUser, this.userIdSession);
+            this.fnBuildData(this.token, this.currentPage, null, 5, null, null, null, this.profileUser, this.userIdSession);
+
+          } else {
+            
+          }
+        }).catch((err) => {
+          console.log('err: ', err);
+        });
+
+        // this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false, this.profileUser, this.userIdSession);
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
-        this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null);
-        this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null);
-        this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null);
-        this.fnBuildData(this.token, this.currentPage, null, 5, null, null, null);
+        
       }
     });
   }
 
-  fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date) {
+  fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date, type_user, id_user) {
     return new Promise((resolve, reject) => {
       this.submitted = true;
       // this.utilitiesService.fnGetDataJson('response_casos_conceptos_CRHB.json').subscribe(respList => {
-      this.conceptoRehabilitacionService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list).subscribe(respList => {
+      this.conceptoRehabilitacionService.fnHttpGetListPatients(current_payload, current_page, search_input, status_list, type_user, id_user).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         }
@@ -210,10 +235,22 @@ export class ListComponent implements OnInit {
 
   fnGetDataUserByID(token, id_user) {
     return new Promise((resolve, reject) => {
-      this.submitted = true;
       this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
+        }
+      }, err => {
+        reject(false);
+      });
+    })
+  }
+
+  fnGetInfoProfileById(token, id_profile) {
+    return new Promise((resolve, reject) => {
+      this.submitted = true;
+      this.profilesService.fnHttpGetInfoProfileById(token, id_profile).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
         }
       }, err => {
         reject(false);
@@ -254,7 +291,7 @@ export class ListComponent implements OnInit {
     // let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
     let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
     let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
-    this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch);
+    this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, this.currentSearch, this.profileUser, this.userIdSession);
   }
 
   fnViewHistory() {
@@ -267,7 +304,7 @@ export class ListComponent implements OnInit {
       let state = (this.dataSearchAdvance['state']) ? this.dataSearchAdvance['state'] : '';
       let dateStartValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][0]).valueOf() : '';
       let dateEndValueof = (this.dataSearchAdvance['daterange']) ? moment(this.dataSearchAdvance['daterange'][1]).valueOf() : '';
-      this.fnBuildData(this.token, this.currentPage, text_search, state, dateStartValueof, dateEndValueof, true);
+      this.fnBuildData(this.token, this.currentPage, text_search, state, dateStartValueof, dateEndValueof, true, this.profileUser, this.userIdSession);
     } else {
       // text_search = '';
       // self.search_input = '';
@@ -282,7 +319,7 @@ export class ListComponent implements OnInit {
       state: 1,
       statusInfo: { name: 'Por gestionar', value: 1 },
     };
-    this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false);
+    this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false, this.profileUser, this.userIdSession);
   }
 
   fnShowAdvanceSearch() {
@@ -307,14 +344,14 @@ export class ListComponent implements OnInit {
       //     let dateEndValueof = (res['daterange']) ? moment(res['daterange'][1]).valueOf() : '';
       //     // let dateStartUnix = moment(res['daterange'][0]).unix();
       //     // let dateEndUnix = moment(res['daterange'][1]).unix();
-      //     this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, true);
+      //     this.fnBuildData(this.token, this.currentPage, this.searchInput, state, dateStartValueof, dateEndValueof, true, this.profileUser, this.userIdSession);
       //   }
       // });
   }
 
-  fnBuildData(token, currentPage, searchInput, state, startDate, endDate, stateSearch) {
+  fnBuildData(token, currentPage, searchInput, state, startDate, endDate, stateSearch, typeUser, idUser) {
     this.submitted = true;
-    this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate).then((resp) => {
+    this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
       if(resp) {
         this.currentSearch = stateSearch;
         console.log('resp: ', resp);
@@ -330,12 +367,12 @@ export class ListComponent implements OnInit {
 
           let collection = [];
           dataListCollection.forEach((val, key) => {
-            // console.log('val: ', val);
             this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
-              console.log('respDataUser: ', respDataUser);
+              // console.log('respDataUser: ', respDataUser);
               val['dataUser'] = respDataUser['body'];
               val['progress'] = Math.floor(Math.random() * 101);
               val['checked'] = false;
+              // return this.fnGetDataDoctorByID(token, val['usuarioAsignadoId']);
               collection.push(val);
               // console.log('collection: ', collection);
               switch (state) {
@@ -418,11 +455,16 @@ export class ListComponent implements OnInit {
                   break;
               }
             });
-            // this.fnGetDiagnosicosIncapacidadByPaciente(token, val['idPaciente']).then((respDataIncap) => {
-            //   console.log('respDataIncap: ', respDataIncap);
-            //   val['incapacidades'] = JSON.parse(JSON.stringify(respDataIncap['data']));
+            // .then((respDataDoc) => {
+            //   console.log('respDataDoc: ', respDataDoc);
+            //   if (respDataDoc) {
+            //     val['dataDoctor'] = respDataDoc['body'];
+            //     this.submitted = false;
+            //   }
             // });
-            
+            // this.fnGetDataDoctorByID(token, val['usuarioAsignadoId']).then((respDataDoctor) => {
+            //   val['dataDoctor'] = respDataDoctor['body'];
+            // });
           });
           // this.dataListCollectionOriginal = this.dataListCollection;
           // console.log('this.dataListCollection: ', this.dataListCollection);
@@ -435,6 +477,18 @@ export class ListComponent implements OnInit {
         this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error! Intentelo de nuevo', 'nb-alert');
       }
     });
+  }
+
+  fnGetDataDoctorByID(token, id_user) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUserById(token, id_user).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
+      });
+    })
   }
 
   fnRemoveSearchFilter(typeFilterSearch) {
@@ -489,7 +543,7 @@ export class ListComponent implements OnInit {
     console.log('stateSearch: ', stateSearch);
     console.log('this.dataSearchAdvance["statusInfo"]: ', this.dataSearchAdvance['statusInfo']);
     
-    this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+    this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch, this.profileUser, this.userIdSession);
   }
 
   fnSelectState(dataState) {
@@ -536,13 +590,13 @@ export class ListComponent implements OnInit {
     }
     // this.dataSearchAdvance['state'] = state;
 
-    this.fnBuildData(this.token, currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
+    this.fnBuildData(this.token, currentPage, searchInput, state, dateStart, dateEnd, stateSearch, this.profileUser, this.userIdSession);
   }
 
   fnAssignCase(item) {
     console.log('item: ', item);
     let dataSend = {};
-    dataSend['dataCase'] = item
+    dataSend['dataCase'] = item;
     // let idDictamen = item['idDictamen'];
     // this.utilitiesService.fnSetDataShare({ 
     //   dataDictamen: item,
@@ -550,6 +604,9 @@ export class ListComponent implements OnInit {
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
     this.dialogService.open(AssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
       console.log('res: ', res);
+      if (res) {
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
     });
   }
 
@@ -672,5 +729,7 @@ export class ListComponent implements OnInit {
     });
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['idpacienteporemitir']);
   }
+
+
 
 }
