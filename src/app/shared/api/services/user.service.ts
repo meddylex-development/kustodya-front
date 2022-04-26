@@ -29,6 +29,7 @@ export class UserService {
   urlGetDataListTypeRoute: any = '';
   urlSetUpdatePasswordUser: string = '';
   urlSetAuditUser: string = '';
+  urlGetUsersEntity: string = '';
 
   constructor(private http: HttpClient, private utility: UtilitiesService) { }
 
@@ -316,6 +317,20 @@ export class UserService {
     return this.http.post(this.utility.fnGetHost() + this.urlSetAuditUser, object_params,
     {
       // params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  
+  fnHttpGetUsersEntity(guid_user, entity_id, object_data): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    const object_params = object_data;
+    this.urlGetUsersEntity = '/api/K2Usuarios/ConsultarUsuarios/entidad/' + entity_id;
+    return this.http.get(this.utility.fnGetHost() + this.urlGetUsersEntity,
+    {
+      params: object_params,
       observe: 'response',
       headers: headers,
       reportProgress: true,

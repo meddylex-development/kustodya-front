@@ -102,7 +102,7 @@ export class ListComponent implements OnInit {
 
   public paginationTabs: any = {
     'pagPorAsignar': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -111,7 +111,7 @@ export class ListComponent implements OnInit {
       'totalPaginas': null,
     },
     'pagAsignados': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -120,7 +120,7 @@ export class ListComponent implements OnInit {
       'totalPaginas': null,
     },
     'pagEnProceso': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -129,7 +129,7 @@ export class ListComponent implements OnInit {
       'totalPaginas': null,
     },
     'pagGestionados': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -138,7 +138,7 @@ export class ListComponent implements OnInit {
       'totalPaginas': null,
     },
     'pagAnulados': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -147,7 +147,7 @@ export class ListComponent implements OnInit {
       'totalPaginas': null,
     },
     'pagNotificados': {
-      'totalItems': null,
+      'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
       'numItemsPage': [],
@@ -380,7 +380,7 @@ export class ListComponent implements OnInit {
                     this.collectionPorAsignar = collection;
                     this.paginationTabs['pagPorAsignar'] = {
                       'totalItems': resp['body']['paginacion']['totalItems'],
-                      'currentPage': 1,
+                      'currentPage': currentPage,
                       'itemsPerPage': 10,
                       'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                       'prevPage': resp['body']['paginacion']['anterior'],
@@ -397,7 +397,7 @@ export class ListComponent implements OnInit {
                     this.collectionAsignados = collection;
                     this.paginationTabs['pagAsignados'] = {
                       'totalItems': resp['body']['paginacion']['totalItems'],
-                      'currentPage': 1,
+                      'currentPage': currentPage,
                       'itemsPerPage': 10,
                       'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                       'prevPage': resp['body']['paginacion']['anterior'],
@@ -409,7 +409,7 @@ export class ListComponent implements OnInit {
                     this.collectionEnProceso = collection;
                     this.paginationTabs['pagEnProceso'] = {
                       'totalItems': resp['body']['paginacion']['totalItems'],
-                      'currentPage': 1,
+                      'currentPage': currentPage,
                       'itemsPerPage': 10,
                       'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                       'prevPage': resp['body']['paginacion']['anterior'],
@@ -421,7 +421,7 @@ export class ListComponent implements OnInit {
                   this.collectionAnulados = collection;
                   this.paginationTabs['pagAnulados'] = {
                     'totalItems': resp['body']['paginacion']['totalItems'],
-                    'currentPage': 1,
+                    'currentPage': currentPage,
                     'itemsPerPage': 10,
                     'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                     'prevPage': resp['body']['paginacion']['anterior'],
@@ -433,7 +433,7 @@ export class ListComponent implements OnInit {
                   this.collectionGestionados = collection;
                   this.paginationTabs['pagGestionados'] = {
                     'totalItems': resp['body']['paginacion']['totalItems'],
-                    'currentPage': 1,
+                    'currentPage': currentPage,
                     'itemsPerPage': 10,
                     'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                     'prevPage': resp['body']['paginacion']['anterior'],
@@ -445,7 +445,7 @@ export class ListComponent implements OnInit {
                   this.collectionNotificados = collection;
                   this.paginationTabs['pagNotificados'] = {
                     'totalItems': resp['body']['paginacion']['totalItems'],
-                    'currentPage': 1,
+                    'currentPage': currentPage,
                     'itemsPerPage': 10,
                     'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
                     'prevPage': resp['body']['paginacion']['anterior'],
@@ -605,6 +605,7 @@ export class ListComponent implements OnInit {
     this.dialogService.open(AssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
       console.log('res: ', res);
       if (res) {
+        this.collectionPorAsignar = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
       }
     });
@@ -621,6 +622,10 @@ export class ListComponent implements OnInit {
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
     this.dialogService.open(ReAssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
       console.log('res: ', res);
+      if (res) {
+        this.collectionAsignados = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
     });
   }
 

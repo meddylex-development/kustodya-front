@@ -141,6 +141,32 @@
         padding: 4px 10px;
     }
 
+    .rotate-arrow-open {
+        transform: rotate(180deg);
+        transition: 0.25s linear;
+    }
+
+    .rotate-arrow-close {
+        transform: rotate(0deg);
+        transition: 0.25s linear;
+    }
+
+    ::ng-deep .degrade-border-danger {
+        // border: 1px solid #c8c8c8 !important;
+        border-color: #d8d8d8;
+        animation: example 5s !important;
+    }
+    @keyframes coloranimation {
+        from {
+            background-color: #dc3545 !important;
+        }
+    }
+    @keyframes example {
+        from {border-color: #dc3545;}
+        to {border-color: #d8d8d8;}
+    }
+
+
 
 
     .switch {

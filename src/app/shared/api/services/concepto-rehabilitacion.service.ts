@@ -15,6 +15,8 @@ export class ConceptoRehabilitacionService {
   urlGetDataConcept: string = '';
   urlSetUpdateConcept: string = '';
   urlSetAssignCase: string = '';
+  urlSetSaveConceptDiagnostic: string = '';
+  urlSetSaveConceptSequels: string = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -73,6 +75,39 @@ export class ConceptoRehabilitacionService {
     const headers = this.fnSetDefineTokenAuthorization(guid_user);
     this.urlSetAssignCase = '/api/K2ConceptoRehabilitacion/AsignarTarea';
     return this.http.put(this.utility.fnGetHost() + this.urlSetAssignCase, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpSetReAssignCase(guid_user, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    this.urlSetAssignCase = '/api/K2ConceptoRehabilitacion/ReasignarTarea';
+    return this.http.put(this.utility.fnGetHost() + this.urlSetAssignCase, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpSetSaveConceptDiagnostic(guid_user, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    this.urlSetSaveConceptDiagnostic = '/api/K2ConceptoRehabilitacion/AgregarDiagnosticoConcepto';
+    return this.http.post(this.utility.fnGetHost() + this.urlSetSaveConceptDiagnostic, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpSetSaveConceptSequels(guid_user, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    this.urlSetSaveConceptSequels = '/api/K2ConceptoRehabilitacion/AgregarSecuelaConcepto';
+    return this.http.post(this.utility.fnGetHost() + this.urlSetSaveConceptSequels, data_object,
       {
         observe: 'response',
         headers: headers,

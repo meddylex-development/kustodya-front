@@ -74,9 +74,18 @@ export class AddUserComponent implements OnInit {
       if (params.token && params.entity) {
         self.token = params.token;
         self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
+        self.fnGetListProfiles(self.token).then((resProfiles) => {
+          console.log('resProfiles: ', resProfiles);
+          if (resProfiles) {
+            this.collection_profiles = resProfiles['body'];
+            console.log('this.collection_profiles: ', this.collection_profiles);
+          }
+        }).catch((err) => {
+          console.log('err: ', err);
+        });
         self.fnGetListIdentificationTypes(self.token);
         self.fnGetListGenders(self.token);
-        self.fnGetListProfiles(self.token);
+        // self.fnGetListProfiles(self.token);
         if (self.isSuperAdmin === 'true') {
           self.fnGetListEntitiesAdmin(self.token);
         } else {
@@ -220,21 +229,25 @@ export class AddUserComponent implements OnInit {
   }
 
   fnGetListProfiles(token) {
-    // Instancia de conexion servicio
-    this.profilesService.fnHttpGetListProfiles(token, '', 1).subscribe(response => {
-      if (response.status == 200) {
-        this.collection_profiles = response['body']['perfiles'];
-        // const obj_admin = response['body']['perfiles'][1];
-        // const collection_profiles_admin = [];
-        // collection_profiles_admin.push(obj_admin);
-        // this.collection_profiles = collection_profiles_admin;
-        // // this.data_user_basic_info['profile_type'] = 2;
-      } else {
-        this.collection_profiles = [];
-      }
-    }, err => {
-      this.collection_profiles = [];
-        // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+    return new Promise((resolve, reject) => {
+      this.profilesService.fnHttpGetListProfilesK2(token).subscribe(response => {
+        if (response.status == 200) {
+          // this.collection_profiles = response['body']['perfiles'];
+          // const obj_admin = response['body']['perfiles'][1];
+          // const collection_profiles_admin = [];
+          // collection_profiles_admin.push(obj_admin);
+          // this.collection_profiles = collection_profiles_admin;
+          // // this.data_user_basic_info['profile_type'] = 2;
+          resolve(response);
+        } else {
+          // this.collection_profiles = [];
+          reject(false);
+        }
+      }, err => {
+        reject(false);
+        // this.collection_profiles = [];
+          // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
+      });
     });
   }
 

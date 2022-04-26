@@ -40,10 +40,15 @@
                 <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
               </h6>
             </label>
-            <div class="col">
-              <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Paciente caso" placement="top" container="body">
+            <div class="col-12">
+              <span *ngIf="userAssign?.primerNombre" class="badge rounded-pill text-light cursor-pointer badge-state-1 animated fadeIn" tooltip="Paciente caso" placement="top" container="body">
                 <i class="fas fa-user-md"></i>&nbsp;
-                Andres Alberto Diaz Rojas
+                {{ 
+                  userAssign?.primerNombre + ' ' + 
+                  userAssign?.segundoNombre + ' ' + 
+                  userAssign?.primerApellido + ' ' + 
+                  userAssign?.segundoApellido || 'Cargando...' 
+                }}
               </span>
             </div>
           </div>
@@ -62,6 +67,7 @@
                 <h5 class="d-inline-block m-3">NO</h5>&nbsp;
                 <label class="switch" style="margin-top: 0.2rem;">
                   <input 
+                    [disabled]="true"
                     [ngModelOptions]="{standalone: true}" 
                     [(ngModel)]="changeStatus"
                     type="checkbox" 
@@ -75,29 +81,54 @@
         </div>
         <div class="mt-2 mb-2 col-12" *ngIf="!changeStatus">
           <div class="form-group">
-            <label for="input-selectStatusIncapacity">
+            <label for="input-selectListDoctors">
               <h6 class="m-0">
-                <i class="fas fa-user-md"></i>&nbsp;M&eacute;dicos disponibles:&nbsp;
+                <i class="fas fa-user"></i>&nbsp;M&eacute;dicos disponibles:&nbsp;
                 <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
               </h6>
             </label>
             <ng-select  
-              id="input-selectStatusIncapacity"
-              [items]="statusListIncapacity" 
-              bindLabel="name" 
-              name="selectStatusIncapacity"
-              #selectStatusIncapacity="ngModel" 
+              id="input-selectListDoctors"
+              [items]="collectionDoctors" 
+              bindLabel="nombre" 
+              name="selectListDoctors"
+              #selectListDoctors="ngModel" 
               status="basic" 
               appendTo="body"
               placeholder="Seleccione el médico"
               [ngModelOptions]="{standalone: true}" 
-              [(ngModel)]="incapacityStatus" 
-              (change)="fnSelectStatusIncapacity($event)"
+              [(ngModel)]="doctorAssign" 
+              (change)="fnSelectDoctorAssign($event)"
               required>
             </ng-select>
           </div>
         </div>
-
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-rangePriority">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Prioridad:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div>
+              <input 
+                [disabled]="false"
+                style="width: 100%;" 
+                type="range" 
+                class="form-range" 
+                [min]="1" 
+                #rangePriority="ngModel" 
+                [ngModelOptions]="{standalone: true}" 
+                [(ngModel)]="priorityCase" 
+                [max]="3" 
+                id="input-rangePriority">
+            </div>
+            <div class="text-center mt-2">
+              <h6>Prioridad: <strong>{{ (priorityCase == 1) ? "Baja" : (priorityCase == 2) ? "Media" : (priorityCase == 3) ? "Alta" : "Sin prioridad" }}</strong></h6>
+            </div>
+          </div>
+        </div>
         <!-- *********** END - Ocupación paciente *********** -->
         <br>
         <button 
@@ -105,11 +136,11 @@
             nbButton 
             fullWidth 
             type="button" 
-            (click)="fnChangeStatus(incapacityStatus, dataCase, idContabilidad)"
+            (click)="fnReAssignCase(doctorAssign, priorityCase)"
             [class.btn-pulse]="submitted" 
-            [disabled]="!incapacityStatus" 
+            [disabled]="!doctorAssign || !priorityCase" 
             style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
-            {{ (changeStatus) ? 'Regresar caso a "Por Asignar"' : 'Reasignar' }}
+            Reasignar
         </button>
         <button 
             class="cursor-pointer mb-2"

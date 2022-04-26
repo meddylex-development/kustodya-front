@@ -1,4 +1,4 @@
-<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Generando certificado de incapacidad...">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{textLoading}}">
   <div class="col-md-12">
 
     <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
@@ -34,7 +34,7 @@
                         <i class="fas fa-chevron-circle-down" style="color: #fff; font-size: 20px;"></i>
                       </span>
                     </div>
-                    <div class="card-body content-patient-info" style="display: none;">
+                    <div class="card-body content-patient-info" style="display: block;">
                       <div class="row">
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
@@ -155,7 +155,7 @@
 
                           <div style="border: 1px solid #ccc;padding: 1rem;border-radius: 10px;box-shadow: 0px 1px 20px -9px;display: flex;justify-content: space-between;align-items: center;">
                             <div>
-                              <h2>123231</h2>
+                              <h2>{{ dataConcept?.diasAcumulados }}</h2>
                               <h6>D&iacute;as acumulados</h6>
                             </div>
                             <i class="far fa-calendar-alt fa-3x text-info"></i>
@@ -166,7 +166,7 @@
 
                           <div style="border: 1px solid #ccc;padding: 1rem;border-radius: 10px;box-shadow: 0px 1px 20px -9px;display: flex;justify-content: space-between;align-items: center;">
                             <div>
-                              <h2>123231</h2>
+                              <h2>{{ dataConcept?.conceptosEmitidos }}</h2>
                               <h6>Concceptos emitidos</h6>
                             </div>
                             <i class="fas fa-notes-medical fa-3x text-info"></i>
@@ -177,7 +177,7 @@
 
                           <div style="border: 1px solid #ccc;padding: 1rem;border-radius: 10px;box-shadow: 0px 1px 20px -9px;display: flex;justify-content: space-between;align-items: center;">
                             <div>
-                              <h2>123231</h2>
+                              <h2>{{ dataConcept?.pclCalificados }}</h2>
                               <h6>PCL Calificados</h6>
                             </div>
                             <i class="fas fa-user-injured fa-3x text-info"></i>
@@ -195,182 +195,175 @@
                                 Diagnostico paciente
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
-                                <div class="row">
-                                  <!-- ********** START - Diagnostico CIE10 ********** -->
-                                  <div class="col-4">
-                                    <div class="form-group">
-                                      <label for="input-patientDiagnostics">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-notes-medical"></i>&nbsp;Diagn&oacute;stico (CIE10):&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionPatientDiagnostics" 
-                                        [virtualScroll]="true" 
-                                        [multiple]="false" 
-                                        [closeOnSelect]="true"
-                                        [searchable]="true" 
-                                        [hideSelected]="true" 
-                                        bindLabel="tFullDescripcion"
-                                        id="input-patientDiagnostics" 
-                                        name="patientDiagnostics" 
-                                        #patientDiagnostics="ngModel"
-                                        [(ngModel)]="selectPatientDiagnostics"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        placeholder="Seleccione diagnóstico del paciente" 
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="true">
-                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                              <span class="ng-value-label">{{item.tFullDescripcion}}</span>
-                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                          </div>
-                                          <div class="ng-value" *ngIf="items.length > 2">
-                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                          </div>
-                                        </ng-template>
-                                      </ng-select>
-        
-                                      <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
+                                <!-- <div class="content-form-add-diagnostics" [ngClass]="{'d-none': (!flagShowDiagnostics), 'd-block animated fadeIn': (flagShowDiagnostics)}"> -->
+                                <div class="content-form-add-diagnostics" style="display: none;">
+                                  <div class="row pb-2" style="border-bottom: solid 1px #d8d8d8;border-radius: 15px;box-shadow: 3px 17px 27px -18px;">
+                                    <!-- ********** START - Diagnostico CIE10 ********** -->
+                                    <div class="col-4">
+                                      <div class="form-group">
                                         <label for="input-patientDiagnostics">
-                                          <small class="m-0 cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
-                                          </small>
+                                          <h5 class="m-0">
+                                            <i class="fas fa-notes-medical"></i>&nbsp;Diagn&oacute;stico (CIE10):&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
                                         </label>
-                                        <div class="listPatientDiagnostics m-2" style="display: none;">
-                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
-                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
-                                            <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                        <ng-select 
+                                          [items]="collectionPatientDiagnostics" 
+                                          [virtualScroll]="true" 
+                                          [multiple]="false" 
+                                          [closeOnSelect]="true"
+                                          [searchable]="true" 
+                                          [hideSelected]="true" 
+                                          bindLabel="tFullDescripcion"
+                                          id="input-patientDiagnostics" 
+                                          name="patientDiagnostics" 
+                                          #patientDiagnostics="ngModel"
+                                          [(ngModel)]="selectPatientDiagnostics"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          (change)="validDiagnostic = false;" 
+                                          placeholder="Seleccione diagnóstico del paciente" 
+                                          required 
+                                          [disabled]="false" 
+                                          [clearable]="true">
+                                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                                <span class="ng-value-label">{{item.tFullDescripcion}}</span>
+                                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                            </div>
+                                          </ng-template>
+                                        </ng-select>
+          
+                                        <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
+                                          <label for="input-patientDiagnostics">
+                                            <small class="m-0 cursor-pointer">
+                                              <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
+                                            </small>
+                                          </label>
+                                          <div class="listPatientDiagnostics m-2" style="display: none;">
+                                            <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
+                                              <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
+                                              <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div> -->
-        
+                                        </div> -->
+          
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Diagnostico CIE10 *********** -->
+                                    <!-- ********** START - Etiologia ********** -->
+                                    <div class="col-4">
+                                      <div class="form-group">
+                                        <label for="input-patientEtiology">
+                                          <h5 class="m-0">
+                                            <i class="fas fa-heartbeat"></i>&nbsp;Etiologia:&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
+                                        </label>
+                                        <ng-select 
+                                          [items]="collectionEtiology" 
+                                          [multiple]="false" 
+                                          [closeOnSelect]="true"
+                                          [searchable]="true" 
+                                          [hideSelected]="true" 
+                                          bindLabel="name"
+                                          id="input-patientEtiology" 
+                                          name="patientEtiology" 
+                                          #patientEtiology="ngModel"
+                                          [(ngModel)]="selectPatientEtiology"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          placeholder="Seleccione etiología diagnóstico"
+                                          required 
+                                          [disabled]="false" 
+                                          [clearable]="true">
+                                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                                <span class="ng-value-label">{{item.name}}</span>
+                                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                            </div>
+                                          </ng-template>
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Etiologia *********** -->
+                                    <!-- ********** START - Fecha diagnostico ********** -->
+                                    <div class="col-3">
+                                      <div class="form-group">
+                                        <label for="input-patientDiagnosticDate">
+                                          <h5 class="m-0">
+                                            <i class="far fa-calendar-alt"></i>&nbsp;Fecha diagn&oacute;stico:&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
+                                        </label>
+                                        <input 
+                                          class="cursor-pointer"
+                                          nbInput
+                                          fullWidth 
+                                          fieldSize="large"  
+                                          type="text" 
+                                          [readonly]="true" 
+                                          [disabled]="false" 
+                                          placeholder="Seleccione fecha diagnóstico"
+                                          id="input-patientDiagnosticDate"  
+                                          name="patientDiagnosticDate" 
+                                          (focus)="patientInputDiagnosticDate = '';"
+                                          [(ngModel)]="patientInputDiagnosticDate" 
+                                          [ngModelOptions]="{standalone: true}"
+                                          [status]="patientDiagnosticDate.dirty ? (patientDiagnosticDate.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                          #patientDiagnosticDate="ngModel"
+                                          bsDatepicker 
+                                          [maxDate]="maxDate"
+                                          [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
+                                          <!-- <i class="far fa-calendar-alt cursor-pointer" style="position: absolute; right: 25px; font-size: 2rem; color: #007bff;"></i> -->
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Fecha diagnostico *********** -->
+                                    <div class="col-1 p-0 d-flex align-items-center">
+                                      <span tooltip="Agregar nuevo diagnóstico" placement="top" container="body">
+                                        <button 
+                                          id="buttonAddDiagnostic"
+                                          class="d-inline-block" 
+                                          type="button"
+                                          nbButton 
+                                          (click)="fnAddNewDiagnostic(selectPatientDiagnostics, selectPatientEtiology, patientInputDiagnosticDate)"
+                                          size="large" 
+                                          status="info">
+                                          <i class="fas fa-plus-circle text-ligth"></i>
+                                        </button>
+                                      </span>
                                     </div>
                                   </div>
-                                  <!-- *********** END - Diagnostico CIE10 *********** -->
-                                  <!-- ********** START - Etiologia ********** -->
-                                  <div class="col-4">
-                                    <div class="form-group">
-                                      <label for="input-patientEtiology">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-heartbeat"></i>&nbsp;Etiologia:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionEtiology" 
-                                        [multiple]="false" 
-                                        [closeOnSelect]="true"
-                                        [searchable]="true" 
-                                        [hideSelected]="true" 
-                                        bindLabel="name"
-                                        id="input-patientEtiology" 
-                                        name="patientEtiology" 
-                                        #patientEtiology="ngModel"
-                                        [(ngModel)]="selectPatientEtiology"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        placeholder="Seleccione etiología diagnóstico"
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="true">
-                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                              <span class="ng-value-label">{{item.name}}</span>
-                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                          </div>
-                                          <div class="ng-value" *ngIf="items.length > 2">
-                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                          </div>
-                                        </ng-template>
-                                      </ng-select>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Etiologia *********** -->
-                                  <!-- ********** START - Fecha diagnostico ********** -->
-                                  <div class="col-3">
-                                    <div class="form-group">
-                                      <label for="input-patientDiagnosticDate">
-                                        <h5 class="m-0">
-                                          <i class="far fa-calendar-alt"></i>&nbsp;Fecha diagn&oacute;stico:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <input 
-                                        class="cursor-pointer"
-                                        nbInput
-                                        fullWidth 
-                                        fieldSize="large"  
-                                        type="text" 
-                                        [readonly]="true" 
-                                        [disabled]="false" 
-                                        placeholder="Seleccione fecha diagnóstico"
-                                        id="input-patientDiagnosticDate"  
-                                        name="patientDiagnosticDate" 
-                                        (focus)="patientInputDiagnosticDate = '';"
-                                        [(ngModel)]="patientInputDiagnosticDate" 
-                                        [ngModelOptions]="{standalone: true}"
-                                        [status]="patientDiagnosticDate.dirty ? (patientDiagnosticDate.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                        #patientDiagnosticDate="ngModel"
-                                        bsDatepicker 
-                                        [maxDate]="maxDate"
-                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
-                                        <!-- <i class="far fa-calendar-alt cursor-pointer" style="position: absolute; right: 25px; font-size: 2rem; color: #007bff;"></i> -->
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Fecha diagnostico *********** -->
-                                  <div class="col-1 d-flex align-items-center">
-                                    <span tooltip="Agregar nuevo diagnóstico" placement="top" container="body">
-                                      <button 
-                                        id="buttonAddDiagnostic"
-                                        class="d-inline-block" 
-                                        type="button"
-                                        nbButton 
-                                        (click)="fnAddNewDiagnostic(selectPatientDiagnostics, selectPatientEtiology, patientInputDiagnosticDate)"
-                                        size="large" 
-                                        status="info">
-                                        <i class="fas fa-plus-circle text-ligth"></i>
-                                      </button>
-                                    </span>
-                                  </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                  <span class="cursor-pointer" (click)="fnShowDiagnostics(flagShowDiagnostics)" [ngStyle]="{'margin-top': flagShowDiagnostics ? '0' : '-1.3rem'}" style="background: #4da6ff;color: #fff;padding: 10px 25px;border-radius: 0 0 10px 10px; z-index: 1;" tooltip="{{ (flagShowDiagnostics) ? 'Cerrar' : 'Agregar diagnóstico +'}}" placement="top" container="body">
+                                    <i class="showDiagnostics fas fa-arrow-down" [ngClass]="{'rotate-arrow-open': flagShowDiagnostics, 'rotate-arrow-close': !flagShowDiagnostics}"></i>
+                                  </span>
+                                </div>
+                                <div class="row">
                                   <div class="col-12">
                                     <hr>
-                                    <div class="form-group" *ngIf="false">
-                                      <label for="input-patientConditionMedicalDescription">
-                                        <h5 class="m-0">
-                                          <i class="far fa-calendar-plus"></i>&nbsp;Descripci&oacute;n sintomatologica:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <textarea 
-                                        nbInput 
-                                        fullWidth 
-                                        [readonly]="false" 
-                                        [disabled]="false" 
-                                        placeholder="Ingrese la descripción médica sintomatologica del paciente ..." 
-                                        id="input-patientConditionMedicalDescription"  
-                                        name="patientConditionMedicalDescription" 
-                                        [(ngModel)]="patientData.diagnostic.patientConditionMedicalDescription" 
-                                        [ngModelOptions]="{standalone: true}"
-                                        [status]="patientConditionMedicalDescription.dirty ? (patientConditionMedicalDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                        #patientConditionMedicalDescription="ngModel" 
-                                        rows="6"
-                                      >
-                                      </textarea>
-                                    </div>
                                   </div>
                                   <div class="col-12">
                                     <div class="" *ngIf="listDiagnosticsPatient?.length > 0">
                                       <label for="input-patientSigns">
                                         <small class="m-0 cursor-pointer">
-                                          <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;sticos seleccionados:&nbsp;
+                                          <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;sticos agregados:&nbsp;
+                                        </small>
+                                        <small class="text-danger" *ngIf="validDiagnostic">
+                                          <i class="fas fa-times-circle"></i>&nbsp;Diagn&oacute;stico ya se encuentra agregado.
                                         </small>
                                       </label>
                                       <div class="listPatientSigns m-2" style="display: block;">
-                                        <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: 1em; background-color: #ececec !important; color: #000; padding: 15px; font-weight: 400;" *ngFor="let item of listDiagnosticsPatient; let i=index">
-                                          <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ item.tFullDescripcion }}</span>
-                                          <i (click)="fnRemovePatientSign(item, i, listDiagnosticsPatient)" tooltip="Eliminar signo" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                        <div class="m-2 d-flex justify-content-between diagnostic-{{i}} animated pulse" style="border: 1px solid #c8c8c8; border-radius: 5px; font-size: 1em; background-color: #ececec !important; color: #000; padding: 15px; font-weight: 400;" *ngFor="let item of listDiagnosticsPatient; let i=index">
+                                          <span class="text-truncate d-inline-block" style="max-width: 95%;">
+                                            {{ item.tFullDescripcion }}
+                                          </span>
+                                          <i (click)="fnRemovePatientSign(item, i, listDiagnosticsPatient)" tooltip="Eliminar diagnóstico" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
                                         </div>
                                       </div>
                                     </div>
@@ -387,158 +380,168 @@
                                 Secuelas
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
-                                <div class="row">
-                                  <!-- ********** START - Tipo de secuela ********** -->
-                                  <div class="col-4">
-                                    <div class="form-group">
-                                      <label for="input-patientTypeSequel">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-wheelchair"></i>&nbsp;Tipo de secuela:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionTypeSequel" 
-                                        [virtualScroll]="true" 
-                                        [multiple]="false" 
-                                        [closeOnSelect]="true"
-                                        [searchable]="true" 
-                                        [hideSelected]="true" 
-                                        bindLabel="name"
-                                        id="input-patientTypeSequel" 
-                                        name="patientTypeSequel" 
-                                        #patientTypeSequel="ngModel"
-                                        [(ngModel)]="selectPatientTypeSequel"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        placeholder="Seleccione tipo de secuela" 
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="true">
-                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                              <span class="ng-value-label">{{item.name}}</span>
-                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                          </div>
-                                          <div class="ng-value" *ngIf="items.length > 2">
-                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                          </div>
-                                        </ng-template>
-                                      </ng-select>
-        
-                                      <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
-                                        <label for="input-patientDiagnostics">
-                                          <small class="m-0 cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
-                                          </small>
+
+                                <div class="content-form-add-sequels" style="display: none;">
+                                  <div class="row pb-2" style="border-bottom: solid 1px #d8d8d8;border-radius: 15px;box-shadow: 3px 17px 27px -18px;">
+                                    <!-- ********** START - Tipo de secuela ********** -->
+                                    <div class="col-4">
+                                      <div class="form-group">
+                                        <label for="input-patientTypeSequel">
+                                          <h5 class="m-0">
+                                            <i class="fas fa-wheelchair"></i>&nbsp;Tipo de secuela:&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
                                         </label>
-                                        <div class="listPatientDiagnostics m-2" style="display: none;">
-                                          <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
-                                            <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
-                                            <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                        <ng-select 
+                                          [items]="collectionTypeSequel" 
+                                          [virtualScroll]="true" 
+                                          [multiple]="false" 
+                                          [closeOnSelect]="true"
+                                          [searchable]="true" 
+                                          [hideSelected]="true" 
+                                          bindLabel="name"
+                                          id="input-patientTypeSequel" 
+                                          name="patientTypeSequel" 
+                                          #patientTypeSequel="ngModel"
+                                          [(ngModel)]="selectPatientTypeSequel"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          placeholder="Seleccione tipo de secuela" 
+                                          required 
+                                          [disabled]="false" 
+                                          [clearable]="true">
+                                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                                <span class="ng-value-label">{{item.name}}</span>
+                                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                            </div>
+                                          </ng-template>
+                                        </ng-select>
+          
+                                        <!-- <div class="mt-3" *ngIf="patientData?.diagnostic?.patientDiagnostics?.tCie10">
+                                          <label for="input-patientDiagnostics">
+                                            <small class="m-0 cursor-pointer">
+                                              <i class="fas fa-chevron-right"></i>&nbsp;Diagn&oacute;stico seleccionado:&nbsp;
+                                            </small>
+                                          </label>
+                                          <div class="listPatientDiagnostics m-2" style="display: none;">
+                                            <div class="m-2 d-flex justify-content-between" style="border-radius: 5px; font-size: .9em; background-color: #ebf5ff !important; color: #000; padding: 5px; font-weight: 400;">
+                                              <span class="text-truncate d-inline-block" style="max-width: 95%;">{{ patientData?.diagnostic?.patientDiagnostics?.tFullDescripcion }}</span>
+                                              <i (click)="fnRemovePatientDiagnostic(patientData.diagnostic.patientDiagnostics)" tooltip="Eliminar síntoma" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div> -->
-        
+                                        </div> -->
+          
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Tipo de secuela *********** -->
+                                    <!-- ********** START - Pronóstico ********** -->
+                                    <div class="col-4">
+                                      <div class="form-group">
+                                        <label for="input-patientMedicalPrognosis">
+                                          <h5 class="m-0">
+                                            <i class="fas fa-blind"></i>&nbsp;Pron&oacute;stico:&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
+                                        </label>
+                                        <ng-select 
+                                          [items]="collectionMedicalPrognosis" 
+                                          [multiple]="false" 
+                                          [closeOnSelect]="true"
+                                          [searchable]="true" 
+                                          [hideSelected]="true" 
+                                          bindLabel="name"
+                                          id="input-patientMedicalPrognosis" 
+                                          name="patientMedicalPrognosis" 
+                                          #patientMedicalPrognosis="ngModel"
+                                          [(ngModel)]="selectPatientMedicalPrognosis"
+                                          [ngModelOptions]="{standalone: true}" 
+                                          placeholder="Seleccione pronóstico"
+                                          required 
+                                          [disabled]="false" 
+                                          [clearable]="true">
+                                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
+                                                <span class="ng-value-label">{{item.name}}</span>
+                                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
+                                            </div>
+                                          </ng-template>
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Pronóstico *********** -->
+                                    <!-- ********** START - Descripcion secuela ********** -->
+                                    <div class="col-3">
+                                      <div class="form-group">
+                                        <label for="input-patientSequelDescription">
+                                          <h5 class="m-0">
+                                            <i class="fas fa-file-medical"></i>&nbsp;Descripci&oacute;n secuela:&nbsp;
+                                            <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                          </h5>
+                                        </label>
+                                        <textarea 
+                                          nbInput 
+                                          fullWidth 
+                                          id="input-patientSequelDescription"  
+                                          name="patientSequelDescription" 
+                                          [disabled]="false" 
+                                          [readonly]="false" 
+                                          [(ngModel)]="patientInputSequelDescription" 
+                                          [ngModelOptions]="{standalone: true}"
+                                          [status]="patientSequelDescription.dirty ? (patientSequelDescription.invalid  ? 'danger' : 'info') : 'info'" 
+                                          #patientSequelDescription="ngModel"
+                                          placeholder="Escribe una descripción de la secuela">
+                                        </textarea>
+                                        <input 
+                                          *ngIf="false"
+                                          class="cursor-pointer"
+                                          nbInput
+                                          fullWidth 
+                                          fieldSize="large"  
+                                          type="text" 
+                                          [readonly]="true" 
+                                          [disabled]="false" 
+                                          placeholder="Escribe una descripción de la secuela"
+                                          id="input-patientSequelDescription"  
+                                          name="patientSequelDescription" 
+                                          [(ngModel)]="patientInputSequelDescription" 
+                                          [ngModelOptions]="{standalone: true}"
+                                          [status]="patientSequelDescription.dirty ? (patientSequelDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
+                                          #patientSequelDescription="ngModel"
+                                          bsDatepicker 
+                                          [maxDate]="maxDate"
+                                          [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
+                                          <!-- <i class="far fa-calendar-alt cursor-pointer" style="position: absolute; right: 25px; font-size: 2rem; color: #007bff;"></i> -->
+                                      </div>
+                                    </div>
+                                    <!-- *********** END - Descripcion secuela *********** -->
+                                    <div class="col-1 d-flex align-items-center">
+                                      <span tooltip="Agregar nueva secuela" placement="top" container="body">
+                                        <button 
+                                          id="buttonAddDiagnostic"
+                                          class="d-inline-block" 
+                                          type="button"
+                                          nbButton 
+                                          (click)="fnAddNewSequel(selectPatientTypeSequel, selectPatientMedicalPrognosis, patientInputSequelDescription)"
+                                          size="large" 
+                                          status="info">
+                                          <i class="fas fa-plus-circle text-ligth"></i>
+                                        </button>
+                                      </span>
                                     </div>
                                   </div>
-                                  <!-- *********** END - Tipo de secuela *********** -->
-                                  <!-- ********** START - Pronóstico ********** -->
-                                  <div class="col-4">
-                                    <div class="form-group">
-                                      <label for="input-patientMedicalPrognosis">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-blind"></i>&nbsp;Pron&oacute;stico:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <ng-select 
-                                        [items]="collectionMedicalPrognosis" 
-                                        [multiple]="false" 
-                                        [closeOnSelect]="true"
-                                        [searchable]="true" 
-                                        [hideSelected]="true" 
-                                        bindLabel="name"
-                                        id="input-patientMedicalPrognosis" 
-                                        name="patientMedicalPrognosis" 
-                                        #patientMedicalPrognosis="ngModel"
-                                        [(ngModel)]="selectPatientMedicalPrognosis"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        placeholder="Seleccione pronóstico"
-                                        required 
-                                        [disabled]="false" 
-                                        [clearable]="true">
-                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                                          <div class="ng-value" *ngFor="let item of items | slice:0:2" style="padding: 8px; border-radius: 10px;">
-                                              <span class="ng-value-label">{{item.name}}</span>
-                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                                          </div>
-                                          <div class="ng-value" *ngIf="items.length > 2">
-                                              <span class="ng-value-label">{{items.length - 2}} m&aacute;s...</span>
-                                          </div>
-                                        </ng-template>
-                                      </ng-select>
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Pronóstico *********** -->
-                                  <!-- ********** START - Descripcion secuela ********** -->
-                                  <div class="col-3">
-                                    <div class="form-group">
-                                      <label for="input-patientSequelDescription">
-                                        <h5 class="m-0">
-                                          <i class="fas fa-file-medical"></i>&nbsp;Descripci&oacute;n secuela:&nbsp;
-                                          <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-                                        </h5>
-                                      </label>
-                                      <textarea 
-                                        nbInput 
-                                        fullWidth 
-                                        id="input-patientSequelDescription"  
-                                        name="patientSequelDescription" 
-                                        [disabled]="false" 
-                                        [readonly]="false" 
-                                        [(ngModel)]="patientInputSequelDescription" 
-                                        [ngModelOptions]="{standalone: true}"
-                                        [status]="patientSequelDescription.dirty ? (patientSequelDescription.invalid  ? 'danger' : 'info') : 'info'" 
-                                        #patientSequelDescription="ngModel"
-                                        placeholder="Escribe una descripción de la secuela">
-                                      </textarea>
-                                      <input 
-                                        *ngIf="false"
-                                        class="cursor-pointer"
-                                        nbInput
-                                        fullWidth 
-                                        fieldSize="large"  
-                                        type="text" 
-                                        [readonly]="true" 
-                                        [disabled]="false" 
-                                        placeholder="Escribe una descripción de la secuela"
-                                        id="input-patientSequelDescription"  
-                                        name="patientSequelDescription" 
-                                        [(ngModel)]="patientInputSequelDescription" 
-                                        [ngModelOptions]="{standalone: true}"
-                                        [status]="patientSequelDescription.dirty ? (patientSequelDescription.invalid  ? 'danger' : 'basic') : 'basic'" 
-                                        #patientSequelDescription="ngModel"
-                                        bsDatepicker 
-                                        [maxDate]="maxDate"
-                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }">
-                                        <!-- <i class="far fa-calendar-alt cursor-pointer" style="position: absolute; right: 25px; font-size: 2rem; color: #007bff;"></i> -->
-                                    </div>
-                                  </div>
-                                  <!-- *********** END - Descripcion secuela *********** -->
-                                  <div class="col-1 d-flex align-items-center">
-                                    <span tooltip="Agregar nueva secuela" placement="top" container="body">
-                                      <button 
-                                        id="buttonAddDiagnostic"
-                                        class="d-inline-block" 
-                                        type="button"
-                                        nbButton 
-                                        (click)="fnAddNewSequel(selectPatientTypeSequel, selectPatientMedicalPrognosis, patientInputSequelDescription)"
-                                        size="large" 
-                                        status="info">
-                                        <i class="fas fa-plus-circle text-ligth"></i>
-                                      </button>
-                                    </span>
-                                  </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                  <span class="cursor-pointer" (click)="fnShowSequels(flagShowSequels)" [ngStyle]="{'margin-top': flagShowSequels ? '0' : '-1.3rem'}" style="background: #4da6ff;color: #fff;padding: 10px 25px;border-radius: 0 0 10px 10px; z-index: 1;" tooltip="{{ (flagShowSequels) ? 'Cerrar' : 'Agregar secuela +'}}" placement="top" container="body">
+                                    <i class="showSequels fas fa-arrow-down" [ngClass]="{'rotate-arrow-open': flagShowSequels, 'rotate-arrow-close': !flagShowSequels}"></i>
+                                  </span>
+                                </div>
+                                <div class="row">
                                   <div class="col-12">
                                     <div class="" *ngIf="listSequelsPatient?.length > 0">
                                       <label for="input-patientSigns">
@@ -911,27 +914,19 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Tratamiento Farmacol&oacute;gico" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientGoodShortTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeShortTermsValid(1)"
                                               [checked]="(patientGoodShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-                                        
-                                        <!-- <div class="form-check form-check-inline" *ngIf="false">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkPharmacological" 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            id="checkPharmacological">
-                                          <label class="form-check-label" for="checkPharmacological">Farmacol&oacute;gico - {{ checkPharmacological }}</label>
-                                        </div> -->
+
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
 
@@ -941,29 +936,18 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Terapia ocupacional" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientRegularShortTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeShortTermsValid(2)"
                                               [checked]="(patientRegularShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                          <div class="form-check form-check-inline">
-                                            <input 
-                                              [ngModelOptions]="{standalone: true}"
-                                              [(ngModel)]="checkOccupationalTherapy" 
-                                              class="form-check-input" 
-                                              type="checkbox"  
-                                              id="checkOccupationalTherapy">
-                                            <label class="form-check-label" for="checkOccupationalTherapy">Terapia ocupacional</label>
-                                          </div>
-                                        </div> -->
                                         
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
@@ -974,29 +958,18 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Fonoaudiologia" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientBadShortTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeShortTermsValid(3)"
                                               [checked]="(patientBadShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                        <div class="form-check form-check-inline">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkSpeechTherapy" 
-                                            class="form-check-input" 
-                                            type="checkbox"  
-                                            id="checkSpeechTherapy">
-                                          <label class="form-check-label" for="checkSpeechTherapy">Fonoaudiologia</label>
-                                        </div>
-                                      </div> -->
                                         
                                       </div>
                                     </div>
@@ -1021,11 +994,12 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Tratamiento Farmacol&oacute;gico" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientGoodMediumTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeMediumTermsValid(1)"
                                               [checked]="(patientGoodMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -1033,15 +1007,6 @@
                                           <h6>Si</h6>
                                         </span>
                                         
-                                        <!-- <div class="form-check form-check-inline" *ngIf="false">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkPharmacological" 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            id="checkPharmacological">
-                                          <label class="form-check-label" for="checkPharmacological">Farmacol&oacute;gico - {{ checkPharmacological }}</label>
-                                        </div> -->
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
 
@@ -1051,29 +1016,18 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Terapia ocupacional" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientRegularMediumTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeMediumTermsValid(2)"
                                               [checked]="(patientRegularMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                          <div class="form-check form-check-inline">
-                                            <input 
-                                              [ngModelOptions]="{standalone: true}"
-                                              [(ngModel)]="checkOccupationalTherapy" 
-                                              class="form-check-input" 
-                                              type="checkbox"  
-                                              id="checkOccupationalTherapy">
-                                            <label class="form-check-label" for="checkOccupationalTherapy">Terapia ocupacional</label>
-                                          </div>
-                                        </div> -->
                                         
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
@@ -1084,29 +1038,18 @@
                                         <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
                                           <!-- Rounded switch -->
                                           <h6>No</h6>&nbsp;
-                                          <label class="switch" style="margin-top: 0.2rem;" tooltip="Fonoaudiologia" placement="top" container="body">
+                                          <label class="switch" style="margin-top: 0.2rem;">
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientBadMediumTerm"
                                               type="checkbox" 
+                                              (change)="fnChangeMediumTermsValid(3)"
                                               [checked]="(patientBadMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                        <div class="form-check form-check-inline">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkSpeechTherapy" 
-                                            class="form-check-input" 
-                                            type="checkbox"  
-                                            id="checkSpeechTherapy">
-                                          <label class="form-check-label" for="checkSpeechTherapy">Fonoaudiologia</label>
-                                        </div>
-                                      </div> -->
                                         
                                       </div>
                                     </div>
@@ -1252,7 +1195,7 @@
                             <div>
                               <button 
                                 nbButton 
-                                type="submit" 
+                                type="button" 
                                 status="info"
                                 size="giant" 
                                 class="cursor-pointer d-flex align-items-center"
@@ -1270,7 +1213,7 @@
                             <div>
                               <button 
                                 nbButton 
-                                type="submit" 
+                                type="button" 
                                 status="info"
                                 size="giant" 
                                 class="cursor-pointer d-flex align-items-center" 
@@ -1292,7 +1235,7 @@
                                 status="info"
                                 size="giant" 
                                 class="cursor-pointer d-flex align-items-center"
-                                [disabled]="false" 
+                                [disabled]="true" 
                                 [class.btn-pulse]="submitted">
                                 <i class="fas fa-notes-medical fa-2x"></i>&nbsp;
                                 <span>

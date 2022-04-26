@@ -3,7 +3,7 @@
     {{ variable | json }}
   </pre>
 </div> -->
-<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo listado de correos electronicos...">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo listado de casos...">
   <div class="col-md-12">
 
     <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
@@ -153,7 +153,7 @@
             </div>
 
             <nb-tabset *ngIf="profileUser == 1 || profileUser == 2" class="mb2" status="info" fullWidth (changeTab)="fnSelectState($event)">
-              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ collectionPorAsignar?.length }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '') ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ paginationTabs?.pagPorAsignar?.totalItems || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '') ? true : false" style="overflow: hidden;">
                 
                 <!-- <div class="row mb-3 mb-2" *ngIf="checkBlockCases && collectionCheckedCases.length > 0">
                   <div class="col">
@@ -176,7 +176,7 @@
                   </div>
                 </div> -->
                 <div class="row mt-3">
-                  <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionPorAsignar.length > 0">
+                  <table class="table table-striped table-bordered table-hover animated fadeIn" style="margin: 0 15px;" *ngIf="collectionPorAsignar.length > 0">
                       <thead>
                           <tr>
                               <th class="text-truncate" *ngIf="checkBlockCases">
@@ -421,7 +421,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ collectionAsignados?.length }}" [active]="(dataSearchAdvance?.state == 2) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ paginationTabs?.pagAsignados?.totalItems }}" [active]="(dataSearchAdvance?.state == 2) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAsignados.length > 0">
                       <thead>
@@ -552,7 +552,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of collectionAsignados | paginate: { id: 'pagPorAsignar', itemsPerPage: paginationTabs['pagPorAsignar'].itemsPerPage, currentPage: paginationTabs['pagPorAsignar'].currentPage, totalItems: paginationTabs['pagPorAsignar'].totalItems }; let i = index;">
+                        <tr *ngFor="let item of collectionAsignados | paginate: { id: 'pagAsignados', itemsPerPage: paginationTabs['pagAsignados'].itemsPerPage, currentPage: paginationTabs['pagAsignados'].currentPage, totalItems: paginationTabs['pagAsignados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
                             <span (click)="fnStartCHRBConceptCase(item);" tooltip="Iniciar concepto CRHB" placement="top" container="body">
                                 <!-- <i class="fas fa-user-edit cursor-pointer text-info"></i> -->
@@ -681,7 +681,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 1)" id="pagPorAsignar" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 2)" id="pagAsignados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>
@@ -696,7 +696,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ collectionEnProceso?.length }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ paginationTabs?.pagEnProceso?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionEnProceso.length > 0">
                       <thead>
@@ -821,7 +821,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of collectionEnProceso | paginate: { id: 'pagPorAsignar', itemsPerPage: paginationTabs['pagPorAsignar'].itemsPerPage, currentPage: paginationTabs['pagPorAsignar'].currentPage, totalItems: paginationTabs['pagPorAsignar'].totalItems }; let i = index;">
+                        <tr *ngFor="let item of collectionEnProceso | paginate: { id: 'pagEnProceso', itemsPerPage: paginationTabs['pagEnProceso'].itemsPerPage, currentPage: paginationTabs['pagEnProceso'].currentPage, totalItems: paginationTabs['pagEnProceso'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
                             <span (click)="fnAssignCase(item);" tooltip="Continuar editando CHRB" placement="top" container="body">
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
@@ -946,7 +946,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 1)" id="pagPorAsignar" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 3)" id="pagEnProceso" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>
@@ -961,7 +961,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="5" tabTitle="Gestionados" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ collectionGestionados?.length }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="5" tabTitle="Gestionados" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ paginationTabs?.pagGestionados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionGestionados.length > 0">
                       <thead>
@@ -1101,7 +1101,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagEnProceso', itemsPerPage: paginationTabs['pagEnProceso'].itemsPerPage, currentPage: paginationTabs['pagEnProceso'].currentPage, totalItems: paginationTabs['pagEnProceso'].totalItems }; let i = index;">
+                        <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagGestionados', itemsPerPage: paginationTabs['pagGestionados'].itemsPerPage, currentPage: paginationTabs['pagGestionados'].currentPage, totalItems: paginationTabs['pagGestionados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
                             <span (click)="fnReAssignCase(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
@@ -1216,16 +1216,16 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator" *ngIf="collectionGestionados?.length > 0">
                         <div class="text-left kstdy-font_paginator">
-                          Mostrando {{ (((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) - ((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) / paginationTabs['pagEnProceso'].currentPage)) + 1 ) }} -
-                          {{ ((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) >= collectionGestionados.length) ? (collectionGestionados.length) : (paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) }}
-                          <!-- {{ ((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) >= collectionGestionados.length) ? (collectionGestionados.length) + (((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) - ((paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) / paginationTabs['pagEnProceso'].currentPage)) ) : (paginationTabs['pagEnProceso'].currentPage * paginationTabs['pagEnProceso'].itemsPerPage) }} -->
-                          de {{ paginationTabs['pagEnProceso'].totalItems }}
+                          Mostrando {{ (((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) - ((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) / paginationTabs['pagGestionados'].currentPage)) + 1 ) }} -
+                          {{ ((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) >= collectionGestionados.length) ? (collectionGestionados.length) : (paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) }}
+                          <!-- {{ ((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) >= collectionGestionados.length) ? (collectionGestionados.length) + (((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) - ((paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) / paginationTabs['pagGestionados'].currentPage)) ) : (paginationTabs['pagGestionados'].currentPage * paginationTabs['pagGestionados'].itemsPerPage) }} -->
+                          de {{ paginationTabs['pagGestionados'].totalItems }}
                         </div>
                       </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 4)" id="pagEnProceso" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 5)" id="pagGestionados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>
@@ -1240,7 +1240,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ collectionNotificados?.length }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ paginationTabs?.pagNotificados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionNotificados.length > 0">
                       <thead>
@@ -1518,7 +1518,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 4)" id="pagNotificados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 6)" id="pagNotificados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>
@@ -1533,7 +1533,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ collectionAnulados?.length }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ paginationTabs?.pagAnulados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAnulados.length > 0">
                       <thead>
@@ -1765,7 +1765,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 1)" id="pagAnulados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 4)" id="pagAnulados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>

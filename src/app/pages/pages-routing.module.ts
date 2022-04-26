@@ -19,11 +19,12 @@ import { ReporteIncapacidadesComponent } from './incapacidad/reporte-incapacidad
 import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte-resolucion.component';
 import { ListEmailComponent } from './calificacion-origen/list-email/list-email.component';
 import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
-import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
+// import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
 import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion/concepto-rehabilitacion.component';
 import { DictamenPericialComponent } from './dictamen-pericial/dictamen-pericial.component';
 import { AuditarCasoComponent } from './dictamen-pericial/auditar-caso/auditar-caso.component';
 import { EditComponent } from './concepto-rehabilitacion/edit/edit.component';
+import { PrintPreviewComponent } from './concepto-rehabilitacion/print-preview/print-preview.component';
 
 const routes: Routes = [
   {
@@ -117,7 +118,7 @@ const routes: Routes = [
           }, 
           {
             path: 'certificado-crhb/:idUser',
-            component: CertificadoCrhbComponent
+            component: PrintPreviewComponent,
           },
         ]
       }, 
