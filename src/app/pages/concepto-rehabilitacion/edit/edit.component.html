@@ -138,7 +138,6 @@
                   </div>
                 </div>
                 <!-- *********** END - Alerta de usuario sin permiso *********** -->
-
               </div>
             </div>
             
@@ -149,7 +148,22 @@
                 <div class="mb-4 pb-4 animated fadeIn" *ngIf="patientData">
                   <div class="card mt-3 mb-3" style="border-color: #dbdbdb;">
                     <div class="card-body content-patient-info-1" style="display: block;">
-                       <!-- ********** START - Cards info ********** -->
+                      <!-- ********** START - Porcentaje completado concepto ********** -->
+                      <div class="row mb-4" style="background-color: #fff; padding: 0; border-radius: 6px;">
+                        <div class="col">
+                          <label for="input-patientDiagnostics">
+                            <h5 class="m-0">
+                              <i class="fas fa-notes-medical"></i>&nbsp;Concepto de rehabilitaci&oacute;n completado en un: <strong>{{percentajeConcept || 0}}%</strong>&nbsp;
+                              <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                            </h5>
+                          </label>
+                          <div class="progress" style="height: 1.5rem;">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" [ngClass]="{'bg-danger': (percentajeConcept <= 30), 'bg-warning': (percentajeConcept >= 31 && percentajeConcept <= 95), 'bg-success': (percentajeConcept > 95)}"  [ngStyle]="{'width': (percentajeConcept) + '%'}" aria-valuemin="0" aria-valuemax="100">{{percentajeConcept || 0}}%</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- *********** END - Porcentaje completado concepto *********** -->
+                      <!-- ********** START - Cards info ********** -->
                       <div class="row mb-4">
                         <div class="col">
 
@@ -167,7 +181,7 @@
                           <div style="border: 1px solid #ccc;padding: 1rem;border-radius: 10px;box-shadow: 0px 1px 20px -9px;display: flex;justify-content: space-between;align-items: center;">
                             <div>
                               <h2>{{ dataConcept?.conceptosEmitidos }}</h2>
-                              <h6>Concceptos emitidos</h6>
+                              <h6>Conceptos emitidos</h6>
                             </div>
                             <i class="fas fa-notes-medical fa-3x text-info"></i>
                           </div>
@@ -186,6 +200,8 @@
                         </div>
                       </div>
                       <!-- *********** END - Cards info *********** -->
+                      
+
                       <form #form="ngForm" (ngSubmit)="fnGenerateIncapacity()" #generateNewIncapacityCertificateForm="ngForm" aria-labelledby="title">
                         <div class="row">
                           <!-- ********** START - Diagnostico paciente ********** -->
@@ -361,7 +377,17 @@
                                       <div class="listPatientSigns m-2" style="display: block;">
                                         <div class="m-2 d-flex justify-content-between diagnostic-{{i}} animated pulse" style="border: 1px solid #c8c8c8; border-radius: 5px; font-size: 1em; background-color: #ececec !important; color: #000; padding: 15px; font-weight: 400;" *ngFor="let item of listDiagnosticsPatient; let i=index">
                                           <span class="text-truncate d-inline-block" style="max-width: 95%;">
-                                            {{ item.tFullDescripcion }}
+                                            <span class="badge bg-light" style="font-size: 90% !important;">
+                                              {{ item.tFullDescripcion }}
+                                              &nbsp;
+                                              <i class="fas fa-edit cursor-pointer" tooltip="Editar diagnóstico" placement="top" container="body"></i>
+                                            </span>
+                                            &nbsp;
+                                            <span class="badge bg-light" style="font-size: 90% !important;">
+                                              {{ item.nombreEtiologia }}
+                                              &nbsp;
+                                              <i class="fas fa-edit cursor-pointer" tooltip="Editar etiología" placement="top" container="body"></i>
+                                            </span>
                                           </span>
                                           <i (click)="fnRemovePatientSign(item, i, listDiagnosticsPatient)" tooltip="Eliminar diagnóstico" placement="top" container="body" class="fas fa-times-circle" style="cursor: pointer; color: #f86161; display: inline-block; font-size: 15px;"></i>
                                         </div>
@@ -574,6 +600,8 @@
                                         placeholder="Escribe aquí un resumén de la historia clínica del paciente y su estado actual ..." 
                                         id="input-patientClinicHistorySummary"  
                                         name="patientClinicHistorySummary" 
+                                        (blur)="fnGetPercentaje();"
+                                        (input)="fnGetPercentaje();"
                                         [(ngModel)]="patientInputClinicHistorySummary" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientClinicHistorySummary.dirty ? (patientClinicHistorySummary.invalid  ? 'danger' : 'basic') : 'basic'" 
@@ -616,6 +644,7 @@
                                         bindLabel="name"
                                         id="input-patientTypeSequel" 
                                         name="patientTypeSequel" 
+                                        (change)="fnGetPercentaje()"
                                         #patientTypeSequel="ngModel"
                                         [(ngModel)]="selectPatientTypeSequel"
                                         [ngModelOptions]="{standalone: true}" 
@@ -667,22 +696,13 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkPharmacological"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkPharmacological)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-                                        
-                                        <!-- <div class="form-check form-check-inline" *ngIf="false">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkPharmacological" 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            id="checkPharmacological">
-                                          <label class="form-check-label" for="checkPharmacological">Farmacol&oacute;gico - {{ checkPharmacological }}</label>
-                                        </div> -->
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
 
@@ -697,25 +717,13 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkOccupationalTherapy"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkOccupationalTherapy)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                          <div class="form-check form-check-inline">
-                                            <input 
-                                              [ngModelOptions]="{standalone: true}"
-                                              [(ngModel)]="checkOccupationalTherapy" 
-                                              class="form-check-input" 
-                                              type="checkbox"  
-                                              id="checkOccupationalTherapy">
-                                            <label class="form-check-label" for="checkOccupationalTherapy">Terapia ocupacional</label>
-                                          </div>
-                                        </div> -->
-                                        
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
 
@@ -730,6 +738,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkSpeechTherapy"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkSpeechTherapy)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -763,24 +772,13 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkSurgical"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkSurgical)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                        <div class="form-check form-check-inline">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkSurgical" 
-                                            class="form-check-input" 
-                                            type="checkbox"  
-                                            id="checkSurgical">
-                                          <label class="form-check-label" for="checkSurgical">Quir&oacute;rgico</label>
-                                        </div>
-                                      </div> -->
                                         
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
@@ -796,24 +794,13 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkPhysicalTherapy"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkPhysicalTherapy)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- <div class="col-4 mt-2 mb-2">
-                                        <div class="form-check form-check-inline">
-                                          <input 
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="checkPhysicalTherapy" 
-                                            class="form-check-input" 
-                                            type="checkbox"  
-                                            id="checkPhysicalTherapy">
-                                          <label class="form-check-label" for="checkPhysicalTherapy">Terapia f&iacute;sica</label>
-                                        </div>
-                                      </div> -->
                                         
                                       </div>
                                       <div class="col-4 mt-2 mb-2">
@@ -829,25 +816,13 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="checkOtherTherapy"
                                               type="checkbox" 
+                                              (change)="fnGetPercentaje();"
                                               [checked]="(checkOtherTherapy)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
                                           &nbsp;
                                           <h6>Si</h6>
                                         </span>
-
-                                        <!-- 
-                                          <div class="col-4 mt-2 mb-2">
-                                            <div class="form-check form-check-inline">
-                                              <input 
-                                                [ngModelOptions]="{standalone: true}"
-                                                [(ngModel)]="checkOtherTherapy" 
-                                                class="form-check-input" 
-                                                type="checkbox"  
-                                                id="checkOtherTherapy">
-                                              <label class="form-check-label" for="checkOtherTherapy">Otros tramites</label>
-                                            </div>
-                                          </div> -->
                                         
                                       </div>
                                     </div>
@@ -871,6 +846,8 @@
                                         placeholder="Escribe aquí un resumén de la historia clínica del paciente y su estado actual ..." 
                                         id="input-patientOtherTreatments"  
                                         name="patientOtherTreatments" 
+                                        (blur)="fnGetPercentaje();"
+                                        (input)="fnGetPercentaje();"
                                         [(ngModel)]="patientInputOtherTreatments" 
                                         [ngModelOptions]="{standalone: true}"
                                         [status]="patientOtherTreatments.dirty ? (patientOtherTreatments.invalid  ? 'danger' : 'basic') : 'basic'" 
@@ -907,7 +884,7 @@
 
                                     <div class="row m-0 p-0">
                                       <div class="col-4 mt-2 mb-2">
-
+                                        
                                         <h5 class="text-center">
                                           Bueno
                                         </h5>
@@ -919,7 +896,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientGoodShortTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeShortTermsValid(1)"
+                                              (change)="fnChangeShortTermsValid(1); fnGetPercentaje();"
                                               [checked]="(patientGoodShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -941,7 +918,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientRegularShortTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeShortTermsValid(2)"
+                                              (change)="fnChangeShortTermsValid(2); fnGetPercentaje();"
                                               [checked]="(patientRegularShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -963,7 +940,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientBadShortTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeShortTermsValid(3)"
+                                              (change)="fnChangeShortTermsValid(3); fnGetPercentaje();"
                                               [checked]="(patientBadShortTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -999,7 +976,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientGoodMediumTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeMediumTermsValid(1)"
+                                              (change)="fnChangeMediumTermsValid(1); fnGetPercentaje();"
                                               [checked]="(patientGoodMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -1021,7 +998,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientRegularMediumTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeMediumTermsValid(2)"
+                                              (change)="fnChangeMediumTermsValid(2); fnGetPercentaje();"
                                               [checked]="(patientRegularMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -1043,7 +1020,7 @@
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="patientBadMediumTerm"
                                               type="checkbox" 
-                                              (change)="fnChangeMediumTermsValid(3)"
+                                              (change)="fnChangeMediumTermsValid(3); fnGetPercentaje();"
                                               [checked]="(patientBadMediumTerm)?'checked':false">
                                             <span class="slider round"></span>
                                           </label>
@@ -1079,7 +1056,7 @@
                                         [(ngModel)]="selectMedicalConcept"
                                         [ngModelOptions]="{standalone: true}" 
                                         placeholder="Seleccione concepto" 
-                                        (change)="fnSetMedicalConcept($event);"  
+                                        (change)="fnSetMedicalConcept($event); fnGetPercentaje()"  
                                         required 
                                         [disabled]="false" 
                                         [clearable]="true">
@@ -1126,7 +1103,7 @@
                                         {{ descriptionMedicalConcept }}
                                       </p>
                                     </div>
-                                    <div class="row" *ngIf="selectMedicalConcept?.value == 2">
+                                    <div class="row" *ngIf="selectMedicalConcept?.value == 2 && collectionMedicalConcept?.length > 0">
                     
                                       <div class="col-11 d-flex align-items-center">
                                         <p style="margin-right: 2rem;margin-bottom: 0;">
@@ -1144,7 +1121,7 @@
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="unfavTypeWithIncapacity" 
-                                              (change)="fnCheckUnFavType(1);"
+                                              (change)="fnCheckUnFavType(1); fnGetPercentaje();"
                                               type="checkbox" 
                                               [checked]="(unfavTypeWithIncapacity)?'checked':false">
                                             <span class="slider round"></span>
@@ -1174,7 +1151,7 @@
                                             <input 
                                               [ngModelOptions]="{standalone: true}" 
                                               [(ngModel)]="unfavTypeNoIncapacity" 
-                                              (change)="fnCheckUnFavType(2);"
+                                              (change)="fnCheckUnFavType(2); fnGetPercentaje();"
                                               type="checkbox" 
                                               [checked]="(unfavTypeNoIncapacity)?'checked':false">
                                             <span class="slider round"></span>
@@ -1235,7 +1212,16 @@
                                 status="info"
                                 size="giant" 
                                 class="cursor-pointer d-flex align-items-center"
-                                [disabled]="true" 
+                                [disabled]="
+                                  listDiagnosticsPatient?.length < 1 || 
+                                  listSequelsPatient?.length < 1 || 
+                                  patientInputClinicHistorySummary == '' || 
+                                  patientInputClinicHistorySummary == null || 
+                                  selectPatientTypeSequel == '' || 
+                                  selectPatientTypeSequel == null || 
+                                  (!checkPharmacological && !checkOccupationalTherapy && !checkSpeechTherapy && !checkSurgical && !checkPhysicalTherapy && !checkOtherTherapy) || 
+                                  (checkOtherTherapy && (patientInputOtherTreatments == '' || patientInputOtherTreatments == null))
+                                " 
                                 [class.btn-pulse]="submitted">
                                 <i class="fas fa-notes-medical fa-2x"></i>&nbsp;
                                 <span>
@@ -1244,9 +1230,6 @@
                               </button>
                             </div>
                           </div>
-
-
-                          
 
 
                         </div>

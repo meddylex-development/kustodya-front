@@ -8,6 +8,7 @@ import { IncapacityService } from '../../../shared/api/services/incapacity.servi
 import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
 import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
+import * as moment from 'moment';
 @Component({
   selector: 'ngx-print-preview',
   templateUrl: './print-preview.component.html',
@@ -68,8 +69,13 @@ export class PrintPreviewComponent implements OnInit {
   public digitalSignDoctorCert1: boolean = true;
   public digitalSignDoctorCert2: boolean = true;
   public dataSession: any = {};
-  public dataConceptCRHB: any = {};
+  public dataConceptCRHB: any = {
+    'fechaEmision':  moment(new Date()).valueOf(),
+  };
   public idUser: any;
+
+  public zoomCartaConcepto: boolean = false;
+  public zoomConceptoRehabilitacion: boolean = false;
 
   constructor(
     private location: Location,
@@ -112,6 +118,9 @@ export class PrintPreviewComponent implements OnInit {
                 try {
                   if (resp['status'] == 200) {
                     this.dataConceptCRHB = resp['body'] || {};
+                    // 'fechaEmision':  moment(new Date()).valueOf(),
+                    this.dataConceptCRHB['fechaEmision'] = moment(new Date()).valueOf();
+                    this.dataConceptCRHB['paciente'] = data['paciente'];
                     console.log('this.dataConceptCRHB: ', this.dataConceptCRHB);
                   }
                 } catch (error) {
@@ -283,6 +292,14 @@ export class PrintPreviewComponent implements OnInit {
       // this.submitted = false;
       this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
     });
+  }
+
+  fnZoomDocument(type_document) {
+    if (type_document == 1) {
+      this.zoomCartaConcepto = (this.zoomCartaConcepto) ? false : true;
+    } else {
+      this.zoomConceptoRehabilitacion = (this.zoomConceptoRehabilitacion) ? false : true;
+    }
   }
 
 }

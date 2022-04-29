@@ -17,6 +17,8 @@ import { AssignCaseComponent } from '../assign-case/assign-case.component';
 import { ReAssignCaseComponent } from '../re-assign-case/re-assign-case.component';
 import { ProfilesService } from '../../../shared/api/services/profiles.service';
 import { UserService } from '../../../shared/api/services/user.service';
+import { PatientInformationComponent } from '../patient-information/patient-information.component';
+import { SpecialistInformationComponent } from '../specialist-information/specialist-information.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -182,21 +184,17 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
-      console.log('token: ', token);
       if (token.isValid()) {
 
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
-        this.token = token["token"];
         console.log('this.dataSession: ', this.dataSession);
-        console.log('this.token: ', this.token);
+        this.token = token["token"];
 
         this.fnGetInfoProfileById(token, this.dataSession['IdProfile']).then((respDataProfile) => {
-          console.log('respDataProfile: ', respDataProfile);
           if (respDataProfile) {
-            this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto" ) ? 2 : (respDataProfile['body']['nombre'] == "Administrador Concepto" ) ? 1 : null;
-            console.log('this.profileUser: ', this.profileUser);
-            this.userIdSession = this.dataSession['UserId'];
+            this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
+            this.userIdSession = (this.dataSession['EsSuperAdmin'] == "True")? 112 : this.dataSession['UserId'];
             console.log('this.userIdSession: ', this.userIdSession);
 
             this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
@@ -208,7 +206,6 @@ export class ListComponent implements OnInit {
             
           }
         }).catch((err) => {
-          console.log('err: ', err);
         });
 
         // this.fnBuildData(this.token, this.currentPage, this.searchInput, '', '', '', false, this.profileUser, this.userIdSession);
@@ -333,9 +330,7 @@ export class ListComponent implements OnInit {
         dateRange: (this.dataSearchAdvance['daterange']) ? this.dataSearchAdvance['daterange'] : '',
         statusInfo: (this.dataSearchAdvance['statusInfo']) ? this.dataSearchAdvance['statusInfo'] : {},
       };
-      console.log('dataSend: ', dataSend);
       // this.dialogService.open(BusquedaAvanzadaComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
-      //   console.log('res: ', res);
       //   if (res) {
       //     this.dataSearchAdvance = res;
       //     this.searchInput = (res['textSearch']) ? res['textSearch'] : '';
@@ -354,7 +349,6 @@ export class ListComponent implements OnInit {
     this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
       if(resp) {
         this.currentSearch = stateSearch;
-        console.log('resp: ', resp);
         if (resp['status'] == 200) {
           let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
           let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
@@ -368,13 +362,11 @@ export class ListComponent implements OnInit {
           let collection = [];
           dataListCollection.forEach((val, key) => {
             this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
-              // console.log('respDataUser: ', respDataUser);
               val['dataUser'] = respDataUser['body'];
               val['progress'] = Math.floor(Math.random() * 101);
               val['checked'] = false;
               // return this.fnGetDataDoctorByID(token, val['usuarioAsignadoId']);
               collection.push(val);
-              // console.log('collection: ', collection);
               switch (state) {
                 case 1:
                     this.collectionPorAsignar = collection;
@@ -456,7 +448,6 @@ export class ListComponent implements OnInit {
               }
             });
             // .then((respDataDoc) => {
-            //   console.log('respDataDoc: ', respDataDoc);
             //   if (respDataDoc) {
             //     val['dataDoctor'] = respDataDoc['body'];
             //     this.submitted = false;
@@ -467,7 +458,6 @@ export class ListComponent implements OnInit {
             // });
           });
           // this.dataListCollectionOriginal = this.dataListCollection;
-          // console.log('this.dataListCollection: ', this.dataListCollection);
           this.submitted = false;
         } else {
           this.submitted = false;
@@ -536,18 +526,11 @@ export class ListComponent implements OnInit {
       stateSearch = true;
     }
 
-    console.log('searchInput: ', searchInput);
-    console.log('state: ', state);
-    console.log('dateStart: ', dateStart);
-    console.log('dateEnd: ', dateEnd);
-    console.log('stateSearch: ', stateSearch);
-    console.log('this.dataSearchAdvance["statusInfo"]: ', this.dataSearchAdvance['statusInfo']);
     
     this.fnBuildData(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch, this.profileUser, this.userIdSession);
   }
 
   fnSelectState(dataState) {
-    console.log('dataState: ', dataState);
 
     let searchInput = this.searchInput;
     let state;
@@ -594,7 +577,6 @@ export class ListComponent implements OnInit {
   }
 
   fnAssignCase(item) {
-    console.log('item: ', item);
     let dataSend = {};
     dataSend['dataCase'] = item;
     // let idDictamen = item['idDictamen'];
@@ -603,7 +585,6 @@ export class ListComponent implements OnInit {
     // }, true);
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
     this.dialogService.open(AssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
-      console.log('res: ', res);
       if (res) {
         this.collectionPorAsignar = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
@@ -612,7 +593,6 @@ export class ListComponent implements OnInit {
   }
 
   fnReAssignCase(item) {
-    console.log('item: ', item);
     let dataSend = {};
     dataSend['dataCase'] = item
     // let idDictamen = item['idDictamen'];
@@ -621,7 +601,6 @@ export class ListComponent implements OnInit {
     // }, true);
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
     this.dialogService.open(ReAssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
-      console.log('res: ', res);
       if (res) {
         this.collectionAsignados = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
@@ -638,7 +617,6 @@ export class ListComponent implements OnInit {
         if (r.status == 200) {
           this.submitted = false;
           let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-          console.log('patientIncapacities: ', patientIncapacities);
           
           if (patientIncapacities) {
             patientIncapacities.forEach((value, key) => {
@@ -650,7 +628,6 @@ export class ListComponent implements OnInit {
               // this.patientIncapacities.push(value);
             });
             
-            // console.log('this.patientIncapacities: ', this.patientIncapacities);
             // this.totalItems = this.patientIncapacities.length;
             resolve({ state: true, data: patientIncapacities });
           } else {
@@ -672,7 +649,6 @@ export class ListComponent implements OnInit {
   }
 
   fnRedirectViewPatientIncapacitiesHistory(item) {
-    console.log('item: ', item);
     this.utilitiesService.fnSetDataShare({ 
       patientData: item['dataUser'], 
       // patientIncapacities: this.patientIncapacities, 
@@ -685,6 +661,39 @@ export class ListComponent implements OnInit {
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/historico');
   }
 
+  
+  fnShowPatientInformation(item) {
+    let dataSend = {};
+    dataSend['dataCase'] = item
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(PatientInformationComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionAsignados = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
+  }
+  
+  fnShowSpecialistInformation(item) {
+    let dataSend = {};
+    dataSend['dataCase'] = item
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(SpecialistInformationComponent , { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionAsignados = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
+  }
+
   fnRandomNum(item) {
     // return Math.floor(Math.random() * 101);
     item['progress'] = Math.floor(Math.random() * 101);
@@ -695,21 +704,17 @@ export class ListComponent implements OnInit {
   }
 
   fnCheckListCase(item, index) {
-    console.log('item: ', item);
     if (item['checked'] == false) {
       item['checked'] = true;
       this.collectionCheckedCases[index] = item;
-      console.log('this.collectionCheckedCases: ', this.collectionCheckedCases);
     } else {
       item['checked'] = false;
       this.collectionCheckedCases.splice(index, 1);
-      console.log('this.collectionCheckedCases: ', this.collectionCheckedCases);
     }
   }
 
   fnCopyToClipboard(data_copy) {
     this.clipBoardData = data_copy;
-    console.log('this.clipBoardData: ', this.clipBoardData);
     this.utilitiesService.fnCopyDataToClipboard(data_copy).then(respCopy => {
       if (!respCopy) {
         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -721,7 +726,6 @@ export class ListComponent implements OnInit {
   }
 
   fnStartCHRBConceptCase(item) {
-    console.log('item: ', item);
     this.utilitiesService.fnSetDataShare({ 
       patientData: item['dataUser'], 
       patientConcept: item,
@@ -733,6 +737,19 @@ export class ListComponent implements OnInit {
       // dataUserSpecialist: this.dataUserSpecialist,
     });
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['idpacienteporemitir']);
+  }
+
+  fnShowPreviewCRHB(item) {
+    // this.patientData = data['patientData'];
+    // this.patientConcept = data['patientConcept'];
+
+    this.submitted = true;
+    let dataObjectSend = {
+      "paciente": (this.patientData) ? this.patientData : {},
+      "datosConcepto": item,
+    };
+    this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['idpacienteporemitir']);
   }
 
 

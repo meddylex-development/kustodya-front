@@ -38,7 +38,7 @@
         <div class="container-fluid pl-5 pt-1 pr-5 pb-5">
 
           <div class="row justify-content-center">
-            <div class="col-4">
+            <div *ngIf="!zoomConceptoRehabilitacion" class="animated" [ngClass]="{'col-10 fadeIn': zoomCartaConcepto, 'col-4 fadeIn': !zoomCartaConcepto}">
               <div class="justify-content-center d-flex mb-2" *ngIf="true">
                 <span class="cursor-pointer m-1" tooltip="Imprimir Carta Concepto" placement="top" container="body">
                   <button 
@@ -59,6 +59,11 @@
                     <i class="fas fa-paper-plane text-ligth"></i>
                   </button>
                 </span>
+                <span class="cursor-pointer m-1" tooltip="Zoom carta concepto - {{ (zoomCartaConcepto) ? 'Minimizar' : 'Maximizar' }}" placement="top" container="body">
+                  <button class="btn btn-primary" (click)="fnZoomDocument(1)">
+                    <i class="fas text-ligth" [ngClass]="{'fa-search-minus': zoomCartaConcepto, 'fa-search-plus': !zoomCartaConcepto}"></i>
+                  </button>
+                </span>
                 <span class="cursor-pointer m-1" tooltip="Agregar firma digital" placement="top" container="body">
                   <!-- Rounded switch -->
                   <label class="switch" style="margin-top: 0.2rem;">
@@ -71,7 +76,7 @@
                   </label>
                 </span>
               </div>
-              <div style="border: 1px solid #929292; padding: 2rem; zoom: 0.5;">
+              <div style="border: 1px solid #929292; padding: 2rem;" [ngStyle]="{'zoom': (zoomCartaConcepto) ? '0' : '0.5'}">
 
                 <div id="CartaConceptoCRHB" #CartaConceptoCRHB>
                   <div class="d-flex">
@@ -176,7 +181,7 @@
               </div>
 
             </div>
-            <div class="col-4">
+            <div *ngIf="!zoomCartaConcepto" class="animated" [ngClass]="{'col-10 fadeIn': zoomConceptoRehabilitacion, 'col-4 fadeIn': !zoomConceptoRehabilitacion}">
               <div class="justify-content-center d-flex mb-2" *ngIf="true">
                 <span class="cursor-pointer m-1" tooltip="Imprimir Certificado Concepto" placement="top" container="body">
                   <button 
@@ -197,6 +202,11 @@
                     <i class="fas fa-paper-plane text-ligth"></i>
                   </button>
                 </span>
+                <span class="cursor-pointer m-1" tooltip="Zoom concepto - {{ (zoomConceptoRehabilitacion) ? 'Minimizar' : 'Maximizar' }}" placement="top" container="body">
+                  <button class="btn btn-primary" (click)="fnZoomDocument(2)">
+                    <i class="fas text-ligth" [ngClass]="{'fa-search-minus': zoomConceptoRehabilitacion, 'fa-search-plus': !zoomConceptoRehabilitacion}"></i>
+                  </button>
+                </span>
                 <span class="cursor-pointer m-1" tooltip="Agregar firma digital" placement="top" container="body">
                   <!-- Rounded switch -->
                   <label class="switch" style="margin-top: 0.2rem;">
@@ -209,7 +219,7 @@
                   </label>
                 </span>
               </div>
-              <div style="border: 1px solid #929292; padding: 2rem; zoom: 0.5;">
+              <div style="border: 1px solid #929292; padding: 2rem;" [ngStyle]="{'zoom': (zoomConceptoRehabilitacion) ? '0' : '0.5'}">
                 <div id="certificadoConceptoCRHB" #certificadoConceptoCRHB>
                   <div class="d-flex">
                     <!-- <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset=""> -->
@@ -231,15 +241,15 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Fecha emisi&oacute;n:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.fechaEmision">{{ dataConceptCRHB?.fechaEmision | date: 'dd/MM/yyyy' }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.fechaEmision">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Hora emisi&oacute;n:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.fechaEmision">{{ dataConceptCRHB?.fechaEmision | date: 'h:mm:ss a' }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.fechaEmision">No registra dato</small>
                           </div>
                         </div>
                       </div>
@@ -286,84 +296,84 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Primer&nbsp;nombre:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tPrimerNombre">{{ (dataConceptCRHB?.paciente?.tPrimerNombre | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tPrimerNombre">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo de documento:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tipoDocumento?.tTipoIdentificacion">{{ (dataConceptCRHB?.paciente?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Edad:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.iEdad">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.iEdad">{{ dataConceptCRHB?.paciente?.iEdad + ' años' }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.iEdad">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Pa&iacute;s:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.iEdad">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.ubicacion?.tNombrePais">{{ dataConceptCRHB?.paciente?.ubicacion?.tNombrePais | titlecase }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.iEdad">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Segundo&nbsp;nombre:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tSegundoNombre">{{ (dataConceptCRHB?.paciente?.tSegundoNombre | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tSegundoNombre">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>N&uacute;mero de documento:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tNumeroDocumento">{{ dataConceptCRHB?.paciente?.tNumeroDocumento }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tNumeroDocumento">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Correo electr&oacute;nico:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tEmail">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tEmail">{{ dataConceptCRHB?.paciente?.tEmail }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tEmail">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Depatamento:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.ubicacion?.tNombreDepartamento">{{ dataConceptCRHB?.paciente?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.ubicacion?.tNombreDepartamento">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Primer&nbsp;apellido:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tPrimerApellido">{{ (dataConceptCRHB?.paciente?.tPrimerApellido | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tPrimerApellido">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Fecha de nacimiento:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.dtFechaNacimiento">{{ dataConceptCRHB?.paciente?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.dtFechaNacimiento">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Direcci&oacute;n:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tDireccion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tDireccion">{{ dataConceptCRHB?.paciente?.tDireccion }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tDireccion">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>Ciudad:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.ubicacion?.tNombreMunicipio">{{ dataConceptCRHB?.paciente?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.ubicacion?.tNombreMunicipio">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Segundo&nbsp;apellido:&nbsp;</small><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="dataConceptCRHB?.paciente?.tSegundoApellido">{{ (dataConceptCRHB?.paciente?.tSegundoApellido | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tSegundoApellido">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>G&eacute;nero:</small><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="dataConceptCRHB?.paciente?.genero?.tGenero">{{ (dataConceptCRHB?.paciente?.genero?.tGenero | titlecase) }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.genero?.tGenero">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <small>T&eacute;lefono:</small><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tTelefono">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="dataConceptCRHB?.paciente?.tTelefono">{{ dataConceptCRHB?.paciente?.tTelefono }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tTelefono">No registra dato</small>
                           </div>
                         </div>
                       </div>
@@ -400,29 +410,29 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>NIT:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNumeroIdentificacion">{{ dataCertificate?.eps?.tNumeroIdentificacion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNumeroIdentificacion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.eps?.tNumeroIdentificacion">{{ dataConceptCRHB?.paciente?.eps?.tNumeroIdentificacion }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.eps?.tNumeroIdentificacion">No registra dato</small>
                           </div>
                         </div>
                         <div class="col-6">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Razón Social:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNombre">{{ dataCertificate?.eps?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.eps?.tNombre">{{ dataConceptCRHB?.paciente?.eps?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.eps?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>R&eacute;gimen de afiliaci&oacute;n:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.regimenAfiliacion?.tNombre">{{ patientData?.regimenAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.regimenAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.regimenAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.regimenAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.regimenAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo Afiliaci&oacute;n:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.tipoAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.tipoAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.tipoAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         
@@ -443,29 +453,29 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>NIT:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNumeroIdentificacion">{{ dataCertificate?.eps?.tNumeroIdentificacion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNumeroIdentificacion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.arl?.tNumeroIdentificacion">{{ dataConceptCRHB?.paciente?.arl?.tNumeroIdentificacion }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.arl?.tNumeroIdentificacion">No registra dato</small>
                           </div>
                         </div>
                         <div class="col-6">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Razón Social:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNombre">{{ dataCertificate?.eps?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.arl?.tNombre">{{ dataConceptCRHB?.paciente?.arl?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.arl?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>R&eacute;gimen de afiliaci&oacute;n:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.regimenAfiliacion?.tNombre">{{ patientData?.regimenAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.regimenAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.arl?.regimenAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.arl?.regimenAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.arl?.regimenAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo Afiliaci&oacute;n:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.arl?.tipoAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.arl?.tipoAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.arl?.tipoAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         
@@ -486,29 +496,29 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>NIT:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNumeroIdentificacion">{{ dataCertificate?.eps?.tNumeroIdentificacion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNumeroIdentificacion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.afp?.tNumeroIdentificacion">{{ dataConceptCRHB?.paciente?.afp?.tNumeroIdentificacion }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.afp?.tNumeroIdentificacion">No registra dato</small>
                           </div>
                         </div>
                         <div class="col-6">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Razón Social:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.eps?.tNombre">{{ dataCertificate?.eps?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.eps?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.afp?.tNombre">{{ dataConceptCRHB?.paciente?.afp?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.afp?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>R&eacute;gimen de afiliaci&oacute;n:&nbsp;</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.regimenAfiliacion?.tNombre">{{ patientData?.regimenAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.regimenAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.afp?.regimenAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.afp?.regimenAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.afp?.regimenAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo Afiliaci&oacute;n:</small><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tipoAfiliacion?.tNombre">{{ patientData?.tipoAfiliacion?.tNombre }}</h6>
-                            <small style="color: #ccc;" *ngIf="!patientData?.tipoAfiliacion?.tNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.paciente?.afp?.tipoAfiliacion?.tNombre">{{ dataConceptCRHB?.paciente?.afp?.tipoAfiliacion?.tNombre }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.paciente?.afp?.tipoAfiliacion?.tNombre">No registra dato</small>
                           </div>
                         </div>
                         
@@ -525,42 +535,37 @@
                       </h6>
                     </div>
                     <div class="card-body">
-                      <div class="row">
-                        <!-- <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
-                          <div style="margin-bottom: 0.5rem;">
-                            <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
-                            <h6 style="color: #000;" *ngIf="itemcie10?.tFullDescripcion">{{ itemcie10?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!itemcie10?.tFullDescripcion">No registra dato</small>
-                          </div>
-                        </div> -->
-                        <div class="col">
+                      <div class="row" *ngFor="let itemcie10 of dataConceptCRHB?.diagnosticos">
+                        <div class="col-2">
                           <div style="margin-bottom: 0.5rem;">
                             <small>C&oacute;digo diagn&oacute;stico:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemcie10?.nombreDiagnostico">{{ itemcie10?.nombreDiagnostico | cie10:1 }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemcie10?.nombreDiagnostico">No registra dato</small>
                           </div>
                         </div>
-                        <div class="col">
+                        <div class="col-5">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Nombre diagn&oacute;stico:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemcie10?.nombreDiagnostico">{{ itemcie10?.nombreDiagnostico | cie10:2 }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemcie10?.nombreDiagnostico">No registra dato</small>
                           </div>
                         </div>
-                        <div class="col">
+                        <div class="col-3">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Fecha diagn&oacute;stico:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemcie10?.fechaIncapacidad">{{ itemcie10?.fechaIncapacidad | date: 'dd/MM/yyyy h:mm:ss a' }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemcie10?.fechaIncapacidad">No registra dato</small>
                           </div>
                         </div>
-                        <div class="col">
+                        <div class="col-2">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Etiolog&iacute;a:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemcie10?.nombreEtiologia">{{ itemcie10?.nombreEtiologia }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemcie10?.nombreEtiologia">No registra dato</small>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
                         <div class="col-12">
                           <hr>
                         </div>
@@ -627,7 +632,7 @@
                       </h6>
                     </div>
                     <div class="card-body">
-                      <div class="row">
+                      <div class="row" *ngFor="let itemSecuela of dataConceptCRHB?.secuelas">
                         <!-- <div class="col-12" *ngFor="let itemcie10 of dataCertificate?.cie10">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Diagn&oacute;stico cl&iacute;nico:</small><br>
@@ -635,27 +640,29 @@
                             <small style="color: #ccc;" *ngIf="!itemcie10?.tFullDescripcion">No registra dato</small>
                           </div>
                         </div> -->
-                        <div class="col">
+                        <div class="col-3">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo de secuela:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemSecuela?.nombreTipoSecuela">{{ itemSecuela?.nombreTipoSecuela }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemSecuela?.nombreTipoSecuela">No registra dato</small>
                           </div>
                         </div>
-                        <div class="col">
+                        <div class="col-7">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Descripci&oacute;n:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemSecuela?.descripcion">{{ itemSecuela?.descripcion }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemSecuela?.descripcion">No registra dato</small>
                           </div>
                         </div>
-                        <div class="col">
+                        <div class="col-2">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Pronostico:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="itemSecuela?.nombrePronostico">{{ itemSecuela?.nombrePronostico }}</h6>
+                            <small style="color: #ccc;" *ngIf="!itemSecuela?.nombrePronostico">No registra dato</small>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
                         <div class="col-12">
                           <hr>
                         </div>
@@ -725,9 +732,7 @@
                       <div class="row">
                         <div class="col">
                           <p style="text-align: justify; text-justify: inter-word;">
-                            Usuario con incapacidad prolongada por el (los) Diagnóstico(s) anotados, se emite concepto de rehabilitación en cumplimiento de normatividad vigente
-                            para trámite de calificación de pérdida de capacidad laboral o revisión de la calificación de pérdida de capacidad laboral a la que haya lugar por el Fondo
-                            de Pensiones de acuerdo con normatividad vigente: Decreto 1333/2018 y Decreto 1352/2013.
+                            {{ dataConceptCRHB?.historiaClinica }}
                           </p>
                         </div>                    
                       </div>
@@ -747,15 +752,15 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Tipo de tratamiento:</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.farmacologico">{{ dataConceptCRHB?.farmacologico }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.farmacologico">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>Finalidad del tratamiento (Posibilidad de recuperaci&oacute;n) :</small><br>
-                            <h6 style="color: #000;" *ngIf="dataCertificate?.cie10">{{ dataCertificate?.cie10[dataCertificate?.cie10.length - 1]?.tFullDescripcion }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataCertificate?.cie10">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="dataConceptCRHB?.finalidadTratmamiento">{{ dataConceptCRHB?.finalidadTratmamiento }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptCRHB?.finalidadTratmamiento">No registra dato</small>
                           </div>
                         </div>                
                       </div>

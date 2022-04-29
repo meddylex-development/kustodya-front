@@ -153,7 +153,7 @@ export class EditComponent implements OnInit {
   public collectionMedicalPrognosis: any = [];
   public selectPatientMedicalPrognosis: any = '';
   public patientInputSequelDescription: any = '';
-  public patientInputClinicHistorySummary: any = '';
+  public patientInputClinicHistorySummary: any = 'Usuario con incapacidad prolongada por el (los) Diagnóstico(s) anotados, se emite concepto de rehabilitación en cumplimiento de normatividad vigente para trámite de calificación de pérdida de capacidad laboral o revisión de la calificación de pérdida de capacidad laboral a la que haya lugar por el Fondo de Pensiones de acuerdo con normatividad vigente: Decreto 1333/2018 y Decreto 1352/2013.';
   public patientInputOtherTreatments: any = '';
   
   public checkPharmacological: boolean = false;
@@ -186,7 +186,7 @@ export class EditComponent implements OnInit {
   public flagShowSequels: boolean = false;
   public validDiagnostic: boolean = false;
   public textLoading: string = 'Obteniendo información del concepto de rehabilitación...';
-  
+  public percentajeConcept: any = null;
 
   constructor(
     private location: Location,
@@ -214,7 +214,6 @@ export class EditComponent implements OnInit {
     this.bsLocaleService.use('es');
     let data = this.utilitiesService.fnGetDataShare();
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-    console.log('this.dataDoctor: ', this.dataDoctor);
     const user_id = sessionStorage.getItem('user_id');
     this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
     if (data) {
@@ -226,6 +225,8 @@ export class EditComponent implements OnInit {
           this.submitted = false;
           // this.collectionMedicalConcept = response6['body'];
           this.dataConcept = response6['body'];
+          console.log('this.dataConcept: ', this.dataConcept);
+
           this.dataConcept['diagnosticos'].forEach((value, key) => {
             this.listDiagnosticsPatient.push({
               'idDiagnosticoConcepto': value['id'],
@@ -253,9 +254,76 @@ export class EditComponent implements OnInit {
               'dateSequel': null,
             });
           });
-          // listDiagnosticsPatient
-          // this.dataConcept
-          console.log('this.dataConcept--01: ', this.dataConcept);
+          this.checkPharmacological = this.dataConcept['farmacologico'];
+          this.checkOccupationalTherapy = this.dataConcept['terapiaOcupacional'];
+          this.checkSpeechTherapy = this.dataConcept['fonoAudiologia'];
+          this.checkSurgical = this.dataConcept['quirurgico'];
+          this.checkPhysicalTherapy = this.dataConcept['terapiaFisica'];
+          this.checkOtherTherapy = this.dataConcept['otrosTramites'];
+
+          this.patientInputOtherTreatments = this.dataConcept['otrosTratamientos'];
+
+          this.patientGoodShortTerm = (this.dataConcept['cortoPlazo'] == 1) ? true : false;
+          this.patientRegularShortTerm = (this.dataConcept['cortoPlazo'] == 2) ? true : false;
+          this.patientBadShortTerm = (this.dataConcept['cortoPlazo'] == 3) ? true : false;
+
+          this.patientGoodMediumTerm = (this.dataConcept['medianoPlazo'] == 1) ? true : (this.dataConcept['medianoPlazo'] == '' || this.dataConcept['medianoPlazo'] == null) ? true : false;
+          this.patientRegularMediumTerm = (this.dataConcept['medianoPlazo'] == 2) ? true : false;
+          this.patientBadMediumTerm = (this.dataConcept['medianoPlazo'] == 3) ? true : false;
+
+
+
+          let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
+          console.log('dataType: ', dataType);
+          this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
+          this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
+          this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
+
+
+          setTimeout(() => {
+            this.fnGetPercentaje();
+          }, 1500);
+
+
+          this.fnGetCie10(this.token, 1).then(response1 => {
+            if (response1) {
+              this.collectionPatientDiagnostics = response1;
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            } 
+          });  
+          this.fnGetListEtiologies(this.token).then((response2) => {
+            if (response2) {
+              this.collectionEtiology = response2['body'];
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+          this.fnGetListTypeSequels(this.token).then((response3) => {
+            if (response3) {
+              this.collectionTypeSequel = response3['body'];
+              let data = this.collectionTypeSequel.filter((el) => { return el.value == this.dataConcept['finalidadTratmamiento'] });
+              this.selectPatientTypeSequel = data[0];
+              
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+          this.fnGetListMedicalPrognosis(this.token).then((response4) => {
+            if (response4) {
+              this.collectionMedicalPrognosis = response4['body'];
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+          this.fnGetListMedicalConcept(this.token).then((response5) => {
+            if (response5) {
+              this.collectionMedicalConcept = response5['body'];
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+
         } else {
           this.submitted = false;
           this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
@@ -290,41 +358,6 @@ export class EditComponent implements OnInit {
         }
       })
 
-      this.fnGetCie10(this.token, 1).then(response1 => {
-        if (response1) {
-          this.collectionPatientDiagnostics = response1;
-        } else {
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        } 
-      });  
-      this.fnGetListEtiologies(this.token).then((response2) => {
-        if (response2) {
-          this.collectionEtiology = response2['body'];
-        } else {
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        }
-      });
-      this.fnGetListTypeSequels(this.token).then((response3) => {
-        if (response3) {
-          this.collectionTypeSequel = response3['body'];
-        } else {
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        }
-      });
-      this.fnGetListMedicalPrognosis(this.token).then((response4) => {
-        if (response4) {
-          this.collectionMedicalPrognosis = response4['body'];
-        } else {
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        }
-      });
-      this.fnGetListMedicalConcept(this.token).then((response5) => {
-        if (response5) {
-          this.collectionMedicalConcept = response5['body'];
-        } else {
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        }
-      });
       
 
     } else {
@@ -369,6 +402,7 @@ export class EditComponent implements OnInit {
       this.selectPatientDiagnostics = '';
       this.selectPatientEtiology = '';
       this.patientInputDiagnosticDate = '';
+      this.fnGetPercentaje();
     } else {
       let validData = false;
       this.listDiagnosticsPatient.forEach((element, key) => {
@@ -421,6 +455,7 @@ export class EditComponent implements OnInit {
             this.fnSaveConceptDiagnostic(this.token, dataObjectDiagnostic).then((response) => {
               if (response) {
                 this.utilitiesService.showToast('bottom-right', 'success', 'Diagnostico agegado satisfactoriamente!', 'nb-check');
+                this.fnGetPercentaje();
               } else {
                 this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando el diagnóstico', 'nb-alert');
               }
@@ -515,6 +550,7 @@ export class EditComponent implements OnInit {
     this.fnSaveConceptSequels(this.token, dataObjectSequel).then((response) => {
       if (response) {
         this.utilitiesService.showToast('bottom-right', 'success', 'Secuela agegada satisfactoriamente!', 'nb-check');
+        this.fnGetPercentaje();
       } else {
         this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando la secuela', 'nb-alert');
       }
@@ -556,17 +592,28 @@ export class EditComponent implements OnInit {
 
 
   fnSetMedicalConcept(data_concept) {
-    switch (data_concept["value"]) {
-      case 1:
-        // this.collectionMedicalConcept[0]; // Favorable
-        this.descriptionMedicalConcept = this.collectionMedicalConcept[0]['texto'];
-        break;
-      case 2:
-        // this.collectionMedicalConcept
-        // this.collectionMedicalConcept[1]; // Desfavorable - con incapacidad
-        // this.collectionMedicalConcept[2]; // Desfavorable - sin incapacidad
-        break;
+    if (data_concept) {
+      switch (data_concept["value"]) {
+        case 1:
+          // this.collectionMedicalConcept[0]; // Favorable
+          this.descriptionMedicalConcept = this.collectionMedicalConcept[0]['texto'];
+          this.unfavTypeWithIncapacity = false;
+          this.unfavTypeNoIncapacity = false;
+          this.fnGetPercentaje();
+          break;
+        case 2:
+          this.unfavTypeWithIncapacity = true;
+          this.unfavTypeNoIncapacity = false;
+          // this.collectionMedicalConcept
+          // this.collectionMedicalConcept[1]; // Desfavorable - con incapacidad
+          // this.collectionMedicalConcept[2]; // Desfavorable - sin incapacidad
+          this.fnGetPercentaje();
+          break;
+      }
+    } else {
+      this.fnGetPercentaje();
     }
+    
   }
 
   fnCheckUnFavType(unfav_type) {
@@ -617,7 +664,6 @@ export class EditComponent implements OnInit {
       "paciente": (this.patientData) ? this.patientData : {} ,
       "datosConcepto": (this.dataConcept) ? this.dataConcept : {},
     };
-    console.log('dataObjectSend: ', dataObjectSend);
     this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + this.patientConcept['idpacienteporemitir']);
   }
@@ -655,17 +701,67 @@ export class EditComponent implements OnInit {
     })
   }
 
+  fnGetPercentaje(): void {
+    let valueProgress = 0;
+    // Valor por diagnosticos = 20
+    valueProgress = (this.listDiagnosticsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
+    // Valor por secuelas = 20
+    valueProgress = (this.listSequelsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
+    // Valor por historia clinica = 20
+    valueProgress = (this.patientInputClinicHistorySummary) ? valueProgress + 20 : valueProgress + 0;
+    // Valor por finalidad tratamiento = 10
+    valueProgress = (this.selectPatientTypeSequel) ? valueProgress + 10 : valueProgress + 0;
+    // Valor por tipo de tratamiento (si no esta chequeado otros tramientos su peso sera de 10 pero si esta chequeado otros tratamientos su valor sera de 5)
+    valueProgress = ((this.checkPharmacological || 
+        this.checkOccupationalTherapy || 
+        this.checkSpeechTherapy || 
+        this.checkSurgical || 
+        this.checkPhysicalTherapy) && 
+      (!this.checkOtherTherapy)) ? valueProgress + 10 : 
+      ((this.checkPharmacological || 
+        this.checkOccupationalTherapy || 
+        this.checkSpeechTherapy || 
+        this.checkSurgical || 
+        this.checkPhysicalTherapy) && (this.checkOtherTherapy)) ? valueProgress + 5 : 
+      ((!this.checkPharmacological || 
+        !this.checkOccupationalTherapy || 
+        !this.checkSpeechTherapy || 
+        !this.checkSurgical || 
+        !this.checkPhysicalTherapy) && (this.checkOtherTherapy)) ? valueProgress + 5 : valueProgress + 0;
+    // Otros tratamientos y descripcion de otros tratamientos = 5
+    valueProgress = (
+      this.checkOtherTherapy && this.patientInputOtherTreatments) ? valueProgress + 5 : 
+      (this.checkOtherTherapy && (!this.patientInputOtherTreatments || this.patientInputOtherTreatments == '' || this.patientInputOtherTreatments == null)) ? valueProgress + 0 : valueProgress + 0;
+    // Corto plazo = 5
+    valueProgress = (this.patientGoodShortTerm) ? valueProgress + 5 : (this.patientRegularShortTerm) ? valueProgress + 5 : (this.patientBadShortTerm) ? valueProgress + 5 : valueProgress + 0;
+    // Mediano plazo = 5
+    valueProgress = (this.patientGoodMediumTerm) ? valueProgress + 5 : (this.patientRegularMediumTerm) ? valueProgress + 5 : (this.patientBadMediumTerm) ? valueProgress + 5 : valueProgress + 0;
+    // Concepto - Remision fondo de pensiones = 10
+    console.log('this.selectMedicalConcept: ', this.selectMedicalConcept);
+    if (this.selectMedicalConcept) {
+      valueProgress = (this.selectMedicalConcept['value'] == 1) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + 10 : valueProgress + 0;
+    } else {
+      valueProgress = valueProgress + 0;
+    }
+    console.log('valueProgress: ', valueProgress);
+    this.percentajeConcept = valueProgress;
+    // return valueProgress;
+  }
+
   fnUpdateConcept() {
     this.submitted = true;
     this.textLoading = 'Guardando información del concepto';
     // this.dataConcept
-    console.log('this.dataConcept: ', this.dataConcept);
     // this.selectMedicalConcept['value']
-    console.log('this.selectMedicalConcept: ', this.selectMedicalConcept);
     // this.dataCollectionConcepts
-    console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
+
+    this.fnGetPercentaje();
+    // this.percentajeConcept
+    console.log('this.percentajeConcept: ', this.percentajeConcept);
+    // console.log('valueProgress: ', valueProgress);
+    // return false;
     let dataObjectSend = {
-      "id": this.patientConcept['idpacienteporemitir'],
+      "id": this.dataConcept['conceptoRehabilitacionId'],
       "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
       "finalidadTratamientos": (this.selectPatientTypeSequel) ? this.selectPatientTypeSequel['value'] : 0,
       "esFarmacologico": (this.checkPharmacological) ? this.checkPharmacological : false,
@@ -677,14 +773,16 @@ export class EditComponent implements OnInit {
       "descripcionOtrosTratamientos": (this.patientInputOtherTreatments) ? this.patientInputOtherTreatments : '',
       "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
       "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
-      "concepto": (this.selectMedicalConcept) ? this.selectMedicalConcept['value'] : 0,
-      "remisionAdministradoraFondoPension": (this.selectMedicalConcept['value'] == 1) ? this.descriptionMedicalConcept : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '' ,
-      "progreso": 10,
+      "concepto": 0,
+      "remisionAdministradoraFondoPension": '',
+      "progreso": this.percentajeConcept  ,
     };
-    console.log('dataObjectSend: ', dataObjectSend);
+    if (this.selectMedicalConcept) {
+      dataObjectSend['concepto'] = (this.selectMedicalConcept['value'] == 1) ? 1 : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept['value'] == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
+      dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept['value'] == 1) ? this.descriptionMedicalConcept : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
+    } 
     // /api/K2ConceptoRehabilitacion/ActualizarConcepto // fnHttpSetUpdateConcept(guid_user, data_object)
     this.fnSetUpdateConceptCase(this.token, dataObjectSend).then((response) => {
-      console.log('response: ', response);
       if (response) {
         this.utilitiesService.showToast('top-right', 'success', 'Concepto guardado satisfactoriamente!');
         this.submitted = false;
@@ -695,7 +793,6 @@ export class EditComponent implements OnInit {
         this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
       }
     }).catch((err) => {
-      console.log('err: ', err);
       this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
       this.submitted = false;
       this.textLoading = 'Obteniendo información del concepto de rehabilitación...';

@@ -299,7 +299,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver información paciente" placement="top" container="body">
+                            <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
                                 <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -565,7 +565,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Información detallada caso" placement="top" container="body">
+                            <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -580,7 +580,7 @@
                                 Andres Alberto Diaz Rojas
                                 <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
                               </span>&nbsp;
-                              <i class="fas fa-user-md cursor-pointer text-primary" tooltip="Información médico asignado" placement="top" container="body"></i>
+                              <i (click)="fnShowSpecialistInformation(item)" class="fas fa-user-md cursor-pointer text-primary" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
@@ -823,12 +823,12 @@
                       <tbody>
                         <tr *ngFor="let item of collectionEnProceso | paginate: { id: 'pagEnProceso', itemsPerPage: paginationTabs['pagEnProceso'].itemsPerPage, currentPage: paginationTabs['pagEnProceso'].currentPage, totalItems: paginationTabs['pagEnProceso'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Continuar editando CHRB" placement="top" container="body">
+                            <span (click)="fnStartCHRBConceptCase(item);" tooltip="Continuar editando CHRB" placement="top" container="body">
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Información detallada caso" placement="top" container="body">
+                            <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -843,7 +843,7 @@
                                 Andres Alberto Diaz Rojas
                                 <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
                               </span>&nbsp;
-                              <i class="fas fa-user-md cursor-pointer text-primary" tooltip="Información médico designado" placement="top" container="body"></i>
+                              <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
@@ -897,9 +897,9 @@
                             </span>
                           </td>
                           <td class="align-middle text-left">
-                            <span tooltip="Porcentaje de progreso: {{ item?.Progreso }}%" placement="top" container="body">
+                            <span tooltip="Porcentaje de progreso: {{ item?.progreso }}%" placement="top" container="body">
                               <div class="progress">
-                                <div class="progress-bar" role="progressbar" [ngStyle]="{'width': (item?.Progreso) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{item?.Progreso}}%</div>
+                                <div class="progress-bar" role="progressbar" [ngStyle]="{'width': (item?.progreso) + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{item?.progreso}}%</div>
                               </div>
                             </span>
                           </td>
@@ -1103,12 +1103,12 @@
                       <tbody>
                         <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagGestionados', itemsPerPage: paginationTabs['pagGestionados'].itemsPerPage, currentPage: paginationTabs['pagGestionados'].currentPage, totalItems: paginationTabs['pagGestionados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnReAssignCase(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Información detallada caso" placement="top" container="body">
+                            <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1123,7 +1123,7 @@
                                 Andres Alberto Diaz Rojas
                                 <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
                               </span>&nbsp;
-                              <i class="fas fa-user-md cursor-pointer text-primary" tooltip="Información médico designado" placement="top" container="body"></i>
+                              <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
@@ -1391,12 +1391,12 @@
                       <tbody>
                         <tr *ngFor="let item of collectionNotificados | paginate: { id: 'pagNotificados', itemsPerPage: paginationTabs['pagNotificados'].itemsPerPage, currentPage: paginationTabs['pagNotificados'].currentPage, totalItems: paginationTabs['pagNotificados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnReAssignCase(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Información detallada caso" placement="top" container="body">
+                            <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1416,7 +1416,7 @@
                                 Andres Alberto Diaz Rojas
                                 <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
                               </span>&nbsp;
-                              <i class="fas fa-user-md cursor-pointer text-primary" tooltip="Información médico designado" placement="top" container="body"></i>
+                              <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
@@ -1658,7 +1658,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver información paciente" placement="top" container="body">
+                            <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
                                 <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
                           </td>

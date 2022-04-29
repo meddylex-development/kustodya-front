@@ -30,6 +30,8 @@ import { deLocale } from 'ngx-bootstrap/locale';
 defineLocale('de', deLocale);
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 
+import { Cie10Pipe } from '../../shared/pipes/cie10.pipe';
+
 import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
@@ -39,6 +41,11 @@ import { DeleteAllComponent } from './delete-all/delete-all.component';
 import { PrintPreviewComponent } from './print-preview/print-preview.component';
 import { AssignCaseComponent } from './assign-case/assign-case.component';
 import { ReAssignCaseComponent } from './re-assign-case/re-assign-case.component';
+import { PatientInformationComponent } from './patient-information/patient-information.component';
+import { SpecialistInformationComponent } from './specialist-information/specialist-information.component';
+import { EmisionConfirmComponent } from './emision-confirm/emision-confirm.component';
+import { SendMailComponent } from './send-mail/send-mail.component';
+import { CancelCaseComponent } from './cancel-case/cancel-case.component';
 
 const ENTRY_COMPONENTS = [
   BsDatepickerModule,
@@ -46,6 +53,7 @@ const ENTRY_COMPONENTS = [
 
 @NgModule({
   declarations: [
+    Cie10Pipe,
     ConceptoRehabilitacionComponent, 
     ListComponent, 
     EditComponent, 
@@ -54,7 +62,7 @@ const ENTRY_COMPONENTS = [
     DeleteAllComponent, 
     PrintPreviewComponent, 
     AssignCaseComponent, 
-    ReAssignCaseComponent, 
+    ReAssignCaseComponent, PatientInformationComponent, SpecialistInformationComponent, EmisionConfirmComponent, SendMailComponent, CancelCaseComponent,
   ],
   imports: [
     CommonModule,
@@ -92,6 +100,8 @@ const ENTRY_COMPONENTS = [
     PrintPreviewComponent, 
     AssignCaseComponent, 
     ReAssignCaseComponent, 
+    PatientInformationComponent,
+    SpecialistInformationComponent,
   ],
 })
 export class ConceptoRehabilitacionModule { }

@@ -119,7 +119,8 @@ export class HistoricoPacienteComponent implements OnInit {
   }
 
   fnReturnPage(): void {
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+    // this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+    this.location.back();
   }
 
   fnViewHistory() {
