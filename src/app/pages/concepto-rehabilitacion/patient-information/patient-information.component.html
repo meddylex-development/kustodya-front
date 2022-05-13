@@ -12,17 +12,17 @@
           <img src="../../../../assets/images/imgs/patient-avatar.png" width="70px" height="70px" alt="" srcset="">
           <br>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">Andres Ricardo</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.dataUser?.tPrimerNombre + ' ' + dataCase?.dataUser?.tSegundoNombre | titlecase }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">Valderama</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.dataUser?.tPrimerApellido + ' ' + dataCase?.dataUser?.tSegundoApellido | titlecase }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. 1024481004</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.dataUser?.tipoDocumento?.tTipoIdentificacion }} {{ dataCase?.dataUser?.tNumeroDocumento }}</h6>
           </span>
           <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
             <i class="fas fa-envelope"></i>&nbsp;
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">german@german.com</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.dataUser?.tEmail }}</h6>
           </span>
         </div>
       </div>
@@ -84,7 +84,7 @@
                 Fecha de nacimiento
               </small>
               <h6 class="m-0">
-                21 de Octubre de 1992
+                {{ dataCase?.dataUser?.dtFechaNacimiento | date:"MMMM d, y" }}
               </h6>
             </div>
           </div>
@@ -98,7 +98,7 @@
                 G&eacute;nero
               </small>
               <h6 class="m-0">
-                Masculino
+                {{ dataCase?.dataUser?.genero?.tGenero }}
               </h6>
             </div>
           </div>
@@ -112,13 +112,13 @@
                 Edad
               </small>
               <h6 class="m-0">
-                30 a&ntilde;os
+                {{ dataCase?.dataUser?.iEdad }} a&ntilde;os
               </h6>
             </div>
           </div>
         </div>
   
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <!-- <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
@@ -130,7 +130,7 @@
               </h6>
             </div>
           </div>
-        </div>
+        </div> -->
   
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
@@ -140,7 +140,7 @@
                 Direcci&oacute;n
               </small>
               <h6 class="m-0">
-                Transversal 27 B Bis # 44 c 31
+                {{ dataCase?.dataUser?.tDireccion }}
               </h6>
             </div>
           </div>
@@ -154,7 +154,7 @@
                 Tel&eacute;fono
               </small>
               <h6 class="m-0">
-                +57 3142896531
+                {{ dataCase?.dataUser?.tTelefono }}
               </h6>
             </div>
           </div>

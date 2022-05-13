@@ -212,6 +212,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
+                              <th class="text-truncate">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
                               <th class="text-truncate" style="width: 180px !important;">
                                   Documento paciente&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
@@ -300,7 +309,12 @@
                           </td>
                           <td class="align-middle text-center">
                             <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
-                                <i class="fas fa-user-injured cursor-pointer text-info"></i>
+                              <i class="fas fa-user-injured cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
+                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -441,6 +455,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
+                              <th class="text-truncate" *ngIf="profileUser == 1">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -562,6 +585,11 @@
                           <td class="align-middle text-center" *ngIf="profileUser == 1">
                             <span (click)="fnReAssignCase(item);" tooltip="Reasignar caso" placement="top" container="body">
                                 <i class="fas fa-user-edit cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center" *ngIf="profileUser == 1">
+                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
+                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -719,6 +747,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
+                              <th class="text-truncate" *ngIf="profileUser == 1">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -829,7 +866,12 @@
                           </td>
                           <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
-                                <i class="far fa-id-card cursor-pointer text-info"></i>
+                              <i class="far fa-id-card cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center" *ngIf="profileUser == 1">
+                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
+                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -990,6 +1032,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
+                              <th class="text-truncate" *ngIf="profileUser == 1">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -1110,6 +1161,11 @@
                           <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center" *ngIf="profileUser == 1">
+                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
+                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -1288,6 +1344,15 @@
                               </span> -->
                             </th>
                             <th class="text-truncate">
+                              &nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                            </th>
+                            <th class="text-truncate">
                               M&eacute;dico asignado&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
                                   <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -1398,6 +1463,11 @@
                           <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
+                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">

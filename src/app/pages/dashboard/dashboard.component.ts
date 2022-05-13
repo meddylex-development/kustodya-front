@@ -254,6 +254,10 @@ export class DashboardComponent implements OnInit {
     if (this.current_item['id'] == 580) {
       this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/listado-casos');
     }
+        
+    if (this.current_item['id'] == 581) {
+      this.utilitiesService.fnNavigateByUrl('pages/calificacion-de-origen/listado-casos');
+    }
 
     this.current_level_menu = level_menu;
 

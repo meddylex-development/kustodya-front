@@ -19,6 +19,7 @@ import { ProfilesService } from '../../../shared/api/services/profiles.service';
 import { UserService } from '../../../shared/api/services/user.service';
 import { PatientInformationComponent } from '../patient-information/patient-information.component';
 import { SpecialistInformationComponent } from '../specialist-information/specialist-information.component';
+import { CancelCaseComponent } from '../cancel-case/cancel-case.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -585,6 +586,22 @@ export class ListComponent implements OnInit {
     // }, true);
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
     this.dialogService.open(AssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionPorAsignar = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
+  }
+
+  fnCancelCase(item) {
+    let dataSend = {};
+    dataSend['dataCase'] = item;
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(CancelCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
       if (res) {
         this.collectionPorAsignar = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);

@@ -17,6 +17,7 @@ export class ConceptoRehabilitacionService {
   urlSetAssignCase: string = '';
   urlSetSaveConceptDiagnostic: string = '';
   urlSetSaveConceptSequels: string = '';
+  urlSetCancelCase: string = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -86,6 +87,17 @@ export class ConceptoRehabilitacionService {
     const headers = this.fnSetDefineTokenAuthorization(guid_user);
     this.urlSetAssignCase = '/api/K2ConceptoRehabilitacion/ReasignarTarea';
     return this.http.put(this.utility.fnGetHost() + this.urlSetAssignCase, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpSetCancelCase(guid_user, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    this.urlSetCancelCase = '/api/K2ConceptoRehabilitacion/AnularTarea';
+    return this.http.put(this.utility.fnGetHost() + this.urlSetCancelCase, data_object,
       {
         observe: 'response',
         headers: headers,

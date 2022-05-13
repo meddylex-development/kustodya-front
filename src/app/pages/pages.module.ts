@@ -26,6 +26,8 @@ import { CalificacionOrigenModule } from './calificacion-origen/calificacion-ori
 import { RehabilitationConceptModule } from './rehabilitation-concept/rehabilitation-concept.module';
 import { ConceptoRehabilitacionModule } from './concepto-rehabilitacion/concepto-rehabilitacion.module';
 import { DictamenPericialModule } from './dictamen-pericial/dictamen-pericial.module';
+import { CalificacionAtelModule } from './calificacion-atel/calificacion-atel.module';
+import { Cie10Pipe } from '../shared/pipes/cie10.pipe';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -33,6 +35,8 @@ const PAGES_COMPONENTS = [
 
 @NgModule({
   imports: [
+    // Cie10Pipe,
+    CalificacionAtelModule,
     ConceptoRehabilitacionModule,
     RehabilitationConceptModule,
     // NgbTimepicker,

@@ -25,6 +25,9 @@ import { DictamenPericialComponent } from './dictamen-pericial/dictamen-pericial
 import { AuditarCasoComponent } from './dictamen-pericial/auditar-caso/auditar-caso.component';
 import { EditComponent } from './concepto-rehabilitacion/edit/edit.component';
 import { PrintPreviewComponent } from './concepto-rehabilitacion/print-preview/print-preview.component';
+import { CalificacionAtelComponent } from './calificacion-atel/calificacion-atel.component';
+import { EditAtelComponent } from './calificacion-atel/edit/edit.component';
+import { PrintPreviewAtelComponent } from './calificacion-atel/print-preview/print-preview.component';
 
 const routes: Routes = [
   {
@@ -38,12 +41,10 @@ const routes: Routes = [
       {
         path: 'base/:token/:entity/:cun',
         component: DashboardComponent,
-      },
-      {
+      }, {
         path: 'dashboard/:token/:entity/:cun/:findrethus/:enumdoctype/:docnumber',
         component: DashboardComponent,
-      },
-      {
+      }, {
         path: 'incapacidad',
         children: [
           {
@@ -79,8 +80,7 @@ const routes: Routes = [
             component: RegistroContableComponent,
           }, 
         ]
-      },
-      {
+      }, {
         path: 'administracion',
         children: [
           {
@@ -93,19 +93,20 @@ const routes: Routes = [
           }, 
         ],
       }, 
+        // {
+        // path: 'calificacion-origen',
+        // children: [
+        //   {
+        //     path: 'listado-correos',
+        //     component: ListEmailComponent,
+        //   }, 
+        //   {
+        //     path: 'transcripcion/:idEmail',
+        //     component: TranscriptionComponent,
+        //   }, 
+        // ],
+      // }, 
       {
-        path: 'calificacion-origen',
-        children: [
-          {
-            path: 'listado-correos',
-            component: ListEmailComponent,
-          }, 
-          {
-            path: 'transcripcion/:idEmail',
-            component: TranscriptionComponent,
-          }, 
-        ],
-      }, {
         path: 'concepto-de-rehabilitacion',
         children: [
           {
@@ -121,8 +122,23 @@ const routes: Routes = [
             component: PrintPreviewComponent,
           },
         ]
-      }, 
-      {
+      }, {
+        path: 'calificacion-de-origen',
+        children: [
+          {
+            path: 'listado-casos',
+            component: CalificacionAtelComponent
+          },
+          {
+            path: 'editar-caso/:idCaso',
+            component: EditAtelComponent,
+          }, 
+          {
+            path: 'certificado/:idUser',
+            component: PrintPreviewAtelComponent,
+          },
+        ]
+      }, {
         path: 'dictamen-pericial',
         children: [
           {
@@ -134,8 +150,7 @@ const routes: Routes = [
             component: AuditarCasoComponent,
           }, 
         ],
-      }, 
-      {
+      }, {
         path: 'reporte',
         children: [
           {
@@ -143,17 +158,14 @@ const routes: Routes = [
             component: ReporteResolucionComponent,
           }
         ],
-      }, 
-      {
+      }, {
         path: 'my-account',
         component: MyAccountComponent,
-      },
-      {
+      }, {
         path: 'modal-overlays',
         loadChildren:
           './modal-overlays/modal-overlays.module#ModalOverlaysModule',
-      },
-      {
+      }, {
         path: '**',
         component: NotFoundComponent,
       }

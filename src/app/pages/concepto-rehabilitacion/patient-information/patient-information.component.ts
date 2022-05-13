@@ -40,24 +40,25 @@ export class PatientInformationComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      let objDataSend = {
-        //"entidadId": 1,
-        //"busqueda": 1,
-        "perfil": 46,
-        "pagina": 1,
-      };
-      this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
-        if (response) {
-          this.collectionDoctors = response['body']['usuariosOutputModel'];
-          this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
-        } else {
-          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-          // this.dismiss(false);
-        }
-      }).catch((err) => {
-        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-        this.dismiss(false);
-      });
+      console.log('this.dataCase: ', this.dataCase);
+      // let objDataSend = {
+      //   //"entidadId": 1,
+      //   //"busqueda": 1,
+      //   "perfil": 46,
+      //   "pagina": 1,
+      // };
+      // this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
+      //   if (response) {
+      //     this.collectionDoctors = response['body']['usuariosOutputModel'];
+      //     this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
+      //   } else {
+      //     this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      //     // this.dismiss(false);
+      //   }
+      // }).catch((err) => {
+      //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      //   this.dismiss(false);
+      // });
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
