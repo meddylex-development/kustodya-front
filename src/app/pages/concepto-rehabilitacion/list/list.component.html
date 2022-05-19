@@ -118,10 +118,10 @@
                 &nbsp;
                 <span tooltip="Agregar nuevo caso" placement="top" container="body">
                   <button 
-                    id="buttonAdvanceSearch"
+                    id="buttonAddNewCase"
                     class="d-inline-block" 
                     nbButton 
-                    (click)="fnShowAdvanceSearch()"
+                    (click)="fnShowAddNewCase()"
                     size="large" 
                     status="info">
                     <i class="fas fa-plus-circle text-ligth"></i>
@@ -267,7 +267,7 @@
                                 </span> -->
                               </th> 
                               <th class="text-truncate">
-                                EPS&nbsp;
+                                AFP&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
@@ -275,6 +275,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th> 
+                              <th class="text-truncate" style="width: 140px !important;">
+                                  Regimen afiliaci&oacute;n&nbsp;
+                                  <span tooltip="Ayuda" placement="top" container="body">
+                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                  </span>
+                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                  </span> -->
+                              </th>
                               <th class="text-truncate" style="width: 140px !important;">
                                   Tipo afiliaci&oacute;n&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
@@ -374,10 +383,11 @@
                           </td>
                           <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              <!-- {{ item?.dataUser?.arl?.tNombre | titlecase }} -->
-                              {{ item?.dataUser?.eps?.tNombre | titlecase }}
+                              <!-- {{ item?.dataUser?.eps?.tNombre | titlecase }} -->
+                              <small>No data service</small>
                             </small>
                           </td>
+                          <td class="align-middle text-center">{{ item?.dataUser?.regimenAfiliacion?.tNombre }}</td>
                           <td class="align-middle text-center">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">

@@ -47,7 +47,15 @@ export class AssignCaseComponent implements OnInit {
       };
       this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
         if (response) {
-          this.collectionDoctors = response['body']['usuariosOutputModel'];
+          let dataDoctors = response['body']['usuariosOutputModel'];
+          dataDoctors.forEach(element => {
+            console.log('element: ', element);
+            element['doctor'] = element['identificacion'] + ' - ' + element['nombre'];
+            //this.collectionDoctors.push(element);
+            // console.log('this.collectionDoctors: ', this.collectionDoctors);
+          });
+          this.collectionDoctors = dataDoctors;
+          // this.collectionDoctors = response['body']['usuariosOutputModel'];
           this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');

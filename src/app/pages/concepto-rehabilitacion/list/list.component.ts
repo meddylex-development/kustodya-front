@@ -20,6 +20,7 @@ import { UserService } from '../../../shared/api/services/user.service';
 import { PatientInformationComponent } from '../patient-information/patient-information.component';
 import { SpecialistInformationComponent } from '../specialist-information/specialist-information.component';
 import { CancelCaseComponent } from '../cancel-case/cancel-case.component';
+import { AddComponent } from '../add/add.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -575,6 +576,22 @@ export class ListComponent implements OnInit {
     // this.dataSearchAdvance['state'] = state;
 
     this.fnBuildData(this.token, currentPage, searchInput, state, dateStart, dateEnd, stateSearch, this.profileUser, this.userIdSession);
+  }
+
+  fnShowAddNewCase() {
+    let dataSend = {};
+    dataSend['dataCase'] = "";
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(AddComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionPorAsignar = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
   }
 
   fnAssignCase(item) {
