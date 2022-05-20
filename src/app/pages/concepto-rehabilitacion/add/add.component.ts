@@ -26,15 +26,10 @@ export class AddComponent implements OnInit {
   public documentNumberPatient: any = '63324967';
   public dataDoctor: any = null;
   public priorityCase: number = 1;
-  public collectionDocumentTypes:any = [
-    // { 'id': 1, 'nombre': 'Cedula de ciudadania' },
-    // { 'id': 2, 'nombre': 'Cedula de extrangeria' },
-    // { 'id': 3, 'nombre': 'NIT' },
-    // { 'id': 4, 'nombre': 'Pasaporte' },
-    // { 'id': 5, 'nombre': 'Tarjeta de idenditas' },
-  ];
+  public collectionDocumentTypes:any = [];
   public loading: boolean = false;
   public searchStatus: number = 0;
+  public textSpinner: string = "Cargando...";
 
   
   constructor(
@@ -51,15 +46,19 @@ export class AddComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
+      this.loading = true;
       this.fnGetDocumentTypes(this.token).then((response) => {
         if (response) {
           this.collectionDocumentTypes = response["body"];
+          this.loading = false;
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          this.loading = false;
           // this.dismiss(false);
         }
       }).catch((err) => {
         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        this.loading = false;
         this.dismiss(false);
       });
 
@@ -95,11 +94,31 @@ export class AddComponent implements OnInit {
   fnSelectDocumentType(event) {
     console.log('event: ', event);
     this.searchStatus = 0;
+
+  }
+
+  fnSetCreateNewCase(token, data_object) {
+    return new Promise ((resolve,reject) => {
+      this.conceptoRehabilitacionService.fnHttpSetCreateNewCase(token, data_object).subscribe(r => {
+        if (r.status == 200) {
+          if (r.body != null) {
+            resolve(r);
+          } else {
+            resolve(false);
+          }
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+      });
+    });
   }
 
   fnSearchPatient(documentTypePatient, documentNumberPatient) {
     this.utilitiesService.fnSetDataShare(null);
     this.loading = true;
+    this.textSpinner = "Buscando paciente...";
     if (this.documentNumberPatient != undefined &&
       this.documentNumberPatient != "" &&
       this.documentTypePatient != undefined &&
@@ -110,11 +129,13 @@ export class AddComponent implements OnInit {
             this.loading = false;
             this.patientData = response["body"];
             this.searchStatus = 1;
+            this.textSpinner = "";
             // this.utilitiesService.showToast('top-right', 'success', 'Caso asignado satisfactoriamente!');
             // this.dismiss(true);
           } else {
             this.loading = false;
             this.searchStatus = 2;
+            this.textSpinner = "";
             // this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
             // this.dismiss(false);
           }
@@ -146,7 +167,29 @@ export class AddComponent implements OnInit {
 
   fnCreateNewCase(patientData) {
     console.log('patientData: ', patientData);
-
+    this.loading = true;
+    this.textSpinner = "Creando nuevo caso";
+    let dataObject = {
+      "pacienteId": patientData['iIdpaciente']
+    };
+    this.fnSetCreateNewCase(this.token, dataObject).then((response) => {
+      console.log('response: ', response);
+      if(response) {
+        this.loading = false;
+        this.utilitiesService.showToast('top-right', 'success', 'Caso ha sido creado satisfactoriamente!');
+        this.dismiss(true);
+        this.textSpinner = "";
+      } else {
+        this.loading = false;
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        this.dismiss(false);
+        this.textSpinner = "";
+      }
+    }).catch((err) => {
+      console.log('err: ', err);
+      this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      this.dismiss(false);
+    });
   }
 
   dismiss(res?) {

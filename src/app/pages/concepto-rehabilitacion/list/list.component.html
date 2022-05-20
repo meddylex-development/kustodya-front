@@ -153,7 +153,7 @@
             </div>
 
             <nb-tabset *ngIf="profileUser == 1 || profileUser == 2" class="mb2" status="info" fullWidth (changeTab)="fnSelectState($event)">
-              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ paginationTabs?.pagPorAsignar?.totalItems || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '') ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ paginationTabs?.pagPorAsignar?.totalItems || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '' || tabId == 1) ? true : false" style="overflow: hidden;">
                 
                 <!-- <div class="row mb-3 mb-2" *ngIf="checkBlockCases && collectionCheckedCases.length > 0">
                   <div class="col">
@@ -327,7 +327,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 1)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -445,7 +445,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ paginationTabs?.pagAsignados?.totalItems }}" [active]="(dataSearchAdvance?.state == 2) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ paginationTabs?.pagAsignados?.totalItems }}" [active]="(dataSearchAdvance?.state == 2 || tabId == 2) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAsignados.length > 0">
                       <thead>
@@ -474,15 +474,12 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate">
+                              <!-- <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th>
+                              </th> -->
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -587,7 +584,7 @@
                       <tbody>
                         <tr *ngFor="let item of collectionAsignados | paginate: { id: 'pagAsignados', itemsPerPage: paginationTabs['pagAsignados'].itemsPerPage, currentPage: paginationTabs['pagAsignados'].currentPage, totalItems: paginationTabs['pagAsignados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnStartCHRBConceptCase(item);" tooltip="Iniciar concepto CRHB" placement="top" container="body">
+                            <span (click)="fnStartCHRBConceptCase(item, 2);" tooltip="Iniciar concepto CRHB" placement="top" container="body">
                                 <!-- <i class="fas fa-user-edit cursor-pointer text-info"></i> -->
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
                             </span>
@@ -602,13 +599,13 @@
                                 <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <td class="align-middle text-center">
+                          <!-- <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
-                          </td>
+                          </td> -->
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 2)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -734,7 +731,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ paginationTabs?.pagEnProceso?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ paginationTabs?.pagEnProceso?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionEnProceso.length > 0">
                       <thead>
@@ -748,15 +745,12 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate">
+                              <!-- <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th>
+                              </th> -->
                               <th class="text-truncate" *ngIf="profileUser == 1">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -870,22 +864,22 @@
                       <tbody>
                         <tr *ngFor="let item of collectionEnProceso | paginate: { id: 'pagEnProceso', itemsPerPage: paginationTabs['pagEnProceso'].itemsPerPage, currentPage: paginationTabs['pagEnProceso'].currentPage, totalItems: paginationTabs['pagEnProceso'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnStartCHRBConceptCase(item);" tooltip="Continuar editando CHRB" placement="top" container="body">
+                            <span (click)="fnStartCHRBConceptCase(item, 3);" tooltip="Continuar editando CHRB" placement="top" container="body">
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <td class="align-middle text-center">
+                          <!-- <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
                               <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
-                          </td>
+                          </td> -->
                           <td class="align-middle text-center" *ngIf="profileUser == 1">
                             <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
                                 <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 3)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1013,7 +1007,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="5" tabTitle="Gestionados" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ paginationTabs?.pagGestionados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="5" tabTitle="Emitidos" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ paginationTabs?.pagGestionados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 5) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionGestionados.length > 0">
                       <thead>
@@ -1033,15 +1027,12 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate">
+                              <!-- <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th>
+                              </th> -->
                               <th class="text-truncate" *ngIf="profileUser == 1">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -1164,22 +1155,22 @@
                       <tbody>
                         <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagGestionados', itemsPerPage: paginationTabs['pagGestionados'].itemsPerPage, currentPage: paginationTabs['pagGestionados'].currentPage, totalItems: paginationTabs['pagGestionados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item, 5);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <td class="align-middle text-center">
+                          <!-- <td class="align-middle text-center">
                             <span tooltip="Información detallada caso" placement="top" container="body">
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
-                          </td>
+                          </td> -->
                           <td class="align-middle text-center" *ngIf="profileUser == 1">
                             <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
                                 <i class="fas fa-trash-alt cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 5)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1306,7 +1297,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ paginationTabs?.pagNotificados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ paginationTabs?.pagNotificados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 6) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionNotificados.length > 0">
                       <thead>
@@ -1486,7 +1477,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 6)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1613,7 +1604,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ paginationTabs?.pagAnulados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ paginationTabs?.pagAnulados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 4) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAnulados.length > 0">
                       <thead>
@@ -1743,7 +1734,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item)" tooltip="Ver incapacidades" placement="top" container="body">
+                            <span (click)="fnRedirectViewPatientIncapacitiesHistory(item, 4)" tooltip="Ver incapacidades" placement="top" container="body">
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>

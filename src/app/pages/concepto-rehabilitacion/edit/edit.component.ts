@@ -225,7 +225,6 @@ export class EditComponent implements OnInit {
           this.submitted = false;
           // this.collectionMedicalConcept = response6['body'];
           this.dataConcept = response6['body'];
-          console.log('this.dataConcept: ', this.dataConcept);
 
           this.dataConcept['diagnosticos'].forEach((value, key) => {
             this.listDiagnosticsPatient.push({
@@ -274,7 +273,6 @@ export class EditComponent implements OnInit {
 
 
           let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
-          console.log('dataType: ', dataType);
           this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
           this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
           this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
@@ -737,13 +735,11 @@ export class EditComponent implements OnInit {
     // Mediano plazo = 5
     valueProgress = (this.patientGoodMediumTerm) ? valueProgress + 5 : (this.patientRegularMediumTerm) ? valueProgress + 5 : (this.patientBadMediumTerm) ? valueProgress + 5 : valueProgress + 0;
     // Concepto - Remision fondo de pensiones = 10
-    console.log('this.selectMedicalConcept: ', this.selectMedicalConcept);
     if (this.selectMedicalConcept) {
       valueProgress = (this.selectMedicalConcept['value'] == 1) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + 10 : valueProgress + 0;
     } else {
       valueProgress = valueProgress + 0;
     }
-    console.log('valueProgress: ', valueProgress);
     this.percentajeConcept = valueProgress;
     // return valueProgress;
   }
@@ -757,8 +753,6 @@ export class EditComponent implements OnInit {
 
     this.fnGetPercentaje();
     // this.percentajeConcept
-    console.log('this.percentajeConcept: ', this.percentajeConcept);
-    // console.log('valueProgress: ', valueProgress);
     // return false;
     let dataObjectSend = {
       "id": this.dataConcept['conceptoRehabilitacionId'],

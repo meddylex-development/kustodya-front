@@ -83,25 +83,18 @@ export class HistoricoPacienteComponent implements OnInit {
     const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
-    // console.log('data: ', data);
     if (data) {
       this.submitted = true;
       this.patientData = data['patientData'];
-      console.log('this.patientData: ', this.patientData);
       /// this.patientIncapacities = data['patientIncapacities'];
       // this.totalItems = data['patientIncapacities'].length;
       // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
       // this.submitted = true;
-      // console.log('iIdpaciente: ', this.patientData['iIdpaciente']);
       this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
-        console.log('response: ', response);
         if (response) {
           let patientIncapacities = response['patientIncapacities'];
-          console.log('patientIncapacities: ', patientIncapacities);
           this.patientIncapacities = patientIncapacities;
-          console.log('this.patientIncapacities: ', this.patientIncapacities);
           this.totalItems = response['totalItems'];
-          console.log('this.totalItems: ', this.totalItems);
           this.submitted = false;
           // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
         } else {
@@ -206,21 +199,15 @@ export class HistoricoPacienteComponent implements OnInit {
   }
 
   fnShowModalChangeStatusIncapacity(item) {
-    console.log('item: ', item);
     let dataSend = {};
     dataSend['dataIncapacity'] = item;
     this.dialogService.open(EstadoIncapacidadComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
-      console.log('res: ', res);
       if (res) {
         this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
-          console.log('response: ', response);
           if (response) {
             let patientIncapacities = response['patientIncapacities'];
-            console.log('patientIncapacities: ', patientIncapacities);
             this.patientIncapacities = patientIncapacities;
-            console.log('this.patientIncapacities: ', this.patientIncapacities);
             this.totalItems = response['totalItems'];
-            console.log('this.totalItems: ', this.totalItems);
             this.submitted = false;
             // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
           } else {

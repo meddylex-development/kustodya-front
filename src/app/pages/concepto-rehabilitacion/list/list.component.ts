@@ -170,6 +170,7 @@ export class ListComponent implements OnInit {
   public dictamensCollection = [];
   public profileUser: any = '';
   public userIdSession: any = '';
+  public tabId: number = 1;
 
   constructor(
     private authService: NbAuthService,
@@ -190,14 +191,18 @@ export class ListComponent implements OnInit {
 
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
-        console.log('this.dataSession: ', this.dataSession);
         this.token = token["token"];
-
+        let data = this.utilitiesService.fnGetDataShare();
+        
         this.fnGetInfoProfileById(token, this.dataSession['IdProfile']).then((respDataProfile) => {
           if (respDataProfile) {
+            if (data) {
+              this.tabId = data['tab'];
+            } else {
+              this.tabId = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
+            }
             this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
             this.userIdSession = (this.dataSession['EsSuperAdmin'] == "True")? 112 : this.dataSession['UserId'];
-            console.log('this.userIdSession: ', this.userIdSession);
 
             this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
             this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
@@ -562,7 +567,7 @@ export class ListComponent implements OnInit {
           currentPage = this.paginationTabs['pagAnulados']['currentPage'];
           // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
           break;
-      case 'Gestionados':
+      case 'Emitidos':
         state = 5;
         currentPage = this.paginationTabs['pagGestionados']['currentPage'];
         // this.dataSearchAdvance['statusInfo'] = { name: 'Gestionados', value: 4 };
@@ -682,9 +687,10 @@ export class ListComponent implements OnInit {
     });
   }
 
-  fnRedirectViewPatientIncapacitiesHistory(item) {
+  fnRedirectViewPatientIncapacitiesHistory(item, tabId) {
     this.utilitiesService.fnSetDataShare({ 
       patientData: item['dataUser'], 
+      tab: tabId,
       // patientIncapacities: this.patientIncapacities, 
       // collectionDocumentTypes: this.collectionDocumentTypes, 
       // documentNumberPatient: this.documentNumberPatient, 
@@ -759,10 +765,11 @@ export class ListComponent implements OnInit {
 
   }
 
-  fnStartCHRBConceptCase(item) {
+  fnStartCHRBConceptCase(item, tab_id) {
     this.utilitiesService.fnSetDataShare({ 
       patientData: item['dataUser'], 
       patientConcept: item,
+      tab: tab_id,
       // patientIncapacities: this.patientIncapacities, 
       // collectionDocumentTypes: this.collectionDocumentTypes, 
       // documentNumberPatient: this.documentNumberPatient, 
@@ -773,7 +780,7 @@ export class ListComponent implements OnInit {
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['idpacienteporemitir']);
   }
 
-  fnShowPreviewCRHB(item) {
+  fnShowPreviewCRHB(item, tab_id) {
     // this.patientData = data['patientData'];
     // this.patientConcept = data['patientConcept'];
 
@@ -782,6 +789,17 @@ export class ListComponent implements OnInit {
       "paciente": (this.patientData) ? this.patientData : {},
       "datosConcepto": item,
     };
+    this.utilitiesService.fnSetDataShare({ 
+      paciente: item['dataUser'], 
+      datosConcepto: item,
+      tab: tab_id,
+      // patientIncapacities: this.patientIncapacities, 
+      // collectionDocumentTypes: this.collectionDocumentTypes, 
+      // documentNumberPatient: this.documentNumberPatient, 
+      // documentTypePatient: this.documentTypePatient, 
+      // documentTypeSelected: this.documentTypeSelected,
+      // dataUserSpecialist: this.dataUserSpecialist,
+    });
     this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['idpacienteporemitir']);
   }

@@ -1,4 +1,4 @@
-<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Buscando paciente...">
+<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
   <nb-card-header style="display: flex !important; justify-content: space-between !important;">
     Crear nuevo caso
     <span class="cursor-pointer" (click)="fnCloseModal()">
@@ -93,7 +93,7 @@
           <div class="form-group">
             <label for="input-rangePriority">
               <h6 class="m-0">
-                <i class="fas fa-user"></i>&nbsp;Paciente:&nbsp;
+                <i class="fas fa-user"></i>&nbsp;Paciente encontrado:&nbsp;
                 <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
               </h6>
             </label>
