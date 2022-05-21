@@ -543,8 +543,8 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate" style="width: 240px !important;" *ngIf="false">
-                                EPS&nbsp;
+                              <th class="text-truncate" style="width: 240px !important;" *ngIf="true">
+                                AFP&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
@@ -612,7 +612,7 @@
                           <td class="align-middle text-left" *ngIf="profileUser == 1">
                             <div>
                               <span>
-                                Andres Alberto Diaz Rojas
+                                No data service
                                 <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
                               </span>&nbsp;
                               <i (click)="fnShowSpecialistInformation(item)" class="fas fa-user-md cursor-pointer text-primary" tooltip="Información especialista asignado" placement="top" container="body"></i>
@@ -667,9 +667,10 @@
                               {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}
                             </span>
                           </td>
-                          <td class="align-middle text-left" *ngIf="false">
+                          <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              {{ item?.dataUser?.eps?.tNombre | titlecase }}
+                              No data service
+                              <!-- {{ item?.dataUser?.eps?.tNombre | titlecase }} -->
                             </small>
                           </td>
 

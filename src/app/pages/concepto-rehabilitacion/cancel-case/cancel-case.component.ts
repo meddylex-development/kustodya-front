@@ -21,6 +21,11 @@ export class CancelCaseComponent implements OnInit {
   public dataCaseCancel: any = null;
   public cancelCaseDescription: any = null;
   public dataDoctor: any = null;
+  public cancelType: any = null;
+  public collectionCancelTypes: any = [
+    { 'id': 1, 'name': 'Duplicidad' },
+    { 'id': 2, 'name': 'Paciente desafiliado' },
+  ];
   
   constructor(
     protected ref: NbDialogRef<CancelCaseComponent>,
@@ -80,6 +85,10 @@ export class CancelCaseComponent implements OnInit {
         }
       });
     });
+  }
+
+  fnSelectCancelType(event) {
+    console.log('event: ', event);
   }
 
   dismiss(res?) {

@@ -15,16 +15,18 @@ export class SpecialistInformationComponent implements OnInit {
 
   @Input() dataCase: any;
   public token: string = '';
-  public userData: any = null; 
+  public userData: any = null;
   public patientData: any = null;
   public submitted: boolean = false;
   public state: any = {};
-  public collectionDoctors: any = [];
-  public collectionDoctorsOriginal: any = [];
+  public objectDataUser: any = null;
+  public objectDataUserOriginal: any = null;
   public doctorAssign: any = null;
   public dataDoctor: any = null;
   public priorityCase: number = 1;
   public btnInfo: number = 1;
+  public loading: boolean = false;
+  public textSpinner: string = "Cargando...";
   
   constructor(
     protected ref: NbDialogRef<SpecialistInformationComponent>,
@@ -40,18 +42,17 @@ export class SpecialistInformationComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      let objDataSend = {
-        //"entidadId": 1,
-        //"busqueda": 1,
-        "perfil": 46,
-        "pagina": 1,
-      };
-      this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
+      console.log('this.dataCase: ', this.dataCase);
+      this.loading = true;
+      this.GetDataUserById(this.token, this.dataCase['usuarioAsignadoId']).then((response) => {
+        console.log('response: ', response);
         if (response) {
-          this.collectionDoctors = response['body']['usuariosOutputModel'];
-          this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
+          this.objectDataUser = response['body'];
+          this.objectDataUserOriginal = response['body'];
+          this.loading = false;
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          this.loading = false;
           // this.dismiss(false);
         }
       }).catch((err) => {
@@ -66,9 +67,9 @@ export class SpecialistInformationComponent implements OnInit {
     });
   }
 
-  fnGetUsersEntity(token, id_entity, obj_data) {
+  GetDataUserById(token, id_user) {
     return new Promise((resolve, reject) => {
-      this.userService.fnHttpGetUsersEntity(token, id_entity, obj_data).subscribe((response) => {
+      this.userService.fnHttpGetDataUserById(token, id_user).subscribe((response) => {
         if (response['status'] == 200) {
           resolve(response);
         } else {
@@ -79,39 +80,6 @@ export class SpecialistInformationComponent implements OnInit {
   }
 
   fnSelectDoctorAssign(data) {
-  }
-
-  fnAssignCase(doctorAssign, priorityCase) {
-    let dataUpdate = {
-      "id": this.dataCase['idpacienteporemitir'],
-      "usuarioAsignadoId": doctorAssign['id'],
-      "prioridad": priorityCase,
-    };
-    this.fnSetAssignCaseDoctor(this.token, dataUpdate).then((response) => {
-      if (response) {
-        this.utilitiesService.showToast('top-right', 'success', 'Caso asignado satisfactoriamente!');
-        this.dismiss(true);
-      } else {
-        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-        this.dismiss(false);
-      }
-    }).catch((err) => {
-      this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-      this.dismiss(false);
-    });
-    
-  }
-
-  fnSetAssignCaseDoctor(token, dataUpdate) {
-    return new Promise((resolve, reject) => {
-      this.conceptoRehabilitacionService.fnHttpSetAssignCase(token, dataUpdate).subscribe((response) => {
-        if (response['status'] == 200) {
-          resolve(response);
-        } else {
-          reject(false);
-        }
-      });
-    });
   }
 
   dismiss(res?) {

@@ -33,6 +33,30 @@
         </div>
         <div class="mt-2 mb-2 col-12">
           <div class="form-group">
+            <label for="input-selectListCancelType">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Tipo anulaci&oacute;n:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <ng-select  
+              id="input-selectListCancelType"
+              [items]="collectionCancelTypes" 
+              bindLabel="name" 
+              name="selectListCancelType"
+              #selectListCancelType="ngModel" 
+              status="basic" 
+              appendTo="body"
+              placeholder="Seleccione tipo anulación"
+              [ngModelOptions]="{standalone: true}" 
+              [(ngModel)]="cancelType" 
+              (change)="fnSelectCancelType($event)"
+              required>
+            </ng-select>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
             <label for="input-cancelDescription">
               <h6 class="m-0">
                 <i class="fas fa-user"></i>&nbsp;Causa anulaci&oacute;n:&nbsp;

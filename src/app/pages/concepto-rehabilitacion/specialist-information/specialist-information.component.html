@@ -1,4 +1,4 @@
-<nb-card size="tiny">
+<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
   <nb-card-header style="display: flex !important; justify-content: space-between !important;">
     Informaci&oacute;n del especialista asignado
     <span class="cursor-pointer" (click)="fnCloseModal()">
@@ -12,22 +12,22 @@
           <img src="../../../../assets/images/imgs/patient-avatar.png" width="70px" height="70px" alt="" srcset="">
           <br>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">Andres Ricardo</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerNombre + " " + objectDataUser?.segundoNombre }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">Valderama</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerApellido + " " + objectDataUser?.segundoApellido }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. 1024481004</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. {{ objectDataUser?.numeroIdentificacion }}</h6>
           </span>
           <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
             <i class="fas fa-envelope"></i>&nbsp;
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">german@german.com</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0"> {{ objectDataUser?.correo }}</h6>
           </span>
         </div>
       </div>
       
-      <div class="p-2 d-flex justify-content-center align-items-center w-100">
+      <div *ngIf="false" class="p-2 d-flex justify-content-center align-items-center w-100">
         <div [ngClass]="{'flipInX': btnInfo == 1}" class="animated m-1 btn-info" (click)="btnInfo = 1" [ngStyle]="{'background-color': btnInfo == 1 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="m-3 text-center">
             <span>
@@ -39,7 +39,7 @@
             <i class="fas fa-caret-down fa-2x text-secondary"></i>
           </div>
         </div>
-        <div [ngClass]="{'flipInX': btnInfo == 2}" class="animated m-1 btn-info" (click)="btnInfo = 2" [ngStyle]="{'background-color': btnInfo == 2 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px; border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
+        <!-- <div [ngClass]="{'flipInX': btnInfo == 2}" class="animated m-1 btn-info" (click)="btnInfo = 2" [ngStyle]="{'background-color': btnInfo == 2 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px; border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="m-3 text-center">
             <span>
               <i class="fas fa-hospital-user fa-2x text-secondary"></i>
@@ -71,10 +71,10 @@
           <div *ngIf="btnInfo == 4" style="text-align: center;margin-top: -3px;">
             <i class="fas fa-caret-down fa-2x text-secondary"></i>
           </div>
-        </div>
+        </div> -->
       </div>
       
-      <div  *ngIf="btnInfo == 1" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+      <div  *ngIf="btnInfo == 1" class="mt-3 animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
 
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
@@ -162,7 +162,7 @@
 
       </div>
 
-      <div  *ngIf="btnInfo == 2" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
@@ -220,7 +220,7 @@
         </div>
       </div>
 
-      <div  *ngIf="btnInfo == 3" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
@@ -278,7 +278,7 @@
         </div>
       </div>
 
-      <div  *ngIf="btnInfo == 4" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
