@@ -1303,21 +1303,6 @@
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionNotificados.length > 0">
                       <thead>
                         <tr>
-                            <!-- <th class="text-truncate">
-                              &nbsp;
-                              <span tooltip="Ayuda" placement="top" container="body">
-                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                              </span>
-                            </th> -->
-                            <th class="text-truncate">
-                              &nbsp;
-                              <span tooltip="Ayuda" placement="top" container="body">
-                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                              </span>
-                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                              </span> -->
-                            </th>
                             <th class="text-truncate">
                               &nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
@@ -1460,11 +1445,6 @@
                           <td class="align-middle text-center">
                             <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
-                            </span>
-                          </td>
-                          <td class="align-middle text-center">
-                            <span tooltip="Información detallada caso" placement="top" container="body">
-                                <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">

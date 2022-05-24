@@ -22,7 +22,7 @@
           </span>
           <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
             <i class="fas fa-envelope"></i>&nbsp;
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0"> {{ objectDataUser?.correo }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.correo }}</h6>
           </span>
         </div>
       </div>
@@ -84,13 +84,13 @@
                 Fecha de nacimiento
               </small>
               <h6 class="m-0">
-                21 de Octubre de 1992
+                {{ objectDataUser?.fechaNacimiento | date:"MMMM d, y" }}
               </h6>
             </div>
           </div>
         </div>
         
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
@@ -98,13 +98,13 @@
                 G&eacute;nero
               </small>
               <h6 class="m-0">
-                Masculino
+                {{ objectDataUser?.sexo }}
               </h6>
             </div>
           </div>
         </div>
   
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
@@ -112,13 +112,13 @@
                 Edad
               </small>
               <h6 class="m-0">
-                30 a&ntilde;os
+                {{ objectDataUser?.fechaNacimiento }} a&ntilde;os
               </h6>
             </div>
           </div>
         </div>
   
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
@@ -126,7 +126,7 @@
                 E-mail
               </small>
               <h6 class="m-0">
-                german@german.com
+                {{ objectDataUser?.correo }}
               </h6>
             </div>
           </div>
@@ -139,9 +139,12 @@
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
                 Direcci&oacute;n
               </small>
-              <h6 class="m-0">
-                Transversal 27 B Bis # 44 c 31
+              <h6 class="m-0" *ngIf="objectDataUser?.direcciones?.length > 0">
+                {{ objectDataUser?.direcciones }}
               </h6>
+              <small *ngIf="objectDataUser?.direcciones?.length < 1">
+                No registra datos
+              </small>
             </div>
           </div>
         </div>
@@ -153,8 +156,25 @@
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
                 Tel&eacute;fono
               </small>
+              <h6 class="m-0" *ngIf="objectDataUser?.telefonos?.length > 0">
+                {{ objectDataUser?.telefonos }}
+              </h6>
+              <small *ngIf="objectDataUser?.telefonos?.length < 1">
+                No registra datos
+              </small>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Es m&eacute;dico?
+              </small>
               <h6 class="m-0">
-                +57 3142896531
+                {{ (objectDataUser?.esMedico) ? 'Si' : 'No' }}
               </h6>
             </div>
           </div>

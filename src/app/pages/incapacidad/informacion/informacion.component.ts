@@ -62,7 +62,6 @@ export class InformacionComponent implements OnInit {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      console.log('this.dataDoctor: ', this.dataDoctor);
 
       if (data) {
         this.search = false;
@@ -81,29 +80,23 @@ export class InformacionComponent implements OnInit {
         this.patientData = null;
         this.documentTypeSelected = null;
         this.patientIncapacities = null;
-        this.totalItems = 1;
+        this.totalItems = 0;
         // this.fnClearFormSearchPatient();
         this.fnGetDocumentTypes(this.token);
       }
       this.fnGetDataUserById(this.token, user_id).then((response) => {
-        console.log('response: ', response);
         if (response) {
           let numeroIdentificacion = response['numeroIdentificacion'];
           this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            console.log('responseRethus: ', responseRethus);
             if (responseRethus['body']) {
 
               this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                // console.log('responseRethusDetail: ', responseRethusDetail);
                 if (responseRethusDetail['body']) {
                   this.dataUserSpecialist = responseRethusDetail['body'];
-                  console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
                   let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
                   if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                    console.log('Usted no esta autorizado');
                     this.flagShowAlertUser = true;
                   } else {
-                    console.log('Si tiene permisos para generar incapacidades');
                     this.flagShowAlertUser = false;
                   }
                 } 
@@ -126,8 +119,6 @@ export class InformacionComponent implements OnInit {
       //   }
       // });
 
-      console.log('data: ', data);
-      console.log('this.token: ', this.token);
       this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
     } else {
       // self.router.navigateByUrl('');
@@ -135,68 +126,96 @@ export class InformacionComponent implements OnInit {
   }
 
   fnShowContent(nameClass) {
-    console.log('test');
     $('.' + nameClass).slideToggle();
   }
 
   fnSearchPatient($event) {
-    console.log('$event: ', $event);
     this.utilitiesService.fnSetDataShare(null);
-    this.totalItems = 0;
+    // this.totalItems = 0;
+    // return false;
+    this.search = true;
     if (this.documentNumberPatient != undefined &&
       this.documentNumberPatient != "" &&
       this.documentTypePatient != undefined &&
       this.documentTypePatient != "") {
-        this.search = true;
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
+          console.log('resp: ', resp);
           if(resp) {
             this.patientData = resp;
-            console.log('this.patientData["iIdpaciente"]: ', this.patientData['iIdpaciente']);
+            this.patientData['arl'] = {
+              "iIdarl": 999,
+              "tCodigoExterno": "null",
+              "tNombre": "POSITIVA COMPAÑÍA DE SEGUROS S.A.",
+              "tNombreTipoSociedad": null,
+              "tNumeroIdentificacion": "8600111536",
+              "tPathLogo": "/images/imgs/eps_img_01.png",
+              "tipoAfiliacionArl": {
+                "tNombre": "Cotizante activo",
+              }
+            };
+            this.patientData['afp'] = {
+              "iIdafp": 999,
+              "tCodigoExterno": "null",
+              "tNombre": "COLFONDOS S.A. PENSIONES Y CESANTIAS",
+              "tNombreTipoSociedad": null,
+              "tNumeroIdentificacion": "8001494962",
+              "tPathLogo": "/images/imgs/eps_img_01.png",
+              "tipoAfiliacionFondoPensiones": {
+                "tNombre": "Cotizante activo",
+              }
+            };
+            console.log('this.patientData: ', this.patientData);
             // this.patientData;
-            // console.log('this.patientData;: ', this.patientData);
-            this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']);
-
-            this.utilitiesService.fnSetDataShare({ 
-              patientData: this.patientData, 
-              patientIncapacities: this.patientIncapacities, 
-              collectionDocumentTypes: this.collectionDocumentTypes, 
-              documentNumberPatient: this.documentNumberPatient, 
-              documentTypePatient: this.documentTypePatient, 
-              documentTypeSelected: this.documentTypeSelected,
+            this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
+              console.log('response: ', response);
+              if (response) {
+                this.search = false;
+                this.patientIncapacities = response['patientIncapacities'];
+                this.totalItems = response['totalItems'];
+                this.utilitiesService.fnSetDataShare({ 
+                  patientData: this.patientData, 
+                  patientIncapacities: this.patientIncapacities, 
+                  collectionDocumentTypes: this.collectionDocumentTypes, 
+                  documentNumberPatient: this.documentNumberPatient, 
+                  documentTypePatient: this.documentTypePatient, 
+                  documentTypeSelected: this.documentTypeSelected,
+                });
+              } else {
+                this.patientIncapacities = [];
+                this.totalItems = 0;
+              }
             });
           } else {
-            this.patientData = [];
+            this.patientData = null;
+            this.search = false;
           }
         }).catch((error) => {
-          console.log('error: ', error);
           this.patientData = [];
         })
 
+    } else {
+      this.search = false;
     }
   }
 
   fnGetPatientByDocumentNumber(token, documentNumberPatient, documentTypePatient) {
-    console.log('documentNumberPatient: ', documentNumberPatient);
-    console.log('documentTypePatient: ', documentTypePatient);
-    console.log('token: ', token);
     return new Promise ((resolve,reject) => {
       // const self = this;
       this.patientData = null;
       this.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
-        console.log('r: ', r);
         if (r.status == 200) {
           if (r.body != null) {
             this.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
             this.fnShowContent('search-form');
             $('.content-patient-info').slideToggle();;
-            this.search = false;
+            // this.search = false;
             this.showTitleSearch = true;
             this.patientData = JSON.parse(JSON.stringify(r.body));
             console.log('this.patientData: ', this.patientData);
             resolve(this.patientData);
           } else {
             resolve(false);
-            this.search = false;
+            // this.search = false;
             this.documentNumberPatient = '';
             this.documentTypePatient = null;
             this.utilitiesService.showToast('bottom-right', 'danger', 'No se encuentra el número de documento!"', 'nb-alert');
@@ -204,49 +223,51 @@ export class InformacionComponent implements OnInit {
         }
         if (r.status == 206) {
           resolve(false);
-          this.search = false;
+          // this.search = false;
           this.documentNumberPatient = '';
           this.documentTypePatient = null;
           // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
           // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
         }
       }, err => {
-        console.log('err: ', err);
         reject(false);
-        this.search = false;
+        // this.search = false;
         this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
       });
     });
   }
 
   fnGetDiagnosicosIncapacidadByPaciente(token, idPaciente) {
-    this.search = true;
-    this.patientIncapacities = [];
-  //const idPaciente = 2;
-    this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-      if (r.status == 200) {
-        this.search = false;
-        let patientIncapacities = JSON.parse(JSON.stringify(r.body));
-
-        patientIncapacities.forEach((value, key) => {
-          value.cie10.forEach((cievalue, ciekey) => {
-            if (cievalue.iIdtipoCie === 1) {
-              value['cie10_diagnotic'] = cievalue;
-            }
-          });
-          this.patientIncapacities.push(value);
-        });
-        
-        console.log('this.patientIncapacities: ', this.patientIncapacities);
-        this.totalItems = this.patientIncapacities.length;
-      } else if (r.status == 206) {
-        this.search = false;
-        const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
-        this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
-      }
-    }, err => {
-      this.search = false;
-      this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
+    return new Promise((resolve, reject) => {
+      let patientIncapacities;
+      let totalItems = 0;
+      this.incapacityService.fnHttpGetDiagnosicosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
+        if (r.status == 200) {
+          patientIncapacities = JSON.parse(JSON.stringify(r.body));
+          if (patientIncapacities) {
+            patientIncapacities.forEach((value, key) => {
+              value.cie10.forEach((cievalue, ciekey) => {
+                if (cievalue.iIdtipoCie === 1) {
+                  value['cie10_diagnotic'] = cievalue;
+                }
+              });
+            });
+          } else {
+            patientIncapacities = [];
+          }
+          totalItems = (patientIncapacities) ? patientIncapacities.length : 0;
+          resolve({'patientIncapacities': patientIncapacities, 'totalItems': totalItems });
+        } else if (r.status == 206) {
+          // this.search = false;
+          resolve(false);
+          // const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];
+          // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
+        }
+      }, err => {
+        reject(false);
+        //this.search = false;
+        // this.utilitiesService.showToast('top-right', '', 'Error consultado el historial de incapacidades!');
+      });
     });
   }
 
@@ -271,7 +292,6 @@ export class InformacionComponent implements OnInit {
   }
 
   fnSelectDocumentType($event) {
-    console.log('$event: ', $event);
     this.documentTypeSelected = $event;
   }
   
@@ -288,7 +308,6 @@ export class InformacionComponent implements OnInit {
     let dataSend = {};
     dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
     this.dialogService.open(AyudaComponent, { context: dataSend }).onClose.subscribe((res) => {
-      console.log('res: ', res);
     });
   }
 

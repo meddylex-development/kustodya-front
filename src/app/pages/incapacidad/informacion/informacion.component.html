@@ -1,10 +1,10 @@
-<div class="row" accent="danger" size="tiny" [nbSpinner]="totalItems < 1 || search == true" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Buscando información paciente">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="search == true" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Buscando información paciente">
   <div class="col-md-12">
     <nb-card>
       <nb-card-body>
 
         <div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
-          <div class="" style="display: flex; justify-content: space-between;">
+          <div class="cursor-pointer" style="display: flex; justify-content: space-between;" (click)="fnShowContent('search-form')">
               <span class="">
                   <i class="fas fa-user-injured" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; <span style="display: inline-block;">
                   <h5 class="m-0">BUSCAR PACIENTE</h5>
@@ -15,7 +15,7 @@
                 &nbsp;&nbsp;
                 <small>N&uacute;mero de documento:&nbsp;{{ documentNumberPatient }}</small>)
               </span>
-              <span class="cursor-pointer btn-show-search-form" (click)="fnShowContent('search-form')">
+              <span class="cursor-pointer btn-show-search-form">
                   <i class="fas fa-chevron-circle-down" style="color: dodgerblue; font-size: 30px;"></i>
               </span>
           </div>
@@ -163,7 +163,7 @@
           <div>
             <div class="row">
               <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Cantidad de incapacidades" placement="top" container="body">
                   <div class="cursor-pointer" (click)="fnRedirectViewPatientIncapacitiesHistory();" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -171,8 +171,9 @@
                         <i class="far fa-circle fa-stack-2x text-light"></i>
                       </span> -->
                       <i class="fas fa-file-medical-alt fa-4x"></i>
-                      <span [ngClass]="{'tideMetricsNumber animated flipInX': totalItems, 'tideMetricsNumberOnLoad animated flipInX': !totalItems}">
-                        {{ totalItems || 'Cargando' }}&nbsp;<i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i>
+                      <span class="tideMetricsNumber animated flipInX">
+                        {{ totalItems || '0' }}&nbsp;
+                        <!-- <i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i> -->
                       </span>
                     </div>
                     <h4 class="text-light text-tide text-truncate">Cantidad de incapacidades</h4>
@@ -180,7 +181,7 @@
                 </div>
               </div>
               <div class="col mb-2">
-                <div *ngIf="patientIncapacities[0]?.iDiasAcumuladosPorroga" class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Días acumulados" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -188,8 +189,9 @@
                         <i class="far fa-circle fa-stack-2x text-light"></i>
                       </span> -->
                       <i class="far fa-calendar-alt fa-4x"></i>
-                      <span [ngClass]="{'tideMetricsNumber animated flipInX': patientIncapacities[0]?.iDiasAcumuladosPorroga, 'tideMetricsNumberOnLoad animated flipInX': !patientIncapacities[0]?.iDiasAcumuladosPorroga}">
-                        {{ patientIncapacities[0]?.iDiasAcumuladosPorroga || 'Cargando' }}&nbsp;<i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i>
+                      <span class="tideMetricsNumber animated flipInX">
+                        {{ (patientIncapacities?.length > 0) ? patientIncapacities[0]?.iDiasAcumuladosPorroga : '0' }}&nbsp;
+                        <!-- <i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i> -->
                       </span>
                     </div>
                     <h4 class="text-light text-tide text-truncate">Dias acumulados</h4>
@@ -197,7 +199,7 @@
                 </div>
               </div>
               <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes y CRHB" placement="top" container="body">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Dictamenes y CRHB" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -211,7 +213,7 @@
                 </div>
               </div>
               <div class="col mb-2">
-                <div *ngIf="totalItems" class="cards-metrics-medical m-0 p-0" tooltip="Valor Total" placement="top" container="body">
+                <div class="cards-metrics-medical m-0 p-0" tooltip="Valor Total" placement="top" container="body">
                   <div class="cursor-pointer" style="background-color: #1e90ff; color: #FFF; height: 130px; border-radius: 5px; padding: 20px;">
                     <div style="display: flex; justify-content: space-between;">
                       <!-- <span class="fa-stack fa-2x" style="position: absolute; bottom: 14px; right: 32px; font-size: 10px;">
@@ -220,7 +222,7 @@
                       </span> -->
                       <i class="fas fa-hand-holding-usd fa-4x"></i>
                       <span style="font-size: 285%;">
-                        {{ 467000000 | currency:'CAD':'symbol-narrow':'4.2-2' }}
+                        {{ 46273644 | currency:'CAD':'symbol-narrow':'4.2-2' }}
                         <!-- $467,000,000.00 -->
                       </span>
                     </div>
@@ -290,8 +292,8 @@
                 <!-- <i class="fas fa-chevron-circle-down" style="color: #1e90ff; font-size: 20px;"></i> -->
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.tipoAfiliacionArl?.tNombre), 'text-danger': (!patientData?.tipoAfiliacionArl?.tNombre)}"></i>
-                    {{ (patientData?.tipoAfiliacionArl?.tNombre) ? patientData?.tipoAfiliacionArl?.tNombre : 'No registra afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.arl?.tipoAfiliacionArl?.tNombre), 'text-danger': (!patientData?.arl?.tipoAfiliacionArl?.tNombre)}"></i>
+                    {{ (patientData?.arl?.tipoAfiliacionArl?.tNombre) ? patientData?.arl?.tipoAfiliacionArl?.tNombre : 'No registra afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -304,15 +306,15 @@
                 <i class="fas fa-hand-holding-usd" style="color: #1e90ff; font-size: 20px;"></i>&nbsp;&nbsp;
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">Fondo de pensiones</h5>
                 <h5 class="d-inline-block mb-0 ml-3">
-                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.fondoPensiones?.tNombre) ? patientData?.fondoPensiones?.tNombre : 'No registra fondo pensiones' }}</span>
+                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.afp?.tNombre) ? patientData?.afp?.tNombre : 'No registra fondo pensiones' }}</span>
                 </h5>
               </span>
               <span class="cursor-pointer btn-show-patient-info">
                 <!-- <i class="fas fa-chevron-circle-down" style="color: #1e90ff; font-size: 20px;"></i> -->
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.tipoAfiliacionFondoPensiones?.tNombre), 'text-danger': (!patientData?.tipoAfiliacionFondoPensiones?.tNombre)}"></i>
-                    {{ (patientData?.tipoAfiliacionFondoPensiones?.tNombre) ? patientData?.tipoAfiliacionFondoPensiones?.tNombre : 'No registra afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre), 'text-danger': (!patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre)}"></i>
+                    {{ (patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre) ? patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre : 'No registra afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -476,6 +478,15 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                             </th>
+                            <th>
+                                Tipo de vinculo&nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Ocupacion', 'Ocupación', 'Cargo u ocupación del paciente en la compañia')">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                            </th>
                             <th style="width: 135px;">
                                 Fecha ingreso&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Fecha ingreso', 'Fecha ingreso', 'Fecha de ingreso del paciente en la compañia')">
@@ -513,6 +524,7 @@
                         <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
+                        <td class="align-middle text-center">Empleado</td>
                         <td class="align-middle text-center">22 Oct 2016</td>
                         <td class="align-middle text-center">
                           <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
@@ -531,11 +543,12 @@
                         </td> -->
                       </tr>
                       <tr>
-                        <td class="align-middle text-center">900365863</td>
-                        <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
+                        <td class="align-middle text-center">{{ patientData?.tNumeroDocumento }}</td>
+                        <td class="align-middle text-left">{{ patientData?.tPrimerNombre + ' ' + patientData?.tPrimerApellido | titlecase }}</td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
-                        <td class="align-middle text-center">22 Oct 2016</td>
+                        <td class="align-middle text-center">Independiente</td>
+                        <td class="align-middle text-center">14 May 2019</td>
                         <td class="align-middle text-center">
                           <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
                         </td>
