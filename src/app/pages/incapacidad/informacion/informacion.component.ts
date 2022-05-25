@@ -40,6 +40,8 @@ export class InformacionComponent implements OnInit {
   public flagShowAlertUser: boolean = false;
   public dataUserSpecialist: any = '';
   public errors: string[] = [];
+  public dataMetrics: any = null;
+  public dataUserPatient: any = null;
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -138,6 +140,28 @@ export class InformacionComponent implements OnInit {
       this.documentNumberPatient != "" &&
       this.documentTypePatient != undefined &&
       this.documentTypePatient != "") {
+
+        this.fnGetDataUser(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
+          console.log('response #1 ======>>>>> ', response);
+          if (response) {
+            let dataMetrics = response['body'];
+            console.log('dataMetrics: ', dataMetrics);
+            this.dataMetrics = (dataMetrics.length > 0) ? dataMetrics[0] : null;  
+          } else {
+            this.dataMetrics =  null;
+          }
+        });
+        this.fnGetDataUserPatient(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
+          console.log('response #2 ======>>>>> ', response);
+          if (response) {
+            let dataUserPatient = response['body'];
+            console.log('dataUserPatient: ', dataUserPatient);
+            this.dataUserPatient = (dataUserPatient.length > 0) ? dataUserPatient[0] : null;  
+          } else {
+            this.dataUserPatient =  null;
+          }
+        });
+
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
           console.log('resp: ', resp);
           if(resp) {
@@ -196,6 +220,50 @@ export class InformacionComponent implements OnInit {
     } else {
       this.search = false;
     }
+  }
+
+  fnGetDataUser(token, type_document, document_number) {
+    return new Promise((resolve, reject) => {
+      let objectData = {
+        'NumeroDocumento': document_number,
+        'TipoDoc': type_document,
+      }
+      console.log('objectData: ', objectData);
+      this.incapacityService.fnHttpGetDataUser(token, objectData).subscribe(response => {
+        console.log('response: ', response);
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    })
+  }
+
+  fnGetDataUserPatient(token, type_document, document_number) {
+    return new Promise((resolve, reject) => {
+      let objectData = {
+        'NumeroDocumento': document_number,
+        'TipoDoc': type_document,
+      }
+      console.log('objectData: ', objectData);
+      this.incapacityService.fnHttpGetDataUserPatient(token, objectData).subscribe(response => {
+        console.log('response: ', response);
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    })
   }
 
   fnGetPatientByDocumentNumber(token, documentNumberPatient, documentTypePatient) {

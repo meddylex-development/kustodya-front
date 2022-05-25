@@ -23,6 +23,8 @@ export class IncapacityService {
   urlGetCorrelationDiagnostic: any = '';
   urlGetListLateralities: any = '';
   urlGetIncapacidadesPaciente: any = '';
+  urlGetDataUser: any = '';
+  urlGetDataUserPatient: any = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -266,6 +268,30 @@ export class IncapacityService {
       headers: headers,
       reportProgress: true,
     });
+  }
+
+  fnHttpGetDataUser(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataUser = '/api/K2Incapacidad/ConsultarDatos';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataUser,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataUserPatient(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataUserPatient = '/api/K2Incapacidad/ConsultarDatospaciente';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataUserPatient,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
   }
 
 }

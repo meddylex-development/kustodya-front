@@ -172,7 +172,7 @@
                       </span> -->
                       <i class="fas fa-file-medical-alt fa-4x"></i>
                       <span class="tideMetricsNumber animated flipInX">
-                        {{ totalItems || '0' }}&nbsp;
+                        {{ dataMetrics?.cantidadIncapacidades || '0' }}&nbsp;
                         <!-- <i *ngIf="!totalItems" class="fas fa-spinner fa-spin"></i> -->
                       </span>
                     </div>
@@ -190,7 +190,7 @@
                       </span> -->
                       <i class="far fa-calendar-alt fa-4x"></i>
                       <span class="tideMetricsNumber animated flipInX">
-                        {{ (patientIncapacities?.length > 0) ? patientIncapacities[0]?.iDiasAcumuladosPorroga : '0' }}&nbsp;
+                        {{ dataMetrics?.diasIncapacidad || '0' }}&nbsp;
                         <!-- <i *ngIf="!patientIncapacities[0]?.iDiasAcumuladosPorroga" class="fas fa-spinner fa-spin"></i> -->
                       </span>
                     </div>
@@ -222,7 +222,7 @@
                       </span> -->
                       <i class="fas fa-hand-holding-usd fa-4x"></i>
                       <span style="font-size: 285%;">
-                        {{ 46273644 | currency:'CAD':'symbol-narrow':'4.2-2' }}
+                        {{ dataMetrics?.valor | currency:'CAD':'symbol-narrow':'4.2-2' }}
                         <!-- $467,000,000.00 -->
                       </span>
                     </div>
@@ -478,8 +478,8 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                             </th>
-                            <th>
-                                Tipo de vinculo&nbsp;
+                            <th style="width: 170px;">
+                                Vinculaci&oacute;n laboral&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body" (click)="showModalHelp('Incapacidades', 'Ocupacion', 'Ocupación', 'Cargo u ocupación del paciente en la compañia')">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
@@ -524,7 +524,7 @@
                         <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
-                        <td class="align-middle text-center">Empleado</td>
+                        <td class="align-middle text-center">Dependiente</td>
                         <td class="align-middle text-center">22 Oct 2016</td>
                         <td class="align-middle text-center">
                           <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
