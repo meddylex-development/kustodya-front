@@ -8,6 +8,7 @@ import { NgxRequestPasswordComponent } from '../_auth/request-password/request-p
 import { ActivateAccountComponent } from '../_auth/activate-account/activate-account.component'; // <---
 import { UpdatePasswordComponent } from '../_auth/update-password/update-password.component'; // <---
 import { LogoutComponent } from '../_auth/sign-out/sign-out.component'; // <---
+import { ValidarIncapacidadComponent } from '../_auth/validar-incapacidad/validar-incapacidad.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,9 @@ export const routes: Routes = [
       }, {
         path: 'update-password',
         component: UpdatePasswordComponent, // <---
+      }, {
+        path: 'validar-incapacidad/:guidcode',
+        component: ValidarIncapacidadComponent, // <---
       }, {
         path: 'log-out',
         component: LogoutComponent, // <---

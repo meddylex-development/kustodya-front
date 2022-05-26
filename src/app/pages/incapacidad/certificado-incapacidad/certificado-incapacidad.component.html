@@ -336,7 +336,7 @@
               <i class="fas fa-industry"></i>&nbsp;Datos empleador
             </h5>
             <div class="card-body">
-              <div class="row">
+              <div class="row" *ngIf="false">
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <small>NIT:&nbsp;</small><br>
@@ -366,13 +366,47 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row" *ngFor="let itemEmployer of dataEmlployerPatient">
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>NIT:&nbsp;</small><br>
+                    <h6 style="color: #000;" *ngIf="itemEmployer?.numeroIdentificacion">{{ itemEmployer?.numeroIdentificacion }}</h6>
+                    <small style="color: #ccc;" *ngIf="!itemEmployer?.numeroIdentificacion">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Raz&oacute;n Social:</small><br>
+                    <h6 style="color: #000;" *ngIf="itemEmployer?.nombre">{{ itemEmployer?.nombre }}</h6>
+                    <small style="color: #ccc;" *ngIf="!itemEmployer?.nombre">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Ocupaci&oacute;n:</small><br>
+                    <h6 style="color: #000;" *ngIf="itemEmployer?.ciou">{{ itemEmployer?.ciou | titlecase }}</h6>
+                    <small style="color: #ccc;" *ngIf="!itemEmployer?.ciou">No registra dato</small>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div style="margin-bottom: 0.5rem;">
+                    <small>Actividad economica:</small><br>
+                    <h6 style="color: #000;" *ngIf="itemEmployer?.ciiu">{{ itemEmployer?.ciiu }}</h6>
+                    <small style="color: #ccc;" *ngIf="!itemEmployer?.ciiu">No registra dato</small>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="row align-items-end">
             <div class="col" style="position: relative">
-              <div *ngIf="dataDoctor?.signature">
+              <!-- <div *ngIf="dataDoctor?.signature">
                 <img [src]="dataDoctor?.signature" alt="Firma Medico" style="width: 100%" />  
+              </div> -->
+              <div class="text-center mt-3">
+                <img src="../../../../assets/images/imgs/firmMedicoConceptoCRHB.png" alt="Firma Medico" style="width: 50%" />  
               </div>
               <div class="infoDoctor col-10 text-center">
                 <span>
@@ -392,7 +426,7 @@
             </div>
             <div class="col text-center">
               <ngx-qrcode 
-                style="zoom: 0.65 !important;"
+                style="/*zoom: 0.65 !important;*/"
                 id="qrCodeImage" 
                 class="col-12" 
                 qrc-element-type="url"

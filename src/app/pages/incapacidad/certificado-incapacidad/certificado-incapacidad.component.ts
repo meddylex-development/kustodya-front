@@ -179,7 +179,8 @@ export class CertificadoIncapacidadComponent implements OnInit {
     this.incapacityService.fnHttpGetDiagnosicosIncapacidadByCodigoDiagnostico(token, diagnosticCodeDNI).subscribe(response => {
       console.log('response: ', response);
       this.dataCertificate = response['body'];
-      this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/incapacidad/certificado-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
+      // this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/incapacidad/certificado-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
+      this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/auth/validar-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
       
       this.fnGetLateralities(this.token).then(response => {
         console.log('response: ', response);
