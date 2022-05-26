@@ -25,6 +25,7 @@ export class IncapacityService {
   urlGetIncapacidadesPaciente: any = '';
   urlGetDataUser: any = '';
   urlGetDataUserPatient: any = '';
+  urlGetDataEmployerPatient: any = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -286,6 +287,18 @@ export class IncapacityService {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataUserPatient = '/api/K2Incapacidad/ConsultarDatospaciente';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataUserPatient,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataEmployerPatient(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataEmployerPatient = '/api/K2Incapacidad/ConsultarEmpleador';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataEmployerPatient,
       {
         params: objectParams,
         observe: 'response',

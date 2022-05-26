@@ -2,8 +2,21 @@
   <div class="col-md-12">
     <nb-card>
       <nb-card-body>
+        
+        <div class="animated flipInX" style="background-color: #fff; padding: 10px 0; border-radius: 6px;" *ngIf="flagShowAlertUser">
+          <div class="alert alert-danger m-0" role="alert">
+            <i class="fas fa-exclamation-circle"></i>&nbsp;
+            Este perfil no tiene permisos para generar incapacidades.
+            <strong 
+              (click)="showModalHelp('Alerta', 'Perfil no autorizado', 'Perfil no autorizado', 'Este perfil no cuenta con los permisos suficientes para la generaci{on y consulta de incapacidades.')"
+              class="cursor-pointer" 
+              style="font-weight: 900; text-decoration: underline;">{{ (dataUserSpecialist) ? dataUserSpecialist['detalles'][0]['ocupacion'] : '' }}</strong>
+              <!-- <small>Fuernte <strong>e-Rethus</strong></small> -->
+          </div>
+        </div>
 
         <div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
+          
           <div class="cursor-pointer" style="display: flex; justify-content: space-between;" (click)="fnShowContent('search-form')">
               <span class="">
                   <i class="fas fa-user-injured" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; <span style="display: inline-block;">
@@ -81,18 +94,6 @@
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-
-        <div style="background-color: #fff; padding: 10px 0; border-radius: 6px;" *ngIf="flagShowAlertUser">
-          <div class="alert alert-danger m-0" role="alert">
-            <i class="fas fa-exclamation-circle"></i>&nbsp;
-            Este perfil no tiene permisos para generar incapacidades.
-            <strong 
-              (click)="showModalHelp('Alerta', 'Perfil no autorizado', 'Perfil no autorizado', 'Este perfil no cuenta con los permisos suficientes para la generaci{on y consulta de incapacidades.')"
-              class="cursor-pointer" 
-              style="font-weight: 900; text-decoration: underline;">{{ (dataUserSpecialist) ? dataUserSpecialist['detalles'][0]['ocupacion'] : '' }}</strong>
-              <!-- <small>Fuernte <strong>e-Rethus</strong></small> -->
           </div>
         </div>
 
@@ -222,7 +223,7 @@
                       </span> -->
                       <i class="fas fa-hand-holding-usd fa-4x"></i>
                       <span style="font-size: 285%;">
-                        {{ dataMetrics?.valor | currency:'CAD':'symbol-narrow':'4.2-2' }}
+                        {{ (dataMetrics?.valor || 0) | currency:'CAD':'symbol-narrow':'4.2-2' || "0" }}
                         <!-- $467,000,000.00 -->
                       </span>
                     </div>
@@ -304,7 +305,7 @@
             <div class="card-header" style="display: flex; justify-content: space-between;">
               <span>
                 <i class="fas fa-hand-holding-usd" style="color: #1e90ff; font-size: 20px;"></i>&nbsp;&nbsp;
-                <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">Fondo de pensiones</h5>
+                <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">AFP</h5>
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.afp?.tNombre) ? patientData?.afp?.tNombre : 'No registra fondo pensiones' }}</span>
                 </h5>
@@ -434,8 +435,8 @@
                 <i class="fas fa-chevron-circle-down" style="color: #fff; font-size: 20px;"></i>
               </span>
             </div>
-            <div class="card-body content-employer-info" style="display: none;">
-              <div class="mb-4">
+            <div class="card-body content-employer-info" style="display: block;">
+              <div class="mb-4" *ngIf="false">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
               </div>
               <div class="row">
@@ -519,15 +520,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td class="align-middle text-center">900365863</td>
-                        <td class="align-middle text-left">ProyectaTSP S.A.S.</td>
-                        <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
-                        <td class="align-middle text-left"><strong style="font-size: 10px;">2511</strong> - <small style="font-size: 10px;">INGENIERO DE SISTEMAS ANÁLISIS Y DISEÑO</small></td>
-                        <td class="align-middle text-center">Dependiente</td>
+                      <tr *ngFor="let itemEmployer of dataEmlployerPatient">
+                        <td class="align-middle text-center">{{ itemEmployer?.numeroIdentificacion }}</td>
+                        <td class="align-middle text-left">{{ itemEmployer?.nombre }}</td>
+                        <td class="align-middle text-left"><strong style="font-size: 10px;">{{ itemEmployer?.ciiu }}</strong></td>
+                        <td class="align-middle text-left"><strong style="font-size: 10px;">{{ itemEmployer?.ciou }}</strong></td>
+                        <td class="align-middle text-center">{{ itemEmployer?.vinculo }}</td>
                         <td class="align-middle text-center">22 Oct 2016</td>
                         <td class="align-middle text-center">
-                          <h5><span class="badge rounded-pill bg-success text-light">Activo</span></h5>
+                          <h5><span class="badge rounded-pill text-light" [ngClass]="{'bg-success': itemEmployer?.activo == true, 'bg-danger': itemEmployer?.activo != true}">{{ itemEmployer?.activo == true ? "Activo" : "Inactivo" }}</span></h5>
                         </td>
                         <td class="align-middle">
                           <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
@@ -542,7 +543,7 @@
                           </span>
                         </td> -->
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <td class="align-middle text-center">{{ patientData?.tNumeroDocumento }}</td>
                         <td class="align-middle text-left">{{ patientData?.tPrimerNombre + ' ' + patientData?.tPrimerApellido | titlecase }}</td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">K7220</strong> - <small style="font-size: 10px;">Consultores en programas de informática, elaboración y suministro de programas de informática</small></td>
@@ -557,7 +558,7 @@
                               <i class="fas fa-eye cursor-pointer text-info"></i>
                           </span>
                         </td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                 </table>
               </div>

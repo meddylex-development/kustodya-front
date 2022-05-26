@@ -63,6 +63,7 @@ export class CertificadoIncapacidadComponent implements OnInit {
   public dataCertificate: any;
   public dataDoctor: any;
   public listLateralities: any = [];
+  public dataEmlployerPatient: any = [];
 
   constructor(
     private location: Location,
@@ -103,6 +104,17 @@ export class CertificadoIncapacidadComponent implements OnInit {
 
           this.patientData = data['patientData'];
           console.log('this.patientData: ', this.patientData);
+          let documentTypePatient = this.patientData['tipoDocumento']['iIdTipoIdentificacion'];
+          let documentNumberPatient = this.patientData['tNumeroDocumento'];
+          this.fnGetDataEmployerPatient(this.token, documentTypePatient, documentNumberPatient).then((response) => {
+            if (response) {
+              let dataEmlployerPatient = response['body'];
+              console.log('dataEmlployerPatient: ', dataEmlployerPatient);
+              this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
+            } else {
+              this.dataEmlployerPatient =  [];
+            }
+          });
         } else {
           this.patientData = null;
           this.patientIncapacities = null;
@@ -117,6 +129,26 @@ export class CertificadoIncapacidadComponent implements OnInit {
         })
       }
     });
+  }
+
+  fnGetDataEmployerPatient(token, type_document, document_number) {
+    return new Promise((resolve, reject) => {
+      let objectData = {
+        'NumeroDocumento': document_number,
+        'TipoDoc': type_document,
+      }
+      this.incapacityService.fnHttpGetDataEmployerPatient(token, objectData).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    })
   }
 
   fnGetLateralities(token) {
