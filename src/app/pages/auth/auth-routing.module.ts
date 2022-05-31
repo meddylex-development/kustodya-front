@@ -35,7 +35,7 @@ export const routes: Routes = [
         path: 'update-password',
         component: UpdatePasswordComponent, // <---
       }, {
-        path: 'validar-incapacidad/:guidcode',
+        path: 'validar-incapacidad/:guidcode/:fechaInicio/:fechaFin/:diasIncapacidad',
         component: ValidarIncapacidadComponent, // <---
       }, {
         path: 'log-out',

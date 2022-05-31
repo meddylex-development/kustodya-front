@@ -64,6 +64,7 @@ export class InformacionComponent implements OnInit {
     if (token && user_id) {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
+      console.log('data: ', data);
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
 
       if (data) {
@@ -71,13 +72,31 @@ export class InformacionComponent implements OnInit {
         this.showTitleSearch = true;
         this.collectionDocumentTypes = data['collectionDocumentTypes'];
         this.documentNumberPatient = data['documentNumberPatient'];
+        console.log('this.documentNumberPatient: ', this.documentNumberPatient);
         this.documentTypePatient = data['documentTypePatient'];
+        console.log('this.documentTypePatient: ', this.documentTypePatient);
         this.patientData = data['patientData'];
         this.patientIncapacities = data['patientIncapacities'];
         this.documentTypeSelected = data['documentTypeSelected'];
         this.totalItems = data['patientIncapacities'].length;
         this.fnShowContent('search-form');
         this.fnShowContent('content-patient-info');
+        this.fnGetDataPatientMetrics(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
+          if (response) {
+            let dataMetrics = response['body'];
+            this.dataMetrics = (dataMetrics.length > 0) ? dataMetrics[0] : null;  
+          } else {
+            this.dataMetrics =  null;
+          }
+        });
+        this.fnGetDataEmployerPatient(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
+          if (response) {
+            let dataEmlployerPatient = response['body'];
+            this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
+          } else {
+            this.dataEmlployerPatient =  [];
+          }
+        });
       } else {
         this.collectionDocumentTypes = null;
         this.patientData = null;
@@ -113,8 +132,7 @@ export class InformacionComponent implements OnInit {
           this.flagShowAlertUser = true;
           this.dataUserSpecialist = null
         }
-      })
-
+      });
       // this.utilitiesService.fnGetDataUserRethus(this.token, user_id).then((resp) => {
       //   if (resp) {
       //     this.dataUserSpecialist = resp['dataUserSpecialist'];
@@ -142,7 +160,7 @@ export class InformacionComponent implements OnInit {
       this.documentTypePatient != undefined &&
       this.documentTypePatient != "") {
 
-        this.fnGetDataUser(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
+        this.fnGetDataPatientMetrics(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
           if (response) {
             let dataMetrics = response['body'];
             this.dataMetrics = (dataMetrics.length > 0) ? dataMetrics[0] : null;  
@@ -214,7 +232,7 @@ export class InformacionComponent implements OnInit {
     }
   }
 
-  fnGetDataUser(token, type_document, document_number) {
+  fnGetDataPatientMetrics(token, type_document, document_number) {
     return new Promise((resolve, reject) => {
       let objectData = {
         'NumeroDocumento': document_number,

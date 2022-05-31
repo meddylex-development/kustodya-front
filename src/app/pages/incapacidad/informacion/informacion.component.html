@@ -526,7 +526,7 @@
                         <td class="align-middle text-left"><strong style="font-size: 10px;">{{ itemEmployer?.ciiu }}</strong></td>
                         <td class="align-middle text-left"><strong style="font-size: 10px;">{{ itemEmployer?.ciou }}</strong></td>
                         <td class="align-middle text-center">{{ itemEmployer?.vinculo }}</td>
-                        <td class="align-middle text-center">22 Oct 2016</td>
+                        <td class="align-middle text-center">{{ itemEmployer?.fechaIngreso | date:'mediumDate' || 'No registra dato' }}</td>
                         <td class="align-middle text-center">
                           <h5><span class="badge rounded-pill text-light" [ngClass]="{'bg-success': itemEmployer?.activo == true, 'bg-danger': itemEmployer?.activo != true}">{{ itemEmployer?.activo == true ? "Activo" : "Inactivo" }}</span></h5>
                         </td>

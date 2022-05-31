@@ -491,7 +491,6 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGetCorrelationDiagnostic(item_cie_10) {
-    console.log('item_cie_10: ', item_cie_10);
     this.loadingData = false;
     this.applyLaterality =  item_cie_10['aplicaLateralidad'] || false;
     this.dataDiagnosticCorrelation = null;
@@ -549,17 +548,19 @@ export class GenerarIncapacidadComponent implements OnInit {
         "bProrroga": (this.dataDiagnosticCorrelation['bProrroga']) ? this.dataDiagnosticCorrelation['bProrroga'] : false,
         "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
         "cie10": (this.patientData['diagnostic']['patientDiagnostics']) ? [this.patientData['diagnostic']['patientDiagnostics']] : [],
-        "dtFechaCreacion": new Date(),
-        "dtFechaFin": new Date(),
+        //"dtFechaCreacion": new Date(),
+        "dtFechaCreacion": moment(dateNowValueOf).format(),
+        "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
         "esTranscripcion": false,
-        "fechaEmisionIncapacidad": new Date(),
-        "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
+        // "fechaEmisionIncapacidad": new Date(),
+        "fechaEmisionIncapacidad": moment(dateNowValueOf).format(),
+        "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : 0,
         "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
-        "iIddiagnosticoIncapacidad": (this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion']) ? this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion'] : '',
-        "iIdips": (this.dataIPS['iIdips']) ? this.dataIPS['iIdips'] : '',
-        "iIdEps": (this.patientData['eps']['iIdeps']) ? this.patientData['eps']['iIdeps'] : '',
-        "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : '',
-        "iIdUsuarioCreador": (this.dataDoctor['userId']) ? this.dataDoctor['userId'] : '',
+        "iIddiagnosticoIncapacidad": (this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion']) ? this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion'] : 0,
+        "iIdips": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
+        "iIdEps": (this.patientData['eps']['iIdeps']) ? this.patientData['eps']['iIdeps'] : 0,
+        "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : 0,
+        "iIdUsuarioCreador": (this.dataDoctor['userId']) ? this.dataDoctor['userId'] : 0,
         "lugarExpedicion": {
           "iIdDane": 0,
           "iIdDepartamento": 0,
@@ -589,36 +590,38 @@ export class GenerarIncapacidadComponent implements OnInit {
         "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
         "tTiempo": (this.patientData['diagnostic']['dateStartPatientCondition']) ? this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'] : '',
         "uiCodigoDiagnostico": null,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : '',
+        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
         "eps": (this.patientData['eps']) ? this.patientData['eps'] : '',
         "ips": (this.dataIPS) ? this.dataIPS : '',
       };
   
-      const object_data_test = {
-        'iIddiagnosticoIncapacidad': 0,
-        'uiCodigoDiagnostico': null,
-        'tCodigoCorto': '',
-        "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : '',
-        "iIdips": (this.dataIPS['iIdips']) ? this.dataIPS['iIdips'] : '',
-        "cie10": (this.patientData['diagnostic']['patientDiagnostics']) ? [this.patientData['diagnostic']['patientDiagnostics']] : [],
-        "tTiempo": this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'],
-        "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
-        "tLugar": (this.patientData['diagnostic']['patientCountryCondition']['name']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
-        "presuntoOrigenIncapacidad": (this.patientData['diagnostic']['incapacityType']) ? this.patientData['diagnostic']['incapacityType'] : '',
-        'origenCalificadoIncapacidad': null,
-        "tipoAtencion": (this.patientData['diagnostic']['attentionTypes']) ? this.patientData['diagnostic']['attentionTypes'] : '',
-        "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
-        "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
-        "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
-        "dtFechaCreacion": moment(dateNowValueOf).format(),
-        "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
-        "bProrroga": (this.patientData['diagnostic']['extensionIncapacity']) ? this.patientData['diagnostic']['extensionIncapacity'] : false,
-        "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
-      };
+      // const object_data_test = {
+      //   'iIddiagnosticoIncapacidad': 0,
+      //   'uiCodigoDiagnostico': null,
+      //   'tCodigoCorto': '',
+      //   "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : '',
+      //   "iIdips": (this.dataIPS) ? this.dataIPS['iIdips'] : '',
+      //   "cie10": (this.patientData['diagnostic']['patientDiagnostics']) ? [this.patientData['diagnostic']['patientDiagnostics']] : [],
+      //   "tTiempo": this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'],
+      //   "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
+      //   "tLugar": (this.patientData['diagnostic']['patientCountryCondition']['name']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
+      //   "presuntoOrigenIncapacidad": (this.patientData['diagnostic']['incapacityType']) ? this.patientData['diagnostic']['incapacityType'] : '',
+      //   'origenCalificadoIncapacidad': null,
+      //   "tipoAtencion": (this.patientData['diagnostic']['attentionTypes']) ? this.patientData['diagnostic']['attentionTypes'] : '',
+      //   "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
+      //   "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
+      //   "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
+      //   "dtFechaCreacion": moment(dateNowValueOf).format(),
+      //   "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
+      //   "bProrroga": (this.patientData['diagnostic']['extensionIncapacity']) ? this.patientData['diagnostic']['extensionIncapacity'] : false,
+      //   "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
+      //   "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
+      // };
+      console.log('object_data: ', object_data);
+      // console.log('object_data_test: ', object_data_test);
       // return false;
       // this.submitted = true;
-      this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data_test).subscribe(response => {
+      this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data).subscribe(response => {
         if (response.status == 200) {
           // this.patientData['diagnostic'] = {
           //   'soatInsurance': false,
@@ -635,7 +638,7 @@ export class GenerarIncapacidadComponent implements OnInit {
               'dateIncapcatity': date_incapcatity,
               'dateObjectSend': new Date(),
             },
-            'objectDataSend': object_data_test,
+            'objectDataSend': object_data,
             'dataResponse': response
           }
 
@@ -678,11 +681,8 @@ export class GenerarIncapacidadComponent implements OnInit {
 
     let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY/MM/DD');
     let monthDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('MM');
-    console.log('monthDateIncapacity: ', monthDateIncapacity);
     let dayDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('DD');
-    console.log('dayDateIncapacity: ', dayDateIncapacity);
     let yearDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY');
-    console.log('yearDateIncapacity: ', yearDateIncapacity);
 
     // this.submitted = true;
     return new Promise((resolve, reject) => {
@@ -801,8 +801,11 @@ export class GenerarIncapacidadComponent implements OnInit {
     // this.patientData
 
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    console.log('this.dataDoctor: ', this.dataDoctor);
     let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
+    console.log('dataEPS: ', dataEPS);
     let dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
+    console.log('dataIPS: ', dataIPS);
     if (this.dataDoctor) {
       const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
       const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
@@ -829,8 +832,8 @@ export class GenerarIncapacidadComponent implements OnInit {
         patientPhoneNumber: this.patientData['tTelefono'],
         doctorname: this.dataDoctor['name'],
         doctorEmail: this.dataDoctor['email'],
-        doctorjobeps: dataEPS['tNombre'],
-        doctorjobips: dataIPS['tNombre'],
+        doctorjobeps: (dataEPS) ? dataEPS['tNombre'] : "No registra dato",
+        doctorjobips: (dataIPS) ? dataIPS['tNombre'] : "No registra dato",
         // data: this.patientData,
         flagDiasDeIncapacidad: (flagDiasDeIncapacidad) ? 1 : 0,
         diasDeIncapacidadOtorgados: diasDeIncapacidadOtorgados,
@@ -935,14 +938,11 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnCalcValueIncapacity(patientDaysAccum, dataIBC, index, patientDaysGranted, dataDiagnosticCorrelation) {
-    console.log('patientDaysAccum: ', patientDaysAccum);
-    console.log('dataIBC: ', dataIBC);
 
     if(patientDaysAccum != '' && patientDaysAccum != null && dataIBC != '' && dataIBC != null) {
       this.inputValueIBCPatient = dataIBC;
       // let diasAcumulados = dataDiagnosticCorrelation['iDiasAcumuladosPorroga'];
       let diasAcumulados = patientDaysAccum;
-      console.log('diasAcumulados: ', diasAcumulados);
       // let prorroga = dataDiagnosticCorrelation['bProrroga'];
       let prorroga = this.patientData['diagnostic']['extensionIncapacity'];
   
@@ -1023,25 +1023,17 @@ export class GenerarIncapacidadComponent implements OnInit {
             } else {
   
                 let data1 = totalDaysAccumulated - 90;
-                console.log('data1: ', data1);
                 let data2 = totalDays - data1;
-                console.log('data2: ', data2);
   
                 daysEPSToFirstPay = data2;
-                console.log('daysEPSToFirstPay: ', daysEPSToFirstPay);
                 EPSValueFirstPay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-                console.log('EPSValueFirstPay: ', EPSValueFirstPay);
   
                 daysEPSToSecondPay = data1;
-                console.log('daysEPSToSecondPay: ', daysEPSToSecondPay);
                 EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-                console.log('EPSValueSecondPay: ', EPSValueSecondPay);
   
                 daysEPSToPay = data1 + data2;
-                console.log('daysEPSToPay: ', daysEPSToPay);
   
                 EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                console.log('EPSValuePay: ', EPSValuePay);
                 this.daysEPSToPay = daysEPSToPay;
                 this.EPSValuePay = EPSValuePay;
   
@@ -1087,33 +1079,22 @@ export class GenerarIncapacidadComponent implements OnInit {
             } else {
   
                 let data1 = totalDaysAccumulated - 180;
-                console.log('data1: ', data1);
                 let data2 = totalDays - data1;
-                console.log('data2: ', data2);
   
                 daysEPSToFirstPay = data2;
-                console.log('daysEPSToFirstPay: ', daysEPSToFirstPay);
                 EPSValueFirstPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-                console.log('EPSValueFirstPay: ', EPSValueFirstPay);
                 
                 daysEPSToSecondPay = 0;
-                console.log('daysEPSToSecondPay: ', daysEPSToSecondPay);
                 EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-                console.log('EPSValueSecondPay: ', EPSValueSecondPay);
                 
                 daysAFPToPay = data1;
-                console.log('daysAFPToPay: ', daysAFPToPay);
                 AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia * daysAFPToPay;
-                console.log('AFPValueToPay: ', AFPValueToPay);
   
                 // daysEPSToPay = data1 + data2;
                 daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                console.log('daysEPSToPay: ', daysEPSToPay);
                 // EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
                 EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                console.log('EPSValuePay: ', EPSValuePay);
                 daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                console.log('daysEPSToPay: ', daysEPSToPay);
                 this.daysEPSToPay = daysEPSToPay;
                 this.EPSValuePay = EPSValuePay;
   
@@ -1137,15 +1118,11 @@ export class GenerarIncapacidadComponent implements OnInit {
             if (totalDaysAccumulated <= 540 && totalDaysAccumulated > 180) {
                 // Paga el Fondo de Pensiones
                 daysAFPToPay = totalDays;
-                console.log('daysAFPToPay: ', daysAFPToPay);
                 AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia *  daysAFPToPay;
-                console.log('AFPValueToPay: ', AFPValueToPay);
                 // daysEPSToPay = daysEPSToPay;
                 // EPSValuePay = EPSValuePay;
                 daysEPSToPay = 0;
-                console.log('daysEPSToPay: ', daysEPSToPay);
                 EPSValuePay = 0;
-                console.log('EPSValuePay: ', EPSValuePay);
                 this.daysEPSToPay = daysEPSToPay;
                 this.EPSValuePay = EPSValuePay;
   
@@ -1155,9 +1132,7 @@ export class GenerarIncapacidadComponent implements OnInit {
                 this.employerValuePay = 0;
   
                 this.daysAFPToPay = daysAFPToPay;
-                console.log('daysAFPToPay: ', daysAFPToPay);
                 this.AFPValueToPay = AFPValueToPay;
-                console.log('AFPValueToPay: ', AFPValueToPay);
   
                 totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
                 totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
@@ -1167,28 +1142,19 @@ export class GenerarIncapacidadComponent implements OnInit {
             } else {
   
                 let data1 = totalDaysAccumulated - 540;
-                console.log('data1: ', data1);
                 let data2 = totalDays - data1;
-                console.log('data2: ', data2);
   
                 daysEPSToFirstPay = 0;
-                console.log('daysEPSToFirstPay: ', daysEPSToFirstPay);
                 EPSValueFirstPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-                console.log('EPSValueFirstPay: ', EPSValueFirstPay);
   
                 daysEPSToSecondPay = data1;
-                console.log('daysEPSToSecondPay: ', daysEPSToSecondPay);
                 EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-                console.log('EPSValueSecondPay: ', EPSValueSecondPay);
   
                 daysAFPToPay = data2;
-                console.log('daysAFPToPay: ', daysAFPToPay);
                 AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia * daysAFPToPay;
-                console.log('AFPValueToPay: ', AFPValueToPay);
   
                 // daysEPSToPay = data1 + data2;
                 daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                console.log('daysEPSToPay: ', daysEPSToPay);
                 // daysAFPToPay = daysAFPToPay;
   
                 EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;

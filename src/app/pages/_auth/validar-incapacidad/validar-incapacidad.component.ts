@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ngx-validar-incapacidad',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ValidarIncapacidadComponent implements OnInit {
 
-  constructor() { }
+  public guidCode;
+  public fechaInicio;
+  public fechaFin;
+  public diasIncapacidad;
+
+  constructor(
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['guidcode'] && params['fechaInicio'] && params['fechaFin'] && params['diasIncapacidad']) {
+        this.guidCode = params['guidcode'];
+        this.fechaInicio = params['fechaInicio'];
+        this.fechaFin = params['fechaFin'];
+        this.diasIncapacidad = params['diasIncapacidad'];
+      }
+    });
   }
 
 }

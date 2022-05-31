@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
@@ -75,12 +76,9 @@ export class CertificadoIncapacidadComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log('params: ', params);
       if (params['diagnosticCodeDNI']) {
         this.diagnosticCodeDNI = params['diagnosticCodeDNI'];
-        console.log('this.diagnosticCodeDNI: ', this.diagnosticCodeDNI);
         // this.token = params.token;
-        // console.log('this.token: ', this.token);
         const token = sessionStorage.getItem("token");
         this.token = token;
         this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
@@ -88,28 +86,21 @@ export class CertificadoIncapacidadComponent implements OnInit {
         this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
         
         if (data && this.dataDoctor) {
-          console.log('this.dataDoctor: ', this.dataDoctor);
           const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-          console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
           const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-          console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
           const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-          console.log('signature_doctor: ', signature_doctor);
           const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-          console.log('dataDoctorSignature: ', dataDoctorSignature);
           this.dataDoctor['especiality'] = dataDoctorEspeciality;
           this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
           this.dataDoctor['signature'] = dataDoctorSignature;
           this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
 
           this.patientData = data['patientData'];
-          console.log('this.patientData: ', this.patientData);
           let documentTypePatient = this.patientData['tipoDocumento']['iIdTipoIdentificacion'];
           let documentNumberPatient = this.patientData['tNumeroDocumento'];
           this.fnGetDataEmployerPatient(this.token, documentTypePatient, documentNumberPatient).then((response) => {
             if (response) {
               let dataEmlployerPatient = response['body'];
-              console.log('dataEmlployerPatient: ', dataEmlployerPatient);
               this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
             } else {
               this.dataEmlployerPatient =  [];
@@ -155,12 +146,9 @@ export class CertificadoIncapacidadComponent implements OnInit {
     let collectionLateralidad = [];
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-        console.log('response: ', response);
         collectionLateralidad = response['body'];
-        console.log('collectionLateralidad: ', collectionLateralidad);
         resolve(collectionLateralidad);
       }, (error) => {
-        console.log('error: ', error);
         resolve(collectionLateralidad);
       })
     });
@@ -171,31 +159,31 @@ export class CertificadoIncapacidadComponent implements OnInit {
   }
 
   fnViewHistory() {
-    console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
   }
 
   fnGetDataDiagnosticByDNI(token, diagnosticCodeDNI) {
     this.incapacityService.fnHttpGetDiagnosicosIncapacidadByCodigoDiagnostico(token, diagnosticCodeDNI).subscribe(response => {
-      console.log('response: ', response);
       this.dataCertificate = response['body'];
       // this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/incapacidad/certificado-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
-      this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/auth/validar-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
       
+      //this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/auth/validar-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
+      // http://meddylex-001-site1.itempurl.com/#/auth/validar-incapacidad/511e490b-11a9-4370-a347-246e6e65fa53
+      // http://meddylex-001-site2.itempurl.com/#/auth/validar-incapacidad/123
+
+      const fechaInicioIncapacidad = moment(response['body']['dtFechaCreacion']).valueOf();
+      const fechaFinIncapacidad = moment(response['body']['dtFechaFin']).valueOf();
+
+      this.dataCertificate['qrcode'] = 'http://meddylex-001-site2.itempurl.com/#/auth/validar-incapacidad/' + response['body']['uiCodigoDiagnostico'] + '/' + fechaInicioIncapacidad + '/' + fechaFinIncapacidad + '/' + response['body']['iDiasIncapacidad'];
+
       this.fnGetLateralities(this.token).then(response => {
-        console.log('response: ', response);
         this.listLateralities = response;
-        console.log('listLateralities: ', this.listLateralities);
         let nameLaterality = this.listLateralities.filter(d => d.iIDLateralidad == this.dataCertificate['iIDLateralidad']);
-        console.log('nameLaterality: ', nameLaterality);
         this.dataCertificate['nameLaterality'] = nameLaterality[0];
         // this.nameLaterality = nameLaterality[0];
-        // console.log('this.nameLaterality: ', this.nameLaterality);
       }).catch(error => {
-        console.log('error: ', error);
       });
 
-      console.log('this.dataCertificate: ', this.dataCertificate);
     }, err => {
       // this.submitted = false;
       this.utilitiesService.showToast('top-right', '', 'Error consultado el diagnotico!');
@@ -207,13 +195,10 @@ export class CertificadoIncapacidadComponent implements OnInit {
     /// this.listCantidadDiagnoticosIncapacidad = [];
     let listCantidadDiagnoticosIncapacidad = [];
     let idPaciente = this.patientData['iIdpaciente'];
-    console.log('idPaciente: ', idPaciente);
     // let self = this;
     this.incapacityService.fnHttpGetCantidadDiagnoticosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-      console.log('r: ', r);
       if (r.status == 200) {
         this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-        console.log('this.listCantidadDiagnoticosIncapacidad: ', this.listCantidadDiagnoticosIncapacidad);
         let dataChart1 = [];
         let dataChart2 = [];
         this.listCantidadDiagnoticosIncapacidad.forEach(i => {
@@ -224,8 +209,6 @@ export class CertificadoIncapacidadComponent implements OnInit {
           dataChart2.push(itemIncapacidadesEmitidas);
           // this.char2_dataChart_gc.push(itemIncapacidadesEmitidas);
         });
-        console.log('dataChart1: ', dataChart1);
-        console.log('dataChart2: ', dataChart2);
         this.chart1.data = dataChart1;
         this.chart2.data = dataChart2;
 
@@ -235,7 +218,6 @@ export class CertificadoIncapacidadComponent implements OnInit {
       // if (r.status == 200) {
       //   self.submitted = false;
       //   self.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-      //   console.log('self.listCantidadDiagnoticosIncapacidad: ', self.listCantidadDiagnoticosIncapacidad);
       //   self.listCantidadDiagnoticosIncapacidad.forEach(i => {
       //     let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];
       //     self.char1_dataChart_gc.push(itemDiasIncapacidad);
