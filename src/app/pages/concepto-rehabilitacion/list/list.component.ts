@@ -237,6 +237,21 @@ export class ListComponent implements OnInit {
     })
   }
 
+  fnGetDataListTask(current_payload, current_page, search_input, status_list, type_user, id_user, items_per_page) {
+    return new Promise((resolve, reject) => {
+      this.submitted = true;
+      // this.utilitiesService.fnGetDataJson('response_casos_conceptos_CRHB.json').subscribe(respList => {
+      this.conceptoRehabilitacionService.fnHttpGetListTask(current_payload, current_page, search_input, status_list, type_user, id_user, items_per_page).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
+        this.submitted = false;
+      });
+    })
+  }
+
   fnGetDataUserByID(token, id_user) {
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
@@ -354,6 +369,8 @@ export class ListComponent implements OnInit {
   fnBuildData(token, currentPage, searchInput, state, startDate, endDate, stateSearch, typeUser, idUser) {
     this.submitted = true;
     this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
+    // this.fnGetDataListTask(token, currentPage, searchInput, state, typeUser, idUser, this.itemsPerPage).then((resp) => {
+      console.log('resp: ', resp);
       if(resp) {
         this.currentSearch = stateSearch;
         if (resp['status'] == 200) {

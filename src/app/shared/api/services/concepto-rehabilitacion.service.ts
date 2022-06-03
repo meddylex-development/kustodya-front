@@ -19,6 +19,7 @@ export class ConceptoRehabilitacionService {
   protected urlSetSaveConceptSequels: string = '';
   protected urlSetCancelCase: string = '';
   protected urlSetCreateNewCase: string = '';
+  protected urlGetLisTask: string = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -43,6 +44,31 @@ export class ConceptoRehabilitacionService {
     this.urlGetListPatients = '/api/K2ConceptoRehabilitacion/PendientesConceptoRehabilitacion';
     
     return this.http.get(this.utility.fnGetHost() + this.urlGetListPatients,
+    {
+      params: objectParams,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetListTask(token, current_page, search_input, state, type_user, id_user, items_per_page): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
+
+    let objectParams = {
+      'paginaActual': (current_page) ? current_page : 1,
+      'estado': (state) ? state : 1,
+      'itemsPorPagina': (items_per_page) ? items_per_page : 10,
+    };
+    if (search_input) {
+      objectParams['busqueda'] = search_input;
+    }
+    objectParams['tipo'] = type_user;
+    objectParams['usuario'] = id_user;
+
+    this.urlGetLisTask = '/api/K2ConceptoRehabilitacion/ConsultarTareas';
+    
+    return this.http.get(this.utility.fnGetHost() + this.urlGetLisTask,
     {
       params: objectParams,
       observe: 'response',
