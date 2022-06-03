@@ -806,78 +806,30 @@ export class UtilitiesService {
     })
   }
 
-  /*
-  fnGetDataUserRethus(token, user_id) {
+  changeFile(file) {
     return new Promise((resolve, reject) => {
-      this.fnGetDataUserById(token, user_id).then((response) => {
-        console.log('response: ', response);
-        if (response) {
-          let numeroIdentificacion = response['numeroIdentificacion'];
-          this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            // console.log('responseRethus: ', responseRethus);
-            if (responseRethus) {
-    
-              this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                // console.log('responseRethusDetail: ', responseRethusDetail);
-                if (responseRethusDetail) {
-                  let dataUserSpecialist = responseRethusDetail['body'];
-                  let flagShowAlertUser = false;
-                  console.log('dataUserSpecialist: ', dataUserSpecialist);
-                  let tipoPorgrama = dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                  if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                    console.log('Usted no esta autorizado');
-                    flagShowAlertUser = true;
-                  } else {
-                    console.log('Si tiene permisos para generar incapacidades');
-                    flagShowAlertUser = false;
-                  }
-                  resolve({ 'dataUserSpecialist': dataUserSpecialist, 'flagShowAlertUser': flagShowAlertUser });
-                } 
-              });
-            } else {
-              reject(false);
-            }
-          });
-        } else {
-          reject(false);
-        }
-      });
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
     });
-  } 
-  */
+  }
 
-  // fnGetDoctorRethusByDNI(token, document_type, document_number) {
-  //   // Instancia de conexion servicio
-  //   return new Promise((resolve, reject) => {
-  //     this.rethusService.fnHttpGetListDoctorsRethusByDNI(token, document_type, document_number, '', '').subscribe(response => {
-  //         resolve(response);
-  //     }, err => {
-  //         reject(err);
-  //     });
-  //   });
-  // }
+  generateUUID = () => {
+    let d = moment(new Date()).valueOf();
+    let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      let r = Math.random() * 16;
+      if (d > 0) {
+        r = (d + r) % 16 | 0;
+        d = Math.floor(d / 16);
+      } else {
+        r = (d2 + r) % 16 | 0;
+        d2 = Math.floor(d2 / 16);
+      }
+      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+    });
+  };
 
-  // fnGetDataUserById(token, user_id) {
-  //   // Instancia de conexion servicio
-  //   // this.loading_state = true;
-  //   return new Promise((resolve, reject) => {
-  //     this.userService.fnHttpGetDataUserById(token, user_id).subscribe(response => {
-  //       if (response.status == 200) {
-  //         let data_user_full = JSON.parse(JSON.stringify(response['body']));
-  //         let data_list = JSON.parse(JSON.stringify(response['body']['correos']));
-  //         // let data_list_original = JSON.parse(JSON.stringify(response['body']['correos']));
-  //         // this.loading_state = false;
-  //         resolve(data_user_full);
-  //       } else {
-  //         let data_list = [];
-  //         resolve(false);
-  //         // this.loading_state = false;
-  //       }
-  //     }, err => {
-  //       resolve(new Error(err));
-  //         // this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
-  //     });
-  //   });
-  // }
 
 }
