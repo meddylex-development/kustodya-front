@@ -88,9 +88,9 @@ export class HeaderComponent implements OnInit {
       self.router.navigateByUrl('');
     }
 
-    self.fnGetEPSByUser(function(response_eps){
-      self.fnGetAllEPS(response_eps);
-    });
+    // self.fnGetEPSByUser(function(response_eps){
+    //   self.fnGetAllEPS(response_eps);
+    // });
     self.menuService.onItemClick().subscribe((event) => {
       self.onItemSelection(event);
     });

@@ -31,6 +31,205 @@ export class DashboardComponent implements OnInit {
 
   visible: boolean = false;
   menu_items: any = [];
+  menu_items_min_def: any = [
+    {
+      children: [],
+      esReporte: false,
+      home: true,
+      icon: "fas fa-home",
+      id: 1,
+      link: "",
+      menuLevel: 1,
+      position: 1,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: true,
+      title: "Inicio",
+    }, 
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-tools",
+      id: 2,
+      link: "",
+      menuLevel: 1,
+      position: 2,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Administración",
+    }, 
+    {
+      children: [
+        {
+          children: [],
+          esReporte: false,
+          home: true,
+          icon: "fas fa-paste",
+          id: 12,
+          link: "",
+          menuLevel: 2,
+          position: 12,
+          reporteGroupId: "00000000-0000-0000-0000-000000000000",
+          reporteId: "00000000-0000-0000-0000-000000000000",
+          selected: true,
+          title: "Proyecto de Resoluciones",
+        },
+        {
+          children: [],
+          esReporte: false,
+          home: true,
+          icon: "fas fa-handshake",
+          id: 13,
+          link: "",
+          menuLevel: 2,
+          position: 13,
+          reporteGroupId: "00000000-0000-0000-0000-000000000000",
+          reporteId: "00000000-0000-0000-0000-000000000000",
+          selected: true,
+          title: "Resoluciones",
+        },
+        {
+          children: [],
+          esReporte: false,
+          home: true,
+          icon: "fas fa-inbox",
+          id: 14,
+          link: "",
+          menuLevel: 2,
+          position: 14,
+          reporteGroupId: "00000000-0000-0000-0000-000000000000",
+          reporteId: "00000000-0000-0000-0000-000000000000",
+          selected: true,
+          title: "Informes",
+        },
+      ],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-user-shield",
+      id: 3,
+      link: "",
+      menuLevel: 1,
+      position: 3,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Auditoria",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-folder-open",
+      id: 4,
+      link: "",
+      menuLevel: 1,
+      position: 4,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Proceso",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-user-check",
+      id: 5,
+      link: "",
+      menuLevel: 1,
+      position: 5,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Asignar usuario",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-users",
+      id: 6,
+      link: "",
+      menuLevel: 1,
+      position: 6,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Sujetos procesales",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-file-signature",
+      id: 7,
+      link: "",
+      menuLevel: 1,
+      position: 7,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Pretensiones",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-shield-alt",
+      id: 8,
+      link: "",
+      menuLevel: 1,
+      position: 8,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Medidas Cautelares",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-list-ul",
+      id: 9,
+      link: "",
+      menuLevel: 1,
+      position: 9,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Evento procesal",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-bell",
+      id: 10,
+      link: "",
+      menuLevel: 1,
+      position: 10,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Notificaciones",
+    },
+    {
+      children: [],
+      esReporte: false,
+      home: false,
+      icon: "fas fa-clipboard",
+      id: 11,
+      link: "",
+      menuLevel: 1,
+      position: 11,
+      reporteGroupId: "00000000-0000-0000-0000-000000000000",
+      reporteId: "00000000-0000-0000-0000-000000000000",
+      selected: false,
+      title: "Informes",
+    },
+  ];
   sub_menu2: any[] = [{ 'icon': 'fas fa-wrench', 'title': 'tercer sub-menu' }];
   show_cards: any = 0;
   show_data_menu: any = null;
@@ -90,7 +289,8 @@ export class DashboardComponent implements OnInit {
 
     self.myAccountService.dataChangeMyAccount.subscribe((data) => {
       if (data['showMyAccount']) {
-        self.menu_items = self.menu_items_original;
+        // self.menu_items = self.menu_items_original;
+        self.menu_items = self.menu_items_min_def;
         // self.fnCollapse('sidebar');
         $('#sidebar').toggleClass('active');
         self.collapse_side_bar_one = false;
@@ -99,7 +299,8 @@ export class DashboardComponent implements OnInit {
         self.content_user_profile = true;
         self.content_terms_conditions = false;
       } else if(data['showTermsConditions']) {
-        self.menu_items = self.menu_items_original;
+        // self.menu_items = self.menu_items_original;
+        self.menu_items = self.menu_items_min_def;
         $('#sidebar').toggleClass('active');
         self.collapse_side_bar_one = false;
         $('.przss-content-child-menu').css('display', 'none');
@@ -177,14 +378,17 @@ export class DashboardComponent implements OnInit {
 
   fnGetMenuDashboard(current_payload, id_entity, id_version?, responseIDMenu?, observer?) {
     const self = this;
-    self.pagesComponent.fnSetMenu(current_payload, id_entity, id_version, responseIDMenu, function (resp_menu) {
-      self.menu_items = resp_menu.menu_items;
-      self.menu_items_original = JSON.parse(JSON.stringify(resp_menu.menu_items));
-      if (self.cun != null) {
-        self.current_item = self.menu_items.filter(m => m.id == 403)[0].children.filter(s => s.id == 405)[0];
-      }
-      observer(resp_menu);
-    });
+    self.menu_items = self.menu_items_min_def;
+    self.menu_items_original = self.menu_items_min_def;
+    observer({menu_items : self.menu_items});
+    // self.pagesComponent.fnSetMenu(current_payload, id_entity, id_version, responseIDMenu, function (resp_menu) {
+    //   self.menu_items = resp_menu.menu_items;
+    //   self.menu_items_original = JSON.parse(JSON.stringify(resp_menu.menu_items));
+    //   if (self.cun != null) {
+    //     self.current_item = self.menu_items.filter(m => m.id == 403)[0].children.filter(s => s.id == 405)[0];
+    //   }
+    //   observer(resp_menu);
+    // });
   }
 
   fnCollapse(sidebar) {

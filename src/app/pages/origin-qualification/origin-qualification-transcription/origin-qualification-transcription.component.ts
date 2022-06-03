@@ -14,7 +14,7 @@ import { timeout } from 'rxjs/operators';
 
 // import * as jsPDF from 'jspdf';
 import { jsPDF } from "jspdf";
-import * as html2canvast from 'html2canvas';
+import * as html2canvas from 'html2canvas';
 
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -33,7 +33,7 @@ declare var $: any;
 export class OriginQualificationTranscriptionComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer: ElementRef;
-
+  
   @Output() flagCreateEntity = new EventEmitter<object>();
   @Input() data_object: any;
   data_new_entity: any = {};
@@ -112,6 +112,7 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
   ngOnInit() {
     const self = this;
     self.bsLocaleService.use('es');
+    moment.locale("es");
     // self.data_object
     $(document).ready(function () {
       // $('#kstdy-button-back-concept').click();
