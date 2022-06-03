@@ -15,6 +15,10 @@
       }
     }
   }
+  
+  ::ng-deep ngx-historico-paciente {
+      overflow-x: hidden !important;
+  }
 
   ::ng-deep .menu-item .menu-icon {
     font-size: 2rem;

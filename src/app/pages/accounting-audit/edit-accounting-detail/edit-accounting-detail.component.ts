@@ -37,7 +37,7 @@ export class EditAccountingDetailComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     // self.route.data.subscribe(r => {
     //   if (params.token && params.entity) {
     //     self.current_payload = params.token;

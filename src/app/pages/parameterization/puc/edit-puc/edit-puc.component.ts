@@ -30,7 +30,7 @@ export class EditPUCComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     self.fnGetListadoPuc(self.current_payload);
     if(self.data_puc['tipoContabilidad']) {
       self.fnGetPucList(self.data_puc['tipoContabilidad'], 'debit', self.current_page_debit, self.tam_pagina, '');

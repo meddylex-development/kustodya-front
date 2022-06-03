@@ -17,7 +17,7 @@ import { StateService } from '../../../@core/utils';
   styleUrls: ['./sample.layout.scss'],
   template: `
     <nb-layout [center]="layout.id === 'center-column'" windowMode>
-      <nb-layout-header fixed>
+      <nb-layout-header id="content-header" fixed>
         <ngx-header [position]="sidebar.id === 'start' ? 'normal': 'inverse'"></ngx-header>
       </nb-layout-header>
 

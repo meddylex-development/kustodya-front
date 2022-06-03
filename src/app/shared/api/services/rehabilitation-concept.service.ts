@@ -22,6 +22,7 @@ export class RehabilitationConceptService {
   urlGetDataDashboardByPeriod: string = '';
   urlGetListConceptsHistoryByPatientId: string = '';
   urlGetListHistoryIncapacitiesByPatientId: string = '';
+  urlGetListPatients: string = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -153,4 +154,26 @@ export class RehabilitationConceptService {
       reportProgress: true,
     });
   }
+
+  fnHttpGetListPatients(guid_user, current_page, search_input, state): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+
+    let objectParams = {
+      'pagina': (current_page) ? current_page : 1,
+      'estado': (state) ? state : 1,
+    };
+    if (search_input) {
+      objectParams['busqueda'] = search_input;
+    }
+
+    this.urlGetListPatients = '/api/Pacientes/PendientesConceptoRehabilitacion';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetListPatients,
+    {
+      params: objectParams,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
 }

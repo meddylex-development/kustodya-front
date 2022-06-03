@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
       if (token.isValid()) {
         // here we receive a payload from the token and assigne it to our `user` variable
         self.user = token.getPayload();
-        self.user['name'] = self.user['User']['tFirstName'] + ' ' + self.user['User']['tLastName'];
+        self.user['name'] = self.user['given_name'] + ' ' + self.user['family_name'];
       }
     });
 

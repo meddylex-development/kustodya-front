@@ -12,6 +12,7 @@ import {
 } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DashboardComponent } from './dashboard.component';
 import { MyAccountComponent } from '../user/my-account/my-account.component';
 import { TermsConditionsComponent } from '../terms-conditions/terms-conditions.component';
@@ -188,10 +189,19 @@ import { OriginQualificationComponent } from '../origin-qualification/origin-qua
 import { OriginQualificationListComponent } from '../origin-qualification/origin-qualification-list/origin-qualification-list.component';
 import { OriginQualificationTranscriptionComponent } from '../origin-qualification/origin-qualification-transcription/origin-qualification-transcription.component';
 
-import { MinDefensaAuditoriaComponent } from '../min-defensa-auditoria/min-defensa-auditoria.component';
-import { MinDefensaAuditoriaListComponent } from '../min-defensa-auditoria/min-defensa-auditoria-list/min-defensa-auditoria-list.component';
-import { MinDefensaAuditoriaDetalleSentenciaComponent } from '../min-defensa-auditoria/min-defensa-auditoria-detalle-sentencia/min-defensa-auditoria-detalle-sentencia.component';
-
+import { InformacionComponent } from '../incapacidad/informacion/informacion.component';
+import { AdministracionCorreosComponent } from '../incapacidad/administracion-correos/administracion-correos.component';
+import { HistoricoPacienteComponent } from '../incapacidad/historico-paciente/historico-paciente.component';
+import { GenerarIncapacidadComponent } from '../incapacidad/generar-incapacidad/generar-incapacidad.component';
+import { AyudaComponent } from '../incapacidad/ayuda/ayuda.component';
+import { EstadoIncapacidadComponent } from '../incapacidad/estado-incapacidad/estado-incapacidad.component';
+import { AgregarEmpleadorComponent } from '../incapacidad/agregar-empleador/agregar-empleador.component';
+import { CertificadoIncapacidadComponent } from '../incapacidad/certificado-incapacidad/certificado-incapacidad.component'
+import { VistaPreviaCertificadoIncapacidadComponent } from '../incapacidad/vista-previa-certificado-incapacidad/vista-previa-certificado-incapacidad.component'
+import { DatosOcrComponent } from '../incapacidad/datos-ocr/datos-ocr.component';
+import { RegistroContableComponent } from '../incapacidad/registro-contable/registro-contable.component';
+import { ReporteIncapacidadesComponent } from '../incapacidad/reporte-incapacidades/reporte-incapacidades.component';
+import { ReporteResolucionComponent } from '../reporte/reporte-resolucion/reporte-resolucion.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -200,12 +210,24 @@ import { CapitalizePipe } from '../../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxCurrencyModule } from "ngx-currency";
+// import { HelpComponent } from '../../shared/components/modals/help/help.component';
 
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
 
 const ENTRY_COMPONENTS = [
+  // HelpComponent,
+  ReporteResolucionComponent,
+  RegistroContableComponent,
+  HistoricoPacienteComponent,
+  GenerarIncapacidadComponent,
+  AyudaComponent,
+  EstadoIncapacidadComponent,
+  AgregarEmpleadorComponent,
+  CertificadoIncapacidadComponent,
+  VistaPreviaCertificadoIncapacidadComponent,
   DashboardComponent,
   MyAccountComponent,
   ReportsComponent,
@@ -345,16 +367,27 @@ const ENTRY_COMPONENTS = [
   OriginQualificationComponent,
   OriginQualificationListComponent,
   OriginQualificationTranscriptionComponent,
-  MinDefensaAuditoriaComponent,
-  MinDefensaAuditoriaListComponent,
-  MinDefensaAuditoriaDetalleSentenciaComponent,
   ParameterizationComponent,
   TermsConditionsComponent,
   ModalInactivityUserComponent,
+  // Incapacidades
+  InformacionComponent,
+  AdministracionCorreosComponent,
+  ReporteIncapacidadesComponent,
+  DatosOcrComponent,
 ];
 
 @NgModule({
   declarations: [
+    ReporteResolucionComponent,
+    RegistroContableComponent, 
+    HistoricoPacienteComponent,
+    GenerarIncapacidadComponent,
+    AyudaComponent,
+    EstadoIncapacidadComponent,
+    AgregarEmpleadorComponent,
+    CertificadoIncapacidadComponent,
+    VistaPreviaCertificadoIncapacidadComponent,
     DashboardComponent,
     MyAccountComponent,
     ReportsComponent,
@@ -497,14 +530,17 @@ const ENTRY_COMPONENTS = [
     OriginQualificationComponent,
     OriginQualificationListComponent,
     OriginQualificationTranscriptionComponent,
-    MinDefensaAuditoriaComponent,
-    MinDefensaAuditoriaListComponent,
-    MinDefensaAuditoriaDetalleSentenciaComponent,
     ParameterizationComponent,
     TermsConditionsComponent,
     ModalInactivityUserComponent,
+    // Incapacidades
+    InformacionComponent,
+    AdministracionCorreosComponent,
+    ReporteIncapacidadesComponent,
+    DatosOcrComponent,
   ],
   imports: [
+    NgxCurrencyModule,
     ThemeModule,
     NbInputModule,
     NbCardModule,
@@ -523,6 +559,7 @@ const ENTRY_COMPONENTS = [
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
     NgxDocViewerModule,
+    TooltipModule.forRoot(),
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,

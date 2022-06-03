@@ -47,7 +47,7 @@
 
       <div class="col-12 text-center p-3 btn-print">
         <button class="col-4 pgp-pointer font_family_roboto pgp-btn_mod" nbButton [useExistingCss]="true"
-          printSectionId="incapacityPDF" ngxPrint>Imprimir</button>
+          printSectionId="incapacityPDF" ngxPrint>Imprimir</button>&nbsp;
         <button class="col-4 pgp-pointer font_family_roboto pgp-btn_mod" nbButton (click)="dismiss()">Cerrar</button>
       </div>
       <div id="incapacityPDF" #incapacityPDF>
@@ -322,23 +322,32 @@
                     </div>
                   </div>
                   <div class="row pkto-sub-header">
-                    <div class="col-6 p-0 m-0 text-left">
+                    <div class="col-4 p-0 m-0 text-left">
                       Tipo de Atención
                     </div>
-                    <div class="col-6 p-0 m-0 text-left" style="opacity: 1 !important;">
+                    <div class="col-4 p-0 m-0 text-left" style="opacity: 1 !important;">
                       <!-- <span style="opacity: 0.75;">Origen: </span><span
                         style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">{{diagnostigoGenerado?.origenCalificadoIncapacidad == null ? 'Presunto' : 'Calificado' }}</span> -->
-                      <span style="opacity: 0.75;">Origen: </span><span
-                        style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Presunto</span>
+                      <span style="opacity: 0.75;">Origen: </span>
+                      <span style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Presunto</span>
                     </div>
+                    <div class="col-4 p-0 m-0 text-left" style="opacity: 1 !important;">
+                      <!-- <span style="opacity: 0.75;">Origen: </span><span
+                        style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">{{diagnostigoGenerado?.origenCalificadoIncapacidad == null ? 'Presunto' : 'Calificado' }}</span> -->
+                      <span style="opacity: 0.75;">Lateralidad: </span>
+                    </div>
+
                   </div>
                   <div class="row pkto-row">
-                    <div class="col-6 p-1 m-0 text-left">
+                    <div class="col-4 p-1 m-0 text-left">
                       {{diagnostigoGenerado?.tipoAtencion?.tDescripcion}}
                     </div>
-                    <div class="col-6 p-1 m-0 text-left">
+                    <div class="col-4 p-1 m-0 text-left">
                       <!-- {{diagnostigoGenerado?.origenCalificadoIncapacidad == null ? diagnostigoGenerado?.presuntoOrigenIncapacidad?.tOrigenIncapacidad : diagnostigoGenerado?.origenCalificadoIncapacidad?.tOrigenIncapacidad }} -->
                       {{diagnostigoGenerado?.presuntoOrigenIncapacidad?.tOrigenIncapacidad }}
+                    </div>
+                    <div class="col-4 p-1 m-0 text-left">
+                      {{ nameLaterality?.tNombre }}
                     </div>
                   </div>
                   <div class="row pkto-sub-header">

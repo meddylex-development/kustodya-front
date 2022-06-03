@@ -14,7 +14,7 @@
   <!-- <ng-select [items]="list_EPS" class="selectEPS" bindLabel="tNombre" id="select-EPS" name="ngEPS" #ngEPS="ngModel"
     (change)="onChangeEPS()" bindValue="iIdeps" placeholder="Seleccione EPS" [ngModelOptions]="{standalone: true}"
     [(ngModel)]="Ideps" (focus)="errors = []" required [virtualScroll]="true" dropdownPosition="bottom"
-    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false">
+    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false" *ngIf="false">
   </ng-select>
   <ng-select [items]="list_IPS" class="selectIPS" bindLabel="tNombre" id="select-IPS" name="ngIPS" #ngIPS="ngModel"
     (change)="onChangeIPS()" bindValue="iIdips" placeholder="Seleccione IPS" [ngModelOptions]="{standalone: true}"

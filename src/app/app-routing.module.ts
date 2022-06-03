@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 
 import { AuthGuard } from './shared/api/services/auth-guard.service';
+import { CertificadoIncapacidadExternoComponent } from './pages/incapacidad/certificado-incapacidad-externo/certificado-incapacidad-externo.component';
 
 export const routes: Routes = [
   // { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'auth',
     loadChildren: './pages/auth/auth.module#NgxAuthModule',
+  },
+  {
+    path: 'certificado-incapacidad',
+    loadChildren: './pages/incapacidad/certificado-incapacidad-externo/certificado-incapacidad-externo.module#CertificadoIncapacidadExternoModule',
   },
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth/login' },

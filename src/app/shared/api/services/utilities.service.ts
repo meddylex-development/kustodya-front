@@ -4,14 +4,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable, Observer } from 'rxjs';
 
-import { NbToastrService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
+import { ngCopy } from 'angular-6-clipboard';
 
 // import { UtilitiesService } from '../services/utilities.service';
+// import { HelpComponent } from '../../components/modals/help/help.component'
+
+// import { UserService } from '../../../shared/api/services/user.service';
+// import { RethusService } from '../../../shared/api/services/rethus.service';
 
 import * as moment from 'moment';
 
 /* ************+ Import module auth ************ */
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { map } from 'rxjs/operators';
 
 declare var $: any;
 @Injectable({ providedIn: 'root' })
@@ -21,6 +27,7 @@ export class UtilitiesService {
 
   url_host: any = environment.apiUrl;
   url_host_medicos: any = environment.apiMedicos;
+  urlApiMapDivPolColombia: any = environment.urlApiMapDivPolColombia;
   data_headers_request: any = '';
   urlSetUploadFile: any = '';
   urlGetDataUrlCustom: any = '';
@@ -28,16 +35,25 @@ export class UtilitiesService {
   dataChange: Observable<any>;
   dataChangeObserver: any;
   data: any;
+  public dataShare: any = null;
+  public dataShareOrigin: any = null;
 
   private index: number = 0;
+  public token: string = '';
+  result: Object;
+  
+
   constructor(
     private router: Router,
     public http: HttpClient,
     private authService: NbAuthService,
     private toastrService: NbToastrService,
+    private dialogService: NbDialogService,
+    // private userService: UserService, 
+    // private rethusService: RethusService, 
   ) {
-    // const token = sessionStorage.getItem('payload');
-    this.headers = new HttpHeaders().set('Authorization', sessionStorage.getItem('payload'));
+    // const token = sessionStorage.getItem("token");
+    this.headers = new HttpHeaders().set('Authorization', sessionStorage.getItem("token"));
     this.dataChange = new Observable((observer: Observer<any>) => {
       this.dataChangeObserver = observer;
     });
@@ -72,14 +88,14 @@ export class UtilitiesService {
     return r.substring(0, l);
   }
   fnReturnKey() {
-    if (sessionStorage.getItem('payload')) {
+    if (sessionStorage.getItem("token")) {
       return true;
     } else {
       return false;
     }
   }
   fnDestroySession() {
-    sessionStorage.removeItem('payload');
+    sessionStorage.removeItem("token");
     localStorage.removeItem('startDate');
     localStorage.removeItem('endDate');
     sessionStorage.removeItem('listCompanies');
@@ -90,7 +106,7 @@ export class UtilitiesService {
     sessionStorage.clear();
   }
   fnDestroySessionGoLogin() {
-    sessionStorage.removeItem('payload');
+    sessionStorage.removeItem("token");
     localStorage.removeItem('startDate');
     localStorage.removeItem('endDate');
     sessionStorage.removeItem('listCompanies');
@@ -111,14 +127,21 @@ export class UtilitiesService {
   fnGetHost() {
     return environment.apiUrl;
   }
+  fnGetHostSite4() {
+    return environment.apiUrlSite4;
+  }
+  fnGetHostMiddlewareMails() {
+    return environment.apiUrlMiddlewareMails;
+  }
   fnGetSite() {
     return environment.siteUrl;
   }
   fnGetUser() {
     return sessionStorage.getItem('user');
   }
-  fnSetToken(payload) {
-    sessionStorage.setItem('payload', payload);
+  fnSetToken(token) {
+    console.log('token: ', token);
+    sessionStorage.setItem("token", token);
   }
   fnSetSessionStorage(nameVar, dataVal) {
     sessionStorage.setItem(nameVar, dataVal);
@@ -139,7 +162,7 @@ export class UtilitiesService {
     localStorage.setItem('endDate', endDate);
   }
   fnGetToken = function () {
-    const t = sessionStorage.getItem('payload');
+    const t = sessionStorage.getItem("token");
     if (t) {
       return t;
     } else {
@@ -667,5 +690,167 @@ export class UtilitiesService {
     }
     // this.urlGetDataUrlCustom = url_enpoint;
   }
+
+  // fnShowModalHelp(moduleName?, columnName?, title?, description?) {
+  //   let dataSend = {};
+  //   dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
+  //   this.dialogService.open(HelpComponent, { context: dataSend }).onClose.subscribe((res) => {
+  //     console.log('res: ', res);
+  //   });
+  // }
+
+  fnAuthValidUser() {
+    return new Promise((resolve, reject) => {
+      this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+        if (token.isValid()) {
+          this.token = token.getValue();
+          let userData = token.getPayload();
+          resolve({ state: true, token: this.token, user: userData });
+        } else {
+          reject({state: false, token: null, user: null});
+        }
+      });
+    })
+  }
+
+  fnSignOutUser() {
+    return new Promise((resolve, reject) => {
+      if (true) {
+        localStorage.clear();
+        sessionStorage.clear();
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }
+
+  fnNavigateByUrl(url: string) {
+    this.router.navigateByUrl(url);
+  }
+
+  fnSetDataShare(data, originMod?) {
+    if (originMod) {
+      this.dataShareOrigin = data;
+    } else {
+      this.dataShare = data;
+    }
+  }
+
+  fnGetDataShare(originMod?) {
+    if (originMod) {
+      return this.dataShareOrigin;
+    } else {
+      return this.dataShare;
+    }
+  }
+
+  fnGetCountryNames() {
+    const urlGetCountryNames = '../../../../assets/map/countries.json';
+    return this.http.get(urlGetCountryNames,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnGetCountryDataAPI() {
+    const urlGetCountryNames = 'https://restcountries.com/v3.1/all';
+    return this.http.get(urlGetCountryNames,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetDiviPolaColombiaDaneDataAPI() {
+    return new Promise((resolve, reject) => {
+      var xobj = new XMLHttpRequest();
+      let urlAPI =  "https://www.datos.gov.co/resource/xdk5-pm3f.json";
+      xobj.overrideMimeType("application/json");
+      xobj.open("GET", urlAPI, true);
+      xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status === 200) {
+          resolve(JSON.parse(xobj.responseText));
+        }
+      };
+      xobj.send(null);
+    })
+  }
+
+  fnHttpGetDataJSONAPI(url_api?) {
+    return new Promise((resolve, reject) => {
+      var xobj = new XMLHttpRequest();
+      let urlAPI = url_api;
+      xobj.overrideMimeType("application/json");
+      xobj.open("GET", urlAPI, true); // Reemplaza colombia-json.json con el nombre que le hayas puesto
+      xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status === 200) {
+          resolve(JSON.parse(xobj.responseText));
+        }
+      };
+      xobj.send(null);
+    })
+  }
+
+  fnReturnUrlApiMapDivPolColombia() {
+    return this.urlApiMapDivPolColombia;
+  }
+
+  fnGetDataJson(file_name: string) {
+    const urlFileJson = '../../../../assets/data/' + file_name ;
+    return this.http.get(urlFileJson,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnGetDataCie10Json(file_name: string) {
+    const urlFileJson = '../../../../app/shared/api/mock/' + file_name ;
+    return this.http.get(urlFileJson,
+    {
+      observe: 'response',
+      reportProgress: true,
+    });
+  }
+
+  fnCopyDataToClipboard(data_to_copy: string) {
+    return new Promise((resolve, reject) => {
+      if (!data_to_copy) {
+        reject(false);
+      } else {
+        // navigator.clipboard.writeText(data_to_copy);
+        ngCopy(data_to_copy);
+        resolve(true);
+      }
+    })
+  }
+
+  changeFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+  }
+
+  generateUUID = () => {
+    let d = moment(new Date()).valueOf();
+    let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      let r = Math.random() * 16;
+      if (d > 0) {
+        r = (d + r) % 16 | 0;
+        d = Math.floor(d / 16);
+      } else {
+        r = (d2 + r) % 16 | 0;
+        d2 = Math.floor(d2 / 16);
+      }
+      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+    });
+  };
+
 
 }

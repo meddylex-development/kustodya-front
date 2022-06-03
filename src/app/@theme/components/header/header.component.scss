@@ -145,7 +145,7 @@
 
   @include media-breakpoint-down(xl) {
     ngx-layout-direction-switcher {
-      display: none;
+      display: block;
     }
   }
 

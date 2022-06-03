@@ -22,7 +22,7 @@ export class EditDescriptionComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
   }
 
   fnUpdateDescription(data_description) {

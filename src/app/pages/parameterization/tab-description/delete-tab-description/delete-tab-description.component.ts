@@ -22,7 +22,7 @@ export class DeleteTabDescriptionComponent implements OnInit {
     private utilitiesService: UtilitiesService,) { }
 
   ngOnInit() {
-    this.current_payload = sessionStorage.getItem('payload');
+    this.current_payload = sessionStorage.getItem("token");
   }
 
   fnSetDeleteTabDescription(data_tab_description) {

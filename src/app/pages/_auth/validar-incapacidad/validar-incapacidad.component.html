@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="mb-3 text-center">
+      <img class="przss-image_logo" src="../../../../assets/images/imgs/ProtektoLogo01.png" width="20%" alt="Kustodya Web App Logo">
+    </div>
+
+    <div class="col text-center">
+      <h3 class="" style="margin-top: 6px; font-weight: 800; color: #28a745;">Certificado de incapacidad valido</h3>
+    </div>
+
+    <div class="col text-center">
+      <img src="../../../../assets/images/imgs/medical-checkup.png" width="70%" alt="" srcset="">
+      <img src="../../../../assets/images/imgs/shield2.png" width="20%" style="position: absolute; right: 15%; top: 115px;" alt="" srcset="">
+    </div>
+
+    <div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
+      <div class="col text-center">
+        <div style="margin-bottom: 0.5rem;">
+          <small>C&oacute;digo &uacute;nico de incapacidad:&nbsp;</small><br>
+          <h6 style="color: #000;" *ngIf="guidCode">{{ guidCode }}</h6>
+          <small style="color: #ccc;" *ngIf="!guidCode">No registra dato</small>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div style="margin-bottom: 0.5rem;">
+          <small>Fecha inicio incapacidad:&nbsp;</small><br>
+          <h6 style="color: #000;" *ngIf="fechaInicio">{{ fechaInicio | date:'mediumDate' }}</h6>
+          <small style="color: #ccc;" *ngIf="!fechaInicio">No registra dato</small>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div style="margin-bottom: 0.5rem;">
+          <small>Fecha fin incapacidad:&nbsp;</small><br>
+          <h6 style="color: #000;" *ngIf="fechaFin">{{ fechaFin | date:'mediumDate' }}</h6>
+          <small style="color: #ccc;" *ngIf="!fechaFin">No registra dato</small>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div style="margin-bottom: 0.5rem;">
+          <small>D&iacute;as incapacidad:&nbsp;</small><br>
+          <h6 style="color: #000;" *ngIf="diasIncapacidad">{{ diasIncapacidad }} d&iacute;as</h6>
+          <small style="color: #ccc;" *ngIf="!diasIncapacidad">No registra dato</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col text-center mt-1">
+      <label>Powered by:</label>
+      <br>
+      <img src="../../../../assets/images/imgs/meddilexlogo.png" width="30%" alt="Logo Meddilex">
+      <!-- <span>Powered by:</span> -->
+    </div>
+
+  </div>
+</div>

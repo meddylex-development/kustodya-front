@@ -109,7 +109,7 @@ export const DEFAULT_THEME = {
       countryBorderColor: 'rgba(255, 255, 255, 1)',
       countryFillColor: 'rgba(236, 242, 245, 1)',
       countryBorderWidth: '1',
-      hoveredCountryBorderColor: '#40dc7e',
+      hoveredCountryBorderColor: '#000',
       hoveredCountryFillColor: '#c7f4d9',
       hoveredCountryBorderWidth: '3',
 

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilitiesService } from '../services/utilities.service';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class UserService {
   urlGetDataListTypeRoute: any = '';
   urlSetUpdatePasswordUser: string = '';
   urlSetAuditUser: string = '';
+  urlGetUsersEntity: string = '';
 
   constructor(private http: HttpClient, private utility: UtilitiesService) { }
 
@@ -260,6 +262,26 @@ export class UserService {
         reportProgress: true,
       });
   }
+  fnHttpSetUploadBlob(guid_user: any, user_id: any, fileToUpload: any): Observable<any> {
+    console.log('fileToUpload: ', fileToUpload);
+    console.log('fileToUpload.name: ', fileToUpload.name);
+    // let name = (moment(new Date()).valueOf()).toString() + ".blob";
+    let name = this.utility.generateUUID() + ".blob";
+    console.log('name: ', name);
+    fileToUpload.name = name;
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Authorization', `${guid_user}`);
+
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    let urlSetUploadSignatureUser = '/api/K2Usuarios/SaveFile';
+    return this.http.post(this.utility.fnGetHost() + urlSetUploadSignatureUser, formData, {
+        observe: 'events',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
 
   fnHttpSetDeleteUserSuperAdmin(guid_user, user_id): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
@@ -316,6 +338,20 @@ export class UserService {
     return this.http.post(this.utility.fnGetHost() + this.urlSetAuditUser, object_params,
     {
       // params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  
+  fnHttpGetUsersEntity(guid_user, entity_id, object_data): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    const object_params = object_data;
+    this.urlGetUsersEntity = '/api/K2Usuarios/ConsultarUsuarios/entidad/' + entity_id;
+    return this.http.get(this.utility.fnGetHost() + this.urlGetUsersEntity,
+    {
+      params: object_params,
       observe: 'response',
       headers: headers,
       reportProgress: true,

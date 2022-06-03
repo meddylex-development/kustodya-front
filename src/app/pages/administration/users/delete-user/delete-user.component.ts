@@ -27,7 +27,7 @@ export class DeleteUserComponent implements OnInit {
   ngOnInit() {
     const self = this;
     self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
-    self.current_payload = self.utilitiesService.fnGetSessionStorage('payload');
+    self.current_payload = self.utilitiesService.fnGetSessionStorage("token");
     self.entity = self.user_data['entity_id'];
 
     // self.route.params.subscribe(params => {

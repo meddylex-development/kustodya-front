@@ -21,6 +21,11 @@ export class IncapacityService {
   urlGetAllIPSByEps: any = '';
   urlGetListIncapacityAttentionTypes: any = '';
   urlGetCorrelationDiagnostic: any = '';
+  urlGetListLateralities: any = '';
+  urlGetIncapacidadesPaciente: any = '';
+  urlGetDataUser: any = '';
+  urlGetDataUserPatient: any = '';
+  urlGetDataEmployerPatient: any = '';
 
   constructor(public http: HttpClient, private utility: UtilitiesService) { }
 
@@ -96,6 +101,7 @@ export class IncapacityService {
   }
 
   fnHttpPostDiagnosticosIncapacidad(guid_user, data_object): Observable<any> {
+    console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHost() + this.urlfnHttpPostDiagnosticosIncapacidad, data_object,
@@ -180,4 +186,125 @@ export class IncapacityService {
       reportProgress: true,
     });
   }
+
+  fnHttpGetListLateralities(guid_user): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetListLateralities = '/api/DiagnosticoIncapacidad/GetLateralidades';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetListLateralities, {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpPostSendAlertMail(guid_user, data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+  
+  fnHttpPostSendReportMail(data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+  
+  fnHttpPostSendMailReportIncapacities(data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report-incapacities', data_object,
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataHistoryPatientDaysExced(): Observable<any> {
+    // console.log('data_object: ', data_object);
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
+    return this.http.get(this.utility.fnGetHostSite4() + '/api/Reporte',
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataOCRTranscription(): Observable<any> {
+    return this.http.get(this.utility.fnGetHostMiddlewareMails() + '/api/data-ocr',
+      {
+        observe: 'response',
+        // headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnGetAllData(): Observable<any> {
+    return this.http.get<any>(this.utility.fnGetHostSite4() + '/api/Transcripcion');
+  }
+
+  fnHttpGetIncapacidadesPaciente(guid_user, id_paciente): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // let headers = new HttpHeaders().set('Authorization', '');
+    // headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlGetIncapacidadesPaciente = "/api/Incapacidad/" + id_paciente;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetIncapacidadesPaciente,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetDataUser(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataUser = '/api/K2Incapacidad/ConsultarDatos';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataUser,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataUserPatient(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataUserPatient = '/api/K2Incapacidad/ConsultarDatospaciente';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataUserPatient,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpGetDataEmployerPatient(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataEmployerPatient = '/api/K2Incapacidad/ConsultarEmpleador';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataEmployerPatient,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
 }

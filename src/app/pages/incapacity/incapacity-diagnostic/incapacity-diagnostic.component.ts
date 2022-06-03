@@ -23,6 +23,7 @@ export class IncapacityDiagnosticComponent implements OnInit {
   submitted: boolean = false;
   token: any;
   menu: any;
+  applyLaterality: boolean = false;
 
   @Input() list_Cie10: any = [];
   @Input() collection_cie_10: any = [];
@@ -53,6 +54,12 @@ export class IncapacityDiagnosticComponent implements OnInit {
 
   collection_diagnosis_complete: any = [];
   collection_cie10: any = {};
+  collectionLateralidad: any = [
+    // { id: 1, name: "Lateralidad derecha" },
+    // { id: 2, name: "Lateralidad izquierda" },
+    // { id: 3, name: "Bilateralidad" },
+  ];
+  lateralidad: any = null;
 
   error_validate_form: any = true;
   collection_cie10_original: any = [];
@@ -99,7 +106,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
 
   ngOnInit() {
     // this.diagnosticform = this.createFormGroup();
-
+    this.token = this.dashboardComponent.token;
+    this.fnGetLateralities(this.token);
     if (this.paciente == null) {
       this.paciente = this.incapacityIssuanceComponent.paciente
     }
@@ -216,7 +224,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
     const fechaActual = new Date();
     const data_ips = JSON.parse(sessionStorage.getItem('ips'));
     const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
-
+    // this.lateralidad
+    console.log('this.lateralidad: ', this.lateralidad);
     const object_data = {
       'iIddiagnosticoIncapacidad': 0,
       'uiCodigoDiagnostico': null,
@@ -237,8 +246,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
       'dtFechaFin': fechaActual,
       'bProrroga': this.data_correlation_diagnostic['bProrroga'],
       'bsoat': this.soat_insurance,
+      'iIDLateralidad': this.lateralidad,
     };
-    // return false;
     this.submitted = true;
     this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data).subscribe(r => {
       if (r.status == 200) {
@@ -249,6 +258,7 @@ export class IncapacityDiagnosticComponent implements OnInit {
         this.diagnostigoGenerado = r.body;
         this.diagnostigoGenerado.paciente = this.paciente;
         this.diagnostigoGenerado.diagnostico = object_data.cie10;
+        console.log('this.diagnostigoGenerado: ', this.diagnostigoGenerado);
         this.showModalGeneratedDiagnostic();
       }
       if (r.status == 206) {
@@ -289,7 +299,15 @@ export class IncapacityDiagnosticComponent implements OnInit {
   }
 
 
-
+  fnGetLateralities(token) {
+    this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
+      console.log('response: ', response);
+      this.collectionLateralidad = response['body'];
+      console.log('this.collectionLateralidad: ', this.collectionLateralidad);
+    }, (error) => {
+      console.log('error: ', error);
+    })
+  }
 
 
   fnAddCollectionCompleteDiagnosis(type_list, item_list, collection_items, event_target) {
@@ -453,7 +471,10 @@ export class IncapacityDiagnosticComponent implements OnInit {
   }
 
   fnGetCorrelationDiagnostic(cie_10) {
+    console.log('cie_10: ', cie_10);
     this.submitted = true;
+    this.applyLaterality =  cie_10['aplicaLateralidad'] || false;
+    console.log('this.applyLaterality: ', this.applyLaterality);
     this.data_correlation_diagnostic = null;
     let id_cie_10 = cie_10['iIdcie10'];
     this.incapacityService.fnHttpGetCorrelationDiagnostic(this.token, id_cie_10, this.paciente.iIdpaciente).subscribe(r => {

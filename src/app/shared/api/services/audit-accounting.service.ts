@@ -25,6 +25,9 @@ export class AuditService {
   urlGetAccountingNotesById: any = '';
   urlGetPDFAccountingAudit: any = '';
   urlGetListStatesAccountingAudit: any = '';
+  urlPostCrearMovimientoContable: any = '';
+  urlGetDetalleMovimientoContable: any = '';
+  urlGetIncapacidadesPaciente: any = '';
 
   constructor(private http: HttpClient, private utility: UtilitiesService) { }
 
@@ -238,4 +241,43 @@ export class AuditService {
       reportProgress: true,
     });
   }
+
+  fnHttpPostCrearMovimientoContable(guid_user, id_incapacidad, data_object) {
+    let headers = new HttpHeaders().set('Authorization', '');
+    headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlPostCrearMovimientoContable = "/api/Contabilidad";
+    return this.http.post(this.utility.fnGetHostSite4() + this.urlPostCrearMovimientoContable, data_object,
+    {
+      observe: 'response',
+      // headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetDetalleMovimientoContable(id_incapacidad): Observable<any> {
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    let headers = new HttpHeaders().set('Authorization', '');
+    headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlGetDetalleMovimientoContable = "/api/Contabilidad/" + id_incapacidad;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetDetalleMovimientoContable,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetIncapacidadesPaciente(id_paciente): Observable<any> {
+    // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    let headers = new HttpHeaders().set('Authorization', '');
+    headers = new HttpHeaders().append('Content-Type', 'application/json');
+    this.urlGetIncapacidadesPaciente = "/api/Incapacidad/" + id_paciente;
+    return this.http.get(this.utility.fnGetHostSite4() + this.urlGetIncapacidadesPaciente,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
 }

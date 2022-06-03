@@ -28,14 +28,23 @@
 
     <div class="col-12 row">
       <div class="col-8 pb-4 form-control-group animate fadeIn">
-        <label class="label" for="diagnostictime"
-          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">Tipo
-          de atencion <span
-            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span></label>
-        <ng-select *ngIf="!readOnly" [items]="list_incapacity_attention_types" bindLabel="tTipoAtencion"
-          id="ng_attention_types" name="ng_attention_types" #ng_attention_types="ngModel"
-          placeholder="Seleccione tipo de atención" [ngModelOptions]="{standalone: true}" [(ngModel)]="attention_type"
-          required [disabled]="readOnly" [clearable]="false" class="col-4 p-0 m-0">
+        <label class="label" for="diagnostictime" [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">
+          Tipo de atencion-- <span [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span>
+        </label>
+        <ng-select 
+          *ngIf="!readOnly" 
+          [items]="list_incapacity_attention_types" 
+          bindLabel="tTipoAtencion"
+          id="ng_attention_types" 
+          name="ng_attention_types" 
+          #ng_attention_types="ngModel"
+          placeholder="Seleccione tipo de atención" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="attention_type"
+          required 
+          [disabled]="readOnly" 
+          [clearable]="false" 
+          class="col-4 p-0 m-0">
         </ng-select>
         <div *ngIf="readOnly">
           <p style="color: rgb(24, 18, 18);font-weight: bold;">{{ diagnostic?.tipoAtencion?.tDescripcion }}</p>
@@ -271,11 +280,21 @@
     <div class="col-12 row" *ngIf="!readOnly">
       <div class="col-8 pb-4 form-control-group animate fadeIn">
         <label class="label" for="select-Cie10">Diagnóstico:</label>
-        <ng-select [items]="collection_cie_10[0]" bindLabel="tFullDescripcion" id="select-Cie10" name="ngcie10"
+        <ng-select 
+          [items]="collection_cie_10[0]" 
+          bindLabel="tFullDescripcion" 
+          id="select-Cie10" 
+          name="ngcie10"
           #ngcie10="ngModel"
           (change)="fnAddCollectionDiagnosis('diagnosis', id_cie_10_diagnosis); fnGetCorrelationDiagnostic($event);"
-          placeholder="Seleccione diagnostico" [ngModelOptions]="{standalone: true}" [(ngModel)]="id_cie_10_diagnosis"
-          (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+          placeholder="Seleccione diagnostico" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="id_cie_10_diagnosis"
+          (focus)="errors = []" 
+          required 
+          [disabled]="readOnly" 
+          [virtualScroll]="true" 
+          [clearable]="false"
           dropdownPosition="bottom">
         </ng-select>
         <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
@@ -287,7 +306,7 @@
         </ng-container> -->
       </div>
     </div>
-    <div class="col-12" *ngIf="!readOnly">
+    <div class="col-12 mt-2 mb-2" *ngIf="!readOnly">
       <div *ngFor="let item of collection_diagnosis_complete?.diagnosis; let i = index;">
         <span class="row badge badge-pill badge-primary" style="font-size: 1em; margin: 5px 0px;">
           <div class="col-11">
@@ -305,6 +324,38 @@
           style="font-size: 1em; margin: 5px 0px;">{{ item.tFullDescripcion }}&nbsp;&nbsp;</span>&nbsp;
       </div>
     </div>
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="applyLaterality">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="select-Lateralidad">Lateralidad:&nbsp;<span class="text-danger">*</span></label>
+        <ng-select 
+          [items]="collectionLateralidad" 
+          bindLabel="tNombre" 
+          bindValue="iIDLateralidad"
+          id="select-Lateralidad" 
+          name="ngLateralidad"
+          #ngLateralidad="ngModel"
+          placeholder="Seleccione lateralidad" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="lateralidad"
+          (focus)="errors = []" 
+          required 
+          [disabled]="readOnly" 
+          [virtualScroll]="true" 
+          [clearable]="false"
+          dropdownPosition="bottom">
+        </ng-select>
+        <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+        <!-- <ng-container *ngIf="ngcie10.invalid || error_cie10">
+          <p class="error-message">
+            Sintomatologia es requerida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+
+
     <div class="col-12 row mt-2 mb-2" *ngIf="readOnly">
       <div class="col-4 pt-0 pb-0 form-control-group">
         <label class="label" for="input-DiasIncapacidad">Proroga</label>
@@ -545,6 +596,7 @@
             collection_diagnosis_complete.diagnosis?.length < 1 || 
             soat_insurance == null || 
             origin_incapacity_presumed == null || 
+            !lateralidad || 
             !iDiasIncapacidad" [class.btn-pulse]="submitted">
           Generar
         </button>

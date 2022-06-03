@@ -35,7 +35,7 @@ export class EditEmailManagementComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.current_payload = sessionStorage.getItem('payload');
+    this.current_payload = sessionStorage.getItem("token");
     this.user_id = sessionStorage.getItem('user_id');
     this.ips = JSON.parse(sessionStorage.getItem('ips'));
   }

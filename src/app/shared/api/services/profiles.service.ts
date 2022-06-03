@@ -16,6 +16,7 @@ export class ProfilesService {
   urlPostProfile: any = '';
   urlPutProfile: any = '';
   urlDeleteProfile: any = '';
+  urlGetListProfilesK2: any = '';
 
   constructor(private http: HttpClient, private utility: UtilitiesService,) { }
   
@@ -77,6 +78,19 @@ export class ProfilesService {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlDeleteProfile = '/api/Perfiles/' + profile_id;
     return this.http.delete(this.utility.fnGetHost() + this.urlDeleteProfile,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+
+  // api/K2Perfiles/ConsultarPerfiles
+  fnHttpGetListProfilesK2(guid_user): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetListProfilesK2 = '/api/K2Perfiles/ConsultarPerfiles';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetListProfilesK2,
     {
       observe: 'response',
       headers: headers,

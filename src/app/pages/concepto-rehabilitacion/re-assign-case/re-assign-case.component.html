@@ -1,0 +1,158 @@
+<nb-card size="tiny">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    Reasignar caso
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0">
+      <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
+        <div class="col-12 pl-0 pr-0">
+          <p>
+              En esta secci&oacute;n puedes reasignar un caso ya asignado a un m&eacute;dico o retornarlos al listado de casos por asignar. 
+              <!-- De esta forma el medico podra verlo 
+              en su bandeja de trabajo como un nuevo caso a generar. -->
+          </p>
+        </div>
+        <!-- ********** START - Ocupación paciente ********** -->
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-selectJobPatient">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Caso:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div class="col">
+              <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Paciente caso" placement="top" container="body">
+                <i class="far fa-address-card"></i>&nbsp;
+                {{ dataCase?.numeroIdentificacion }} - {{ dataCase?.nombre | titlecase}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-selectJobPatient">
+              <h6 class="m-0">
+                <i class="fas fa-user-md"></i>&nbsp;M&eacute;dico asignado:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div class="col-12">
+              <span *ngIf="userAssign?.primerNombre" class="badge rounded-pill text-light cursor-pointer badge-state-1 animated fadeIn" tooltip="Paciente caso" placement="top" container="body">
+                <i class="fas fa-user-md"></i>&nbsp;
+                {{ 
+                  userAssign?.primerNombre + ' ' + 
+                  userAssign?.segundoNombre + ' ' + 
+                  userAssign?.primerApellido + ' ' + 
+                  userAssign?.segundoApellido || 'Cargando...' 
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-selectStatusIncapacity">
+              <h6 class="m-0">
+                <i class="fas fa-undo"></i>&nbsp;Regresar caso al estado "Por asignar":&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div>
+              <div class="cursor-pointer m-1" tooltip="Retornar caso a 'Por Asignar'" placement="top" container="body" style="display: flex;justify-content: center;align-items: center;">
+                <!-- Rounded switch -->
+                <h5 class="d-inline-block m-3">NO</h5>&nbsp;
+                <label class="switch" style="margin-top: 0.2rem;">
+                  <input 
+                    [disabled]="true"
+                    [ngModelOptions]="{standalone: true}" 
+                    [(ngModel)]="changeStatus"
+                    type="checkbox" 
+                    [checked]="(changeStatus)?'checked':false">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <h5 class="d-inline-block m-3">SI</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12" *ngIf="!changeStatus">
+          <div class="form-group">
+            <label for="input-selectListDoctors">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;M&eacute;dicos disponibles:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <ng-select  
+              id="input-selectListDoctors"
+              [items]="collectionDoctors" 
+              bindLabel="nombre" 
+              name="selectListDoctors"
+              #selectListDoctors="ngModel" 
+              status="basic" 
+              appendTo="body"
+              placeholder="Seleccione el médico"
+              [ngModelOptions]="{standalone: true}" 
+              [(ngModel)]="doctorAssign" 
+              (change)="fnSelectDoctorAssign($event)"
+              required>
+            </ng-select>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-rangePriority">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Prioridad:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div>
+              <input 
+                [disabled]="false"
+                style="width: 100%;" 
+                type="range" 
+                class="form-range" 
+                [min]="1" 
+                #rangePriority="ngModel" 
+                [ngModelOptions]="{standalone: true}" 
+                [(ngModel)]="priorityCase" 
+                [max]="3" 
+                id="input-rangePriority">
+            </div>
+            <div class="text-center mt-2">
+              <h6>Prioridad: <strong>{{ (priorityCase == 1) ? "Baja" : (priorityCase == 2) ? "Media" : (priorityCase == 3) ? "Alta" : "Sin prioridad" }}</strong></h6>
+            </div>
+          </div>
+        </div>
+        <!-- *********** END - Ocupación paciente *********** -->
+        <br>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button" 
+            (click)="fnReAssignCase(doctorAssign, priorityCase)"
+            [class.btn-pulse]="submitted" 
+            [disabled]="!doctorAssign || !priorityCase" 
+            style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
+            Reasignar
+        </button>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button"
+            [class.btn-pulse]="submitted" 
+            (click)="fnCancelData()"
+            style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff; text-transform: none !important;">
+            Cancelar
+        </button>
+      </form>
+  </div>
+  </nb-card-body>
+</nb-card>

@@ -6,7 +6,20 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+// importar locales
+import localePy from '@angular/common/locales/es-PY';
+import localePt from '@angular/common/locales/pt';
+import localeEn from '@angular/common/locales/en';
+import localeEsAr from '@angular/common/locales/es-MX';
+
+// registrar los locales con el nombre que quieras utilizar a la hora de proveer
+registerLocaleData(localePy, 'es');
+registerLocaleData(localePt, 'pt');
+registerLocaleData(localeEn, 'en')
+// registerLocaleData(localeEsAR, 'es-Mx');
+
 import { HttpClientModule, HttpResponse, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { NgxPaginationModule } from 'ngx-pagination'; //
@@ -15,7 +28,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -147,6 +160,7 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
     NgxPaginationModule,
     Ng5SliderModule,
     NgbModule.forRoot(),
+    // NgbTimepicker,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     NbStepperModule,
@@ -160,7 +174,7 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
 
           token: {
             class: NbAuthJWTToken,
-            key: 'payload', // this parameter tells where to look for the token
+            key: 'token', // this parameter tells where to look for the token
           },
 
           baseEndpoint: environment.apiUrl,
@@ -225,7 +239,8 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
 })
 export class AppModule {

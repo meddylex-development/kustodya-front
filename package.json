@@ -55,6 +55,7 @@
     "@popperjs/core": "^2.3.3",
     "@swimlane/ngx-charts": "^10.0.0",
     "@types/html2canvas": "0.0.36",
+    "angular-6-clipboard": "^1.0.1",
     "angular-google-charts": "^0.1.6",
     "angular-tree-component": "7.2.0",
     "angular2-toaster": "^8.0.0",
@@ -75,6 +76,7 @@
     "ng2-charts": "^2.3.3",
     "ng5-slider": "^1.1.14",
     "ngx-bootstrap": "^3.2.0",
+    "ngx-currency": "^2.5.3",
     "ngx-doc-viewer": "^1.4.1",
     "ngx-pagination": "^3.2.1",
     "ngx-print": "^1.2.0-beta.2",
@@ -94,6 +96,7 @@
     "typeface-exo": "0.0.61",
     "typeface-poppins": "^1.1.13",
     "web-animations-js": "2.2.5",
+    "xlsx": "^0.17.4",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

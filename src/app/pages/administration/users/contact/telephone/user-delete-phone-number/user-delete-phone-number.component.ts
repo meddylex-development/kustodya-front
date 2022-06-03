@@ -41,7 +41,7 @@ export class UserDeletePhoneNumberComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
     const user_id = sessionStorage.getItem('user_id');
-    const token = sessionStorage.getItem('payload');
+    const token = sessionStorage.getItem("token");
     if (token && user_id) {
       self.token = token;
       self.user_id = user_id;

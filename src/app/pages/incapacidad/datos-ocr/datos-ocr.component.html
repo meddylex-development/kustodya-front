@@ -1,0 +1,83 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="false" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo datos extracción">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-header>
+        <div class="row m-0 p-0">
+          <div class="col text-left">
+            <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+              <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+            </button>
+          </div>
+          <div class="col-6 text-center">
+            <h3 style="margin-top: 6px;">Datos extracci&oacute;n</h3>
+          </div>
+          <div class="col text-right">
+            &nbsp;
+          </div>
+        </div> 
+      </nb-card-header>
+
+      <nb-card-body>
+
+        <div class="row">
+          <div class="col">
+            <div class="mb-4 pb-4 animated fadeIn">
+              <div class="card mt-3 mb-3">
+                <div class="card-body content-patient-info-1" style="display: block;">
+                  <div class="row">
+
+                    <!-- ********** START - Tiempo ********** -->
+                    <div class="mt-2 mb-2 col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          Datos
+                        </div>
+                        <div class="card-body" style="padding-bottom: 3rem;">
+                          <div class="row" *ngIf="false">
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="input-patientSigns">
+                                  <h5 class="m-0">
+                                    <i class="far fa-calendar-alt"></i>&nbsp;Fecha inicio afecci&oacute;n:&nbsp;
+                                    <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                  </h5>
+                                </label>
+                                
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <label for="input-patientSigns">
+                                  <h5 class="m-0">
+                                    <i class="far fa-clock"></i>&nbsp;Hora inicio afecci&oacute;n:&nbsp;
+                                    <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+                                  </h5>
+                                </label>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12" *ngFor="let item of this.dataOcr">
+                              <span>Data: </span>
+                              <h4>{{ item?.Texto | titlecase }}</h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- *********** END - Tiempo *********** -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div> 
+

@@ -31,7 +31,7 @@ export class EditAdminSignatureComponent implements OnInit {
   ngOnInit() {
     const self = this;
     // self.data_signature_admin
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     self.id_entity = JSON.parse(atob(self.current_payload.split(".")[1])).Entidad;
     self.fnGetUsersList(self.current_payload, self.id_entity, self.input_search, self.current_page_users)
   }

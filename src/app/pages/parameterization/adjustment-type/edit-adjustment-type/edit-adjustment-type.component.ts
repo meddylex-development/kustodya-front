@@ -29,7 +29,7 @@ export class EditAdjustmentTypeComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.current_payload = sessionStorage.getItem('payload');
+    self.current_payload = sessionStorage.getItem("token");
     self.original_description = self.data_adjustment_type['descripcion'];
     self.fnGetListAccounting(self.current_payload, self.currentPageAccounting, self.text_search);
   }
