@@ -403,17 +403,6 @@ export class UtilitiesService {
     return results;
   }
 
-  fnSearchDateCallback(collection, date_one, date_two, field, callback) {
-    const results = [];
-    collection.forEach(function (obj, key) {
-      const date_collection = moment(obj[field]).valueOf();
-      if (date_collection >= date_one && date_collection <= date_two) {
-        results.push(obj);
-      }
-    });
-    callback(results);
-  }
-
   fnGetCurrentTokenSession(returnObserver) {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       if (token.isValid()) {
@@ -430,34 +419,24 @@ export class UtilitiesService {
 
   fnGetDataFilter(data_collection, string_search, observer, field?) {
     const results = [];
-    const self = this;
-    data_collection.forEach(function (obj) {
-      let search_data_flag = false;
+    data_collection.filter(function (obj) {
       Object.keys(obj).forEach(function (ooo, kkk) {
-        // if (typeof obj[ooo] === 'string' || obj[ooo] instanceof String) {
-        if (typeof obj[ooo] === 'string' || obj[ooo] instanceof String && ooo != 'fechaCuentaCobro') {
-          if (field && field === ooo && !search_data_flag) {
-            if (self.removeAccents(obj[ooo].toLowerCase()).indexOf(string_search) > -1) {
+        if (typeof obj[ooo] === 'string' || obj[ooo] instanceof String) {
+          if (field && field === ooo) {
+            if (obj[ooo].toLowerCase().indexOf(string_search) > -1) {
               results.push(obj);
-              search_data_flag = true;
             }
           } else {
-            if (!search_data_flag) {
-              if (self.removeAccents(obj[ooo].toLowerCase()).indexOf(string_search) > -1) {
-                results.push(obj);
-                search_data_flag = true;
-              }
+            if (obj[ooo].toLowerCase().indexOf(string_search) > -1) {
+              results.push(obj);
             }
           }
         }
+        return;
       });
     });
     observer(results);
   }
-
-  removeAccents(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  } 
 
   fnSetErrors(code_error_api) {
     const errors_collection = [];
