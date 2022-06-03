@@ -1,0 +1,409 @@
+<div class="container contentIncacity" *ngIf="!showIncapacidad">
+  <div class="row">
+    <div class="col-12">
+      <div class="font_family_roboto">
+        <div class="font_family_roboto text-center">
+          <h1>La Incapacidad ha Sido Generada Exitosamente</h1>
+        </div>
+        <div class="container">
+          <div class="row ml-0 mr-0">
+            <div class="col-12 p-0 m-0 text-center">
+              Usuario: {{diagnostigoGenerado?.paciente?.tPrimerNombre}}
+              {{diagnostigoGenerado?.paciente?.tSegundoNombre}} {{diagnostigoGenerado?.paciente?.tPrimerApellido}}
+              {{diagnostigoGenerado?.paciente?.tSegundoApellido}}
+            </div>
+            <div class="col-12 p-0 m-0 text-center">
+              Diagnóstico: {{diagnostigoGenerado?.diagnostico?.tFullDescripcion}}
+            </div>
+            <div class="col-12 p-0 m-0 text-center">
+              Días: {{diagnostigoGenerado?.iDiasIncapacidad}}
+            </div>
+            <div class="col-12 p-0 m-0 text-center">
+              {{diagnostigoGenerado?.uiCodigoDiagnostico}}
+            </div>
+            <div class="col-12 p-0 m-0 text-center">
+              Código Único Nacional de Incapacidades
+            </div>
+
+          </div>
+          <div class="row mt-4 mb-1">
+            <div class="col-6 pr-2 text-center" style="padding-left: 0px;">
+              <button class="col-8 pgp-pointer font_family_roboto pgp-btn_mod" type="button" nbButton
+                (click)="dismiss()">Aceptar</button>
+            </div>
+            <div class="col-6 text-center" style="padding-left: 0px;">
+              <button class="col-8 pgp-pointer font_family_roboto pgp-btn_mod" type="button" nbButton
+                (click)="fnShowIncapacidad()">Ver Incapacidad</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container contentPDF" *ngIf="showIncapacidad">
+  <div class="row">
+    <div class="font_family_roboto col-12" id="contentPDF">
+
+      <div class="col-12 text-center p-3 btn-print">
+        <button class="col-4 pgp-pointer font_family_roboto pgp-btn_mod" nbButton [useExistingCss]="true"
+          printSectionId="incapacityPDF" ngxPrint>Imprimir</button>
+        <button class="col-4 pgp-pointer font_family_roboto pgp-btn_mod" nbButton (click)="dismiss()">Cerrar</button>
+      </div>
+      <div id="incapacityPDF" #incapacityPDF>
+        <div class="row pdf-title">
+          <!-- ********** START - Breadcrumbs ********** -->
+
+          <div class="col-sm" style="background-color: #fff; padding: 10px; text-align: left;">
+            <span>
+              <h4>{{ ips?.tNombre }}</h4>
+            </span>
+            <span>
+              <h6>Nit: {{ ips?.tNumeroIdentificacion }} - {{ips?.tDigitoVerificacion}}</h6>
+            </span>
+            <span>
+              <h6>Cod Habilitación: {{ ips_user?.tCodigoExterno }}</h6>
+            </span>
+            <span>
+              <h6>E-mail: {{ ips?.tEmail }}</h6>
+            </span>
+            <span>
+              <h6>Dpto: {{ ips?.ubicacion?.tNombreDepartamento }}</h6>
+            </span>
+            <span>
+              <h6>Municipio: {{ ips?.ubicacion?.tNombreMunicipio }}</h6>
+            </span>
+          </div>
+          <div class="col-sm" style="background-color: #fff; padding: 10px;text-align: center;">
+            <span>
+              <h4>
+                {{ (diagnostigoGenerado?.paciente?.tipoAfiliacion?.tNombre == 'Cotizante') ? 'Certificado de Incapacidad Médica Laboral' : 'Certificado de Incapacidad Médica No Estudiantil' }}
+              </h4>
+            </span>
+            <!-- <span>{{diagnostigoGenerado?.tCodigoCorto}}</span> -->
+          </div>
+          <div class="col-sm" style="background-color: #fff; padding: 10px;text-align: right;">
+            <img *ngIf="ips?.tPathLogo" src="../../../../assets{{ ips?.tPathLogo }}" alt="Logo IPS"
+              style="width: 150px; margin: 2.5% 0rem;" id="logo_ips">
+          </div>
+        </div>
+        <div class="col-12 containerPDF">
+          <div class="row col-12 m-0 p-0">
+            <div class="col-xl-12 col-lg-12 col-md-12 pl-0 pr-0 ">
+              <div class="divCertificado">
+                <fieldset>
+                  <legend>Certificado de Incapacidad Médica</legend>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      NUIM
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Lugar de Expedición
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Fecha Expedición
+                    </div>
+                  </div>
+                  <div class="row pkto-row lastrow">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.tCodigoCorto}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.tLugarExpedicion }}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.dtFechaCreacion | date:'dd / MM / yyyy, hh:mm a'}}
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="divPaciente">
+                <fieldset>
+                  <legend>Paciente</legend>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      Tipo de Identificación
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      No. Identificación
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Sexo
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tipoDocumento?.tTipoIdentificacion}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tNumeroDocumento | number }}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.genero?.tGenero}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      Nombres
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Apellidos
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Fecha Nacimiento
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Edad
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tPrimerNombre}}
+                      {{diagnostigoGenerado?.paciente?.tSegundoNombre}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tPrimerApellido}}
+                      {{diagnostigoGenerado?.paciente?.tSegundoApellido}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      <!--  -->
+                      {{diagnostigoGenerado?.paciente?.dtFechaNacimiento | date:'dd / MM / yyyy'}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{age}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      Dirección
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Población
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Municipio
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Departamento
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tDireccion}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.ubicacion?.tNombrePoblacion}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.ubicacion?.tNombreMunicipio}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.ubicacion?.tNombreDepartamento}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-6 p-0 m-0 text-left">
+                      Ocupación
+                    </div>
+                    <div class="col-6 p-0 m-0 text-left">
+                      CIUO
+                    </div>
+                  </div>
+                  <div class="row pkto-row lastrow">
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.ocupacion?.tNombre}}
+                    </div>
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.ocupacion?.iCategoria}} -
+                      {{diagnostigoGenerado?.paciente?.ocupacion?.tNombre}}
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="divEmpleador">
+                <fieldset>
+                  <legend>Empleador</legend>
+                  <div class="row pkto-sub-header">
+                    <div class="col-6 p-0 m-0 text-left">
+                      NIT
+                    </div>
+                    <div class="col-6 p-0 m-0 text-left">
+                      Razón Social
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.empresa?.nit | number}} -
+                      {{diagnostigoGenerado?.paciente?.empresa?.tDigitoVerificacion | number}}
+                    </div>
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.empresa?.tRazonSocial}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-6 p-0 m-0 text-left">
+                      Actividad Económica
+                    </div>
+                    <div class="col-6 p-0 m-0 text-left">
+                      CIIU
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.empresa?.actividadEconomica?.tNombreActividad}}
+                    </div>
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.empresa?.actividadEconomica?.ciiu}}
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="divAfiliacion">
+                <fieldset>
+                  <legend>Afiliación EPS</legend>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      Régimen de Afiliación
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Tipo Afiliación
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      NIT
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Razón Social
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.regimenAfiliacion?.tNombre}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tipoAfiliacion?.tNombre}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.eps?.tNumeroIdentificacion | number}} -
+                      {{diagnostigoGenerado?.paciente?.eps?.tDigitoVerificacion}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.eps?.tNombre}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <!-- <div class="col-3 p-0 m-0 text-left">
+                      Tipo de Sociedad
+                    </div> -->
+                    <div class="col-3 p-0 m-0 text-left">
+                      Tipo de Plan
+                    </div>
+                  </div>
+                  <div class="row pkto-row lastrow">
+                    <!-- <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.eps?.tNombreTipoSociedad}}
+                    </div> -->
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.paciente?.tipoPlan?.tNombre}}
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="divIncapacidad">
+                <fieldset>
+                  <legend>Incapacidad</legend>
+                  <div class="row pkto-sub-header">
+                    <div class="col-12 p-0 m-0 text-left">
+                      Diagnóstico Clínico
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-12 p-1 m-0 text-left">
+                      {{diagnostico}}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-6 p-0 m-0 text-left">
+                      Tipo de Atención
+                    </div>
+                    <div class="col-6 p-0 m-0 text-left" style="opacity: 1 !important;">
+                      <!-- <span style="opacity: 0.75;">Origen: </span><span
+                        style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">{{diagnostigoGenerado?.origenCalificadoIncapacidad == null ? 'Presunto' : 'Calificado' }}</span> -->
+                      <span style="opacity: 0.75;">Origen: </span><span
+                        style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Presunto</span>
+                    </div>
+                  </div>
+                  <div class="row pkto-row">
+                    <div class="col-6 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.tipoAtencion?.tDescripcion}}
+                    </div>
+                    <div class="col-6 p-1 m-0 text-left">
+                      <!-- {{diagnostigoGenerado?.origenCalificadoIncapacidad == null ? diagnostigoGenerado?.presuntoOrigenIncapacidad?.tOrigenIncapacidad : diagnostigoGenerado?.origenCalificadoIncapacidad?.tOrigenIncapacidad }} -->
+                      {{diagnostigoGenerado?.presuntoOrigenIncapacidad?.tOrigenIncapacidad }}
+                    </div>
+                  </div>
+                  <div class="row pkto-sub-header">
+                    <div class="col-3 p-0 m-0 text-left">
+                      Clase de Incapacidad
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Total Días de Incapacidad
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Fecha Inicial
+                    </div>
+                    <div class="col-3 p-0 m-0 text-left">
+                      Fecha Final
+                    </div>
+                  </div>
+                  <div class="row pkto-row lastrow">
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{ (diagnostigoGenerado?.bProrroga) ? 'Prórroga' : 'Inicial' }}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.iDiasIncapacidad}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.dtFechaCreacion | date:'dd / MM / yyyy'}}
+                    </div>
+                    <div class="col-3 p-1 m-0 text-left">
+                      {{diagnostigoGenerado?.dtFechaFin | date:'dd / MM / yyyy'}}
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="divMedico col-12 row mb-1 p-1 m-0 mt-1">
+                <div class="col-5" style="position: relative">
+                  <div *ngIf="user.tfirma">
+                    <img [src]="user.tfirma" alt="Firma Medico" style="width: 100%" />  
+                  </div>
+                  <div class="infoDoctor col-10 text-center">
+                    <span>
+                      <h6>Dr(a). {{user?.name}}</h6>
+                    </span>
+                    <span>
+                      <h6>{{ user_data?.tipoDocumento?.tNombre }}: {{ user_data?.tNumeroDocumento }}</h6>
+                    </span>
+                    <span>
+                      <h6>Especialidad : {{user?.tEspecialidad}}</h6>
+                    </span>
+                    <span>
+                      <h6>Registro Médico : {{user?.tRegistroMedico}}</h6>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-4 text-center">
+                  <ngx-qrcode id="qrCodeImage" class="col-12" qrc-element-type="url"
+                    [qrc-value]="diagnostigoGenerado?.codigoQR">
+                  </ngx-qrcode>
+                  <h6 class="col-12">Código de Autenticación de Incapacidades Médicas</h6>
+                  <!-- <h6 class="col-12">{{diagnostigoGenerado?.uiCodigoDiagnostico}}</h6> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

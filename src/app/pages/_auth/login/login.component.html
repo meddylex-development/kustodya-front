@@ -1,0 +1,145 @@
+<div class="mb-3 text-center">
+  <img class="przss-image_logo" src="../../../../assets/images/imgs/ProtektoLogo01.png" alt="Kustodya Web App Logo">
+</div>
+
+<!-- <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert> -->
+<div class="col-12">
+  <!-- ******************** START - Content forms ******************** -->
+  <!-- ********** START - Login form ********** -->
+  <h1 id="title" class="title font_family_roboto m-0" *ngIf="!show_entities">Iniciar sesión</h1>
+  <h1 id="title" class="title font_family_roboto" *ngIf="show_entities">Seleccione entidad</h1>
+  <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
+    <!-- [nbSpinner]="submitted" nbSpinnerStatus="info" -->
+    <div class="form-control-group animate fadeIn" *ngIf="!show_entities">
+      <label class="label m-0" for="przss-input-email">Usuario:</label>
+      <input nbInput fullWidth [(ngModel)]="user.tEmail" #userName="ngModel" name="userName" id="przss-input-email"
+        placeholder="Usuario" (focus)="errors = []" autofocus
+        [status]="userName.dirty ? (userName.invalid  ? 'danger' : 'info') : ''" [required]="required"
+        [attr.aria-invalid]="userName.invalid && userName.touched ? true : null">
+      <ng-container *ngIf="userName.invalid && userName.touched">
+        <p class="error-message" *ngIf="userName.errors?.required">
+          Usuario requerido!
+        </p>
+        <p class="error-message" *ngIf="userName.errors?.pattern">
+          User name should be the real one!
+        </p>
+      </ng-container>
+    </div>
+    <div id="przss-content-password" *ngIf="!show_entities" class="form-control-group animated fadeIn">
+      <label class="label m-0" for="przss-input-password">Contraseña:</label>
+      <input nbInput fullWidth [(ngModel)]="user.tPassword" #password="ngModel" name="password" type="password"
+        id="przss-input-password" placeholder="Contraseña" (focus)="errors = []"
+        [status]="password.dirty ? (password.invalid  ? 'danger' : 'info') : ''" [required]="required"
+        [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid">
+      <ng-container *ngIf="password.invalid && password.touched ">
+        <p class="error-message" *ngIf="password.errors?.required">
+          Contraseña requerida!
+        </p>
+        <p class="error-message" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+          La contraseña debe contener
+                     desde {{minlength}}
+                     a {{maxlength}}
+                     caracteres
+        </p>
+      </ng-container>
+    </div>
+
+
+
+    <div class="col-12 row m-0 p-0" *ngIf="rememberMe && !show_entities">
+      <!-- <div class="col-6 m-0 p-0">
+        <label class="container" for="przss-checkbox_remember_me">
+          <span class="przss-label_remember_me">Recordarme</span>
+          <input type="checkbox" checked="checked" id="przss-checkbox_remember_me" [(ngModel)]="user.rememberMe"
+            name="rememberMe">
+          <span class="checkmark"></span>
+        </label>
+      </div> -->
+      <div class="col-6 text-center mb-3 p-0">
+        <a *ngIf="true" class="forgot-password przss-label_remember_me" routerLink="../request-password">¿Olvidaste tu
+          contraseña?</a>
+      </div>
+    </div>
+
+    <div class="form-control-group animate fadeIn" *ngIf="show_entities">
+      <label class="label">Entidad:</label>
+      <ng-select 
+        [items]="list_entities" 
+        bindLabel="nombre" 
+        bindValue="id" 
+        id="przss-select-entity" 
+        name="entity"
+        #ngentity="ngModel" 
+        (change)="onChangeEntities()" 
+        bindValue="id" 
+        placeholder="Select entity"
+        [ngModelOptions]="{standalone: true}" 
+        [(ngModel)]="current_entity" 
+        (focus)="errors = []" 
+        required>
+      </ng-select>
+      <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+      <ng-container *ngIf="ngentity.invalid || error_entity">
+        <p class="error-message">
+          La entidad es requerida!
+        </p>
+      </ng-container>
+    </div>
+    <button nbButton fullWidth status="success" class="przss-button_signin font_family_roboto pgp-pointer"
+      [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+      SIGUIENTE
+    </button>
+  </form>
+  <!-- *********** END - Login form *********** -->
+  <!-- ********************* END - Content forms ********************* -->
+</div>
+<div class="col-12" *ngIf="false">
+  Cargando ....
+</div>
+
+
+<section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
+  or enter with:
+  <div class="socials">
+    <ng-container *ngFor="let socialLink of socialLinks">
+      <a *ngIf="socialLink.link" [routerLink]="socialLink.link" [attr.target]="socialLink.target"
+        [attr.class]="socialLink.icon" [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+      <a *ngIf="socialLink.url" [attr.href]="socialLink.url" [attr.target]="socialLink.target"
+        [attr.class]="socialLink.icon" [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+    </ng-container>
+  </div>
+</section>
+
+<section class="another-action" aria-label="Register" *ngIf="false">
+  Don't have an account? <a class="text-link" routerLink="../sign-up">Register</a>
+</section>
+
+<div class="mt-0 text-center" *ngIf="false" style="position: absolute;width: 100%; left: 0%; bottom: 0%; z-index: -1;">
+  <img alt="footer" src="../../../../assets/images/imgs/pgp-footer-login-02.png" style="
+    position: absolute;
+    /*top: 0%;*/
+    margin: auto;
+    /*width: 100%;*/
+    width: 56%;
+    z-index: 0;
+    bottom: 0%;
+    /*left: 0%;*/
+    left: 21%;
+    ">
+</div>
+<div class="meddilexlogo col-2">
+  <label class="col-12">Powered by:</label>
+  <img class="col-12" src="../../../../assets/images/imgs/meddilexlogo.png" alt="Logo Meddilex">
+  <!-- <span>Powered by:</span> -->
+</div>
+<!-- <img alt="footer" src="../../../../assets/images/imgs/pgp-footer-login-01.png" style="
+    position: absolute;
+    top: 83.7%;
+    margin: auto;
+    width: 100%;
+    left: 0%;"> -->

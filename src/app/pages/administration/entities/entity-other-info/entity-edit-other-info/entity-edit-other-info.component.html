@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center">Actualizar campos</nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnEditFieldsOtherInfo()" id="editFieldsOtherInfo" #editFieldsOtherInfo="ngForm" aria-labelledby="title" style="width: 100%">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                      <div class="form-group">
+                        <label for="kstdya-input_name_field_category">Nombre</label>
+                        <input 
+                          nbInput 
+                          [(ngModel)]="category" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_name_field_category" 
+                          name="name_field_category" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese nombre"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row" *ngFor="let row_field of list_row_fields; let ind_row = index;">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="kstdya-input_name_field">Nombre del campo</label>
+                        <input 
+                          nbInput 
+                          (blur)="fnSaveData(ind_row, $event)"
+                          value="{{ data_entity?.nombre }}"  
+                          id="kstdya-input_name_field_{{ ind_row }}" 
+                          name="name_field" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese nombre del campo"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="kstdya-input_value_field">Valor del campo</label>
+                        <input 
+                          nbInput 
+                          (blur)="fnSaveData(ind_row, $event)"
+                          value="{{ data_entity?.valor }}"  
+                          id="kstdya-input_value_field_{{ ind_row }}" 
+                          name="value_field" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese valor del campo"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="kstdya-input_notes_field">Notas</label>
+                        <input 
+                          nbInput 
+                          (blur)="fnSaveData(ind_row, $event)"
+                          value="{{ data_entity?.descripcion }}"  
+                          id="kstdya-input_notes_field_{{ ind_row }}" 
+                          name="notes_field" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese notas del campo"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div>
+                      <i class="fa fa-trash" style="margin-top: 3rem; color: #1e90ff; cursor: pointer;" (click)="fnRemoveRowFieldsInfoEntity(ind_row)"></i>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col">
+                  <div class="text-center mt-3 mb-3">
+                    <button (click)="fnAddRowFieldsInfoEntity(category)" type="button" [disabled]="!category" class="btn" style="color: #1e90ff; cursor: pointer;">
+                      A&ntilde;adir campo 
+                      &nbsp;<i class="fa fa-plus fa-lg"></i>
+                    </button>
+                  </div>
+                </div> -->
+                <div class="col text-right pl-0 pr-0">
+
+                  <button nbButton 
+                    fullWidth 
+                    type="submit"  
+                    class="kstdy-button_action_form" 
+                    id="kstdya-btn_save_new_phone_user" 
+                    nbButton 
+                    [disabled]="
+                      !category ||
+                      submitted"
+                    [class.btn-pulse]="submitted">
+                    Guardar
+                  </button>
+                  
+                  &nbsp;&nbsp;&nbsp;
+
+                  <button 
+                    nbButton 
+                    type="button" 
+                    class="kstdy-button_action_form_cancel" 
+                    id="kstdya-btn_cancel_save_new_phone_user"
+                    [disabled]="submitted"
+                    [class.btn-pulse]="submitted"
+                    (click)="fnCancelEditFieldsOtherInfo()"
+                    status="basic">Cancelar</button>
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>
+  

@@ -1,0 +1,58 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Generando certificado de incapacidad...">
+  <div class="col-md-12">
+
+    <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+
+      <nb-card-front>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col-6 text-center">
+                <h3 style="margin-top: 6px;">Formulario de transcripci&oacute;n</h3>
+              </div>
+              <div class="col text-right">
+                &nbsp;
+              </div>
+            </div> 
+          </nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-6">
+                <nb-user 
+                  size="large"
+                  [name]="senderName"
+                  [title]="senderEmail"
+                  badgeText="nuevo"
+                  badgeStatus="success"
+                  badgePosition="bottom right">
+                </nb-user>
+              </div>
+              <div class="col-6 text-right">
+                <small>{{ dateEmail | date:"fullDate" }}</small>
+              </div>
+              <div class="col-12">
+                <div class="mt-3">
+                  <small>Asunto: </small>&nbsp;<h5>{{ subjectEmail }}</h5>
+                </div>
+                <div>
+                  <small><i class="fas fa-paperclip"></i>&nbsp;Archivos adjuntos: </small>&nbsp;
+                  <span *ngFor="let item of attachmentsEmail" class="mr-2 badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="{{ item?.nombreArchivo }}" placement="top" container="body">
+                    <i class="fas fa-file-alt"></i>&nbsp;
+                    {{ item?.nombreArchivo }}&nbsp;
+                  </span>
+                </div>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-front>
+
+    </nb-flip-card>
+
+  </div>
+</div>

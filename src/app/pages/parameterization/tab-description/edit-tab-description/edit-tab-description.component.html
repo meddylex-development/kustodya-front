@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center" style="color: #1e90ff;font-weight: 500;">Editar descripci&oacute;n <i class="fas fa-times" (click)="fnCancelUpdateTabDescription()" style="position: absolute;right: 3rem;cursor: pointer;color: #d9dee4;"></i></nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnUpdateDescriptionTab(data_tab_description)" #updateDescriptionTab="ngForm" aria-labelledby="title" style="width: 100%">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row justify-content-center">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="selectSeccion">Secci&oacute;n</label>
+                        <ng-select 
+                          [items]="collection_section"
+                          bindLabel="name"
+                          bindValue="value"
+                          id="selectSeccion"
+                          name="selectSeccion"
+                          #selectSeccion="ngModel"
+                          placeholder="Seleccione secci&oacute;n"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="data_tab_description.tipoPlantilla"
+                          required
+                          [disabled]="false"
+                          [clearable]="false"
+                          class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="textVariables">Variables</label>
+                        <div id="textVariables" class="mt-3 mb-3" style="white-space: nowrap;overflow: auto;">
+                        ((NIT)) - ((fecha_doc)) - ((valor_ter)) - ((nombre)) - ((nombre)) - ((fecha_hoy)) - ((nombre)) -((nombre))
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="inputDescription">Descripci&oacute;n </label>                                         
+                        <textarea
+                          type="text"
+                          class="kstdy-text-area-description kstdya-input_focus" 
+                          nbInput 
+                          fullWidth
+                          name="inputDescription"
+                          #inputDescription="ngModel"
+                          id="inputDescription" 
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="data_tab_description.texto" 
+                          placeholder="Descripci&oacute;n">
+                        </textarea>
+                        <ng-container *ngIf="inputDescription.invalid && inputDescription.touched">
+                          <p class="prtkt-error_text" *ngIf="inputDescription.errors?.required">
+                            El nombre es requerido
+                          </p>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col text-center pl-0 pr-0 mt-4">
+                  <button 
+                    type="submit" 
+                    class="kstdya-pointer btn btn-primary kstdya-btn_success font_family_roboto" 
+                    id="kstdya-btn_save_update_tab_description" 
+                    nbButton 
+                    [disabled]="
+                      !data_tab_description.tipoPlantilla ||
+                      !data_tab_description.texto || submitted"
+                    [class.btn-pulse]="submitted"
+                    status="info">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>

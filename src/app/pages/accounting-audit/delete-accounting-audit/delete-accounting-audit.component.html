@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="font_family_roboto kstdy-card_content">
+        <div class="kstdy-modal_header pt-3 pb-2">
+          <h6 class="font_family_roboto text-center">Eliminar depuracion contable</h6>
+        </div>
+        <div class="p-3">
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (submit)="fnSetDeleteAccountingAuditById(accounting_audit_data)" #deleteAccountingAuditForm="ngForm" aria-labelledby="title" style="width: 18rem;">
+                <div class="col-12 pl-0 pr-0">
+                  <p class="mb-3 mt-1 font_family_roboto">Esta seguro que desea eliminar la depuracion con ficha tecnica: <strong>"{{ accounting_audit_data.noFichaTecnica }}"</strong>?</p>
+                </div>
+                <button type="submit" class="kstdy-pointer btn btn-primary kstdy-btn_success font_family_roboto" id="kstdy-btn_delete_accounting_audit"
+                  nbButton [disabled]="!accounting_audit_data.id" [class.btn-pulse]="submitted" status="info">Eliminar</button>
+                &nbsp;&nbsp;&nbsp;
+                <button class="kstdy-pointer font_family_roboto" type="button" id="kstdy-btn_cancel_delete_accounting_audit" nbButton [class.btn-pulse]="submitted"
+                  (click)="fnCancelDeleteAccountingAudit()" status="danger">Cancelar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Kustodya Web App</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/ngx-bootstrap/datepicker/bs-datepicker.css">
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+  </script>
+  <style>
+    nb-card-header {
+      display: none;
+    }
+
+    nb-auth-block {
+      z-index: 1 !important;
+    }
+
+    .nb-theme-default nb-context-menu {
+      border: 2px solid #06a7e2 !important;
+      border-radius: 0.375rem;
+      background: #ffffff;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    .nb-theme-default nb-context-menu .arrow {
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-bottom: 11px solid #06a7e2 !important;
+    }
+
+    menu.context-menu .menu-items .menu-item a:focus,
+    .nb-theme-default nb-menu.context-menu .menu-items .menu-item a:active,
+    .nb-theme-default nb-menu.context-menu .menu-items .menu-item a:hover {
+      color: #ffffff;
+      background: #06a7e2 !important;
+      font-weight: 400;
+    }
+
+    .user-picture,
+    .info-container {
+      cursor: pointer;
+    }
+
+    .tooltip-inner {
+      width: 12rem !important;
+      background-color: #156282 !important;
+      color: #fff !important;
+      text-align: left !important;
+    }
+
+    .tooltip-arrow {
+      border-right-color: #156282 !important;
+    }
+
+    .tooltip-arrow::before {
+      border-right-color: #156282 !important;
+    }
+
+    .scrollable-container{
+      overflow-y: hidden !important;
+    }
+
+    nb-layout-column {
+      padding: 1.5rem !important;
+      background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url("assets/images/imgs/background-login.jpg") no-repeat;
+      background-size: 100%;
+    }
+
+    nb-card {
+      margin: auto !important;
+      height: calc(100vh - 3rem) !important;
+      /* max-width: 28rem; */
+      opacity: 1;
+    }
+
+    ngx-login {
+      font-size: 0.75rem !important;
+    }
+
+    nb-card-body {
+      /* overflow: hidden !important; */
+      box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .theme-blue .bs-datepicker-head {
+        background-color: #1e90ff !important;
+    }
+
+    .theme-blue .bs-datepicker-body table td.week span {
+      color: #1e90ff !important;
+    }
+
+    .tooltip-inner {
+        background-color: #4b4b4b !important;
+        color: #fff;
+        width: auto !important;
+    }
+    .tooltip.top .tooltip-arrow:before,
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #4b4b4b !important;
+        border-right-color: #15628200 !important;
+    }
+
+    /* nb-auth-block {
+      display: block;
+      width: 100%;
+      max-width: 25rem !important;
+    } */
+  </style>
+</head>
+<body>
+  <ngx-app>Loading...</ngx-app>
+
+  <style>
+    @-webkit-keyframes spin {
+      0% {
+        transform: rotate(0)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+
+    @-moz-keyframes spin {
+      0% {
+        -moz-transform: rotate(0)
+      }
+
+      100% {
+        -moz-transform: rotate(360deg)
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+
+    .spinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1003;
+      background: #FFFFFF;
+      overflow: hidden
+    }
+
+    .spinner div:first-child {
+      display: block;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border-radius: 50%;
+      box-shadow: 0 3px 3px 0 #F79420;
+      transform: translate3d(0, 0, 0);
+      animation: spin 2s linear infinite
+    }
+
+    .spinner div:first-child:after,
+    .spinner div:first-child:before {
+      content: '';
+      position: absolute;
+      border-radius: 50%
+    }
+
+    .spinner div:first-child:before {
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      box-shadow: 0 3px 3px 0 #06A7E2;
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite
+    }
+
+    .spinner div:first-child:after {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      box-shadow: 0 3px 3px 0 #00B476;
+      animation: spin 1.5s linear infinite
+    }
+  </style>
+  <div id="nb-global-spinner" class="spinner">
+    <div class="blob blob-0"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+  </div>
+
+  <!-- ******** Pure chat embed ******** -->
+  <!-- <script type='text/javascript' data-cfasync='false'>window.purechatApi = { l: [], t: [], on: function () { this.l.push(arguments); } }; (function () { var done = false; var script = document.createElement('script'); script.async = true; script.type = 'text/javascript'; script.src = 'https://app.purechat.com/VisitorWidget/WidgetScript'; document.getElementsByTagName('HEAD').item(0).appendChild(script); script.onreadystatechange = script.onload = function (e) { if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) { var w = new PCWidget({c: '79c6453c-4d2f-49c2-ade1-79104c34be6b', f: true }); done = true; } }; })();</script> -->
+
+  <!-- ******** artibot chat embed ******** -->
+  <!-- <script type="text/javascript">!function(t,e){t.artibotApi={l:[],t:[],on:function(){this.l.push(arguments)},trigger:function(){this.t.push(arguments)}};var a=!1,i=e.createElement("script");i.async=!0,i.type="text/javascript",i.src="https://app.artibot.ai/loader.js",e.getElementsByTagName("head").item(0).appendChild(i),i.onreadystatechange=i.onload=function(){if(!(a||this.readyState&&"loaded"!=this.readyState&&"complete"!=this.readyState)){new window.ArtiBot({i:"10d17b59-fcee-47ca-bf16-721e0188070d"});a=!0}}}(window,document);</script>
+  <script> 
+    function widgetsReady() { 
+
+        // Check availability up front to see if it's necessary to show ArtiBot 
+        const available = window.purechatApi.get('chatbox.available');
+        if (!available) { 
+            window.artibotApi.trigger('bot:show'); 
+        } 
+
+        // When availability changes, hide/show ArtiBot as necessary 
+        window.purechatApi.on('chatbox.available:change', function (args) {
+            if (args.available) { 
+                window.artibotApi.trigger('bot:hide'); 
+            } else { 
+                window.artibotApi.trigger('bot:show'); 
+            } 
+        }); 
+
+    } 
+
+    // Wait till both PureChat and ArtiBot are ready 
+    var purechatReady = false;
+    var artibotReady = false; 
+    window.purechatApi.on('chatbox:ready', function () { 
+        if (artibotReady) return widgetsReady(); 
+        purechatReady = true; 
+    }); 
+
+    window.artibotApi.trigger('bot:hide'); 
+    window.artibotApi.on('bot:ready', function () {
+        if (purechatReady) return widgetsReady();
+        artibotReady = true; 
+    });
+  </script> -->
+
+</body>
+
+</html>

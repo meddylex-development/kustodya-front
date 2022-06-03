@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center">
+          <span style="color: #1e90ff;font-weight: 500;">Actualizar tel&eacute;fono</span>
+          <i class="fas fa-times" (click)="fnCancelEditPhoneUser()" style="position: absolute; right: 2rem; cursor: pointer;"></i>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnEditPhoneUser(data_user)" #editPhoneUser="ngForm" aria-labelledby="title" style="width: 600px">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="kstdya-input_phone_number">N&uacute;mero de t&eacute;lefono: *</label>                                         
+                        <input 
+                          nbInput 
+                          [(ngModel)]="data_user.numero" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_phone_number" 
+                          name="phone_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese número de télefono"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="kstdya-input_extension_number">Extensi&oacute;n: </label>                                         
+                        <input 
+                          nbInput 
+                          [(ngModel)]="data_user.extension" 
+                          #groupName="ngModel" 
+                          id="kstdya-input_extension_number" 
+                          name="extension_number" 
+                          autofocus  
+                          type="text" 
+                          class="form-control kstdya-input_focus"
+                          placeholder="Ingrese extension (opcional)"
+                          style="height: 45px;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="kstdya-input_description_number">Descripci&oacute;n: *</label>                                         
+                    <input 
+                      nbInput 
+                      [(ngModel)]="data_user.descripcion" 
+                      #groupName="ngModel" 
+                      id="kstdya-input_description_number" 
+                      name="description_number" 
+                      autofocus  
+                      type="text" 
+                      class="form-control kstdya-input_focus"
+                      placeholder="Ingrese descripción del número telefonico"
+                      style="height: 45px;">
+                  </div>
+                </div>
+                <div class="col text-center pl-0 pr-0">
+                    
+                  <button nbButton 
+                    fullWidth 
+                    type="submit"  
+                    class="kstdy-button_action_form" 
+                    id="kstdya-btn_edit_phone_user" 
+                    nbButton 
+                    [disabled]="
+                      !data_user.numero ||
+                      !data_user.descripcion || submitted"
+                    [class.btn-pulse]="submitted">Actualizar</button>
+
+                  <!-- &nbsp;&nbsp;&nbsp;
+
+                  <button 
+                    nbButton 
+                    type="button" 
+                    class="kstdy-button_action_form_cancel" 
+                    id="kstdya-btn_cancel_edit_phone_user"
+                    [disabled]="submitted"
+                    [class.btn-pulse]="submitted"
+                    (click)="fnCancelEditPhoneUser()"
+                    status="basic">Cancelar</button> -->
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>
+  

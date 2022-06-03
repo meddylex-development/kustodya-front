@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center">Seleccionar Texto</nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+                <div class="row" *ngIf="true">
+                  <div class="col-12 pl-0">
+                    <input 
+                      (input)="fnFilter(search_input);" 
+                      fullWidth 
+                      nbInput
+                      [(ngModel)]="search_input" 
+                      #search_AccountingAudit="ngModel"
+                      class="kstdy-text_input_search form-control d-inline-block" 
+                      id="kstdy-input_search_AccountingAudit"
+                      name="search_AccountingAudit" 
+                      type="text" 
+                      placeholder="Buscar">
+                    <i class="fas fa-search kstdy-icon_input_search fa-rotate-90"></i>
+                  </div>
+                  <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2 mt-sm-2 mt-md-2 mt-lg-0 text-lg-right text-xl-right text-md-center text-sm-center text-center">
+                    <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_create_categories"
+                      (click)="fnCreateAccountingAudit(2)">Crear</button>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+                <!-- ********** START - Div main content data table - AccountingAudit ********** -->
+                <!-- <pre>
+                  {{
+                    list_templates | json
+                  }}
+                </pre>
+                <pre>
+                  Tamano {{ list_templates.length }}
+                </pre> -->
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <!-- <th colspan="2" class="border-0" style="border-top-left-radius: 10px;"></th>
+                      <th scope="col" class="text-center border-0">
+                        No. Ficha t&eacute;cnica
+                      </th>
+                      <th scope="col" class="text-center border-0">
+                        Fecha de elaboraci&oacute;n
+                      </th>
+                      <th scope="col" class="text-center border-0">
+                        C&oacute;digo y nombre cuenta
+                      </th> -->
+                      <!-- <th scope="col" class="text-center border-0">
+                        ID Depuraci&oacute;n
+                      </th>
+                      <th scope="col" class="text-center border-0">
+                        Texto
+                      </th>
+                      <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                        Tipo plantilla
+                      </th>
+                      <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                        &nbsp;&nbsp;
+                      </th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data_template of list_templates | paginate: { id: 'serverPaginate', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                        <!-- <td class="kstdy-table-actions text-right p-3" [ngClass]="{'border-top-0': i == 0}">
+                          <i class="fas fa-edit kstdy-pointer kstdy-icon_color"
+                            (click)="fnShowEditAccountingAudit(data_template)"></i>
+                        </td>
+                        <td class="kstdy-table-actions text-left p-3" [ngClass]="{'border-top-0': i == 0}">
+                          <i class="fas fa-trash kstdy-pointer kstdy-icon_color"
+                            (click)="fnShowModalDeleteAccountingAudit(data_template)"></i>
+                        </td>
+                        <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.noFichaTecnica }}</td>
+                        <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.fechaElaboracion | date: 'dd/MM/yyyy' }}</td>
+                        <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.subcuenta }}</td> -->
+                        <!-- <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.id }}</td> -->
+                        <td class="text-left p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.texto }}</td>
+                        <!-- <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">{{ data_template.tipoPlantilla }}</td> -->
+                        <td class="text-center p-3" [ngClass]="{'border-top-0': i == 0}">
+                          <!-- <button class="btn kstdy-btns_actions kstdy-btn_select_template font_family_roboto float-right" fullwidth type="submit">Seleccionado</button> -->
+                          <button class="btn kstdy-btns_actions font_family_roboto float-right" 
+                            [ngClass]="{'kstdy-btn_select_template' : data_template?.flag_button_select, 'kstdy-btn_unselect_template': !data_template?.flag_button_select }"
+                           (click)="fnSelectTemplateNote(i, data_template)" fullwidth type="submit">{{ (!data_template?.flag_button_select) ? 'Seleccionar' : 'Seleccionado' }}</button>
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+                <!-- *********** END - Div main content data table - AccountingAudit *********** -->
+              </div>
+              <div class="col-12">
+                <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+                  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="text-center kstdy-font_paginator" *ngIf="list_templates?.length > 0">
+                      <div class="text-left kstdy-font_paginator">
+                        Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                        {{ ((currentPage * numItemsPage) >= list_templates.length) ? (list_templates.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                        de {{ totalItems }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="text-center kstdy-font_paginator">
+                      <pagination-controls (pageChange)="getPage($event)" id="serverPaginate" previousLabel="" nextLabel="" ></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="text-center">
+                  <button class="btn kstdy-btns_actions_save kstdy-btn_action_save font_family_roboto mt-3"
+                   (click)="fnSaveTemplateNote(collection_templates)"
+                   [disabled]="false" 
+                   [class.btn-pulse]="submitted" 
+                   fullwidth>Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>
+  

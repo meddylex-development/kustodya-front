@@ -1,0 +1,327 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo listado de incapacidades...">
+  <div class="col-md-12">
+
+    <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+      <nb-card-front>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Historico de incapacidades</h3>
+              </div>
+              <div class="col text-right">
+                <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
+                  {{ 'Ver graficos' | titlecase }}&nbsp;
+                  <i class="fas fa-chart-line"></i>
+                </button>
+              </div>
+            </div> 
+            
+            <!-- <span class=" mt-2 mb-3">
+              <i class="fas fa-arrow-left"></i>&nbsp;Regresar
+            </span> -->
+            
+          </nb-card-header>
+          <nb-card-body>
+            <div>
+              Paciente: 
+              <h4><strong>
+                {{ patientData?.tPrimerNombre | titlecase }} 
+                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.tSegundoApellido | titlecase }} 
+              </strong></h4>
+            </div>
+            <p class="mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+            </p>
+            <div class="row">
+              <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;">
+                  <thead>
+                      <tr>
+                          <th class="text-truncate" style="max-width: 256px;">
+                              C&oacute;digo Unico de Incapacidad&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 140px;">
+                              Fecha emisi&oacute;n&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 140px;">
+                              Fecha inicio&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 140px;">
+                              Fecha fin&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 140px;">
+                              Diagn&oacute;stico&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 155px;">
+                              D&iacute;as otorgados&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 155px;">
+                              D&iacute;as acumulados&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th class="text-truncate" style="max-width: 235px;">
+                              <!-- Descripci&oacute;n sintomatol&oacute;gica&nbsp; -->
+                              Valor incapacidad
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          <th h class="text-truncate" style="max-width: 100px;">
+                              Prorroga&nbsp;
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                              </span>
+                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                              </span> -->
+                          </th>
+                          
+                          <th class="thead-column-action text-center">
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th>
+                          <th class="thead-column-action text-center">
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th>
+                          <th class="thead-column-action text-center">
+                              <span tooltip="Ayuda" placement="top" container="body">
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th>
+                          <!-- <th class="thead-column-action">
+                              <span>
+                                  <i class="far fa-question-circle cursor-pointer text-end text-primary icon-help-thead"></i>
+                              </span>
+                          </th> -->
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of patientIncapacities | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
+                      <td class="align-middle text-center"><small style="font-size: 12px;">{{ item?.uiCodigoDiagnostico }}</small></td>
+                      <td class="align-middle text-center">{{ item?.dtFechaEmisionIncapacidad | date: 'dd/MM/yyyy' }}</td>
+                      <td class="align-middle text-center">{{ item?.dtFechaCreacion | date: 'dd/MM/yyyy' }}</td>
+                      <td class="align-middle text-center">{{ item?.dtFechaFin | date: 'dd/MM/yyyy' }}</td>
+                      <td class="align-middle text-left"><strong style="font-size: 12px;">{{ item?.tCIE10 }}</strong> - <small style="font-size: 12px;">{{ item?.tDescripcion }}</small></td>
+                      <td class="align-middle text-center">{{ item?.iDiasIncapacidad }}</td>
+                      <td class="align-middle text-center">{{ item?.iDiasAcumuladosPorroga }}</td>
+                      <!-- <td class="align-middle text-left"><small style="font-size: 12px;">{{ item?.tDescripcionSintomatologica }}</small></td> -->
+                      <td class="align-middle text-right">{{ (item?.valor) ? (item?.valor  | currency:'CAD':'symbol-narrow':'4.2-2') : '$0.00' }}</td>
+                      <td class="align-middle text-center">
+                        <span class="badge rounded-pill text-light" [ngClass]="{'badge-state-5': item?.bProrroga, 'badge-state-1': !item?.bProrroga}">
+                          {{ (item?.bProrroga) ? 'Prorrogada' : 'Sin prorroga' }}
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <!-- <span (click)="fnViewDagnosticCertificate(item)" tooltip="Ver cambiar de estado" placement="top" container="body">
+                            <i class="fas fa-file-export cursor-pointer text-info"></i>
+                        </span> -->
+                        <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
+                        [ngClass]="{
+                          'badge-state-0': !item?.maxestado, 
+                          'badge-state-1': item?.maxestado == 1, 
+                          'badge-state-2': item?.maxestado == 2, 
+                          'badge-state-3': item?.maxestado == 3,
+                          'badge-state-4': item?.maxestado == 4,
+                          'badge-state-5': item?.maxestado == 5,
+                          'badge-state-6': item?.maxestado == 6,
+                          'badge-state-7': item?.maxestado == 7}">
+                          {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
+                        <span (click)="fnViewDagnosticCertificate(item)" tooltip="Ver detalle incapacidad" placement="top" container="body">
+                            <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
+                            <i class="fas fa-eye cursor-pointer text-info"></i>
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <!-- <ng-template #popTemplate style="background-color: #000 !important;">Here we go: <div [innerHtml]="html"></div></ng-template> -->
+                        <span (click)="fnViewAccountingRegistry(item)" tooltip="Ver registro contable" placement="top" container="body">
+                            <!-- <i class="fas fa-pencil-alt cursor-pointer text-warning"></i> -->
+                            <i class="fas fa-search-dollar cursor-pointer text-info"></i>
+                        </span>
+                      </td>
+                      <!-- <td class="align-middle">
+                        <span>
+                            <i class="fas fa-trash-alt cursor-pointer text-danger"></i>
+                        </span>
+                      </td> -->
+                    </tr>
+                  </tbody>
+              </table>
+              <!-- <div class="content-pagination">
+                <pagination-controls 
+                    (pageChange)="currentPage = $event" 
+                    previousLabel="Anterior"
+                    nextLabel="Siguiente">
+                </pagination-controls>
+              </div> -->
+            </div>
+            <div class="col-12 mt-2 mb-5">
+              <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                  <div class="text-center kstdy-font_paginator" *ngIf="patientIncapacities?.length > 0">
+                    <div class="text-left kstdy-font_paginator">
+                      Mostrando {{ (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) + 1 ) }} -
+                      {{ ((currentPage * itemsPerPage) >= patientIncapacities.length) ? (patientIncapacities.length) + (((currentPage * itemsPerPage) - ((currentPage * itemsPerPage) / currentPage)) ) : (currentPage * itemsPerPage) }}
+                      de {{ totalItems }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                  <div class="text-center kstdy-font_paginator">
+                    <pagination-controls 
+                      (pageChange)="currentPage = $event" 
+                      previousLabel="Anterior"
+                      nextLabel="Siguiente">
+                    </pagination-controls>
+                  </div>
+                </div>
+                <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                  <div class="text-center">
+                    
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-front>
+      <nb-card-back>
+        <nb-card>
+          <nb-card-header>
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Grafico de incapacidades</h3>
+              </div>
+              <div class="col text-right">
+                <button type="button" (click)="fnViewHistory()" class="btn btn-link text-info cursor-pointer">
+                  {{ 'Ver historico' | titlecase }}&nbsp;
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div> 
+            
+            <!-- <span class=" mt-2 mb-3">
+              <i class="fas fa-arrow-left"></i>&nbsp;Regresar
+            </span> -->
+            
+          </nb-card-header>
+          <nb-card-body>
+            <div>
+              Paciente: 
+              <h4><strong>
+                {{ patientData?.tPrimerNombre | titlecase }} 
+                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
+                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.tSegundoApellido | titlecase }} 
+              </strong></h4>
+            </div>
+            <p class="mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
+            </p>
+            <div class="row">
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header text-center">
+                    {{ chart1.title }}
+                  </h5>
+                  <div class="card-body text-center">
+                    <google-chart #chart
+                      [title]="chart1.title"
+                      [type]="chart1.type"
+                      [data]="chart1.data"
+                      [columnNames]="chart1.columnNames"
+                      [options]="chart1.options">
+                    </google-chart>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header text-center">
+                    {{ chart2.title }}
+                  </h5>
+                  <div class="card-body text-center">
+                    <google-chart #chart
+                      [title]="chart2.title"
+                      [type]="chart2.type"
+                      [data]="chart2.data"
+                      [columnNames]="chart2.columnNames"
+                      [options]="chart2.options">
+                    </google-chart>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-back>
+    </nb-flip-card>
+
+  </div>
+</div>

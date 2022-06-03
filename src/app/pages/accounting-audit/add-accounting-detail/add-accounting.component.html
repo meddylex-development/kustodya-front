@@ -1,0 +1,201 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="font_family_roboto kstdy-card_content">
+        <div class="kstdy-modal_header pt-3 pb-2">
+          <div class="row justify-content-center">
+            <h6 class="font_family_roboto text-center" style="color: #1e90ff;">Agregar item</h6>
+            <i class="fas fa-times" (click)="fnCancelAddAccountingAudit()" style="position: absolute; right: 2rem; cursor: pointer;"></i>
+          </div>
+        </div>
+        <div class="p-3">
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (submit)="fnSetAddAccountingAudit(accounting_audit_data)" #addAccountingAuditDetailForm="ngForm" aria-labelledby="title" style="width: 35rem;">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-codigo_contable">C&oacute;digo contable </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-codigo_contable"
+                        [(ngModel)]="accounting_audit_data.codigoContable"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="C&oacute;digo contable" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-descripcion_movimiento">Descripci&oacute;n del movimiento </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-descripcion_movimiento"
+                        [(ngModel)]="accounting_audit_data.descripcionMovimiento"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="Descripci&oacute;n del movimiento" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="select_cebe">Centros de costos </label>
+                      <ng-select
+                        [items]="collection_benefits_center"
+                        bindLabel="codigo"
+                        bindValue="id"
+                        id="select_cebe"
+                        name="select_cebe"
+                        #select_cebe="ngModel"
+                        placeholder="Seleccione centro de costo"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="accounting_audit_data.centroCostoId"
+                        [disabled]="false"
+                        [clearable]="false">
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-nit_tercero">NIT. Tercero </label>
+                      <ng-select
+                        [items]="collection_thirds"
+                        bindLabel="numeroId"
+                        bindValue="numeroId"
+                        id="select_cebe"
+                        name="select_cebe"
+                        #select_cebe="ngModel"
+                        placeholder="Seleccione centro de costo"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="accounting_audit_data.nitTercero"
+                        [disabled]="false"
+                        [clearable]="false">
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center m-2">
+                  <h6 class="font_family_roboto" style="color: #1e90ff;">
+                    Valor a depurar
+                  </h6>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-debito">D&eacute;bito </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-debito"
+                        [(ngModel)]="accounting_audit_data.debito"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="D&eacute;bito" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-credito">Cr&eacute;dito </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-credito"
+                        [(ngModel)]="accounting_audit_data.credito"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="Cr&eacute;dito" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center m-2">
+                  <h6 class="font_family_roboto" style="color: #1e90ff;">
+                    Comprobante fuente
+                  </h6>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-referencia">Referencia </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-referencia"
+                        [(ngModel)]="accounting_audit_data.referencia"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="Referencia" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-numero_comprobante">N&uacute;mero comprobante cierre </label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-numero_comprobante"
+                        [(ngModel)]="accounting_audit_data.numComprobanteCierre"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="N&uacute;mero comprobante cierre" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="kstdy-referenciacion_soportes">Referenciaci&oacute;n soportes</label>
+                      <input
+                        class="kstdy-input_form"
+                        id="kstdy-referenciacion_soportes"
+                        [(ngModel)]="accounting_audit_data.referenciacionSoportes"
+                        [ngModelOptions]="{standalone: true}"
+                        nbInput 
+                        fullWidth 
+                        placeholder="Referenciaci&oacute;n soportes" 
+                        style="height: 45px;"/>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="select_tipo_ajuste">Tipo ajuste </label>
+                      <ng-select
+                        [items]="collection_adjustment_type"
+                        bindLabel="descripcion"
+                        bindValue="id"
+                        id="select_tipo_ajuste"
+                        name="select_tipo_ajuste"
+                        #select_tipo_ajuste="ngModel"
+                        placeholder="Seleccione tipo de ajuste"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="accounting_audit_data.tipoAjusteId"
+                        [disabled]="false"
+                        [clearable]="false">
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button type="submit" class="kstdy-pointer btn btn-primary kstdy-btn_success font_family_roboto" id="kstdy-btn_delete_accounting_audit"
+                    nbButton [disabled]="false" [class.btn-pulse]="submitted" status="info">Agregar</button>
+                </div>
+                <!-- &nbsp;&nbsp;&nbsp;
+                <button class="kstdy-pointer font_family_roboto" type="button" id="kstdy-btn_cancel_delete_accounting_audit" nbButton [class.btn-pulse]="submitted"
+                  (click)="fnCancelAddAccountingAudit()" status="danger">Cancelar</button> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

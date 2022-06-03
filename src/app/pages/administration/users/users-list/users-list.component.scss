@@ -1,0 +1,208 @@
+@import '../../../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  
+    button:focus { outline:0; }
+  
+    .font_family_roboto {
+      font-family: 'Roboto';
+    }
+
+    .kstdy-title_page {
+      font-family: 'Roboto';
+      color: #3D3D3D;
+    }
+
+    .kstdy-btn_action_create {
+      background: linear-gradient(to right, #1C93FF, #01BDFF);
+      color: white;
+      padding: 0 !important;
+      width: 9rem;
+    }
+
+    .kstdy-backgroud_layout {
+      background-color: #ffffff;
+      z-index: 1;
+    }
+
+    .kstdy-button_action_form {
+      background: linear-gradient(to right, #1C93FF, #01BDFF);
+      color: white;
+      padding: 0 !important;
+      // width: 9rem;
+      height: 40px !important;
+    }
+  
+    ::ng-deep .kstdy-pointer {
+      cursor: pointer;
+    }
+    
+    .kstdy-pointer {
+      cursor: pointer;
+    }
+
+    .kstdy-badge-color{
+      color: #fff !important;
+      background-color: nb-theme(kstdy-color-11);
+      font-size: smaller !important;
+      text-transform: none;
+    }
+   
+    .kstdy-badge-icon{
+      font-size: 10px;
+    }
+   
+    .kstdy-table {
+      color: nb-theme(kstdy-color-black);
+    }
+   
+    .kstdy-table-actions{
+      width: 35px;
+    }
+   
+    ::ng-deep .kstdy-icon-sort{
+      float: right !important;
+    }
+   
+    ::ng-deep .kstdy-pagin{
+      width: 20%;
+      margin: auto;
+    }
+   
+    ::ng-deep .kstdy-pagin-color{
+      color: nb-theme(kstdy-color-black);
+    }
+
+    .table thead th {
+      border-bottom: 1px solid #dee2e6;
+      margin: 0px;
+      background-color: #edf6ff;
+    }
+  
+    .table tbody tr:first-child td{
+      border-top: 0;
+    }
+    
+  /* ********** - ********** */
+  .kstdy-btns_actions {
+    text-transform: none;
+    cursor: pointer;
+    height: 36px;
+    width: nb-theme(kstdy-width-btn-crud);
+  }
+
+  .kstdy-text_input_search {
+    height: 36px;
+    margin: auto;
+    outline: none;
+    background-color: #F8FCFC;
+    border-color: #E9EEEF;
+  }
+
+  .kstdy-text_input_search:focus {
+    border-color: #1e90ff;
+  }
+
+  .kstdy-icon_input_search {
+    position: absolute;
+    margin-top: 0.8rem;
+    margin-left: -2rem;
+  }
+  
+  .kstdy-btn_action_create {
+    background: linear-gradient(to right, #1C93FF, #01BDFF);
+    color: white;
+    padding: 0 !important;
+    width: 9rem;
+    font-size: 1.1rem;
+  }
+
+  /deep/ a:hover {
+    color: nb-theme(kstdy-color-1);
+  }
+  
+  /deep/ a:focus {
+    color: nb-theme(kstdy-color-1);
+  }
+
+  .kstdy-description-color{
+    color: #5e5d5d;
+  }
+
+  .kstdy-icon_color {
+    color: #1e90ff;
+  }
+
+  .kdsty-check {
+    width: 19px;
+    border: solid 1px #ccc;
+    border-radius: 4px;
+  }
+
+  .table thead th {
+    border-bottom: 1px solid #dee2e6;
+    margin: 0px;
+    background-color: #edf6ff;
+  }
+
+  /* ********** START - css content layout pulse and empty data ********** */
+  .kstdy-empty_data_layout{
+    text-align: center;
+    margin: 2rem !important;
+    color: #a4abb3;
+  }
+
+  .kstdy-icon_not_found_data{
+    font-size: 7rem;
+    color: #a4abb3;
+  }
+
+  .kstdy-label_not_found_data{
+    color: #a4abb3;
+  }
+
+  @keyframes pulse {
+    0% {
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+    50% {
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+    100% {
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  /* *********** END - css content layout pulse and empty data *********** */
+    
+      
+  /* ********** START - paginator custom css ********** */
+
+  .kstdy-font_paginator {
+    font-size: 1rem;
+  }
+
+  ::ng-deep .ngx-pagination .current {
+    padding: 0.4rem 0rem !important;
+    height: 2rem !important;
+    width: 2rem !important;
+    border-radius: 15px !important;
+  }
+
+  ::ng-deep .ngx-pagination a:hover, .ngx-pagination button:hover {
+    background: transparent;
+  }
+
+  ::ng-deep .ngx-pagination li:focus, ::ng-deep .ngx-pagination a:focus{
+    border-color: white !important;
+  }
+
+  /* ********** END - paginator custom css ********** */
+
+  
+  .kstdy-delete_disabled {
+    opacity: 0.4;
+  }
+
+}

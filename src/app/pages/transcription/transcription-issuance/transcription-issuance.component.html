@@ -1,0 +1,144 @@
+<!-- ********** BEGIN - Content - Formulario de consulta numero de documento afiliado ********** -->
+<div class="col-12 p-4" style="background-color: #1e90ff;color: white;" *ngIf="search" id="divSearch">
+  <h1 id="title" class="title font_family_roboto text-center" style="color: white;">Ingrese los datos del
+    afiliado</h1>
+  <form (ngSubmit)="fnSearchUser()" #form="ngForm" aria-labelledby="title">
+    <!-- [nbSpinner]="submitted" nbSpinnerStatus="info" -->
+    <div class="col pb-4 form-control-group animate fadeIn">
+      <label class="label" for="documentType"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">Tipo
+        de documento <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">*</span></label>
+      <ng-select [items]="list_documentType" bindLabel="tTipoIdentificacion" id="documentType" name="documentType"
+        #documentType="ngModel" placeholder="Seleccione tipo de documento" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="user.documenttype" required [disabled]="readOnly" [clearable]="false" class="col-12 p-0 m-0"
+        (blur)="fnValidField('documentType', user.documenttype);">
+      </ng-select>
+    </div>
+    <div class="col pb-4 form-control-group animate fadeIn" style="margin-bottom: 2rem;">
+      <!-- <label class="label" for="przss-input-documentNumber">No. documento Usuario</label> -->
+      <label class="label" for="przss-input-documentNumber"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">No.
+        documento afiliado <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">*</span></label>
+      <input nbInput fullWidth [(ngModel)]="user.documentNumber" #documentNumber="ngModel" name="documentNumber"
+        id="przss-input-documentNumber" placeholder="Número documento" (focus)="errors = []" autofocus
+        [status]="documentNumber.dirty ? (documentNumber.invalid  ? 'danger' : 'info') : ''" [required]="required"
+        [attr.aria-invalid]="documentNumber.invalid && documentNumber.touched ? true : null"
+        (blur)="fnValidField('documentNumber', user.documentNumber);">
+      <ng-container *ngIf="documentNumber.invalid && documentNumber.touched">
+        <p class="error-message" *ngIf="documentNumber.errors?.required">
+          El número de documento es requerido!
+        </p>
+        <p class="error-message" *ngIf="documentNumber.errors?.pattern">
+          Document number should be the real one!
+        </p>
+      </ng-container>
+    </div>
+    <button nbButton fullWidth status="success" class="przss-button_signin font_family_roboto pgp-pointer" [disabled]="
+      user == null ||
+      user.documenttype == null ||
+      user.documentNumber == null ||
+      submitted || 
+      !form.valid" [class.btn-pulse]="submitted">
+      SIGUIENTE
+    </button>
+  </form>
+</div>
+<!-- *********** END - Content - Formulario de consulta numero de documento afiliado *********** -->
+<!-- ********** BEGIN - Content - Informacion inicial IPS y Afiliado ********** -->
+<div id="content" class="col-12 m-0 p-0" *ngIf="!search">
+  <!-- <div id="content" style="margin: 10px 0px;" *ngIf="false"> -->
+  <div class="row justify-content-center" *ngIf="false">
+    <!-- ********** START - Breadcrumbs ********** -->
+    <div class="col-8"
+      style="background-color: #fff; padding: 10px; border: 2px solid #e7eaed; border-radius: 8px !important; margin: 10px 0px !important;">
+      <img src="../../../../assets/images/imgs/Compensar_logo.png" alt="Logo EPS"
+        style="width: 150px; margin: 2.5% 0rem;" id="logo_eps">
+    </div>
+    <!-- *********** END - Breadcrumbs *********** -->
+  </div>
+
+  <div class="row" style="border: 2px solid #e7eaed; border-radius: 8px !important; margin: 0px 0px 10px 0px;">
+    <!-- ********** START - Breadcrumbs ********** -->
+    <div class="col text-center"
+      style="background-color: #fff; padding: 10px; border: 1px solid #fff; border-radius: 0px 8px 8px 0px !important; text-align: right;">
+      <h4>
+        {{paciente?.tPrimerNombre + ' '+ paciente?.tSegundoNombre + ' ' + paciente?.tPrimerApellido + ' ' + paciente?.tSegundoApellido | titlecase }}
+      </h4>
+      <span>
+        <h6>C.C. {{ paciente?.tNumeroDocumento }}</h6>
+      </span>
+      <span>
+        <h6>Afiliado</h6>
+      </span>
+    </div>
+    <!-- *********** END - Breadcrumbs *********** -->
+  </div>
+
+
+  <div class="row prtkto-row_container_tabs">
+    <!-- ********** START - Breadcrumbs ********** -->
+
+    <div class="col-4"
+      [ngClass]="{ 'prtkto-border_bottom_tab_active': tab_active == 1, 'prtkto-border_bottom_tab_inactive': tab_active != 1 }"
+      (click)="tab_active = 1">
+      <div class="m-3 text-center">
+        <i class="fas fa-user-tag"
+          [ngClass]="{ 'prtkto-font_1': tab_active == 1, 'prtkto-font_2': tab_active != 1 }"></i>&nbsp;&nbsp;
+        <h5 class="d-inline-block"
+          [ngClass]="{ 'prtkto-text_tab_active': tab_active == 1, 'prtkto-text_tab_inactive': tab_active != 1 }">Usuario
+        </h5>
+      </div>
+    </div>
+    <div class="col-4"
+      [ngClass]="{ 'prtkto-border_bottom_tab_active': tab_active == 2, 'prtkto-border_bottom_tab_inactive': tab_active != 2 }"
+      (click)="tab_active = 2">
+      <div class="m-3 text-center">
+        <i class="fas fa-history"
+          [ngClass]="{ 'prtkto-font_1': tab_active == 2, 'prtkto-font_2': tab_active != 2 }"></i>&nbsp;&nbsp;
+        <h5 class="d-inline-block"
+          [ngClass]="{ 'prtkto-text_tab_active': tab_active == 2, 'prtkto-text_tab_inactive': tab_active != 2 }">
+          Histórico</h5>
+      </div>
+    </div>
+    <div class="col-4"
+      [ngClass]="{ 'prtkto-border_bottom_tab_active': tab_active == 3, 'prtkto-border_bottom_tab_inactive': tab_active != 3 }"
+      (click)="tab_active = 3">
+      <div class="m-3 text-center">
+        <i class="fas fa-clipboard-list"
+          [ngClass]="{ 'prtkto-font_1': tab_active == 3, 'prtkto-font_2': tab_active != 3 }"></i>&nbsp;&nbsp;
+        <h5 class="d-inline-block"
+          [ngClass]="{ 'prtkto-text_tab_active': tab_active == 3, 'prtkto-text_tab_inactive': tab_active != 3 }">
+          Transcripci&oacute;n</h5>
+      </div>
+    </div>
+
+    <!-- *********** END - Breadcrumbs *********** -->
+  </div>
+
+  <div class="row prtkto-row_content_data_tabs">
+    <!-- ********** START - Breadcrumbs ********** -->
+
+    <div class="col-12 m-3" *ngIf="tab_active == 1">
+      <ngx-transcription-user [paciente]="paciente"></ngx-transcription-user>
+    </div>
+    <div class="col-12 m-3" *ngIf="tab_active == 2">
+      <!-- <div>History</div> -->
+      <ngx-transcription-history [incapacidades]="incapacidades"></ngx-transcription-history>
+      <!-- <ngx-incapacity-history [incapacidades]="incapacidades" [paciente]="paciente"></ngx-incapacity-history> -->
+    </div>
+    <div class="col-12 m-3" *ngIf="tab_active == 3">
+      <ngx-transcription-diagnostic 
+        [diagnostic]="diagnostic" 
+        [readOnly]="readOnly" 
+        [list_Cie10]="list_Cie10"
+        [collection_cie_10]="collection_cie_10" 
+        [list_origenIncapacidad]="list_origenIncapacidad">
+      </ngx-transcription-diagnostic>
+    </div>
+
+    <!-- *********** END - Breadcrumbs *********** -->
+  </div>
+</div>
+<!-- *********** END - Content - Informacion inicial IPS y Afiliado *********** -->

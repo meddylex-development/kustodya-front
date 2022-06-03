@@ -1,0 +1,108 @@
+<div class="row kstdy-backgroud_layout p-0" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto mt-4">Clase documento</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <i class="fas fa-info-circle"></i>&nbsp;Por favor agregue todas las clases de documento que requiera y su valor por defecto, este campo lo podra visualizar en el encabezado del documento.
+          </div>
+          <div class="col-3 text-right">
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_add_accounting" (click)="fnShowModalNewDocumentType()">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - Document type ********** -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="border-0" colspan="2" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-left border-0">
+                C&oacute;digo
+              </th>
+              <th scope="col" class="text-left border-0">
+                Contabilidad
+              </th>
+              <th scope="col" class="text-left border-0">
+                Descripci&oacute;n
+              </th>
+              <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                Por defecto
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data_document_type of list_documents | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-center p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color" (click)="fnShowModalUpdateDocumentType(data_document_type)"></i>
+                </td>
+                <td class="kstdy-table-actions text-center p-3">
+                  <i class="fas fa-trash kstdy-pointer kstdy-icon_color" (click)="fnShowModalDeleteDocumentType(data_document_type)"></i>
+                </td>
+                <td class="text-left p-3">{{ data_document_type.codigoContabilidad }}</td>
+                <td class="text-left p-3">{{ data_document_type.contabilidad }}</td>
+                <td class="text-left p-3">{{ data_document_type.descripcion }}</td>
+                <td class="text-center p-3"><nb-checkbox status="info" readonly [value]="data_document_type.esClaseDocumentoPorDefecto"></nb-checkbox></td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - Document type *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_documents?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_documents.length) ? (list_documents.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-between" style="border-top: 1px solid #ccc;">
+      <div class="col-3 text-left mt-4">
+        <h4 class="font_family_roboto">Centro de costos</h4>
+      </div>
+      <div class="col-4 text-right mt-4">
+        <div class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_cost_import" style="position: relative; line-height: 241%; cursor: pointer !important;">
+          <label for="file" class="kstdy-pointer">Importar</label>
+          <input [(ngModel)]="file_name_input" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="kstdy-input_import" id="file" (change)="handleFileInput($event.target.files)">
+        </div>&nbsp;&nbsp;&nbsp;
+        <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_cost_export" (click)="fnExportCostCenter()">Exportar</button>
+      </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="col-6 text-left mt-4 mb-3">
+        <i class="fas fa-info-circle"></i>&nbsp;Por favor exporte la plantilla para poder cargar su informacion.
+      </div>
+       <!-- ********** START - Div content file upload state - PUC ********** -->
+       <div class="col-3 mt-4 mb-3 text-center" style="height: 21px;">
+        <div class="row" *ngIf="file_name != null">
+          <div class="col-12 mb-1 mt-1">
+            <i class="fas fa-caret-right" style="color: #1C93FF;"></i> &nbsp; &Uacute;ltimo archivo importado:&nbsp; {{file_name}}
+          </div>
+        </div>
+        <div class="row justify-content-center" *ngIf="obj_file_upload.status === 'progress'">
+          <div class="col-8 mb-1 mt-1">
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="percentaje_status_bar">
+                {{ percentaje_status_bar }}% Completado
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ********** START - Div content file upload state - PUC ********** -->
+    </div>
+    
+  </div>
+</div>

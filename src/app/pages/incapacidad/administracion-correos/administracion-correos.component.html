@@ -1,0 +1,58 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="statusSpinner" nbSpinnerStatus="info" nbSpinnerSize="large" [nbSpinnerMessage]="spinnerMessage">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-body>
+
+        <div class="" style="background-color: #fff; padding: 10px; border-radius: 6px; border: 1px solid #1e90ff;">
+          <div class="" style="display: flex; justify-content: space-between;">
+              <span class="">
+                  <i class="fas fa-clipboard-list" style="color: dodgerblue; font-size: 25px;"></i>&nbsp;&nbsp; 
+                  <span style="display: inline-block;">
+                    <h5 class="m-0">Enviar reporte por correo electr&oacute;nico</h5>
+                  </span>
+              </span>
+          </div>
+          <div class="search-form" style="position: relative; margin-top: 15px; display: block;">
+            <div class="row" >
+              <div class="col">
+                Incapacidades prolongadas con más de 540 días en el ultimo mes.
+              </div>
+              <div class="col">
+                <button 
+                  class="cursor-pointer mb-2"
+                  nbButton 
+                  fullWidth 
+                  type="button" 
+                  (click)="fnSendReport()"
+                  style="background-color: dodgerblue; border-color: #9d9d9d; color: #fff;">
+                  Enviar reporte
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style=" margin: auto; width: 50%;" style="display: none;">
+          <button (click)="exportexcel()">Export to Excel</button>
+         
+          <table id="excel-table" >
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+            <tr *ngFor="let item of userList">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.username}}</td>
+              <td>{{item.email}}</td>
+            </tr>
+          </table>
+        </div>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div> 
+

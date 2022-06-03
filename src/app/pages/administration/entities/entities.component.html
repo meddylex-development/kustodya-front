@@ -1,0 +1,12 @@
+<div class="row pgp-backgroud_layout font_family_roboto pr-0" style="overflow: hidden;">
+  <div class="col-12" *ngIf="flag_show_tabs == 1">
+    <ngx-entities-list (flagCreateEntity)="fnShowTabsOptionsData($event)"></ngx-entities-list>
+  </div>
+  <div class="col-12" *ngIf="flag_show_tabs == 2">
+    <ngx-add-entity (flagCreateEntity)="fnShowTabsOptionsData($event)"></ngx-add-entity>
+  </div>
+  <div class="col-12" *ngIf="flag_show_tabs == 3">
+    <ngx-entities-tabs [dataEntity]="data_entity" (flagCreateEntity)="fnShowTabsOptionsData($event)"></ngx-entities-tabs>
+    <!-- <ngx-edit-user [dataUser]="dataUser" (flagCreateUser)="fnShowTabsOptionsData($event)"></ngx-edit-user> -->
+  </div>
+</div>

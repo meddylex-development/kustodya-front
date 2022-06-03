@@ -1,0 +1,181 @@
+@import "../../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+    ::ng-deep nb-card {
+        margin: 10px !important;
+        height: calc(100vh - 3rem) !important;
+        max-width: 100%;
+        opacity: 1;
+    }
+
+    ::ng-deep ngx-historico-paciente {
+        overflow-x: hidden !important;
+    }
+
+    ::ng-deep .front-container {
+        width: 100% !important;
+    }
+
+    ::ng-deep a:hover, a:focus {
+        color: #01BDFF !important;
+    }
+
+    ::ng-deep .nb-theme-default a:hover, .nb-theme-default a:focus {
+        color: #01BDFF;
+    }
+
+    ::ng-deep nb-card-header {
+        display: block !important;
+    }
+
+    ::ng-deep nb-card-body {
+        /* overflow: hidden !important; */
+        box-shadow: none !important;
+    }
+
+    ::ng-deep .ngx-pagination > li.current {
+        border-radius: 15px;
+    }
+
+    ::ng-deep .ngx-pagination a:hover, .ngx-pagination button:hover {
+        background: #e6e6e6;
+        border-radius: 10px;
+    }
+
+    ::ng-deep .btn {
+        text-transform: none;
+    }
+
+    nb-card-body {
+        /* overflow: hidden !important; */
+        box-shadow: none !important;
+    }
+
+    nb-card-header {
+        display: block !important;
+    }
+
+    small {
+        font-weight: 600;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .content-pagination {
+        display: flex; 
+        justify-content: space-around;
+    }
+
+    .badge-state-1 {
+        background-color: #0d6efd !important;
+        padding: 4px 10px;
+    }
+    
+    .badge-state-2 {
+        background-color: #ffc107 !important;
+        padding: 4px 10px;
+    }
+
+    
+    .iframeContainer {
+        width: 100%;
+        height: 100%;
+        background-color: #FFFFFF;
+        padding: 0px;
+        clear: both;
+    }
+
+    .desktop-view {
+        background: #FFFFFF;
+        height: 80vh;
+    }
+
+
+    .desktop-view iframe{
+        border: none !important;
+    }
+
+    ::ng-deep #powerBIReportContainer {
+        width: 100%;
+        height: 750px;
+        background-color: white;
+        padding: 0px;
+        clear: both;
+    }
+    ::ng-deep .desktop-view iframe, .mobile-view iframe {
+        border: none;
+    }
+
+    #powerBIReportContainer > iframe {
+        border: none !important;
+    }
+
+    #imgEpsInforme {
+        width: 30em;
+    }
+
+    #tituloInforme {
+        margin: 40px; 
+        font-weight: 700; 
+        text-align: center;
+    }
+
+    @media print {
+
+        .card {
+            border: 1px solid #3b3b3b !important;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #929292 !important;
+            background-color: #808080 !important;
+            border-left: 1px solid #929292 !important;
+            border-right: 1px solid #929292 !important; 
+        }
+        
+        .card {
+            background-color: #f7f7f7 !important;
+            border: 1px solid #929292 !important; 
+        }
+
+        #header-card-report {
+            display: none !important;
+        }
+        
+        #content-header {
+            display: none !important;
+        }
+
+        * {
+            -webkit-print-color-adjust: exact !important;   /* Chrome, Safari, Edge */
+            color-adjust: exact !important;                 /*Firefox*/
+        }
+
+        ::ng-deep #powerBIReportContainer {
+            width: 115%;
+            height: 750px;
+            background-color: white;
+            padding: 0px;
+            clear: both;
+            zoom: 160% !important;
+        }
+        ::ng-deep .desktop-view iframe, .mobile-view iframe {
+            border: none;
+        }
+
+        #imgEpsInforme {
+            width: 20em;
+        }
+
+        #tituloInforme {
+            margin: 40px; 
+            font-weight: 700; 
+            text-align: left;
+        }
+    }
+
+}

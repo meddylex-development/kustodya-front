@@ -1,0 +1,607 @@
+<div class="col-12 p-5" style="width: 100%;;overflow-y: scroll;height: 75vh; padding-top: 1.7rem !important;">
+  <div class="row col-12" *ngIf="readOnly" style="padding-bottom: 2rem;color: black;">
+    <div class="col-12 p-0 text-center" style="margin: auto;" id="qrcodeid">
+      <ngx-qrcode id="qrCodeImage" [qrc-element-type]="url" [qrc-value]="diagnostic?.codigoQR"
+        qrc-errorCorrectionLevel="L">
+      </ngx-qrcode>
+    </div>
+    <div class="col-12 p-0 text-center">
+      Código Único Nacional de Incapacidades
+    </div>
+    <div class="col-12 p-0 text-center">
+      {{diagnostic?.uiCodigoDiagnostico}}
+    </div>
+    <div class="col-12 text-center" style="margin: auto;">
+      <button nbButton fullWidth status="success" class="col-4 button_diagnostic font_family_roboto pointer"
+        (click)="fnVerIncapacidad()">
+        Ver Incapacidad
+      </button>
+    </div>
+  </div>
+  <!-- <div class="col-12">
+    <pre>{{ attention_type | json }}</pre>
+    <pre>{{ emission_type | json }}</pre>
+  </div> -->
+  <!-- <form [formGroup]="diagnosticform" (ngSubmit)="generateDiagnostic();" class="row col formDiagnostic" #diagnosticform="ngForm" aria-labelledby="title"> -->
+  <form (ngSubmit)="generateDiagnostic();" class="row col formDiagnostic" #diagnosticform="ngForm"
+    aria-labelledby="title" novalidate>
+
+    <div class="col-12 row">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="diagnostictime" [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">
+          Tipo de atencion-- <span [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span>
+        </label>
+        <ng-select 
+          *ngIf="!readOnly" 
+          [items]="list_incapacity_attention_types" 
+          bindLabel="tTipoAtencion"
+          id="ng_attention_types" 
+          name="ng_attention_types" 
+          #ng_attention_types="ngModel"
+          placeholder="Seleccione tipo de atención" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="attention_type"
+          required 
+          [disabled]="readOnly" 
+          [clearable]="false" 
+          class="col-4 p-0 m-0">
+        </ng-select>
+        <div *ngIf="readOnly">
+          <p style="color: rgb(24, 18, 18);font-weight: bold;">{{ diagnostic?.tipoAtencion?.tDescripcion }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 row" *ngIf="false">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="ng_emission_types"
+          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">Tipo
+          de emisión <span
+            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span></label>
+        <ng-select *ngIf="!readOnly" [items]="list_emission_types" bindLabel="tTipoEmision"
+          id="ng_emission_types" name="ng_emission_types" #ng_emission_types="ngModel"
+          placeholder="Seleccione tipo de emisión" [ngModelOptions]="{standalone: true}" [(ngModel)]="emission_type"
+          required [disabled]="readOnly" [clearable]="false" class="col-4 p-0 m-0">
+        </ng-select>
+        <div *ngIf="readOnly">
+          <p style="color: #000;font-weight: bold;">{{ diagnostic?.tipoEmision?.tTipoEmision }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 row">
+
+      <div class="col pb-4 form-control-group animate fadeIn">
+        <label class="label" for="diagnostictime"
+          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">Tiempo
+          <span
+            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }">*</span></label>
+        <textarea *ngIf="!readOnly" nbInput fullWidth [(ngModel)]="diagnostic_time" [ngModelOptions]="{standalone: true}"
+          #diagnostictime="ngModel" id="diagnostictime" placeholder="Máximo 400 caracteres"
+          class="form-control" name="diagnostictime"
+          (blur)="fnValidField('diagnostic_time', diagnostic_time, 400);"
+          (focus)="error_form['diagnostic_time']['data'] = false; error_form['diagnostic_time']['length'] = false;"
+          required
+          [ngClass]="{ 'prtkt-error_border': (error_form['diagnostic_time']['data'] == true || error_form['diagnostic_time']['length'] == true) }"
+          rows="5"></textarea>
+        <div *ngIf="error_form['diagnostic_time']['data']">
+          <p class="text-danger">
+            Campo requerido.
+          </p>
+        </div>
+        <div *ngIf="error_form['diagnostic_time']['length']">
+          <p class="text-danger">
+            El campo debe ser máximo de 400 caracteres.
+          </p>
+        </div>
+        <!-- <div [hidden]="diagnostictime.valid || diagnostictime.pristine" class="alert alert-danger">
+            <div *ngIf="diagnostictime.errors?.required">
+              Este campo es requerido.
+            </div>
+            <div *ngIf="diagnostictime.errors?.minlength">
+              Por lo menos  caracteres.
+            </div>
+          </div> -->
+        <!-- <div *ngIf="diagnosticform.submitted && diagnostictime.invalid" class="invalid-feedback">
+            <div *ngIf="diagnostictime.errors.required">Tiempo is required</div>
+          </div> -->
+        <!-- <p *ngIf="error_validate_form" [ngClass]="{ 'prtkt-error_text': error_validate_form == true }">Debes agregar un texto descriptivo para el campo Tiempo</p>
+        <ng-container *ngIf="diagnostic_time.invalid && diagnostic_time.touched">
+          <p class="error-message" *ngIf="diagnostic_time.errors?.required">
+            Time is required!
+          </p>
+          <p class="error-message" *ngIf="diagnostic_time.errors?.pattern">
+            Text time should be real!
+          </p>
+        </ng-container> -->
+        <div *ngIf="readOnly">
+          <p style="color: #000;font-weight: bold;">{{ diagnostic?.tTiempo }}</p>
+        </div>
+      </div>
+
+
+      <div class="col pb-4 form-control-group animate fadeIn">
+        <label class="label" for="diagnosticmode"
+          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_mode']['data'] == true || error_form['diagnostic_mode']['length'] == true) }">Modo
+          <span
+            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_mode']['data'] == true || error_form['diagnostic_mode']['length'] == true) }">*</span></label>
+        <textarea *ngIf="!readOnly" nbInput fullWidth [(ngModel)]="diagnostic_mode" [ngModelOptions]="{standalone: true}"
+          #diagnosticmode="ngModel" id="diagnosticmode" placeholder="Máximo 400 caracteres"
+          class="form-control" name="diagnosticmode"
+          (blur)="fnValidField('diagnostic_mode', diagnostic_mode, 400);"
+          (focus)="error_form['diagnostic_mode']['data'] = false; error_form['diagnostic_mode']['length'] = false;"
+          required
+          [ngClass]="{ 'prtkt-error_border': (error_form['diagnostic_mode']['data'] == true || error_form['diagnostic_mode']['length'] == true) }"
+          rows="5"></textarea>
+        <div *ngIf="error_form['diagnostic_mode']['data']">
+          <p class="text-danger">
+            Campo requerido.
+          </p>
+        </div>
+        <div *ngIf="error_form['diagnostic_mode']['length']">
+          <p class="text-danger">
+            El campo debe ser máximo de 400 caracteres.
+          </p>
+        </div>
+        <div *ngIf="readOnly">
+          <p style="color: #000;font-weight: bold;">{{ diagnostic?.tModo }}</p>
+        </div>
+      </div>
+
+
+      <div class="col pb-4 form-control-group animate fadeIn">
+        <label class="label" for="diagnosticmode"
+          [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_place']['data'] == true || error_form['diagnostic_place']['length'] == true) }">Lugar
+          <span
+            [ngClass]="{ 'prtkt-error_label': (error_form['diagnostic_place']['data'] == true || error_form['diagnostic_place']['length'] == true) }">*</span></label>
+        <textarea *ngIf="!readOnly" nbInput fullWidth [(ngModel)]="diagnostic_place" [ngModelOptions]="{standalone: true}"
+          #diagnosticplace="ngModel" id="diagnosticplace" placeholder="Máximo 400 caracteres"
+          class="form-control" name="diagnosticplace"
+          (blur)="fnValidField('diagnostic_place', diagnostic_place, 400);"
+          (focus)="error_form['diagnostic_place']['data'] = false; error_form['diagnostic_place']['length'] = false;"
+          required
+          [ngClass]="{ 'prtkt-error_border': (error_form['diagnostic_place']['data'] == true || error_form['diagnostic_place']['length'] == true) }"
+          rows="5"></textarea>
+        <div *ngIf="error_form['diagnostic_place']['data']">
+          <p class="text-danger">
+            Campo requerido.
+          </p>
+        </div>
+        <div *ngIf="error_form['diagnostic_place']['length']">
+          <p class="text-danger">
+            El campo debe ser máximo de 400 caracteres.
+          </p>
+        </div>
+        <div *ngIf="readOnly">
+          <p style="color: #000;font-weight: bold;">{{ diagnostic?.tLugar }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <pre *ngIf="false">
+      {{ error_form | json }}
+    </pre>
+
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <!-- <label class="label" for="select-Cie10">Síntomas *</label> -->
+        <label class="label" for="ngcie10sympton"
+          [ngClass]="{ 'prtkt-error_label': (error_form['id_cie_10_symptom']['data'] == true || error_form['id_cie_10_symptom']['length'] == true) }">Síntomas
+          <span
+            [ngClass]="{ 'prtkt-error_label': (error_form['id_cie_10_symptom']['data'] == true || error_form['id_cie_10_symptom']['length'] == true) }">*</span></label>
+        <ng-select [items]="collection_cie_10[1]" bindLabel="tFullDescripcion" id="ngcie10sympton" name="ngcie10sympton"
+          #ngcie10sympton="ngModel"
+          (change)="fnAddCollectionCompleteDiagnosis('symptom', id_cie_10_symptom, collection_cie_10[1], $event.target);"
+          placeholder="Seleccione síntoma" [ngModelOptions]="{standalone: true}" [(ngModel)]="id_cie_10_symptom"
+          required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+          (blur)="fnValidField('id_cie_10_symptom', id_cie_10_symptom);"
+          (focus)="error_form['id_cie_10_symptom']['data'] = false; error_form['id_cie_10_symptom']['length'] = false;"
+          [ngClass]="{ 'prtkt-error_border': (error_form['id_cie_10_symptom']['data'] == true || error_form['id_cie_10_symptom']['length'] == true) }"
+          dropdownPosition="bottom">
+        </ng-select>
+        <!-- <div *ngIf="error_form['id_cie_10_symptom']['data'] == true">
+          <p class="text-danger">
+            Campo requerido.
+          </p>
+        </div>
+        <div *ngIf="error_form['id_cie_10_symptom']['length']">
+          <p class="text-danger">
+            El campo debe ser máximo de 400 caracteres.
+          </p>
+        </div> -->
+        <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+        <!-- <ng-container *ngIf="ngcie10sympton.invalid || error_cie10">
+          <p class="error-message">
+            Sintomatologia es requerida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+    <div class="col-12" *ngIf="!readOnly">
+      <div *ngFor="let item of collection_diagnosis_complete?.symptom; let i = index;">
+        <span class="row badge badge-pill badge-primary" style="font-size: 1em; margin: 5px 0px;">
+          <div class="col-11">
+            {{ item.tFullDescripcion }}
+          </div>
+          <i class="col-1 fas fa-times-circle" style="cursor: pointer;"
+            (click)="fnRemoveItemCollectionDiagnosisComplete(i, 'symptom', item, collection_diagnosis_complete['symptom']);"></i>
+        </span>&nbsp;
+      </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="select-Cie10">Síntomas:</label>
+      <div *ngFor="let item of collection_cie10?.symptoms; let i = index;">
+        <span class="badge badge-pill badge-primary"
+          style="font-size: 1em; margin: 5px 0px;">{{ item.tFullDescripcion }}&nbsp;&nbsp;</span>&nbsp;
+      </div>
+    </div>
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="select-Cie10">Signos:</label>
+        <ng-select [items]="collection_cie_10[2]" bindLabel="tFullDescripcion" id="select-Cie10" name="ngcie10"
+          #ngcie10="ngModel"
+          (change)="fnAddCollectionCompleteDiagnosis('signs', id_cie_10_signs, collection_cie_10[2], $event.target);"
+          placeholder="Seleccione signo" [ngModelOptions]="{standalone: true}" [(ngModel)]="id_cie_10_signs"
+          (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+          dropdownPosition="bottom">
+        </ng-select>
+
+        <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+        <!-- <ng-container *ngIf="ngcie10.invalid || error_cie10">
+          <p class="error-message">
+            Sintomatologia es requerida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+    <div class="col-12" *ngIf="!readOnly">
+      <div *ngFor="let item of collection_diagnosis_complete?.signs; let i = index;">
+        <span class="row badge badge-pill badge-primary" style="font-size: 1em; margin: 5px 0px;">
+          <div class="col-11">
+            {{ item.tFullDescripcion }}
+          </div>
+          <i class="col-1 fas fa-times-circle" style="cursor: pointer;"
+            (click)="fnRemoveItemCollectionDiagnosisComplete(i, 'signs', item, collection_diagnosis_complete['signs']);">
+          </i>
+        </span>
+      </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="select-Cie10">Signos:</label>
+      <div *ngFor="let item of collection_cie10?.signs; let i = index;">
+        <span class="badge badge-pill badge-primary"
+          style="font-size: 1em; margin: 5px 0px;">{{ item.tFullDescripcion }}&nbsp;&nbsp;</span>&nbsp;
+      </div>
+    </div>
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="select-Cie10">Diagnóstico:</label>
+        <ng-select 
+          [items]="collection_cie_10[0]" 
+          bindLabel="tFullDescripcion" 
+          id="select-Cie10" 
+          name="ngcie10"
+          #ngcie10="ngModel"
+          (change)="fnAddCollectionDiagnosis('diagnosis', id_cie_10_diagnosis); fnGetCorrelationDiagnostic($event);"
+          placeholder="Seleccione diagnostico" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="id_cie_10_diagnosis"
+          (focus)="errors = []" 
+          required 
+          [disabled]="readOnly" 
+          [virtualScroll]="true" 
+          [clearable]="false"
+          dropdownPosition="bottom">
+        </ng-select>
+        <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+        <!-- <ng-container *ngIf="ngcie10.invalid || error_cie10">
+          <p class="error-message">
+            Sintomatologia es requerida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" *ngIf="!readOnly">
+      <div *ngFor="let item of collection_diagnosis_complete?.diagnosis; let i = index;">
+        <span class="row badge badge-pill badge-primary" style="font-size: 1em; margin: 5px 0px;">
+          <div class="col-11">
+            {{ item.tFullDescripcion }}
+          </div>
+          <i class="col-1 fas fa-times-circle" style="cursor: pointer;"
+            (click)="fnRemoveItemCollectionDiagnosisComplete(i, 'diagnosis', item, collection_diagnosis_complete['diagnosis']);"></i>
+        </span>
+      </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="select-Cie10">Diagnóstico:</label>
+      <div *ngFor="let item of collection_cie10?.diagnostics; let i = index;">
+        <span class="badge badge-pill badge-primary"
+          style="font-size: 1em; margin: 5px 0px;">{{ item.tFullDescripcion }}&nbsp;&nbsp;</span>&nbsp;
+      </div>
+    </div>
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="applyLaterality">
+      <div class="col-8 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="select-Lateralidad">Lateralidad:&nbsp;<span class="text-danger">*</span></label>
+        <ng-select 
+          [items]="collectionLateralidad" 
+          bindLabel="tNombre" 
+          bindValue="iIDLateralidad"
+          id="select-Lateralidad" 
+          name="ngLateralidad"
+          #ngLateralidad="ngModel"
+          placeholder="Seleccione lateralidad" 
+          [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="lateralidad"
+          (focus)="errors = []" 
+          required 
+          [disabled]="readOnly" 
+          [virtualScroll]="true" 
+          [clearable]="false"
+          dropdownPosition="bottom">
+        </ng-select>
+        <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
+
+        <!-- <ng-container *ngIf="ngcie10.invalid || error_cie10">
+          <p class="error-message">
+            Sintomatologia es requerida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="readOnly">
+      <div class="col-4 pt-0 pb-0 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">Proroga</label>
+        <h5 class="font_family_roboto" style="color: #000;font-weight: bold;">
+          {{ (data_correlation_diagnostic?.bProrroga) ? 'Aplicada' : 'No aplicada' }}</h5>
+      </div>
+      <div class="col-4 pt-0 pb-0 form-control-group" *ngIf="data_correlation_diagnostic?.bProrroga">
+        <label class="label" for="input-DiasIncapacidad">Días acumulados proroga</label>
+        <div>
+          <h5 class="font_family_roboto" style="display: inline-block;">{{ data_correlation_diagnostic?.iDiasAcumuladosPorroga }} días</h5>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 class="font_family_roboto" id="lableMaxDias" for="input-DiasMaxConsulta" style="display: inline-block;">Max.
+            <strong>{{ id_cie_10_diagnosis?.iDiasMaxAcumulados }}</strong> Días</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 row mt-2 mb-2 animate fadeIn" *ngIf="!readOnly && data_correlation_diagnostic">
+      <div class="col-4 pb-4 form-control-group">
+        <label class="label" for="select-origenIncapacidad">Proroga</label>
+        <div>
+          <h5 class="font_family_roboto">{{ (data_correlation_diagnostic?.bProrroga) ? 'Aplicada' : 'No aplicada' }}</h5>
+        </div>
+      </div>
+      <div class="col pb-4 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">Días acumulados proroga</label>
+        <div>
+          <h5 class="font_family_roboto" style="display: inline-block;">{{ data_correlation_diagnostic?.iDiasAcumuladosPorroga }} días</h5>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 class="font_family_roboto" id="lableMaxDias" for="input-DiasMaxConsulta" style="display: inline-block;">Max.
+            <strong>{{ id_cie_10_diagnosis?.iDiasMaxAcumulados }}</strong> Días</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="!readOnly">
+      <div class="col-4 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="select-origenIncapacidad">Soat</label>
+        <div>
+          <div class="form-check form-check-inline mr-5">
+            <input class="form-check-input" type="radio" name="soat_insurance" id="inlineRadio1" [value]="true"
+              [(ngModel)]="soat_insurance">
+            <label class="form-check-label" for="inlineRadio1">Si</label>
+          </div>
+          <div class="form-check form-check-inline mr-5">
+            <input class="form-check-input" type="radio" name="soat_insurance" id="inlineRadio2" [value]="false"
+              [(ngModel)]="soat_insurance" checked>
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-4 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="input-DiasIncapacidad">Días Otorgados</label>
+        <input nbInput fullWidth type="number" [min]="1" [max]="id_cie_10_diagnosis?.iDiasMaxConsulta"
+          [(ngModel)]="iDiasIncapacidad" #diagnosticDiasIncapacidad="ngModel" (change)="fnValidDays(iDiasIncapacidad);"
+          [disabled]="(collection_diagnosis_complete.diagnosis?.length > 0) ? readOnly : true"
+          name="diagnosticDiasIncapacidad" id="input-DiasIncapacidad" placeholder="Días otorgados">
+        <ng-container *ngIf="diagnosticDiasIncapacidad.invalid && diagnosticDiasIncapacidad.touched">
+          <p class="error-message" *ngIf="diagnosticDiasIncapacidad.errors?.required">
+            Días de incapacidad es requerido!
+          </p>
+
+          <p class="error-message" *ngIf="diagnosticDiasIncapacidad.errors?.pattern">
+            ¡Los días de incapacidad debe ser validos!
+          </p>
+        </ng-container>
+        <ng-container *ngIf="errors_DiasIncapacidad">
+          <p class="error-message">
+            ¡Los días de incapacidad deben estar entre 0 y {{diagnostic?.cie10?.iDiasMaxConsulta}}!
+          </p>
+        </ng-container>
+      </div>
+      <div class="col-4" *ngIf="id_cie_10_diagnosis.iDiasMaxConsulta">
+        <h5 class="font_family_roboto" id="lableMaxDias" for="input-DiasMaxConsulta" style="margin: 2rem 0rem;">Max.
+          <strong>{{ id_cie_10_diagnosis?.iDiasMaxConsulta }}</strong> Días</h5>
+      </div>
+
+    </div>
+
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-4 pb-4 form-control-group animate fadeIn" *ngIf="origin_incapacity_qualified == null">
+        <label class="label" for="select-origenIncapacidad"><span style="opacity: 0.75;">Origen: </span><span
+            style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Presunto</span></label>
+        <ng-select [items]="list_origenIncapacidad" bindLabel="tOrigenIncapacidad" id="select-origenIncapacidad"
+          name="ngorigenIncapacidad" #ngorigenIncapacidad="ngModel" placeholder="Seleccione origen incapacidad"
+          [ngModelOptions]="{standalone: true}" [(ngModel)]="origin_incapacity_presumed" required [disabled]="readOnly"
+          [clearable]="false">
+        </ng-select>
+      </div>
+      <div class="col-4 pb-4 form-control-group animate fadeIn" *ngIf="origin_incapacity_qualified != null">
+        <label class="label" for="select-origenIncapacidad"><span style="opacity: 0.75;">Origen: </span><span
+            style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Calificado</span></label>
+        <ng-select [items]="list_origenIncapacidad" bindLabel="tOrigenIncapacidad" id="select-origenIncapacidad"
+          name="ngorigenIncapacidad" #ngorigenIncapacidad="ngModel" placeholder="Seleccione origen incapacidad"
+          [ngModelOptions]="{standalone: true}" [(ngModel)]="origin_incapacity_qualified" required [disabled]="readOnly"
+          [clearable]="false">
+        </ng-select>
+      </div>
+
+
+
+    </div>
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-6 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="ibc">IBC:</label>
+        <input nbInput [ngModel]="ibc_value | number : '1.2-2'" (ngModelChange)="ibc_value = $event" #ibc="ngModel"
+          type="text" id="ibc" name="ibc" fullWidth placeholder="Ingrese IBC" />
+      </div>
+      <div class="col-6 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="ibc">Valor incapacidad:</label>
+        <h5 class="font_family_roboto" id="incapacity_value" style="margin: 0.5rem 0rem;">COP ${{ incapacity_value || 0 | number }}</h5>
+        <!-- <input 
+          nbInput 
+          [(ngModel)]="incapacity_value" 
+          [disabled]="true"
+          #incapacityvalue="ngModel" 
+          type="number" 
+          id="incapacityvalue" 
+          name="incapacityvalue"
+          fullWidth
+          placeholder="Ingrese valor incapacidad" />   -->
+      </div>
+    </div>
+
+
+
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="readOnly">
+      <div class="col-4 pt-0 pb-0 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">Soat</label>
+        <h3 style="color: #000;font-weight: bold;">
+          {{ (data_correlation_diagnostic?.bsoat) ? 'SI' : 'NO' }}</h3>
+      </div>
+      <div class="col-4 pt-0 pb-0 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">Días Otorgados</label>
+        <h3 style="color: #000;font-weight: bold;">{{ diagnostic?.iDiasIncapacidad }}</h3>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 mt-2 mb-2" *ngIf="readOnly && diagnostic?.origenCalificadoIncapacidad?.tOrigenIncapacidad == null"> -->
+    <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="select-origenIncapacidad"><span style="opacity: 0.75;">Origen: </span><span
+          style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Presunto</span></label>
+      <p style="color: #000;font-weight: bold;">{{ diagnostic?.presuntoOrigenIncapacidad?.tOrigenIncapacidad }}</p>
+    </div>
+    <div class="col-12 mt-2 mb-2"
+      *ngIf="false && readOnly && diagnostic?.origenCalificadoIncapacidad?.tOrigenIncapacidad != null ">
+      <label class="label" for="select-origenIncapacidad"><span style="opacity: 0.75;">Origen: </span><span
+          style="font-style: italic;font-weight: bold;opacity: 1 !important;color: #2f2d2e;">Calificado</span></label>
+      <p style="color: #000;font-weight: bold;">{{ diagnostic?.origenCalificadoIncapacidad?.tOrigenIncapacidad }}</p>
+    </div>
+
+    <!-- <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="input-DiasIncapacidad">Días Otorgados</label>
+      <h3 style="color: #000;font-weight: bold;">{{ diagnostic?.iDiasIncapacidad }}</h3>
+    </div> -->
+
+    <div class="col-12 row mt-2 mb-2" *ngIf="readOnly">
+      <div class="col-4 pt-0 pb-0 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">IBC</label>
+        <h3 style="color: #000;font-weight: bold;">
+          {{ ibc_value | currency:'CAD':'symbol-narrow':'4.0-0' }}</h3>
+      </div>
+      <div class="col-4 pt-0 pb-0 form-control-group">
+        <label class="label" for="input-DiasIncapacidad">Valor incapacidad</label>
+        <h3 style="color: #000;font-weight: bold;">{{ incapacity_value }}</h3>
+      </div>
+    </div>
+
+    <div class="col-12 row" *ngIf="!readOnly">
+      <div class="col-12 pb-4 form-control-group animate fadeIn">
+        <label class="label" for="input-Descripcion">Descripción Sintomatológica</label>
+        <textarea class="form-control" rows="5" nbInput fullWidth [(ngModel)]="tDescripcionSintomatologica"
+          #diagnosticDescripcionSintomatologica="ngModel" name="diagnosticDescripcionSintomatologica"
+          id="diagnosticDescripcionSintomatologica" placeholder="Descripción sintomatológica" (focus)="errors = []"
+          autofocus [status]="info" [disabled]="readOnly"
+          [attr.aria-invalid]="diagnosticDescripcionSintomatologica.invalid && diagnosticDescripcionSintomatologica.touched ? true : null"></textarea>
+        <!-- <ng-container class="alert alert-danger"
+          *ngIf="diagnosticDescripcionSintomatologica.invalid && (diagnosticDescripcionSintomatologica.dirty || diagnosticDescripcionSintomatologica.touched)">
+          <p class="error-message" *ngIf="diagnosticDescripcionSintomatologica.errors.required">
+            Descripción sintomatológica es requerido!
+          </p>
+          <p class="error-message" *ngIf="diagnosticDescripcionSintomatologica.errors.pattern">
+            ¡La descripción sintomatológica debe ser valida!
+          </p>
+        </ng-container> -->
+      </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" *ngIf="readOnly">
+      <label class="label" for="input-Descripcion">Descripción Sintomatológica</label>
+      <p style="color: #000;font-weight: bold;">{{ diagnostic?.tDescripcionSintomatologica }}</p>
+    </div>
+
+
+    <div class="col-12 row">
+      <div class="col-2 pb-4 form-control-group animate fadeIn" *ngIf="false">
+        <label class="label" for="input-DiasIncapacidad">Días Otorgados</label>
+        <input nbInput fullWidth type="number" [min]="1" [max]="diagnostic?.cie10?.iDiasMaxConsulta"
+          [(ngModel)]="iDiasIncapacidad" #diagnosticDiasIncapacidad="ngModel" [disabled]="Idcie10 > 0?readOnly:true"
+          name="diagnosticDiasIncapacidad" id="input-DiasIncapacidad" placeholder="Días otorgados" (focus)="errors = []"
+          autofocus (change)="onChangeDiasIncapacidad()"
+          [status]="diagnosticDiasIncapacidad.dirty ? (diagnosticDiasIncapacidad.invalid  ? 'danger' : 'info') : ''"
+          [attr.aria-invalid]="diagnosticDiasIncapacidad.invalid && diagnosticDiasIncapacidad.touched ? true : null">
+        <ng-container *ngIf="diagnosticDiasIncapacidad.invalid && diagnosticDiasIncapacidad.touched">
+          <p class="error-message" *ngIf="diagnosticDiasIncapacidad.errors?.required">
+            Días de incapacidad es requerido!
+          </p>
+
+          <p class="error-message" *ngIf="diagnosticDiasIncapacidad.errors?.pattern">
+            ¡Los días de incapacidad debe ser validos!
+          </p>
+        </ng-container>
+        <ng-container *ngIf="errors_DiasIncapacidad">
+          <p class="error-message">
+            ¡Los días de incapacidad deben estar entre 0 y {{diagnostic?.cie10?.iDiasMaxConsulta}}!
+          </p>
+        </ng-container>
+      </div>
+      <div class="col-2 pb-4 form-control-group animate fadeIn" *ngIf="false">
+        <div style="height: 23px;"></div>
+        <label class="label" id="lableMaxDias" style="height: 3rem" for="input-DiasMaxConsulta">Max.
+          {{diagnostic?.cie10?.iDiasMaxConsulta}} Días</label>
+      </div>
+      <div class="col-5"></div>
+      <div class="col-3" *ngIf="!readOnly">
+        <div style="height: 20px;"></div>
+        <button nbButton fullWidth type="submit" status="success" class="button_diagnostic font_family_roboto pointer"
+          [disabled]="
+            attention_type == null || 
+            !diagnostic_time || 
+            !diagnostic_mode || 
+            !diagnostic_place || 
+            collection_diagnosis_complete.symptom?.length < 1 || 
+            collection_diagnosis_complete.signs?.length < 1 || 
+            collection_diagnosis_complete.diagnosis?.length < 1 || 
+            soat_insurance == null || 
+            origin_incapacity_presumed == null || 
+            !lateralidad || 
+            !iDiasIncapacidad" [class.btn-pulse]="submitted">
+          Generar
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,152 @@
+<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    Crear nuevo caso
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0">
+      <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
+        <div class="col-12 pl-0 pr-0">
+          <p>
+              En esta secci&oacute;n puedes crear un caso que sea sin 
+              incapacidad o por PQR para la generaci&oacute;n de concepto de rehabilitaci&oacute;n. 
+              <!-- De esta forma el medico podra verlo 
+              en su bandeja de trabajo como un nuevo caso a generar. -->
+          </p>
+        </div>
+        <!-- ********** START - Ocupación paciente ********** -->
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-selectDocumentType">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Tipo de documento:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <ng-select  
+              id="input-selectDocumentType"
+              [items]="collectionDocumentTypes" 
+              bindLabel="tTipoIdentificacion" 
+              bindValue="iIdTipoIdentificacion" 
+              name="selectDocumentType"
+              #selectDocumentType="ngModel" 
+              status="basic" 
+              appendTo="body"
+              placeholder="Seleccione el médico"
+              [ngModelOptions]="{standalone: true}" 
+              [(ngModel)]="documentTypePatient" 
+              (change)="fnSelectDocumentType($event)"
+              required>
+            </ng-select>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
+            <label for="input-documentNumberPatient">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;N&uacute;mero de documento:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <input 
+              id="input-inputDocumentNumber"
+              class="inputDocumentNumber"
+              [ngModelOptions]="{standalone: true}" 
+              [(ngModel)]="documentNumberPatient" 
+              status="info"
+              type="text" 
+              nbInput 
+              status="basic"
+              fullWidth 
+              fieldSize="large" 
+              placeholder="Ingrese el número de documento del paciente">
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12" *ngIf="false">
+          <div class="form-group">
+            <label for="input-rangePriority">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Prioridad:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div>
+              <input 
+                style="width: 100%;" 
+                type="range" 
+                class="form-range" 
+                [min]="1" 
+                #rangePriority="ngModel" 
+                [ngModelOptions]="{standalone: true}" 
+                [(ngModel)]="priorityCase" 
+                [max]="3" 
+                id="input-rangePriority">
+            </div>
+            <div class="text-center mt-2">
+              <h6>Prioridad: <strong>{{ (priorityCase == 1) ? "Baja" : (priorityCase == 2) ? "Media" : (priorityCase == 3) ? "Alta" : "Sin prioridad" }}</strong></h6>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12" *ngIf="searchStatus == 1 && documentTypePatient && documentNumberPatient">
+          <div class="form-group">
+            <label for="input-rangePriority">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Paciente encontrado:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div class="text-center mt-2">
+              <h6><strong>{{ patientData?.tPrimerNombre + " " + patientData?.tPrimerApellido }}</strong></h6>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12 d-flex justify-content-center" *ngIf="searchStatus == 2 && documentTypePatient && documentNumberPatient">
+          <span class="text-center">
+            <img src="../../../../assets/images/imgs/patient-01.png" width="80px" style="filter: grayscale(100%);opacity: 0.5;" alt="Imagen listado vacio">
+            <h6 class="mt-2" style="color: #9f9f9f">No se encontraron registros</h6>
+            <small class="mt-1" style="color: #9f9f9f">
+              Es posible que no existan pacientes con ese tipo y n&uacute;mero de documento.
+            </small>
+          </span>
+        </div>
+        <!-- *********** END - Ocupación paciente *********** -->
+        <br>
+        <button 
+            *ngIf="searchStatus == 1 && documentTypePatient && documentNumberPatient"
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button" 
+            (click)="fnCreateNewCase(patientData)"
+            [class.btn-pulse]="submitted" 
+            [disabled]="!documentTypePatient || !documentNumberPatient || documentNumberPatient == null || documentNumberPatient == ''" 
+            style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
+            Crear caso "{{ patientData?.tPrimerNombre + " " + patientData?.tPrimerApellido }}" 
+        </button>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button" 
+            (click)="fnSearchPatient(documentTypePatient, documentNumberPatient)"
+            [class.btn-pulse]="submitted" 
+            [disabled]="!documentTypePatient || !documentNumberPatient || documentNumberPatient == null || documentNumberPatient == ''" 
+            style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
+            Buscar paciente
+        </button>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button"
+            [class.btn-pulse]="submitted" 
+            (click)="fnCancelData()"
+            style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff; text-transform: none !important;">
+            Cancelar
+        </button>
+      </form>
+  </div>
+  </nb-card-body>
+</nb-card>

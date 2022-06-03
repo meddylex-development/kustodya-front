@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nb-card class="font_family_roboto kstdya-card_content" size="tiny">
+        <nb-card-header class="font_family_roboto text-center" style="color: #1e90ff;font-weight: 500;">Editar PUC <i class="fas fa-times" (click)="fnCancelUpdatePUC()" style="position: absolute;right: 3rem;cursor: pointer;color: #d9dee4;"></i></nb-card-header>
+        <nb-card-body>
+          <div class="container">
+            <div class="row ml-0 mr-0">
+              <form (ngSubmit)="fnUpdatePUC(data_puc)" #updatePUC="ngForm" aria-labelledby="title" style="width: 600px">
+                <div class="col-12 pl-0 pr-0">
+                  <div class="row justify-content-center">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="selectPUC">PUC</label>                                         
+                        <ng-select 
+                          [items]="collection_tipo_contabilidad"
+                          bindLabel="name"
+                          bindValue="name"
+                          id="selectPUC"
+                          name="selectPUC"
+                          #selectPUC="ngModel"
+                          placeholder="Seleccione PUC"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="data_puc.tipoContabilidad"
+                          required
+                          appendTo="body"
+                          (change)="fnChangePuc($event.name)"
+                          [disabled]="false"
+                          [clearable]="false"
+                          class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="selectCredit">Cuenta a depurar </label>                                         
+                        <ng-select 
+                          [items]="collection_puc_credit"
+                          id="selectCredit"
+                          bindLabel="codigo"
+                          bindValue="codigo"
+                          name="selectCredit"
+                          #selectCredit="ngModel"
+                          appendTo="body"
+                          placeholder="Seleccione cuenta a depurar"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="data_puc.credito"
+                          (scrollToEnd)="onScrollToEnd('credit')"
+                          (search)="fnSearchPuc($event, 'credit')"
+                          required
+                          [disabled]="false"
+                          [clearable]="false"
+                          class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="selectDebit">Contrapartida </label>                                         
+                        <ng-select 
+                          [items]="collection_puc_debit"
+                          bindLabel="codigo"
+                          bindValue="codigo"
+                          id="selectDebit"
+                          name="selectDebit"
+                          #selectDebit="ngModel"
+                          placeholder="Seleccione contrapartida"
+                          appendTo="body"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="data_puc.debito"
+                          required
+                          (scrollToEnd)="onScrollToEnd('debit')"
+                          (search)="fnSearchPuc($event, 'debit')"
+                          [disabled]="false"
+                          [clearable]="false"
+                          class="col-12 p-0 m-0">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col text-center pl-0 pr-0 mt-4">
+                  <button 
+                    type="submit" 
+                    class="kstdya-pointer btn btn-primary kstdya-btn_success font_family_roboto" 
+                    id="kstdya-btn_save_update_PUC" 
+                    nbButton 
+                    [disabled]="
+                      !data_puc.tipoContabilidad ||
+                      !data_puc.credito ||
+                      !data_puc.debito || submitted"
+                    [class.btn-pulse]="submitted"
+                    status="info">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>  
+    </div>  
+  </div>
+</div>
+  

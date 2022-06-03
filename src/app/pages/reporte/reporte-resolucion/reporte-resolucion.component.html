@@ -1,0 +1,65 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Obteniendo listado de incapacidades...">
+  <div class="col-md-12">
+
+    <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+      <nb-card-front>
+        <nb-card>
+          <nb-card-header id="header-card-report">
+            <div class="row m-0 p-0">
+              <div class="col text-left">
+                <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+                  <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+                </button>
+              </div>
+              <div class="col text-center">
+                <h3 style="margin-top: 6px;">Reporte resoluci&oacute;n</h3>
+              </div>
+              <div class="col text-right">
+                <button 
+                  type="button" 
+                  class="btn btn-link text-info cursor-pointer" 
+                  (click)="print()">
+                  {{ 'Imprimir' | titlecase }}&nbsp;
+                  <i class="fas fa-print"></i>
+                </button>
+                <!-- <button 
+                  type="button" 
+                  class="btn btn-link text-info cursor-pointer" 
+                  [useExistingCss]="true"
+                  printSectionId="ReportResolucionPDF" 
+                  ngxPrint>
+                  {{ 'Imprimir' | titlecase }}&nbsp;
+                  <i class="fas fa-print"></i>
+                </button> -->
+              </div>
+            </div> 
+            
+          </nb-card-header>
+          <nb-card-body id="ReportResolucionPDF" #ReportResolucionPDF>
+            <div class="container-fluid p-0">
+
+              <div class="row">
+                <div class="col-12 m-0" *ngIf="true">
+                  <div class="row m-0 p-0">
+                    <div class="col-3">
+                      <img id="imgEpsInforme" src="../../../../assets/images/imgs/eps_img_01.png" alt="Logo Famisanar">
+                    </div>
+                    <div class="col-9">
+                      <h3 id="tituloInforme">Informe Estándares Resolución 497 de 2021</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 desktop-view">
+                  <div id="powerBIReportContainer" class="reportContainer iframeContainer"></div>
+                </div>
+              </div>
+              
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-card-front>
+      
+    </nb-flip-card>
+
+  </div>
+</div>

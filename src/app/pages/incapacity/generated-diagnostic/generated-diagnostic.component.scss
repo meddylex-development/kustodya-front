@@ -1,0 +1,203 @@
+@import "../../../@theme/styles/themes";
+
+@include nb-install-component() {
+  .pgp-pointer {
+    cursor: pointer;
+  }
+
+  .font_family_roboto {
+    font-family: "Roboto";
+  }
+
+  button:focus {
+    outline: 0;
+    cursor: pointer;
+  }
+
+  .pgp-btn_mod {
+    background-color: #1e90ff;
+  }
+}
+
+.pkto-header {
+  text-align: left !important;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  color: #1e90ff;
+  font-weight: bold;
+
+  div {
+    padding: 0;
+  }
+}
+
+.pkto-sub-header {
+  margin: 0;
+  padding: 0;
+
+  div {
+    border-right: 2px solid;
+    border-color: white;
+    color: #2f2d2e;
+    opacity: 0.75;
+  }
+}
+
+.pkto-row {
+  margin: 0;
+  padding: 0;
+
+  div {
+    background-color: #f8fafc;
+    padding: 0.65rem !important;
+    padding-left: 0 !important;
+    border-right: 2px solid white;
+    color: #2f2d2e;
+    font-weight: bold;
+
+    width: 250px;
+    // white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.contentIncacity {
+  width: 100vh;
+  background-color: white;
+  height: 100%;
+  padding: 0;
+}
+
+.contentPDF {
+  width: 160vh;
+  background-color: white;
+  height: 98vh;
+  padding: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+#contentPDF {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.containerPDF {
+  max-height: 64vh;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.pdf-title {
+  padding: 1rem 2rem;
+
+  img {
+    margin: 0 !important;
+  }
+
+  h6,
+  .h6 {
+    font-size: 0.7rem;
+    margin: 0;
+  }
+}
+
+// .infoDoctor{
+//   h6,
+//   .h6 {
+//     font-size: 0.7rem;
+//     margin: 0;
+//   }
+// }
+
+fieldset {
+  color: black;
+  border: 1px solid;
+
+  legend {
+    width: auto;
+    margin: 0;
+    padding: 0 1rem;
+  }
+}
+
+#divDiagnostico,
+#divIncapacidad {
+  padding-top: 2rem;
+  float: none;
+}
+
+.infoDoctor {
+  border-top: 1px solid black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.divfooter {
+  padding: 0 3rem;
+}
+
+kendo-pdf-export {
+  font-size: 10px;
+  max-width: 100vh;
+}
+
+// #incapacityPDF {
+//   font-size: 10px;
+// }
+
+@media print {
+  .page-break {
+    page-break-after: always;
+  }
+
+  title {
+    display: none;
+  }
+
+  .btn-print {
+    display: none;
+  }
+
+  .containerPDF {
+    max-height: 120vh;
+    overflow: visible;
+  }
+
+  .divCertificado {
+    padding-top: 3rem;
+    font-size: 8pt;
+  }
+
+  .divPaciente,
+  .divEmpleador,
+  .divAfiliacion,
+  .divIncapacidad {
+    padding-top: 1rem;
+    font-size: 8pt;
+  }
+
+  .divMedico {
+    padding-top: 3rem !important;
+    font-size: 0pt;
+  }
+
+  .titleOrigen {
+    font-style: italic;
+    font-weight: bold;
+    opacity: 1 !important;
+    color: #2f2d2e;
+  }
+
+  .lastrow {
+    margin-bottom: 1rem;
+  }
+
+  /deep/ nb-dialog-container {
+    visibility: visible;
+    /**Remove scrollbar for printing.**/
+    overflow: hidden !important;
+  }
+}

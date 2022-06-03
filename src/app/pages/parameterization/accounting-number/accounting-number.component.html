@@ -1,0 +1,68 @@
+<div class="row kstdy-backgroud_layout p-0" [nbSpinner]="loading_state" nbSpinnerSize="small" nbSpinnerStatus="info" nbSpinnerMessage="Cargando...">
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <h4 class="font_family_roboto mt-4">N&uacute;meros de contabilidad</h4>
+      <div class="col-12 mt-3 ml-3 mr-3 mb-4">
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <i class="fas fa-info-circle"></i>&nbsp;Por favor agrege todas las contabilidades de la empresa y seleccione cual est&aacute; por defecto.
+          </div>
+          <div class="col-3 text-right">
+            <button class="btn kstdy-btns_actions kstdy-btn_action_create font_family_roboto" id="kstdy-button_add_accounting" (click)="fnShowModalNewAccountingNumber()">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-3 p-0">
+        <!-- ********** START - Div main content data table - Entities ********** -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="border-0" colspan="2" style="border-top-left-radius: 10px;"></th>
+              <th scope="col" class="text-left border-0">
+                C&oacute;digo
+              </th>
+              <th scope="col" class="text-left border-0">
+                Nombre
+              </th>
+              <th scope="col" class="text-center border-0" style="border-top-right-radius: 10px;">
+                Por defecto
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data_accounting_numbers of list_accounting_numbers | paginate: { id: 'server', itemsPerPage: numItemsPage, currentPage: currentPage, totalItems: totalItems }; let i = index;">
+                <td class="kstdy-table-actions text-right p-3">
+                  <i class="fas fa-edit kstdy-pointer kstdy-icon_color" (click)="fnShowModalUpdateAccountingNumber(data_accounting_numbers)"></i>
+                </td>
+                <td class="kstdy-table-actions text-left p-3" (click)="fnShowModalDeleteAccountingNumber(data_accounting_numbers)">
+                  <i class="fas fa-trash kstdy-pointer kstdy-icon_color"></i>
+                </td>
+                <td class="text-left p-3">{{ data_accounting_numbers.codigo }}</td>
+                <td class="text-left p-3">{{ data_accounting_numbers.descripcion }}</td>
+                <td class="text-center p-3"><nb-checkbox status="info" readonly [value]="data_accounting_numbers.esContabilidadPorDefecto"></nb-checkbox></td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- *********** END - Div main content data table - Entities *********** -->
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator" *ngIf="list_accounting_numbers?.length > 0">
+              <div class="text-left kstdy-font_paginator">
+                Mostrando {{ (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) + 1 ) }} -
+                {{ ((currentPage * numItemsPage) >= list_accounting_numbers.length) ? (list_accounting_numbers.length) + (((currentPage * numItemsPage) - ((currentPage * numItemsPage) / currentPage)) ) : (currentPage * numItemsPage) }}
+                de {{ totalItems }}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="text-center kstdy-font_paginator">
+              <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="" nextLabel="" ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

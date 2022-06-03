@@ -1,0 +1,432 @@
+<!-- ********** BEGIN - Content - Formulario de consulta numero de documento afiliado ********** -->
+<div class="col-12 p-4" style="background-color: #1e90ff;color: white;" *ngIf="search" id="divSearch">
+  <h1 id="title" class="title font_family_roboto text-center" style="color: white;">Ingrese los datos del
+    afiliado</h1>
+  <form (ngSubmit)="fnSearchUser()" #form="ngForm" aria-labelledby="title">
+    <!-- [nbSpinner]="submitted" nbSpinnerStatus="info" -->
+    <div class="col pb-4 form-control-group animate fadeIn">
+      <label class="label" for="documentType"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">Tipo
+        de documento <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentType']['data'] == true || error_form['documentType']['length'] == true) }">*</span></label>
+      <ng-select [items]="list_documentType" bindLabel="tTipoIdentificacion" id="documentType" name="documentType"
+        #documentType="ngModel" placeholder="Seleccione tipo de documento" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="user.documenttype" required [disabled]="readOnly" [clearable]="false" class="col-12 p-0 m-0"
+        (blur)="fnValidField('documentType', user.documenttype);">
+      </ng-select>
+    </div>
+    <div class="col pb-4 form-control-group animate fadeIn" style="margin-bottom: 2rem;">
+      <!-- <label class="label" for="przss-input-documentNumber">No. documento Usuario</label> -->
+      <label class="label" for="przss-input-documentNumber"
+        [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">No.
+        documento afiliado <span
+          [ngClass]="{ 'prtkt-error_label': (error_form['documentNumber']['data'] == true || error_form['documentNumber']['length'] == true) }">*</span></label>
+      <input nbInput fullWidth [(ngModel)]="user.documentNumber" #documentNumber="ngModel" name="documentNumber"
+        id="przss-input-documentNumber" placeholder="Número documento" (focus)="errors = []" autofocus
+        [status]="documentNumber.dirty ? (documentNumber.invalid  ? 'danger' : 'info') : ''" [required]="required"
+        [attr.aria-invalid]="documentNumber.invalid && documentNumber.touched ? true : null"
+        (blur)="fnValidField('documentNumber', user.documentNumber);">
+      <ng-container *ngIf="documentNumber.invalid && documentNumber.touched">
+        <p class="error-message" *ngIf="documentNumber.errors?.required">
+          El número de documento es requerido!
+        </p>
+        <p class="error-message" *ngIf="documentNumber.errors?.pattern">
+          Document number should be the real one!
+        </p>
+      </ng-container>
+    </div>
+    <button nbButton fullWidth status="success" class="przss-button_signin font_family_roboto pgp-pointer" [disabled]="
+      user == null ||
+      user.documenttype == null ||
+      user.documentNumber == null ||
+      submitted || 
+      !form.valid" [class.btn-pulse]="submitted">
+      SIGUIENTE
+    </button>
+  </form>
+</div>
+<!-- *********** END - Content - Formulario de consulta numero de documento afiliado *********** -->
+<!-- ********** BEGIN - Content - rehabilitation concept ********** -->
+<div class="content container-fluid p-0" *ngIf="!search">
+  <div class="col-sm content-header">
+    <h6>Fecha Emisión del Concepto: <small>{{ fechaActual | date:'short' }}</small></h6>
+  </div>
+  <form (ngSubmit)="fnGenerateRehabilitationConcept();" class="row col formRehabilitationConcept"
+    #rehabilitationConceptform="ngForm" aria-labelledby="title" novalidate>
+
+      <fieldset>
+          <legend>
+              <h6>
+                  Concepto Médico para Remisión a Administradora de Fondo de Pensiones (AFP)&nbsp;&nbsp;
+                  <button class="fa fa-question-circle" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></button>
+              </h6>
+          </legend>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              prueba
+          </div>
+
+
+          <div class="col-12 mt-2 mb-2 p-0">
+              <label class="label" for="input-legalInformation"></label>
+              <p style="color: #000;font-weight: bold;">{{ tLegalInformation }}</p>
+          </div>
+
+          <fieldset class="divPersonalInformation">
+              <legend>
+                  <h6>Información Personal</h6>
+              </legend>
+              <div class="row pkto-sub-header">
+                  <div class="col-3 p-0 m-0 text-left">
+                      Apellidos
+                  </div>
+                  <div class="col-3 p-0 m-0 text-left">
+                      Nombres
+                  </div>
+                  <div class="col-2 p-0 m-0 text-left">
+                      Tipo de Documento
+                  </div>
+                  <div class="col-2 p-0 m-0 text-left">
+                      Número Documento
+                  </div>
+                  <div class="col-2 p-0 m-0 text-left">
+                      Edad
+                  </div>
+              </div>
+              <div class="row pkto-row">
+                  <div class="col-3 p-1 m-0 text-left">
+                      {{paciente?.tPrimerApellido}} {{paciente?.tSegundoApellido}}
+                  </div>
+                  <div class="col-3 p-1 m-0 text-left">
+                      {{paciente?.tPrimerNombre}} {{paciente?.tSegundoNombre}}
+                  </div>
+                  <div class="col-2 p-1 m-0 text-left">
+                      {{paciente?.tipoDocumento?.tTipoIdentificacion}}
+                  </div>
+                  <div class="col-2 p-1 m-0 text-left">
+                      {{paciente?.tNumeroDocumento}}
+                  </div>
+                  <div class="col-2 p-1 m-0 text-left">
+                      {{age}}
+                  </div>
+              </div>
+              <div class="row pkto-sub-header">
+                  <div class="col-3 p-0 m-0 text-left">
+                      Fecha Nacimiento
+                  </div>
+                  <div class="col-3 p-0 m-0 text-left">
+                      EPS
+                  </div>
+                  <div class="col-2 p-0 m-0 text-left">
+                      ARL
+                  </div>
+                  <div class="col-2 p-0 m-0 text-left">
+                      AFP
+                  </div>
+              </div>
+              <div class="row pkto-row">
+                  <div class="col-3 p-1 m-0 text-left">
+                      {{paciente?.dtFechaNacimiento}}
+                  </div>
+                  <div class="col-3 p-1 m-0 text-left">
+                      {{paciente?.eps?.tNombre}}
+                  </div>
+                  <div class="col-2 p-1 m-0 text-left">
+                      {{paciente?.arl?.tNombre}}
+                  </div>
+                  <div class="col-2 p-1 m-0 text-left">
+                      {{paciente?.afp?.tNombre}}
+                  </div>
+              </div>
+          </fieldset>
+          <fieldset>
+              <legend>
+                  <h6>Diagnósticos</h6>
+              </legend>
+              <div class="col-12 row p-0 m-0 mt-2">
+                  <table class="table table-borderless">
+                      <thead>
+                          <tr>
+                              <th scope="col pkto-sub-header"></th>
+                              <th scope="col pkto-sub-header">Diagnostico</th>
+                              <!-- <th scope="col pkto-sub-header">Nombre</th> -->
+                              <th scope="col pkto-sub-header">Fecha</th>
+                              <th scope="col pkto-sub-header">Etimología</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of concept?.diagnostics; let i = index;">
+                              <td>
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      <i class="fas fa-times" (click)="fnRemoveDiagnostic(i);"></i>
+                                  </div>
+                              </td>
+                              <td class="text-left">
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      <ng-select [items]="collection_cie_10[0]" bindLabel="tFullDescripcion" id="select-Cie10-{{i}}"
+                                                 name="ngcie10" #ngcie10="ngModel" placeholder="Seleccione diagnostico"
+                                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="concept.diagnostics[i].diagnostic"
+                                                 (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+                                                 dropdownPosition="bottom">
+                                      </ng-select>
+                                  </div>
+                              </td>
+                              <!-- <td class="text-left">
+                          <div class="d-inline-block text-truncate pkto-row">
+                            {{ item.tDescripcion }}
+                          </div>
+                        </td> -->
+                              <td class="text-left">
+                                  <div class="col-10 d-inline-block text-truncate pkto-row">
+                                      {{ item.tFecha | date:'short' }}
+                                      <!-- <div class="form-group">
+                                  <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="item.tFecha"
+                                      ngbDatepicker #d="ngbDatepicker">
+                                    <div class="input-group-append">
+                                      <i class="far fa-calendar-alt" (click)="d.toggle()" datepicker-append-to-body="true"></i>
+                                    </div>
+                                  </div>
+                                </div> -->
+                                  </div>
+                              </td>
+                              <td class="text-left">
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      kt
+                                      <ng-select [items]="list_etymology" bindLabel="tEtymology" id="select-etymology-{{i}}"
+                                                 name="ngetymology" #ngetymology="ngModel" placeholder="Seleccione etimología"
+                                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="concept.diagnostics[i].etymology"
+                                                 (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+                                                 dropdownPosition="bottom">
+                                      </ng-select>
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col-12 pb-2 row justify-content-md-center">
+                  <img src="../../../../../assets/images/imgs/add-item.png" style="width:5%;" alt="add item" id="add-item"
+                       (click)="fnAddDiagnostic();">
+              </div>
+          </fieldset>
+          <fieldset>
+              <legend>
+                  <h6>Descripción de Secuelas</h6>
+              </legend>
+              <div class="col-12 row p-0 m-0 mt-2">
+                  <table class="table table-borderless">
+                      <thead>
+                          <tr>
+                              <th scope="col pkto-sub-header"></th>
+                              <th scope="col pkto-sub-header">Tipo de Secuela</th>
+                              <th scope="col pkto-sub-header">Descripción</th>
+                              <th scope="col pkto-sub-header">Pronóstico</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of concept?.sequelsDescription; let i = index;">
+                              <td>
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      <i class="fas fa-times" (click)="fnRemoveSequel(i);"></i>
+                                  </div>
+                              </td>
+                              <td class="text-left">
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      <ng-select [items]="list_sequels" bindLabel="tTipoSecuela" id="select-sequel-{{i}}" name="ngsequel"
+                                                 #ngsequel="ngModel" placeholder="Seleccione secuela" [ngModelOptions]="{standalone: true}"
+                                                 [(ngModel)]="concept.sequelsDescription[i].sequel" (focus)="errors = []" required
+                                                 [disabled]="readOnly" [virtualScroll]="true" [clearable]="false" dropdownPosition="bottom">
+                                      </ng-select>
+                                  </div>
+                              </td>
+                              <td class="text-left">
+                                  <div class="d-inline-block text-truncate pkto-row">
+                                      {{ item.tDescripcion }}
+                                  </div>
+                              </td>
+                              <td class="text-left">
+                                  <div class="col-11 d-inline-block pkto-row">
+                                      <ng-select [items]="list_forecast" bindLabel="tPronostico" id="select-forecast-{{i}}"
+                                                 name="ngforecast" #ngforecast="ngModel" placeholder="Seleccione pronóstico"
+                                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="concept.sequelsDescription[i].forecast"
+                                                 (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+                                                 dropdownPosition="bottom">
+                                      </ng-select>
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col-12 pb-2 row justify-content-md-center">
+                  <img src="../../../../../assets/images/imgs/add-item.png" style="width:5%;" alt="add item" id="add-item"
+                       (click)="fnAddSequel();">
+              </div>
+              <div class="col-12 p-0 pb-4 form-control-group animate fadeIn">
+                  <label class="label" for="sequelsDescriptionMode"
+                         [ngClass]="{ 'prtkt-error_label': (error_form['sequelsDescription_mode']['data'] == true || error_form['sequelsDescription_mode']['length'] == true) }">
+                      Resumen
+                      historia clinica y estado actual del paciente
+                      <span [ngClass]="{ 'prtkt-error_label': (error_form['sequelsDescription_mode']['data'] == true || error_form['sequelsDescription_mode']['length'] == true) }">*</span>
+                  </label>
+                  <textarea [(ngModel)]="sequelsDescription_ClinicalHistoryCurrentStatus" [ngModelOptions]="{standalone: true}"
+                            #diagnosticmode="ngModel" id="diagnosticmode" placeholder="Máximo 1000 caracteres"
+                            class="form-control rounded-0" name="sequelsDescriptionMode"
+                            (blur)="fnValidField('sequelsDescription_mode', sequelsDescription_ClinicalHistoryCurrentStatus, 1000);"
+                            (focus)="error_form['sequelsDescription_mode']['data'] = false; error_form['sequelsDescription_mode']['length'] = false;"
+                            required
+                            [ngClass]="{ 'prtkt-error_border': (error_form['sequelsDescription_mode']['data'] == true || error_form['sequelsDescription_mode']['length'] == true) }"
+                            rows="5"></textarea>
+                  <div *ngIf="error_form['sequelsDescription_mode']['data']">
+                      <p class="text-danger">
+                          Campo requerido.
+                      </p>
+                  </div>
+                  <div *ngIf="error_form['sequelsDescription_mode']['length']">
+                      <p class="text-danger">
+                          El campo debe ser máximo de 1000 caracteres.
+                      </p>
+                  </div>
+              </div>
+          </fieldset>
+          <fieldset>
+              <legend>
+                  <h6>Terapeutica Posible</h6>
+              </legend>
+              <div class="col-12 row pkto-row">
+                  <div class="col p-0"
+                       *ngFor="let item of concept?.possibleTherapeutic?.typesPossibleTherapeutic;let i = index;">
+                      <input type="checkbox" id="checkPossibleTherapeutic-{{i}}" [ngModelOptions]="{standalone: true}"
+                             [(ngModel)]="item.tcheck" (change)="fnChangeOtherPorcess(item);">
+                      {{item.tTypesPossibleTherapeutic}}
+                  </div>
+              </div>
+              <div class="col-12 p-0 pb-4 form-control-group animate fadeIn" *ngIf="showOtherPorcess">
+                  <label class="label" for="otherPorcessMode"
+                         [ngClass]="{ 'prtkt-error_label': (error_form['otherPorcess_mode']['data'] == true || error_form['otherPorcess_mode']['length'] == true) }">
+                      Especifique
+                      otros tratamientos
+                      <span [ngClass]="{ 'prtkt-error_label': (error_form['otherPorcess_mode']['data'] == true || error_form['otherPorcess_mode']['length'] == true) }">*</span>
+                  </label>
+                  <textarea [(ngModel)]="concept.possibleTherapeutic.otherPorcess" [ngModelOptions]="{standalone: true}"
+                            #otherPorcessMode="ngModel" id="otherPorcessMode" placeholder="Máximo 1000 caracteres"
+                            class="form-control rounded-0" name="otherPorcessMode"
+                            (blur)="fnValidField('otherPorcess_mode', concept.possibleTherapeutic.otherPorcess, 1000);"
+                            (focus)="error_form['otherPorcess_mode']['data'] = false; error_form['otherPorcess_mode']['length'] = false;"
+                            required
+                            [ngClass]="{ 'prtkt-error_border': (error_form['otherPorcess_mode']['data'] == true || error_form['otherPorcess_mode']['length'] == true) }"
+                            rows="5"></textarea>
+                  <div *ngIf="error_form['otherPorcess_mode']['data']">
+                      <p class="text-danger">
+                          Campo requerido.
+                      </p>
+                  </div>
+                  <div *ngIf="error_form['otherPorcess_mode']['length']">
+                      <p class="text-danger">
+                          El campo debe ser máximo de 1000 caracteres.
+                      </p>
+                  </div>
+              </div>
+              <div class="row pkto-sub-header">
+                  <div class="col-12 p-0 m-0 text-left">
+                      Finalidad del Tratamiento(Posibilidad de Recuperación)
+                  </div>
+              </div>
+              <div class="row pkto-row">
+                  <div class="col-6 p-1 m-0 text-left">
+                      <ng-select [items]="list_purposeTreatment" bindLabel="tDescription" id="select-purposeTreatment-{{i}}"
+                                 name="purposeTreatment" #purposeTreatment="ngModel" placeholder="Seleccione finalidad de tratamiento"
+                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="concept.possibleTherapeutic.purposeTreatment"
+                                 (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+                                 dropdownPosition="bottom" appendTo="body">
+                      </ng-select>
+                  </div>
+              </div>
+          </fieldset>
+          <fieldset>
+              <legend>
+                  <h6>Pronóstico del Paciente</h6>
+              </legend>
+              <div class="row pkto-sub-header">
+                  <div class="col-4 p-0 m-0 text-left">
+                      Corto Plazo (menor a 1 año)
+                  </div>
+                  <div class="col-4 p-0 m-0 text-left">
+                      Mediano Plazo (mayor a 1 año)
+                  </div>
+                  <div class="col-4 p-0 m-0 text-left">
+                      Concepto
+                  </div>
+              </div>
+              <div class="row pkto-row-radio">
+                  <div class="col-4 row">
+                      <div class="col-4 p-0" *ngFor="let item of concept?.patientPrognosis?.tShortTerm;let i = index;">
+                          {{item.tStatesPatientPrognosis}}
+                          <input type="radio" id="radioPatientPrognosisShortTerm-{{i}}" [ngModelOptions]="{standalone: true}"
+                                 [value]="item.tCheck" [(ngModel)]="item.tCheck">
+                      </div>
+                  </div>
+                  <div class="col-4 ml-1 row">
+                      <div class="col p-0" *ngFor="let item of concept?.patientPrognosis?.tMediumTerm;let i = index;">
+                          {{item.tStatesPatientPrognosis}}
+                          <input type="radio" id="radioPatientPrognosisMediumTerm-{{i}}" [ngModelOptions]="{standalone: true}"
+                                 [value]="item.tCheck" [(ngModel)]="item.tCheck">
+                      </div>
+                  </div>
+                  <div class="col-4 p-1 ml-1 text-left">
+                      <ng-select [items]="list_purposeTreatment" bindLabel="tDescription" id="select-purposeTreatment-{{i}}"
+                                 name="purposeTreatment" #purposeTreatment="ngModel" placeholder="Seleccione concepto"
+                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="concept.possibleTherapeutic.purposeTreatment"
+                                 (focus)="errors = []" required [disabled]="readOnly" [virtualScroll]="true" [clearable]="false"
+                                 dropdownPosition="bottom" appendTo="body">
+                      </ng-select>
+                  </div>
+              </div>
+          </fieldset>
+          <fieldset class="divRemission">
+              <legend>
+                  <h6>Remisión Administradora de Fondo de Pensiones</h6>
+              </legend>
+              <div class="row pkto-row">
+                  <div class="col-12 p-0" *ngFor="let item of concept?.patientPrognosis?.tRemission;let i = index;">
+                      <label class="col-10">{{item.tRemission}}</label>
+                      <input type="radio" class="col-2" id="radioPatientPrognosisRemission-{{i}}"
+                             [ngModelOptions]="{standalone: true}" [value]="item.tCheck" [(ngModel)]="item.tCheck">
+                  </div>
+              </div>
+              <p style="opacity: 0.75;">
+                  Este concepto está basado en las diferentes historias clínicas que acompañan las incapacidades del
+                  paciente.
+              </p>
+              <div class="divMedico col-12 row mb-1 p-1 m-0 mt-1">
+                  <div class="col-5" style="position: relative">
+                      <img [src]="transform()" alt="Firma Medico" style="width: 100%" />
+                      <div class="infoDoctor col-10 text-center">
+                          <span>
+                              <h6>Dr(a). {{user?.name}}</h6>
+                          </span>
+                          <span>
+                              <h6>{{ user?.usuario?.tipoDocumento?.tNombre }}: {{ user?.usuario?.tNumeroDocumento | number }}</h6>
+                          </span>
+                          <span>
+                              <h6>Especialidad : {{user?.tEspecialidad}}</h6>
+                          </span>
+                          <span>
+                              <h6>Registro Médico : {{user?.tRegistroMedico}}</h6>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </fieldset>
+      </fieldset>
+
+    <div class="col-12 row justify-content-md-center" *ngIf="true">
+      <button nbButton fullWidth type="submit" status="success"
+        class="col-3 button_rehabilitationConcept font_family_roboto pointer" [disabled]="false"
+        [class.btn-pulse]="submitted">
+        Generar
+      </button>
+    </div>
+  </form>
+</div>
+<!-- *********** END - Content - rehabilitation concept *********** -->
