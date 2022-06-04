@@ -172,7 +172,6 @@ export class DigitalSignatureComponent implements OnInit {
   }
 
   b64toBlob = (fileInput) => {
-    let blob1 = new Blob(fileInput.target.files, { type: fileInput.target.files[0].type });
     let blob = new Blob(fileInput.target.files, { type: fileInput.target.files[0].type });
     console.log('blob: ', blob);
     let url = window.URL.createObjectURL(blob);

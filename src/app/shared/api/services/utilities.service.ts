@@ -87,6 +87,7 @@ export class UtilitiesService {
     while (r.length < l) { r += Math.random().toString(16).substring(2); }
     return r.substring(0, l);
   }
+
   fnReturnKey() {
     if (sessionStorage.getItem("token")) {
       return true;
@@ -94,73 +95,76 @@ export class UtilitiesService {
       return false;
     }
   }
+
   fnDestroySession() {
-    sessionStorage.removeItem("token");
-    localStorage.removeItem('startDate');
-    localStorage.removeItem('endDate');
-    sessionStorage.removeItem('listCompanies');
-    sessionStorage.removeItem('itemManageUsers');
-    sessionStorage.removeItem('dataCompany');
-    sessionStorage.removeItem('hasCompany');
     localStorage.clear();
     sessionStorage.clear();
   }
+
   fnDestroySessionGoLogin() {
-    sessionStorage.removeItem("token");
-    localStorage.removeItem('startDate');
-    localStorage.removeItem('endDate');
-    sessionStorage.removeItem('listCompanies');
-    sessionStorage.removeItem('itemManageUsers');
-    sessionStorage.removeItem('dataCompany');
-    sessionStorage.removeItem('hasCompany');
     localStorage.clear();
     sessionStorage.clear();
   }
+
   fnDestroySessionData(objectObserve) {
     localStorage.clear();
     sessionStorage.clear();
     objectObserve(true);
   }
+
   fnShowLoading() {
     $('#divLoad').toggle();
   }
+
   fnGetHost() {
     return environment.apiUrl;
   }
+
   fnGetHostSite4() {
     return environment.apiUrlSite4;
   }
+
   fnGetHostMiddlewareMails() {
-    return environment.apiUrlMiddlewareMails;
+    return
+     environment.apiUrlMiddlewareMails;
   }
   fnGetSite() {
     return environment.siteUrl;
   }
+
   fnGetUser() {
     return sessionStorage.getItem('user');
   }
+
   fnSetToken(token) {
     console.log('token: ', token);
     sessionStorage.setItem("token", token);
   }
+
   fnSetSessionStorage(nameVar, dataVal) {
     sessionStorage.setItem(nameVar, dataVal);
   }
+
   fnSetLocalStorage(nameVar, dataVal) {
     localStorage.setItem(nameVar, dataVal);
   }
+
   fnGetSessionStorage(nameVar) {
     return sessionStorage.getItem(nameVar);
   }
+
   fnGetLocalStorage(nameVar) {
     return localStorage.getItem(nameVar);
   }
+
   fnSetStartDate(startDate) {
     localStorage.setItem('startDate', startDate);
   }
+  
   fnSetEndDate(endDate) {
     localStorage.setItem('endDate', endDate);
   }
+
   fnGetToken = function () {
     const t = sessionStorage.getItem("token");
     if (t) {
@@ -169,6 +173,7 @@ export class UtilitiesService {
       this.fnDestroySession();
     }
   };
+
   fnsetUser(user) {
     sessionStorage.setItem('user', JSON.stringify(user));
   }
@@ -204,7 +209,6 @@ export class UtilitiesService {
   }
 
   fnSetRamdonColor() {
-
     const colors = [
       '#c2e8d3',
       '#bca0b9',
@@ -242,9 +246,11 @@ export class UtilitiesService {
     });
 
   }
+
   fnCustomLoading() {
     return $('<div class="CustomLoading"><div class="imgloading"></div></div>');
   }
+
   fnMoveElemArr(arr, oi, ni) {
     while (oi < 0) { oi += arr.length; }
     while (ni < 0) { ni += arr.length; }
@@ -255,6 +261,7 @@ export class UtilitiesService {
     arr.splice(ni, 0, arr.splice(oi, 1)[0]);
     return arr;
   }
+
   fnOnlyNumber = function (e) {
     const t = e.keyCode ? e.keyCode : e.which;
     if ((t > 47 && t < 58)) {
@@ -267,18 +274,6 @@ export class UtilitiesService {
       }
     }
   };
-  fnCachErr(error: any) {
-    switch (error.status) {
-      case 401:
-        $('#content-load').hide();
-        $('#ad-id_modal_session_expired').modal({ backdrop: 'static', keyboard: false }, 'show');
-        sessionStorage.clear();
-        localStorage.clear();
-        break;
-      default:
-        break;
-    }
-  }
 
   fnOpenLoading(callback, scroll_no_auto?) {
     const showLoad = $('#content-load').show();
@@ -320,35 +315,6 @@ export class UtilitiesService {
     if (!scroll_no_auto) {
       $('html,body').scrollTop(0);
       $('html').css('overflow', 'auto');
-    }
-  }
-
-  fnActiveTabBorder(id, page) {
-    this.fnRemoveTabActiveBorder();
-    this.fnSetSessionStorage('pageSelected', page);
-    $('#' + id).addClass('active');
-  }
-
-  fnSetPageNavigate(id, page, title) {
-    $('#' + id).text(title);
-    this.fnSetSessionStorage('pageSelected', page);
-    this.fnSetSessionStorage('pageTitle', title);
-  }
-
-  fnRemoveTabActiveBorder() {
-    $('#item-dashboard').removeClass('active');
-    $('#item-jobs').removeClass('active');
-    $('#item-sources').removeClass('active');
-    $('#item-careerpage').removeClass('active');
-  }
-
-  fnGetDataCompany(callback) {
-    const dataCompany = JSON.parse(this.fnGetSessionStorage('dataCompany'));
-    const itemManageUsers = JSON.parse(this.fnGetSessionStorage('itemManageUsers'));
-    if (dataCompany) {
-      callback({ 'dataCompany': dataCompany, 'itemManageUsers': itemManageUsers });
-    } else {
-      callback(false);
     }
   }
 
@@ -565,35 +531,6 @@ export class UtilitiesService {
     return new_value_percentage;
   }
 
-
-
-  fnHttpTestValidEmailMock(email): Observable<any> {
-    // const headers = this.fnSetDefineTokenAuthorization(guid_user);
-    const urlSetDataNewCategory = '/api/Account/ValidateEmail?email=' + email;
-    // return this.http.get('https://prozesslaw.azurewebsites.net/' + urlSetDataNewCategory,
-    return this.http.get(this.fnGetHost() + urlSetDataNewCategory,
-      {
-        observe: 'response',
-        // headers: headers,
-        reportProgress: true,
-      });
-  }
-
-  fnHttpValidEmailMock(email): Observable<any> {
-    // const headers = this.fnSetDefineTokenAuthorization(guid_user);
-    const urlSetDataValidEmailService = '/api/Account/ValidateEmail2';
-    const obj_send = {
-      'emailString': email,
-    };
-    // return this.http.post('https://prozesslaw.azurewebsites.net/' + urlSetDataValidEmailService, {},
-    return this.http.post(this.fnGetHost() + urlSetDataValidEmailService, obj_send,
-      {
-        observe: 'response',
-        // headers: headers,
-        reportProgress: true,
-      });
-  }
-
   fnHttpGetEntitiesByUser(guid_user: any, user_id: number): Observable<any> {
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     const urlSetDataValidEmailService = '/api/Account/GetEmpresasUsuario';
@@ -645,29 +582,6 @@ export class UtilitiesService {
     }).join(''));
 
     return JSON.parse(jsonPayload);
-  }
-
-  fnHttpGetDataUrlCustom(url_enpoint, guid_user?): Observable<any> {
-    if (guid_user) {
-      let data_headers = new HttpHeaders().set('Authorization', 'Bearer ' + guid_user);
-      data_headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.get(url_enpoint,
-        {
-          observe: 'response',
-          headers: data_headers,
-          reportProgress: true,
-        });
-    } else {
-      let data_headers = new HttpHeaders().set('Authorization', '');
-      data_headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.get(url_enpoint,
-        {
-          observe: 'response',
-          headers: data_headers,
-          reportProgress: true,
-        });
-    }
-    // this.urlGetDataUrlCustom = url_enpoint;
   }
 
   // fnShowModalHelp(moduleName?, columnName?, title?, description?) {
