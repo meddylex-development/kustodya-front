@@ -153,7 +153,7 @@
             </div>
 
             <nb-tabset *ngIf="profileUser == 1 || profileUser == 2" class="mb2" status="info" fullWidth (changeTab)="fnSelectState($event)">
-              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ paginationTabs?.pagPorAsignar?.totalItems || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '' || tabId == 1) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ dataStatusBadges?.PorAsignar || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '' || tabId == 1) ? true : false" style="overflow: hidden;">
                 
                 <!-- <div class="row mb-3 mb-2" *ngIf="checkBlockCases && collectionCheckedCases.length > 0">
                   <div class="col">
@@ -332,41 +332,42 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            {{ item?.dataUser?.tNumeroDocumento }}&nbsp;
+                            {{ item?.documentoPaciente }}&nbsp;
                             <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.dataUser?.tNumeroDocumento)" tooltip="Copiar número de documento" placement="top" container="body"></i>
                           </td>
-                          <td class="align-middle text-left">{{ item?.nombre | titlecase }}</td>
+                          <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
-                            <strong>{{ item?.diasIncapacidad }}</strong> d&iacute;as
+                            <strong>{{ item?.diasAcumuladosUltimaProrroga || 0 }}</strong> d&iacute;as
                           </td>
                           <td class="align-middle text-center">
                             <!-- <span style="font-size: 80%;">
                               {{ item?.grupoIncapacidad }}
                             </span> -->
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                              (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                              (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                              (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                              (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                               (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
+                              (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90) ? 'De 1 a 90 días' : 
+                              (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120) ? 'De 91 a 120 días' : 
+                              (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150) ? 'De 121 a 150 días' : 
+                              (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180) ? 'De 151 a 180 días' : 
+                              (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540) ? 'De 181 a 540 días' : 
+                               (item?.diasAcumuladosUltimaProrroga >= 541) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
                             [ngClass]="{
-                              'badge-state-0': !item?.grupoIncapacidad, 
-                              'badge-state-8': item?.grupoIncapacidad == 1, 
-                              'badge-state-2': item?.grupoIncapacidad == 2, 
-                              'badge-state-3': item?.grupoIncapacidad == 3, 
-                              'badge-state-4': item?.grupoIncapacidad == 4, 
-                              'badge-state-7': item?.grupoIncapacidad == 5, 
-                              'badge-state-9': item?.grupoIncapacidad == 6
+                              'badge-state-0': !item?.diasAcumuladosUltimaProrroga, 
+                              'badge-state-8': (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90), 
+                              'badge-state-2': (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120), 
+                              'badge-state-3': (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150), 
+                              'badge-state-4': (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180), 
+                              'badge-state-7': (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540), 
+                              'badge-state-9': (item?.diasAcumuladosUltimaProrroga >= 541)
                             }">
                               <i class="far fa-calendar-alt"></i>&nbsp;
                               {{ 
-                                (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                                (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                                (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                                (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                                (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                                 (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}
+                                (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90) ? 'De 1 a 90 días' : 
+                                (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120) ? 'De 91 a 120 días' : 
+                                (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150) ? 'De 121 a 150 días' : 
+                                (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180) ? 'De 151 a 180 días' : 
+                                (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540) ? 'De 181 a 540 días' : 
+                                (item?.diasAcumuladosUltimaProrroga >= 541) ? 'Mas de 541 días' : 'Sin grupo'
+                              }}
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -383,13 +384,12 @@
                           </td>
                           <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              <!-- {{ item?.dataUser?.eps?.tNombre | titlecase }} -->
-                              <small>No data service</small>
+                              <small>{{ item?.afp | titlecase }}</small>
                             </small>
                           </td>
-                          <td class="align-middle text-center">{{ item?.dataUser?.regimenAfiliacion?.tNombre }}</td>
-                          <td class="align-middle text-center">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                          <td class="align-middle text-center">{{ item?.regimenAfiliacion }}</td>
+                          <td class="align-middle text-center">{{ item?.tipoAfiliacion }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaCreacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
                             <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
                             [ngClass]="{
@@ -445,7 +445,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ paginationTabs?.pagAsignados?.totalItems }}" [active]="(dataSearchAdvance?.state == 2 || tabId == 2) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ dataStatusBadges?.Asignados || 0 }}" [active]="(dataSearchAdvance?.state == 2 || tabId == 2) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAsignados.length > 0">
                       <thead>
@@ -732,7 +732,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ paginationTabs?.pagEnProceso?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ dataStatusBadges?.EnProceso || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionEnProceso.length > 0">
                       <thead>
@@ -1008,7 +1008,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="5" tabTitle="Emitidos" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ paginationTabs?.pagGestionados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 5) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="5" tabTitle="Emitidos" tabIcon="fas fa-clipboard-check" responsive badgeText="{{ dataStatusBadges?.Emitidos || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 5) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionGestionados.length > 0">
                       <thead>
@@ -1298,7 +1298,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ paginationTabs?.pagNotificados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 6) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ dataStatusBadges?.Notificados || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 6) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionNotificados.length > 0">
                       <thead>
@@ -1585,7 +1585,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ paginationTabs?.pagAnulados?.totalItems }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 4) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ dataStatusBadges?.Anulados || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 4) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAnulados.length > 0">
                       <thead>
