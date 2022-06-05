@@ -204,10 +204,10 @@ export class ListComponent implements OnInit {
             this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
             this.userIdSession = (this.dataSession['EsSuperAdmin'] == "True")? 112 : this.dataSession['UserId'];
 
-            this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
-            this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
-            this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null, this.profileUser, this.userIdSession);
-            this.fnBuildData(this.token, this.currentPage, null, 5, null, null, null, this.profileUser, this.userIdSession);
+            // this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
+            // this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
+            // this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null, this.profileUser, this.userIdSession);
+            // this.fnBuildData(this.token, this.currentPage, null, 5, null, null, null, this.profileUser, this.userIdSession);
 
           } else {
             
@@ -368,14 +368,16 @@ export class ListComponent implements OnInit {
 
   fnBuildData(token, currentPage, searchInput, state, startDate, endDate, stateSearch, typeUser, idUser) {
     this.submitted = true;
-    this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
-    // this.fnGetDataListTask(token, currentPage, searchInput, state, typeUser, idUser, this.itemsPerPage).then((resp) => {
+    // this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
+    this.fnGetDataListTask(token, currentPage, searchInput, state, typeUser, idUser, this.itemsPerPage).then((resp) => {
       console.log('resp: ', resp);
       if(resp) {
         this.currentSearch = stateSearch;
         if (resp['status'] == 200) {
-          let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
-          let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listaPacientes']));
+          let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
+          console.log('dataListCollection: ', dataListCollection);
+          let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
+          // return false;
           // this.totalItems = resp['body']['paginacion']['totalItems'];
           // this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
           // this.currentPage = resp['body']['paginacion']['paginaActual'];
@@ -385,8 +387,8 @@ export class ListComponent implements OnInit {
 
           let collection = [];
           dataListCollection.forEach((val, key) => {
-            this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
-              val['dataUser'] = respDataUser['body'];
+            //this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
+              // val['dataUser'] = respDataUser['body'];
               val['progress'] = Math.floor(Math.random() * 101);
               val['checked'] = false;
               // return this.fnGetDataDoctorByID(token, val['usuarioAsignadoId']);
@@ -395,13 +397,20 @@ export class ListComponent implements OnInit {
                 case 1:
                     this.collectionPorAsignar = collection;
                     this.paginationTabs['pagPorAsignar'] = {
-                      'totalItems': resp['body']['paginacion']['totalItems'],
+                      'totalItems': resp['body']['paginacion'][0]['totalItems'],
                       'currentPage': currentPage,
-                      'itemsPerPage': 10,
-                      'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                      'prevPage': resp['body']['paginacion']['anterior'],
-                      'nextNext': resp['body']['paginacion']['siguiente'],
-                      'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                      'itemsPerPage': this.itemsPerPage,
+                      'numItemsPage': this.itemsPerPage,
+                      'prevPage': resp['body']['paginacion'][0]['anterior'],
+                      'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                      'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                      // 'totalItems': resp['body']['paginacion']['totalItems'],
+                      // 'currentPage': currentPage,
+                      // 'itemsPerPage': 10,
+                      // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                      // 'prevPage': resp['body']['paginacion']['anterior'],
+                      // 'nextNext': resp['body']['paginacion']['siguiente'],
+                      // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                     }
                     // this.collectionAsignados = collection;
                     // this.collectionEnProceso = collection;
@@ -470,7 +479,7 @@ export class ListComponent implements OnInit {
                   }
                   break;
               }
-            });
+            // });
             // .then((respDataDoc) => {
             //   if (respDataDoc) {
             //     val['dataDoctor'] = respDataDoc['body'];
@@ -481,6 +490,7 @@ export class ListComponent implements OnInit {
             //   val['dataDoctor'] = respDataDoctor['body'];
             // });
           });
+
           // this.dataListCollectionOriginal = this.dataListCollection;
           this.submitted = false;
         } else {
