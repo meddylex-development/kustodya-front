@@ -171,6 +171,7 @@ export class ListComponent implements OnInit {
   public profileUser: any = '';
   public userIdSession: any = '';
   public tabId: number = 1;
+  public dataStatusBadges: any = null;
 
   constructor(
     private authService: NbAuthService,
@@ -377,6 +378,36 @@ export class ListComponent implements OnInit {
           let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
           console.log('dataListCollection: ', dataListCollection);
           let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
+
+          let dataStatusBadges = JSON.parse(JSON.stringify(resp['body']['registrosEstados']));
+          console.log('dataStatusBadges: ', dataStatusBadges);
+          this.dataStatusBadges = {};
+          dataStatusBadges.forEach(element => {
+            console.log('element: ', element);
+            switch (element.estado) {
+              case 1:
+                this.dataStatusBadges['PorAsignar'] = (element.registros) ? element.registros : 0;
+                break;
+              case 2:
+                this.dataStatusBadges['Asignados'] = (element.registros) ? element.registros : 0;
+                break;
+              case 3:
+                this.dataStatusBadges['EnProceso'] = (element.registros) ? element.registros : 0;
+                break;
+              case 4:
+                this.dataStatusBadges['Anulados'] = (element.registros) ? element.registros : 0;
+                break;
+              case 5:
+                this.dataStatusBadges['Emitidos'] = (element.registros) ? element.registros : 0;
+                break;
+              case 6:
+                this.dataStatusBadges['Notificados'] = (element.registros) ? element.registros : 0;
+                break;
+            }
+          });
+          console.log('dataStatusBadges: ', dataStatusBadges);
+          // this.dataStatusBadges = dataStatusBadges;
+          console.log('this.dataStatusBadges: ', this.dataStatusBadges);
           // return false;
           // this.totalItems = resp['body']['paginacion']['totalItems'];
           // this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
@@ -389,7 +420,7 @@ export class ListComponent implements OnInit {
           dataListCollection.forEach((val, key) => {
             //this.fnGetDataUserByID(token, val['idPaciente']).then((respDataUser) => {
               // val['dataUser'] = respDataUser['body'];
-              val['progress'] = Math.floor(Math.random() * 101);
+              // val['progress'] = Math.floor(Math.random() * 101);
               val['checked'] = false;
               // return this.fnGetDataDoctorByID(token, val['usuarioAsignadoId']);
               collection.push(val);
