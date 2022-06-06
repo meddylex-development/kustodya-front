@@ -248,15 +248,6 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th> 
-                              <th class="text-truncate"  style="width: 160px !important;">
-                                Grupo&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
                               <th class="text-truncate" style="width: 102px !important;">
                                 Prioridad&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -338,37 +329,6 @@
                           <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
                             <strong>{{ item?.diasAcumuladosUltimaProrroga || 0 }}</strong> d&iacute;as
-                          </td>
-                          <td class="align-middle text-center">
-                            <!-- <span style="font-size: 80%;">
-                              {{ item?.grupoIncapacidad }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90) ? 'De 1 a 90 días' : 
-                              (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120) ? 'De 91 a 120 días' : 
-                              (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150) ? 'De 121 a 150 días' : 
-                              (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180) ? 'De 151 a 180 días' : 
-                              (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540) ? 'De 181 a 540 días' : 
-                               (item?.diasAcumuladosUltimaProrroga >= 541) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.diasAcumuladosUltimaProrroga, 
-                              'badge-state-8': (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90), 
-                              'badge-state-2': (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120), 
-                              'badge-state-3': (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150), 
-                              'badge-state-4': (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180), 
-                              'badge-state-7': (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540), 
-                              'badge-state-9': (item?.diasAcumuladosUltimaProrroga >= 541)
-                            }">
-                              <i class="far fa-calendar-alt"></i>&nbsp;
-                              {{ 
-                                (item?.diasAcumuladosUltimaProrroga >= 1 && item?.diasAcumuladosUltimaProrroga <= 90) ? 'De 1 a 90 días' : 
-                                (item?.diasAcumuladosUltimaProrroga >= 91 && item?.diasAcumuladosUltimaProrroga <= 120) ? 'De 91 a 120 días' : 
-                                (item?.diasAcumuladosUltimaProrroga >= 121 && item?.diasAcumuladosUltimaProrroga <= 150) ? 'De 121 a 150 días' : 
-                                (item?.diasAcumuladosUltimaProrroga >= 151 && item?.diasAcumuladosUltimaProrroga <= 180) ? 'De 151 a 180 días' : 
-                                (item?.diasAcumuladosUltimaProrroga >= 181 && item?.diasAcumuladosUltimaProrroga <= 540) ? 'De 181 a 540 días' : 
-                                (item?.diasAcumuladosUltimaProrroga >= 541) ? 'Mas de 541 días' : 'Sin grupo'
-                              }}
-                            </span>
                           </td>
                           <td class="align-middle text-center">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
