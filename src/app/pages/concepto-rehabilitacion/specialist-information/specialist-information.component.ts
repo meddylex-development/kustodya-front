@@ -44,7 +44,7 @@ export class SpecialistInformationComponent implements OnInit {
       // this.dataCase
       console.log('this.dataCase: ', this.dataCase);
       this.loading = true;
-      this.GetDataUserById(this.token, this.dataCase['usuarioAsignadoId']).then((response) => {
+      this.GetDataUserById(this.token, this.dataCase['idMedicoAsignado']).then((response) => {
         console.log('response: ', response);
         if (response) {
           this.objectDataUser = response['body'];
