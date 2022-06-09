@@ -20,9 +20,7 @@
     
     nb-card {
       height: auto !important;
-      max-width: 28rem !important;
     }
-    
     nb-card-header {
       display: block !important;
     }
@@ -38,10 +36,6 @@
 
     ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input>input {
         height: 44px;
-    }
-
-    .btn-info:hover {
-      background-color: #f1f1f1 !important;
     }
     
     .kstdya-card_content {

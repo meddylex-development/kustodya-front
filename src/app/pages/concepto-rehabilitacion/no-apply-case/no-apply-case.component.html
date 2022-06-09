@@ -1,6 +1,6 @@
 <nb-card size="tiny">
   <nb-card-header style="display: flex !important; justify-content: space-between !important;">
-    Asignar caso
+    No aplica caso
     <span class="cursor-pointer" (click)="fnCloseModal()">
         <i class="fas fa-times cursor-pointer text-danger"></i>
     </span>
@@ -10,10 +10,7 @@
       <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
         <div class="col-12 pl-0 pr-0">
           <p>
-              En esta secci&oacute;n puedes asignar el caso seleccionado a un m&eacute;dico profesional para 
-              la generaci&oacute;n de el concepto de rehabilitaci&oacute;n. 
-              <!-- De esta forma el medico podra verlo 
-              en su bandeja de trabajo como un nuevo caso a generar. -->
+              En esta secci&oacute;n puedes marcar como "No aplica" el caso seleccionado. 
           </p>
         </div>
         <!-- ********** START - Ocupación paciente ********** -->
@@ -35,51 +32,49 @@
         </div>
         <div class="mt-2 mb-2 col-12">
           <div class="form-group">
-            <label for="input-selectListDoctors">
+            <label for="input-selectListCancelType">
               <h6 class="m-0">
-                <i class="fas fa-user"></i>&nbsp;M&eacute;dicos disponibles:&nbsp;
+                <i class="fas fa-user"></i>&nbsp;Tipo Concepto:&nbsp;
                 <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
               </h6>
             </label>
             <ng-select  
-              id="input-selectListDoctors"
-              [items]="collectionDoctors" 
-              bindLabel="doctor" 
-              name="selectListDoctors"
-              #selectListDoctors="ngModel" 
+              id="input-selectListCancelType"
+              [items]="collectionCancelTypes" 
+              bindLabel="name" 
+              name="selectListCancelType"
+              #selectListCancelType="ngModel" 
               status="basic" 
               appendTo="body"
-              placeholder="Seleccione el médico"
+              placeholder="Seleccione tipo concepto"
               [ngModelOptions]="{standalone: true}" 
-              [(ngModel)]="doctorAssign" 
-              (change)="fnSelectDoctorAssign($event)"
+              [(ngModel)]="cancelType" 
+              (change)="fnSelectCancelType($event)"
               required>
             </ng-select>
           </div>
         </div>
         <div class="mt-2 mb-2 col-12">
           <div class="form-group">
-            <label for="input-rangePriority">
+            <label for="input-cancelDescription">
               <h6 class="m-0">
-                <i class="fas fa-user"></i>&nbsp;Prioridad:&nbsp;
+                <i class="fas fa-user"></i>&nbsp;Causa:&nbsp;
                 <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
               </h6>
             </label>
-            <div>
-              <input 
-                style="width: 100%;" 
-                type="range" 
-                class="form-range" 
-                [min]="1" 
-                #rangePriority="ngModel" 
-                [ngModelOptions]="{standalone: true}" 
-                [(ngModel)]="priorityCase" 
-                [max]="3" 
-                id="input-rangePriority">
-            </div>
-            <div class="text-center mt-2">
-              <h6>Prioridad: <strong>{{ (priorityCase == 1) ? "Baja" : (priorityCase == 2) ? "Media" : (priorityCase == 3) ? "Alta" : "Sin prioridad" }}</strong></h6>
-            </div>
+            <textarea 
+              nbInput 
+              fullWidth 
+              id="input-cancelDescription"  
+              name="cancelDescription" 
+              [disabled]="false" 
+              [readonly]="false" 
+              [(ngModel)]="cancelCaseDescription" 
+              [ngModelOptions]="{standalone: true}"
+              [status]="cancelDescription.dirty ? (cancelDescription.invalid  ? 'danger' : 'info') : 'info'" 
+              #cancelDescription="ngModel"
+              placeholder="Escribe una descripción por la que se caracteriza el caso como No Aplica ...">
+            </textarea>
           </div>
         </div>
         <!-- *********** END - Ocupación paciente *********** -->
@@ -89,11 +84,11 @@
             nbButton 
             fullWidth 
             type="button" 
-            (click)="fnAssignCase(doctorAssign, priorityCase)"
+            (click)="fnCancelCase(cancelCaseDescription)"
             [class.btn-pulse]="submitted" 
-            [disabled]="!doctorAssign || !priorityCase" 
+            [disabled]="!cancelCaseDescription" 
             style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
-            Asignar
+            Actualizar
         </button>
         <button 
             class="cursor-pointer mb-2"

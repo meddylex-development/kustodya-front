@@ -46,6 +46,7 @@ import { SpecialistInformationComponent } from './specialist-information/special
 import { EmisionConfirmComponent } from './emision-confirm/emision-confirm.component';
 import { SendMailComponent } from './send-mail/send-mail.component';
 import { CancelCaseComponent } from './cancel-case/cancel-case.component';
+import { NoApplyCaseComponent } from './no-apply-case/no-apply-case.component';
 import { ToolsModule } from '../../shared/modules/tools.module';
 
 const ENTRY_COMPONENTS = [
@@ -69,6 +70,7 @@ const ENTRY_COMPONENTS = [
     EmisionConfirmComponent, 
     SendMailComponent, 
     CancelCaseComponent,
+    NoApplyCaseComponent,
   ],
   imports: [
     ToolsModule,
@@ -110,6 +112,7 @@ const ENTRY_COMPONENTS = [
     PatientInformationComponent,
     SpecialistInformationComponent,
     CancelCaseComponent,
+    NoApplyCaseComponent,
   ],
 })
 export class ConceptoRehabilitacionModule { }
