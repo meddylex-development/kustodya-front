@@ -724,7 +724,7 @@ export class ListComponent implements OnInit {
     this.dialogService.open(ReAssignCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
       if (res) {
         this.collectionAsignados = [];
-        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+        this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
       }
     });
   }
@@ -851,7 +851,7 @@ export class ListComponent implements OnInit {
 
   fnStartCHRBConceptCase(item, tab_id) {
     this.utilitiesService.fnSetDataShare({ 
-      patientData: item['dataUser'], 
+      patientData: item, 
       patientConcept: item,
       tab: tab_id,
       // patientIncapacities: this.patientIncapacities, 
@@ -861,7 +861,7 @@ export class ListComponent implements OnInit {
       // documentTypeSelected: this.documentTypeSelected,
       // dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['idpacienteporemitir']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['Id']);
   }
 
   fnShowPreviewCRHB(item, tab_id) {

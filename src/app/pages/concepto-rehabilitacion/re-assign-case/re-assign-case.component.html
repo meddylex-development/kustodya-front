@@ -27,7 +27,7 @@
             <div class="col">
               <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Paciente caso" placement="top" container="body">
                 <i class="far fa-address-card"></i>&nbsp;
-                {{ dataCase?.numeroIdentificacion }} - {{ dataCase?.nombre | titlecase}}
+                {{ dataCase?.documentoPaciente }} - {{ dataCase?.nombrePaciente | titlecase }}
               </span>
             </div>
           </div>
@@ -41,14 +41,9 @@
               </h6>
             </label>
             <div class="col-12">
-              <span *ngIf="userAssign?.primerNombre" class="badge rounded-pill text-light cursor-pointer badge-state-1 animated fadeIn" tooltip="Paciente caso" placement="top" container="body">
+              <span *ngIf="dataCase?.medicoAsignado" class="badge rounded-pill text-light cursor-pointer badge-state-1 animated fadeIn" tooltip="Paciente caso" placement="top" container="body">
                 <i class="fas fa-user-md"></i>&nbsp;
-                {{ 
-                  userAssign?.primerNombre + ' ' + 
-                  userAssign?.segundoNombre + ' ' + 
-                  userAssign?.primerApellido + ' ' + 
-                  userAssign?.segundoApellido || 'Cargando...' 
-                }}
+                {{ dataCase?.medicoAsignado || 'Cargando...' }}
               </span>
             </div>
           </div>
@@ -90,7 +85,7 @@
             <ng-select  
               id="input-selectListDoctors"
               [items]="collectionDoctors" 
-              bindLabel="nombre" 
+              bindLabel="doctor" 
               name="selectListDoctors"
               #selectListDoctors="ngModel" 
               status="basic" 
