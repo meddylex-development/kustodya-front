@@ -45,18 +45,19 @@ export class AssignCaseComponent implements OnInit {
         "perfil": 46,
         "pagina": 1,
       };
-      this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
+      this.fnGetListDoctorsCases(this.token).then((response) => {
+        console.log('response: ', response);
         if (response) {
-          let dataDoctors = response['body']['usuariosOutputModel'];
+          let dataDoctors = response['body']['TareasMedicos'];
           dataDoctors.forEach(element => {
             console.log('element: ', element);
-            element['doctor'] = element['identificacion'] + ' - ' + element['nombre'];
+            element['doctor'] = '(' + element['cantidad'] + ') - ' + element['numeroDocumento'] + ' - ' + element['nombres'];
             //this.collectionDoctors.push(element);
             // console.log('this.collectionDoctors: ', this.collectionDoctors);
           });
           this.collectionDoctors = dataDoctors;
-          // this.collectionDoctors = response['body']['usuariosOutputModel'];
-          this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
+          // this.collectionDoctors = response['body']['TareasMedicos'];
+          this.collectionDoctorsOriginal = response['body']['TareasMedicos'];
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
           // this.dismiss(false);
@@ -85,15 +86,29 @@ export class AssignCaseComponent implements OnInit {
     });
   }
 
+  fnGetListDoctorsCases(token) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetListDoctorsCases(token).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
   fnSelectDoctorAssign(data) {
   }
 
   fnAssignCase(doctorAssign, priorityCase) {
+    console.log('doctorAssign: ', doctorAssign);
     let dataUpdate = {
-      "id": this.dataCase['idpacienteporemitir'],
-      "usuarioAsignadoId": doctorAssign['id'],
+      "id": this.dataCase['Id'],
+      "usuarioAsignadoId": doctorAssign['iIDUsuario'],
       "prioridad": priorityCase,
     };
+    console.log('dataUpdate: ', dataUpdate);
     this.fnSetAssignCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {
         this.utilitiesService.showToast('top-right', 'success', 'Caso asignado satisfactoriamente!');

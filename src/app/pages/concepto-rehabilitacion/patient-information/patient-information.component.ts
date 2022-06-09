@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
 import { UserService } from '../../../shared/api/services/user.service';
+import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 
 @Component({
   selector: 'ngx-patient-information',
@@ -19,18 +20,19 @@ export class PatientInformationComponent implements OnInit {
   public patientData: any = null;
   public submitted: boolean = false;
   public state: any = {};
-  public collectionDoctors: any = [];
-  public collectionDoctorsOriginal: any = [];
   public doctorAssign: any = null;
   public dataDoctor: any = null;
   public priorityCase: number = 1;
   public btnInfo: number = 1;
+  public loading: boolean = true;
+  public textSpinner: string = "Cargando...";
   
   constructor(
     protected ref: NbDialogRef<PatientInformationComponent>,
     private utilitiesService: UtilitiesService,
     private conceptoRehabilitacionService: ConceptoRehabilitacionService,
     private userService: UserService,
+    private incapacityService: IncapacityService,
   ) { }
 
   ngOnInit(): void {
@@ -41,30 +43,40 @@ export class PatientInformationComponent implements OnInit {
       this.userData = response['user'];
       // this.dataCase
       console.log('this.dataCase: ', this.dataCase);
-      // let objDataSend = {
-      //   //"entidadId": 1,
-      //   //"busqueda": 1,
-      //   "perfil": 46,
-      //   "pagina": 1,
-      // };
-      // this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
-      //   if (response) {
-      //     this.collectionDoctors = response['body']['usuariosOutputModel'];
-      //     this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
-      //   } else {
-      //     this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-      //     // this.dismiss(false);
-      //   }
-      // }).catch((err) => {
-      //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-      //   this.dismiss(false);
-      // });
+
+      this.fnGetDataUserByID(this.token, this.dataCase['PacienteId']).then((response) => {
+        console.log('response: ', response);
+        if (response) {
+          this.dataCase = response['body'];
+          console.log('this.dataCase: ', this.dataCase);
+          this.loading = false;
+        } else {
+          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          // this.dismiss(false);
+          this.loading = false;
+        }
+      }).catch((err) => {
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        this.dismiss(false);
+      });
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
         this.utilitiesService.fnNavigateByUrl('auth/login');
       });
     });
+  }
+
+  fnGetDataUserByID(token, id_user) {
+    return new Promise((resolve, reject) => {
+      this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
+      });
+    })
   }
 
   fnGetUsersEntity(token, id_entity, obj_data) {

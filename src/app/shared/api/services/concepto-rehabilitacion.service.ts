@@ -165,4 +165,18 @@ export class ConceptoRehabilitacionService {
       });
   }
 
+    
+  fnHttpGetListDoctorsCases(guid_user): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // const object_params = object_data;
+    let urlGetListDoctorsCases = '/api/K2ConceptoRehabilitacion/ConsultarTareasMedicos';
+    return this.http.get(this.utility.fnGetHost() + urlGetListDoctorsCases,
+    {
+      // params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
 }

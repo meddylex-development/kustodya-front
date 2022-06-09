@@ -83,14 +83,20 @@ export class HistoricoPacienteComponent implements OnInit {
     const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
+    console.log('data: ', data);
     if (data) {
       this.submitted = true;
-      this.patientData = data['patientData'];
+      // this.patientData = data['patientData'];
       /// this.patientIncapacities = data['patientIncapacities'];
       // this.totalItems = data['patientIncapacities'].length;
       // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
       // this.submitted = true;
-      this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
+      let IdPaciente = data['patientData']['iIdpaciente'];
+      this.fnGetDataUserByID(token, IdPaciente).then((respDataUser) => {
+        console.log('respDataUser: ', respDataUser);
+        this.patientData = respDataUser['body'];;
+      });
+      this.fnGetDiagnosicosIncapacidadByPaciente(this.token, IdPaciente).then((response) => {
         if (response) {
           let patientIncapacities = response['patientIncapacities'];
           this.patientIncapacities = patientIncapacities;
@@ -218,6 +224,18 @@ export class HistoricoPacienteComponent implements OnInit {
         });
       }
     });
+  }
+
+  fnGetDataUserByID(token, id_user) {
+    return new Promise((resolve, reject) => {
+      this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
+      });
+    })
   }
 
 }

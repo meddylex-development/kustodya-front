@@ -21,6 +21,7 @@ import { PatientInformationComponent } from '../patient-information/patient-info
 import { SpecialistInformationComponent } from '../specialist-information/specialist-information.component';
 import { CancelCaseComponent } from '../cancel-case/cancel-case.component';
 import { AddComponent } from '../add/add.component';
+import { NoApplyCaseComponent } from '../no-apply-case/no-apply-case.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -452,13 +453,20 @@ export class ListComponent implements OnInit {
                 case 2:
                     this.collectionAsignados = collection;
                     this.paginationTabs['pagAsignados'] = {
-                      'totalItems': resp['body']['paginacion']['totalItems'],
+                      'totalItems': resp['body']['paginacion'][0]['totalItems'],
                       'currentPage': currentPage,
-                      'itemsPerPage': 10,
-                      'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                      'prevPage': resp['body']['paginacion']['anterior'],
-                      'nextNext': resp['body']['paginacion']['siguiente'],
-                      'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                      'itemsPerPage': this.itemsPerPage,
+                      'numItemsPage': this.itemsPerPage,
+                      'prevPage': resp['body']['paginacion'][0]['anterior'],
+                      'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                      'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                      // 'totalItems': resp['body']['paginacion']['totalItems'],
+                      // 'currentPage': currentPage,
+                      // 'itemsPerPage': 10,
+                      // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                      // 'prevPage': resp['body']['paginacion']['anterior'],
+                      // 'nextNext': resp['body']['paginacion']['siguiente'],
+                      // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                     }
                   break;
                 case 3:
@@ -689,6 +697,22 @@ export class ListComponent implements OnInit {
     });
   }
 
+  fnNoApplyCase(item) {
+    let dataSend = {};
+    dataSend['dataCase'] = item;
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(NoApplyCaseComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionPorAsignar = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
+  }
+
   fnReAssignCase(item) {
     let dataSend = {};
     dataSend['dataCase'] = item
@@ -746,8 +770,10 @@ export class ListComponent implements OnInit {
   }
 
   fnRedirectViewPatientIncapacitiesHistory(item, tabId) {
+    console.log('item: ', item);
+    item['iIdpaciente'] = item['PacienteId']
     this.utilitiesService.fnSetDataShare({ 
-      patientData: item['dataUser'], 
+      patientData: item, 
       tab: tabId,
       // patientIncapacities: this.patientIncapacities, 
       // collectionDocumentTypes: this.collectionDocumentTypes, 
