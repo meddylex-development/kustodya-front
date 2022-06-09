@@ -38,13 +38,6 @@ export class AssignCaseComponent implements OnInit {
       let data = this.utilitiesService.fnGetDataShare();
       this.token = response['token'];
       this.userData = response['user'];
-      // this.dataCase
-      let objDataSend = {
-        //"entidadId": 1,
-        //"busqueda": 1,
-        "perfil": 46,
-        "pagina": 1,
-      };
       this.fnGetListDoctorsCases(this.token).then((response) => {
         console.log('response: ', response);
         if (response) {

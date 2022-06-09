@@ -40,42 +40,20 @@ export class ReAssignCaseComponent implements OnInit {
       let data = this.utilitiesService.fnGetDataShare();
       this.token = response['token'];
       this.userData = response['user'];
-      // this.dataCase
-      // this.dataCase['usuarioAsignadoId']
-      console.log('this.dataCase: ', this.dataCase);
-      let objDataSend = {
-        //"entidadId": 1,
-        //"busqueda": 1,
-        "perfil": 46,
-        "pagina": 1,
-      };
-
-      this.fnGetDataUserByID(this.token, this.dataCase['usuarioAsignadoId']).then((respDataUser) => {
-        console.log('respDataUser: ', respDataUser);
-        if (respDataUser) {
-          this.userAssign = respDataUser['body'];
-          console.log('this.userAssign: ', this.userAssign);
-        } else {
-          this.dismiss();
-        }
-      });
-
-      this.fnGetUsersEntity(this.token, 1, objDataSend).then((response) => {
+      this.priorityCase = this.dataCase['prioridad'];
+      this.fnGetListDoctorsCases(this.token).then((response) => {
+        console.log('response: ', response);
         if (response) {
-          let dataDoctorsFiltered = [];
-          let collectionDoctors = response['body']['usuariosOutputModel'];
-          collectionDoctors.forEach(element => {
-            console.log('usuarioAsignadoId: ', this.dataCase['usuarioAsignadoId']);
-            console.log('element: ', element['id']);
-            if (this.dataCase['usuarioAsignadoId'] !== element['id']) {
-              console.log("entro por aca");
-              dataDoctorsFiltered.push(element);
-              console.log('dataDoctorsFiltered: ', dataDoctorsFiltered);
-            }
+          let dataDoctors = response['body']['TareasMedicos'];
+          dataDoctors.forEach(element => {
+            console.log('element: ', element);
+            element['doctor'] = '(' + element['cantidad'] + ') - ' + element['numeroDocumento'] + ' - ' + element['nombres'];
+            //this.collectionDoctors.push(element);
+            // console.log('this.collectionDoctors: ', this.collectionDoctors);
           });
-          this.collectionDoctors = dataDoctorsFiltered;
-          console.log('this.collectionDoctors: ', this.collectionDoctors);
-          this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
+          this.collectionDoctors = dataDoctors;
+          // this.collectionDoctors = response['body']['TareasMedicos'];
+          this.collectionDoctorsOriginal = response['body']['TareasMedicos'];
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
           // this.dismiss(false);
@@ -88,6 +66,18 @@ export class ReAssignCaseComponent implements OnInit {
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
         this.utilitiesService.fnNavigateByUrl('auth/login');
+      });
+    });
+  }
+
+  fnGetListDoctorsCases(token) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetListDoctorsCases(token).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
       });
     });
   }
@@ -121,10 +111,11 @@ export class ReAssignCaseComponent implements OnInit {
 
   fnReAssignCase(doctorAssign, priorityCase) {
     let dataUpdate = {
-      "id": this.dataCase['idpacienteporemitir'],
-      "usuarioAsignadoId": doctorAssign['id'],
+      "id": this.dataCase['Id'],
+      "usuarioAsignadoId": doctorAssign['iIDUsuario'],
       "prioridad": priorityCase,
     };
+    console.log('dataUpdate: ', dataUpdate);
     this.fnSetReAssignCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {
         this.utilitiesService.showToast('top-right', 'success', 'Caso asignado satisfactoriamente!');
