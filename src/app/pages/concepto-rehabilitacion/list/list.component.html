@@ -579,27 +579,10 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
                               {{ (item?.estado) ? item?.estado : 'Sin estado' }}
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
@@ -647,12 +630,6 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <!-- <th class="text-truncate">
-                                &nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                              </th> -->
                               <th class="text-truncate" *ngIf="profileUser == 1">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -810,27 +787,10 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
                               {{ (item?.estado) ? item?.estado : 'Sin estado' }}
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
