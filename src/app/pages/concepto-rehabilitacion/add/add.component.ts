@@ -170,7 +170,8 @@ export class AddComponent implements OnInit {
     this.loading = true;
     this.textSpinner = "Creando nuevo caso";
     let dataObject = {
-      "pacienteId": patientData['iIdpaciente']
+      "pacienteId": patientData['iIdpaciente'],
+      "prioridad": this.priorityCase,
     };
     this.fnSetCreateNewCase(this.token, dataObject).then((response) => {
       console.log('response: ', response);

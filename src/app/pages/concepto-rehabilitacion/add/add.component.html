@@ -64,7 +64,20 @@
               placeholder="Ingrese el número de documento del paciente">
           </div>
         </div>
-        <div class="mt-2 mb-2 col-12" *ngIf="false">
+        <div class="mt-2 mb-2 col-12" *ngIf="searchStatus == 1 && documentTypePatient && documentNumberPatient">
+          <div class="form-group">
+            <label for="input-rangePriority">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;Paciente encontrado:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <div class="text-center mt-2">
+              <h6><strong>{{ patientData?.tPrimerNombre + " " + patientData?.tPrimerApellido }}</strong></h6>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12" *ngIf="searchStatus == 1">
           <div class="form-group">
             <label for="input-rangePriority">
               <h6 class="m-0">
@@ -86,19 +99,6 @@
             </div>
             <div class="text-center mt-2">
               <h6>Prioridad: <strong>{{ (priorityCase == 1) ? "Baja" : (priorityCase == 2) ? "Media" : (priorityCase == 3) ? "Alta" : "Sin prioridad" }}</strong></h6>
-            </div>
-          </div>
-        </div>
-        <div class="mt-2 mb-2 col-12" *ngIf="searchStatus == 1 && documentTypePatient && documentNumberPatient">
-          <div class="form-group">
-            <label for="input-rangePriority">
-              <h6 class="m-0">
-                <i class="fas fa-user"></i>&nbsp;Paciente encontrado:&nbsp;
-                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
-              </h6>
-            </label>
-            <div class="text-center mt-2">
-              <h6><strong>{{ patientData?.tPrimerNombre + " " + patientData?.tPrimerApellido }}</strong></h6>
             </div>
           </div>
         </div>
