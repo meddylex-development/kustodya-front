@@ -904,15 +904,6 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th> 
-                              <th class="text-truncate"  style="width: 160px !important;">
-                                Grupo&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
                               <th class="text-truncate" style="width: 102px !important;">
                                 Prioridad&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -994,49 +985,18 @@
                           <td class="align-middle text-left" *ngIf="profileUser == 1">
                             <div>
                               <span>
-                                Andres Alberto Diaz Rojas
-                                <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
+                                {{ item.medicoAsignado }}
                               </span>&nbsp;
                               <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
-                            {{ item?.dataUser?.tNumeroDocumento }}&nbsp;
-                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.dataUser?.tNumeroDocumento)" tooltip="Copiar número de documento" placement="top" container="body"></i>
+                            {{ item?.documentoPaciente }}&nbsp;
+                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.documentoPaciente)" tooltip="Copiar número de documento" placement="top" container="body"></i>
                           </td>
-                          <td class="align-middle text-left">{{ item?.nombre | titlecase }}</td>
+                          <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
-                            <strong>{{ item?.diasIncapacidad }}</strong> d&iacute;as
-                          </td>
-                          <td class="align-middle text-center">
-                            <!-- <span style="font-size: 80%;">
-                              {{ item?.grupoIncapacidad }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                              (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                              (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                              (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                              (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                               (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.grupoIncapacidad, 
-                              'badge-state-8': item?.grupoIncapacidad == 1, 
-                              'badge-state-2': item?.grupoIncapacidad == 2, 
-                              'badge-state-3': item?.grupoIncapacidad == 3, 
-                              'badge-state-4': item?.grupoIncapacidad == 4, 
-                              'badge-state-7': item?.grupoIncapacidad == 5, 
-                              'badge-state-9': item?.grupoIncapacidad == 6
-                            }">
-                              <i class="far fa-calendar-alt"></i>&nbsp;
-                              {{ 
-                                (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                                (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                                (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                                (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                                (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                                 (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}
-                            </span>
+                            <strong>{{ item?.diasAcumuladosUltimaProrroga || '0' }}</strong> d&iacute;as
                           </td>
                           <td class="align-middle text-center">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
@@ -1059,28 +1019,6 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
-                              {{ (item?.estado) ? item?.estado : 'Sin estado' }}
-                            </span>
-                          </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
