@@ -44,10 +44,14 @@ export class PatientInformationComponent implements OnInit {
       // this.dataCase
       console.log('this.dataCase: ', this.dataCase);
 
-      this.fnGetDataUserByID(this.token, this.dataCase['PacienteId']).then((response) => {
+      let dataObject = {
+        "idPaciente": this.dataCase['PacienteId'],
+      };
+
+      this.fnGetDataUser(this.token, dataObject).then((response) => {
         console.log('response: ', response);
         if (response) {
-          this.dataCase = response['body'];
+          this.dataCase = response['body']['informacionPacientes'][0];
           console.log('this.dataCase: ', this.dataCase);
           this.loading = false;
         } else {
@@ -70,6 +74,18 @@ export class PatientInformationComponent implements OnInit {
   fnGetDataUserByID(token, id_user) {
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetPacienteByID(token, id_user).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
+      });
+    })
+  }
+
+  fnGetDataUser(token, data_object_) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUser(token, data_object_).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         }
