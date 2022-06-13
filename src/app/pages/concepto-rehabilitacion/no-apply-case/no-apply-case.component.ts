@@ -23,13 +23,13 @@ export class NoApplyCaseComponent implements OnInit {
   public dataDoctor: any = null;
   public cancelType: any = null;
   public collectionCancelTypes: any = [
-    { 'id': 1, 'name': 'CON PCL PENSIÓN' },
-    { 'id': 2, 'name': 'DESAFILIADO' },
-    { 'id': 3, 'name': 'DX ATEL' },
-    { 'id': 4, 'name': 'NO CUMPLE DÍAS' },
-    { 'id': 5, 'name': 'REVISIÓN' },
-    { 'id': 6, 'name': 'SEGUIMIENTO' },
-    { 'id': 7, 'name': 'SIN AFP' },
+    { 'id': 3583, 'name': 'CON PCL PENSIÓN' },
+    { 'id': 3584, 'name': 'DESAFILIADO' },
+    { 'id': 3585, 'name': 'DX ATEL' },
+    { 'id': 3586, 'name': 'NO CUMPLE DÍAS' },
+    { 'id': 3587, 'name': 'REVISIÓN' },
+    { 'id': 3588, 'name': 'SEGUIMIENTO' },
+    { 'id': 3589, 'name': 'SIN AFP' },
   ];
   
   constructor(
@@ -46,7 +46,6 @@ export class NoApplyCaseComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      console.log('this.dataCase: ', this.dataCase);
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
@@ -55,19 +54,17 @@ export class NoApplyCaseComponent implements OnInit {
     });
   }
 
-  fnCancelCase(dataCaseCancel) {
+  fnNoApplyCase(dataCaseCancel) {
     this.submitted = true;
-    console.log('dataCaseCancel: ', dataCaseCancel);
     let dataUpdate = {
       "id": this.dataCase['Id'],
-      "causalAnulacion": dataCaseCancel,
+      "tCausalNoAplica": dataCaseCancel,
+      "iIDCausalNoAplica": this.cancelType['id'],
     };
-    console.log('this.dataCase: ', this.dataCase);
-    console.log('dataUpdate: ', dataUpdate);
-    this.fnSetCancelCaseDoctor(this.token, dataUpdate).then((response) => {
+    this.fnSetNoApplyCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {
         this.submitted = false;
-        this.utilitiesService.showToast('top-right', 'success', 'Caso anulado satisfactoriamente!');
+        this.utilitiesService.showToast('top-right', 'success', 'Caso actualizado satisfactoriamente!');
         this.dismiss(true);
       } else {
         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -93,8 +90,19 @@ export class NoApplyCaseComponent implements OnInit {
     });
   }
 
+  fnSetNoApplyCaseDoctor(token, dataUpdate) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpSetNoApplyCase(token, dataUpdate).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
   fnSelectCancelType(event) {
-    console.log('event: ', event);
   }
 
   dismiss(res?) {
