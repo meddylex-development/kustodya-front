@@ -972,9 +972,14 @@
                                 <i class="far fa-id-card cursor-pointer text-info"></i>
                             </span>
                           </td> -->
-                          <td class="align-middle text-center" *ngIf="profileUser == 1">
+                          <!-- <td class="align-middle text-center" *ngIf="profileUser == 1">
                             <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
                                 <i class="fas fa-trash-alt cursor-pointer text-info"></i>
+                            </span>
+                          </td> -->
+                          <td class="align-middle text-center">
+                            <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
+                              <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
