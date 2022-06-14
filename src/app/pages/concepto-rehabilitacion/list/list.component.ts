@@ -522,13 +522,20 @@ export class ListComponent implements OnInit {
                 case 6:
                   this.collectionNotificados = collection;
                   this.paginationTabs['pagNotificados'] = {
-                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'totalItems': resp['body']['paginacion'][0]['totalItems'],
                     'currentPage': currentPage,
-                    'itemsPerPage': 10,
-                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                    'prevPage': resp['body']['paginacion']['anterior'],
-                    'nextNext': resp['body']['paginacion']['siguiente'],
-                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    'itemsPerPage': this.itemsPerPage,
+                    'numItemsPage': this.itemsPerPage,
+                    'prevPage': resp['body']['paginacion'][0]['anterior'],
+                    'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                    'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                    // 'totalItems': resp['body']['paginacion']['totalItems'],
+                    // 'currentPage': currentPage,
+                    // 'itemsPerPage': 10,
+                    // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    // 'prevPage': resp['body']['paginacion']['anterior'],
+                    // 'nextNext': resp['body']['paginacion']['siguiente'],
+                    // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                   }
                   break;
               }
