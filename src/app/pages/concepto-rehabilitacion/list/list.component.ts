@@ -879,27 +879,12 @@ export class ListComponent implements OnInit {
   }
 
   fnShowPreviewCRHB(item, tab_id) {
-    // this.patientData = data['patientData'];
-    // this.patientConcept = data['patientConcept'];
-
-    this.submitted = true;
-    let dataObjectSend = {
-      "paciente": (this.patientData) ? this.patientData : {},
-      "datosConcepto": item,
-    };
     this.utilitiesService.fnSetDataShare({ 
-      paciente: item['dataUser'], 
+      paciente: item, 
       datosConcepto: item,
       tab: tab_id,
-      // patientIncapacities: this.patientIncapacities, 
-      // collectionDocumentTypes: this.collectionDocumentTypes, 
-      // documentNumberPatient: this.documentNumberPatient, 
-      // documentTypePatient: this.documentTypePatient, 
-      // documentTypeSelected: this.documentTypeSelected,
-      // dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['idpacienteporemitir']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['Id']);
   }
 
 

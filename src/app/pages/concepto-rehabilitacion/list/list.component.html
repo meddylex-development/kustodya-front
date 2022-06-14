@@ -963,20 +963,10 @@
                       <tbody>
                         <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagGestionados', itemsPerPage: paginationTabs['pagGestionados'].itemsPerPage, currentPage: paginationTabs['pagGestionados'].currentPage, totalItems: paginationTabs['pagGestionados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnShowPreviewCRHB(item, 5);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item, 5);" tooltip="Ver CRHB emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span tooltip="Información detallada caso" placement="top" container="body">
-                                <i class="far fa-id-card cursor-pointer text-info"></i>
-                            </span>
-                          </td> -->
-                          <!-- <td class="align-middle text-center" *ngIf="profileUser == 1">
-                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
-                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
-                            </span>
-                          </td> -->
                           <td class="align-middle text-center">
                             <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
                               <i class="fas fa-user-injured cursor-pointer text-info"></i>
