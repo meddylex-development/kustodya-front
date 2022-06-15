@@ -396,7 +396,7 @@ export class ListComponent implements OnInit {
                 this.dataStatusBadges['EnProceso'] = (element.registros) ? element.registros : 0;
                 break;
               case 4:
-                this.dataStatusBadges['Anulados'] = (element.registros) ? element.registros : 0;
+                this.dataStatusBadges['NoAplica'] = (element.registros) ? element.registros : 0;
                 break;
               case 5:
                 this.dataStatusBadges['Emitidos'] = (element.registros) ? element.registros : 0;
@@ -656,7 +656,7 @@ export class ListComponent implements OnInit {
         currentPage = this.paginationTabs['pagEnProceso']['currentPage'];
         // this.dataSearchAdvance['statusInfo'] = { name: 'En proceso', value: 3 };
         break;
-      case 'Anulados':
+      case 'No aplica':
           state = 4;
           currentPage = this.paginationTabs['pagAnulados']['currentPage'];
           // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
