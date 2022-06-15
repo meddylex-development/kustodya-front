@@ -12,17 +12,17 @@
           <img src="../../../../assets/images/imgs/patient-avatar.png" width="70px" height="70px" alt="" srcset="">
           <br>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.tPrimerNombre + ' ' + dataCase?.tSegundoNombre | titlecase }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.primerNombre + ' ' + dataCase?.segundoNombre | titlecase }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.tPrimerApellido + ' ' + dataCase?.tSegundoApellido | titlecase }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.primerApellido + ' ' + dataCase?.segundoApellido | titlecase }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.tipoDocumento?.tTipoIdentificacion }} {{ dataCase?.tNumeroDocumento }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.tipoDocumento?.tipoDoc }} {{ dataCase?.numeroDocumento }}</h6>
           </span>
           <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
             <i class="fas fa-envelope"></i>&nbsp;
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.tEmail }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ dataCase?.email }}</h6>
           </span>
         </div>
       </div>
@@ -84,7 +84,7 @@
                 Fecha de nacimiento
               </small>
               <h6 class="m-0">
-                {{ dataCase?.dtFechaNacimiento | date:"MMMM d, y" }}
+                {{ dataCase?.fechaNacimiento | date:"MMMM d, y" }}
               </h6>
             </div>
           </div>
@@ -98,7 +98,7 @@
                 G&eacute;nero
               </small>
               <h6 class="m-0">
-                {{ dataCase?.genero?.tGenero }}
+                {{ dataCase?.genero }}
               </h6>
             </div>
           </div>
@@ -112,7 +112,7 @@
                 Edad
               </small>
               <h6 class="m-0">
-                {{ dataCase?.iEdad }} a&ntilde;os
+                {{ dataCase?.edad }} a&ntilde;os
               </h6>
             </div>
           </div>
@@ -140,7 +140,7 @@
                 Direcci&oacute;n
               </small>
               <h6 class="m-0">
-                {{ dataCase?.tDireccion }}
+                {{ dataCase?.direccion }}
               </h6>
             </div>
           </div>
@@ -154,7 +154,7 @@
                 Tel&eacute;fono
               </small>
               <h6 class="m-0">
-                {{ dataCase?.tTelefono }}
+                {{ dataCase?.telefono }}
               </h6>
             </div>
           </div>

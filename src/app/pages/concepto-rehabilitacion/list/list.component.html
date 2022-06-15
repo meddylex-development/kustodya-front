@@ -103,7 +103,7 @@
                     <i class="fas fa-trash-alt text-ligth"></i>
                   </button>
                 </span>
-                &nbsp;
+                <!-- &nbsp;
                 <span tooltip="Asignar casos en bloque" placement="top" container="body">
                   <button 
                     id="buttonAdvanceSearch"
@@ -114,9 +114,9 @@
                     status="info">
                     <i class="fas fa-tasks text-ligth"></i>
                   </button>
-                </span>
+                </span> -->
                 &nbsp;
-                <span tooltip="Agregar nuevo caso" placement="top" container="body">
+                <span *ngIf="profileUser == 1" tooltip="Agregar nuevo caso" placement="top" container="body">
                   <button 
                     id="buttonAddNewCase"
                     class="d-inline-block" 
@@ -194,16 +194,7 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate" *ngIf="false">
-                                &nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th>
-                              <th class="text-truncate" *ngIf="true">
+                              <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -408,7 +399,7 @@
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
                               </th>
-                              <th class="text-truncate" *ngIf="profileUser == 1">
+                              <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -579,27 +570,10 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
                               {{ (item?.estado) ? item?.estado : 'Sin estado' }}
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
@@ -647,13 +621,7 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <!-- <th class="text-truncate">
-                                &nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                              </th> -->
-                              <th class="text-truncate" *ngIf="profileUser == 1">
+                              <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -757,7 +725,7 @@
                       <tbody>
                         <tr *ngFor="let item of collectionEnProceso | paginate: { id: 'pagEnProceso', itemsPerPage: paginationTabs['pagEnProceso'].itemsPerPage, currentPage: paginationTabs['pagEnProceso'].currentPage, totalItems: paginationTabs['pagEnProceso'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnStartCHRBConceptCase(item, 3);" tooltip="Continuar editando CHRB" placement="top" container="body">
+                            <span (click)="fnStartCHRBConceptCase(item, 3);" tooltip="Continuar editando CRHB" placement="top" container="body">
                                 <i class="fas fa-laptop-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -810,27 +778,10 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
                               {{ (item?.estado) ? item?.estado : 'Sin estado' }}
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
@@ -890,7 +841,7 @@
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
                               </th> -->
-                              <th class="text-truncate" *ngIf="profileUser == 1">
+                              <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -937,15 +888,6 @@
                               </th>
                               <th class="text-truncate" style="width: 170px !important;">
                                 D&iacute;as de incapacidad&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
-                              <th class="text-truncate"  style="width: 160px !important;">
-                                Grupo&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
@@ -1012,18 +954,13 @@
                       <tbody>
                         <tr *ngFor="let item of collectionGestionados | paginate: { id: 'pagGestionados', itemsPerPage: paginationTabs['pagGestionados'].itemsPerPage, currentPage: paginationTabs['pagGestionados'].currentPage, totalItems: paginationTabs['pagGestionados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnShowPreviewCRHB(item, 5);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item, 5);" tooltip="Ver CRHB emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <!-- <td class="align-middle text-center">
-                            <span tooltip="Información detallada caso" placement="top" container="body">
-                                <i class="far fa-id-card cursor-pointer text-info"></i>
-                            </span>
-                          </td> -->
-                          <td class="align-middle text-center" *ngIf="profileUser == 1">
-                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
-                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
+                          <td class="align-middle text-center">
+                            <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
+                              <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
@@ -1034,49 +971,18 @@
                           <td class="align-middle text-left" *ngIf="profileUser == 1">
                             <div>
                               <span>
-                                Andres Alberto Diaz Rojas
-                                <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
+                                {{ item.medicoAsignado }}
                               </span>&nbsp;
                               <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
-                            {{ item?.dataUser?.tNumeroDocumento }}&nbsp;
-                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.dataUser?.tNumeroDocumento)" tooltip="Copiar número de documento" placement="top" container="body"></i>
+                            {{ item?.documentoPaciente }}&nbsp;
+                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.documentoPaciente)" tooltip="Copiar número de documento" placement="top" container="body"></i>
                           </td>
-                          <td class="align-middle text-left">{{ item?.nombre | titlecase }}</td>
+                          <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
-                            <strong>{{ item?.diasIncapacidad }}</strong> d&iacute;as
-                          </td>
-                          <td class="align-middle text-center">
-                            <!-- <span style="font-size: 80%;">
-                              {{ item?.grupoIncapacidad }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                              (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                              (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                              (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                              (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                               (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.grupoIncapacidad, 
-                              'badge-state-8': item?.grupoIncapacidad == 1, 
-                              'badge-state-2': item?.grupoIncapacidad == 2, 
-                              'badge-state-3': item?.grupoIncapacidad == 3, 
-                              'badge-state-4': item?.grupoIncapacidad == 4, 
-                              'badge-state-7': item?.grupoIncapacidad == 5, 
-                              'badge-state-9': item?.grupoIncapacidad == 6
-                            }">
-                              <i class="far fa-calendar-alt"></i>&nbsp;
-                              {{ 
-                                (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                                (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                                (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                                (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                                (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                                 (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}
-                            </span>
+                            <strong>{{ item?.diasAcumuladosUltimaProrroga || '0' }}</strong> d&iacute;as
                           </td>
                           <td class="align-middle text-center">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
@@ -1099,28 +1005,6 @@
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
-                              {{ (item?.estado) ? item?.estado : 'Sin estado' }}
-                            </span>
-                          </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
@@ -1231,15 +1115,6 @@
                                   <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                               </span> -->
                             </th> 
-                            <th class="text-truncate"  style="width: 160px !important;">
-                              Grupo&nbsp;
-                              <span tooltip="Ayuda" placement="top" container="body">
-                                  <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                              </span>
-                              <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                  <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                              </span> -->
-                            </th> 
                             <th class="text-truncate" style="width: 102px !important;">
                               Prioridad&nbsp;
                               <span tooltip="Ayuda" placement="top" container="body">
@@ -1299,17 +1174,17 @@
                       <tbody>
                         <tr *ngFor="let item of collectionNotificados | paginate: { id: 'pagNotificados', itemsPerPage: paginationTabs['pagNotificados'].itemsPerPage, currentPage: paginationTabs['pagNotificados'].currentPage, totalItems: paginationTabs['pagNotificados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item, 6);" tooltip="Ver CRHB emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnCancelCase(item);" tooltip="Anular caso" placement="top" container="body">
-                                <i class="fas fa-trash-alt cursor-pointer text-info"></i>
+                            <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
+                              <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Enviar vía e-mail" placement="top" container="body">
+                            <span tooltip="Enviar vía e-mail" placement="top" container="body">
                                 <i class="fas fa-paper-plane cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1321,49 +1196,18 @@
                           <td class="align-middle text-left">
                             <div>
                               <span>
-                                Andres Alberto Diaz Rojas
-                                <!-- {{ itemClaim.firstName + ' ' + itemClaim.lastName }} -->
+                                {{ item.medicoAsignado }}
                               </span>&nbsp;
                               <i class="fas fa-user-md cursor-pointer text-primary" (click)="fnShowSpecialistInformation(item)" tooltip="Información especialista asignado" placement="top" container="body"></i>
                             </div>
                           </td>
                           <td class="align-middle text-center">
-                            {{ item?.dataUser?.tNumeroDocumento }}&nbsp;
-                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.dataUser?.tNumeroDocumento)" tooltip="Copiar número de documento" placement="top" container="body"></i>
+                            {{ item?.documentoPaciente }}&nbsp;
+                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.documentoPaciente)" tooltip="Copiar número de documento" placement="top" container="body"></i>
                           </td>
-                          <td class="align-middle text-left">{{ item?.nombre | titlecase }}</td>
+                          <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
-                            <strong>{{ item?.diasIncapacidad }}</strong> d&iacute;as
-                          </td>
-                          <td class="align-middle text-center">
-                            <!-- <span style="font-size: 80%;">
-                              {{ item?.grupoIncapacidad }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                              (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                              (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                              (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                              (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                               (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.grupoIncapacidad, 
-                              'badge-state-8': item?.grupoIncapacidad == 1, 
-                              'badge-state-2': item?.grupoIncapacidad == 2, 
-                              'badge-state-3': item?.grupoIncapacidad == 3, 
-                              'badge-state-4': item?.grupoIncapacidad == 4, 
-                              'badge-state-7': item?.grupoIncapacidad == 5, 
-                              'badge-state-9': item?.grupoIncapacidad == 6
-                            }">
-                              <i class="far fa-calendar-alt"></i>&nbsp;
-                              {{ 
-                                (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                                (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                                (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                                (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                                (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                                 (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}
-                            </span>
+                            <strong>{{ item?.diasAcumuladosUltimaProrroga || '0' }}</strong> d&iacute;as
                           </td>
                           <td class="align-middle text-center">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
@@ -1377,37 +1221,9 @@
                               {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}
                             </span>
                           </td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <small style="font-size: 80%;">
-                              {{ item?.dataUser?.eps?.tNombre | titlecase }}
-                            </small>
-                          </td>
-                          <td class="align-middle text-center" *ngIf="false">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
-                              {{ (item?.estado) ? item?.estado : 'Sin estado' }}
-                            </span>
-                          </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
@@ -1441,26 +1257,11 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="Anulados" tabIcon="fas fa-trash-alt" responsive badgeText="{{ dataStatusBadges?.Anulados || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 4) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="4" *ngIf="profileUser == 1" tabTitle="No aplica" tabIcon="fas fa-user-times" responsive badgeText="{{ dataStatusBadges?.NoAplica || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 4) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAnulados.length > 0">
                       <thead>
                           <tr>
-                              <th class="text-truncate" *ngIf="checkBlockCases">
-                                &nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                              </th>
-                              <th class="text-truncate" *ngIf="!checkBlockCases">
-                                &nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th>
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -1505,16 +1306,7 @@
                                 <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
-                              </th> 
-                              <th class="text-truncate"  style="width: 160px !important;">
-                                Grupo&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
+                              </th>
                               <th class="text-truncate" style="width: 102px !important;">
                                 Prioridad&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -1525,7 +1317,7 @@
                                 </span> -->
                               </th> 
                               <th class="text-truncate">
-                                EPS&nbsp;
+                                AFP&nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
@@ -1534,7 +1326,16 @@
                                 </span> -->
                               </th> 
                               <th class="text-truncate" style="width: 140px !important;">
-                                  Tipo afiliaci&oacute;n&nbsp;
+                                Regimen afiliaci&oacute;n&nbsp;
+                                  <span tooltip="Ayuda" placement="top" container="body">
+                                      <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                  </span>
+                                  <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                      <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                  </span> -->
+                              </th>
+                              <th class="text-truncate" style="width: 140px !important;">
+                                Tipo afiliaci&oacute;n&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -1555,16 +1356,6 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of collectionAnulados | paginate: { id: 'pagAnulados', itemsPerPage: paginationTabs['pagAnulados'].itemsPerPage, currentPage: paginationTabs['pagAnulados'].currentPage, totalItems: paginationTabs['pagAnulados'].totalItems }; let i = index;">
-                          <td class="align-middle text-center" *ngIf="checkBlockCases">
-                            <span (click)="fnCheckListCase(item, i);" tooltip="Seleccionar caso" placement="top" container="body">
-                                <i class="far cursor-pointer text-info" [ngClass]="{'fa-check-square': item?.checked, 'fa-square': !item?.checked }"></i>
-                            </span>
-                          </td>
-                          <td class="align-middle text-center" *ngIf="!checkBlockCases">
-                            <span (click)="fnAssignCase(item);" tooltip="Asignar caso" placement="top" container="body">
-                                <i class="fas fa-user-plus cursor-pointer text-info"></i>
-                            </span>
-                          </td>
                           <td class="align-middle text-center">
                             <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
                                 <i class="fas fa-user-injured cursor-pointer text-info"></i>
@@ -1576,42 +1367,12 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            {{ item?.dataUser?.tNumeroDocumento }}&nbsp;
-                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.dataUser?.tNumeroDocumento)" tooltip="Copiar número de documento" placement="top" container="body"></i>
+                            {{ item?.documentoPaciente }}&nbsp;
+                            <i class="fas fa-copy cursor-pointer text-primary" (click)="fnCopyToClipboard(item?.documentoPaciente)" tooltip="Copiar número de documento" placement="top" container="body"></i>
                           </td>
-                          <td class="align-middle text-left">{{ item?.nombre | titlecase }}</td>
+                          <td class="align-middle text-left">{{ item?.nombrePaciente | titlecase }}</td>
                           <td class="align-middle text-center">
-                            <strong>{{ item?.diasIncapacidad }}</strong> d&iacute;as
-                          </td>
-                          <td class="align-middle text-center">
-                            <!-- <span style="font-size: 80%;">
-                              {{ item?.grupoIncapacidad }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Grupo:  {{ 
-                              (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                              (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                              (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                              (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                              (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                               (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.grupoIncapacidad, 
-                              'badge-state-8': item?.grupoIncapacidad == 1, 
-                              'badge-state-2': item?.grupoIncapacidad == 2, 
-                              'badge-state-3': item?.grupoIncapacidad == 3, 
-                              'badge-state-4': item?.grupoIncapacidad == 4, 
-                              'badge-state-7': item?.grupoIncapacidad == 5, 
-                              'badge-state-9': item?.grupoIncapacidad == 6
-                            }">
-                              <i class="far fa-calendar-alt"></i>&nbsp;
-                              {{ 
-                                (item?.grupoIncapacidad == 1) ? 'De 1 a 90 días' : 
-                                (item?.grupoIncapacidad == 2) ? 'De 91 a 120 días' : 
-                                (item?.grupoIncapacidad == 3) ? 'De 121 a 150 días' : 
-                                (item?.grupoIncapacidad == 4) ? 'De 151 a 180 días' : 
-                                (item?.grupoIncapacidad == 5) ? 'De 181 a 540 días' : 
-                                 (item?.grupoIncapacidad == 6) ? 'Mas de 541 días' : 'Sin grupo' }}
-                            </span>
+                            <strong>{{ item?.diasAcumuladosUltimaProrroga || 0 }}</strong> d&iacute;as
                           </td>
                           <td class="align-middle text-center">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
@@ -1627,34 +1388,12 @@
                           </td>
                           <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              <!-- {{ item?.dataUser?.arl?.tNombre | titlecase }} -->
-                              {{ item?.dataUser?.eps?.tNombre | titlecase }}
+                              <small>{{ item?.afp | titlecase }}</small>
                             </small>
                           </td>
-                          <td class="align-middle text-center">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
-                              {{ (item?.estado) ? item?.estado : 'Sin estado' }}
-                            </span>
-                          </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
+                          <td class="align-middle text-center">{{ item?.regimenAfiliacion }}</td>
+                          <td class="align-middle text-center">{{ item?.tipoAfiliacion }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaCreacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                         </tr>
                       </tbody>
                   </table>

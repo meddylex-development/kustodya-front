@@ -132,6 +132,18 @@ export class ConceptoRehabilitacionService {
       });
   }
 
+  fnHttpSetNoApplyCase(token, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization(token);
+    // let urlSetNoApplyCase = '/api/K2ConceptoRehabilitacion/NoAplicaTarea';
+    let urlSetNoApplyCase = '/api/K2ConceptoRehabilitacion/NoAlicaTarea';
+    return this.http.put(this.utility.fnGetHost() + urlSetNoApplyCase, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
   fnHttpSetSaveConceptDiagnostic(token, data_object): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization(token);
     this.urlSetSaveConceptDiagnostic = '/api/K2ConceptoRehabilitacion/AgregarDiagnosticoConcepto';

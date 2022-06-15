@@ -396,7 +396,7 @@ export class ListComponent implements OnInit {
                 this.dataStatusBadges['EnProceso'] = (element.registros) ? element.registros : 0;
                 break;
               case 4:
-                this.dataStatusBadges['Anulados'] = (element.registros) ? element.registros : 0;
+                this.dataStatusBadges['NoAplica'] = (element.registros) ? element.registros : 0;
                 break;
               case 5:
                 this.dataStatusBadges['Emitidos'] = (element.registros) ? element.registros : 0;
@@ -491,37 +491,58 @@ export class ListComponent implements OnInit {
                 case 4:
                   this.collectionAnulados = collection;
                   this.paginationTabs['pagAnulados'] = {
-                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'totalItems': resp['body']['paginacion'][0]['totalItems'],
                     'currentPage': currentPage,
-                    'itemsPerPage': 10,
-                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                    'prevPage': resp['body']['paginacion']['anterior'],
-                    'nextNext': resp['body']['paginacion']['siguiente'],
-                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    'itemsPerPage': this.itemsPerPage,
+                    'numItemsPage': this.itemsPerPage,
+                    'prevPage': resp['body']['paginacion'][0]['anterior'],
+                    'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                    'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                    // 'totalItems': resp['body']['paginacion']['totalItems'],
+                    // 'currentPage': currentPage,
+                    // 'itemsPerPage': 10,
+                    // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    // 'prevPage': resp['body']['paginacion']['anterior'],
+                    // 'nextNext': resp['body']['paginacion']['siguiente'],
+                    // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                   }
                   break;
                 case 5:
                   this.collectionGestionados = collection;
                   this.paginationTabs['pagGestionados'] = {
-                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'totalItems': resp['body']['paginacion'][0]['totalItems'],
                     'currentPage': currentPage,
-                    'itemsPerPage': 10,
-                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                    'prevPage': resp['body']['paginacion']['anterior'],
-                    'nextNext': resp['body']['paginacion']['siguiente'],
-                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    'itemsPerPage': this.itemsPerPage,
+                    'numItemsPage': this.itemsPerPage,
+                    'prevPage': resp['body']['paginacion'][0]['anterior'],
+                    'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                    'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                    // 'totalItems': resp['body']['paginacion']['totalItems'],
+                    // 'currentPage': currentPage,
+                    // 'itemsPerPage': 10,
+                    // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    // 'prevPage': resp['body']['paginacion']['anterior'],
+                    // 'nextNext': resp['body']['paginacion']['siguiente'],
+                    // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                   }
                   break;
                 case 6:
                   this.collectionNotificados = collection;
                   this.paginationTabs['pagNotificados'] = {
-                    'totalItems': resp['body']['paginacion']['totalItems'],
+                    'totalItems': resp['body']['paginacion'][0]['totalItems'],
                     'currentPage': currentPage,
-                    'itemsPerPage': 10,
-                    'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
-                    'prevPage': resp['body']['paginacion']['anterior'],
-                    'nextNext': resp['body']['paginacion']['siguiente'],
-                    'totalPaginas': resp['body']['paginacion']['totalPaginas'],
+                    'itemsPerPage': this.itemsPerPage,
+                    'numItemsPage': this.itemsPerPage,
+                    'prevPage': resp['body']['paginacion'][0]['anterior'],
+                    'nextNext': resp['body']['paginacion'][0]['siguiente'],
+                    'totalPaginas': resp['body']['paginacion'][0]['totalpaginas'],
+                    // 'totalItems': resp['body']['paginacion']['totalItems'],
+                    // 'currentPage': currentPage,
+                    // 'itemsPerPage': 10,
+                    // 'numItemsPage': resp['body']['paginacion']['itemsPorPagina'],
+                    // 'prevPage': resp['body']['paginacion']['anterior'],
+                    // 'nextNext': resp['body']['paginacion']['siguiente'],
+                    // 'totalPaginas': resp['body']['paginacion']['totalPaginas'],
                   }
                   break;
               }
@@ -635,7 +656,7 @@ export class ListComponent implements OnInit {
         currentPage = this.paginationTabs['pagEnProceso']['currentPage'];
         // this.dataSearchAdvance['statusInfo'] = { name: 'En proceso', value: 3 };
         break;
-      case 'Anulados':
+      case 'No aplica':
           state = 4;
           currentPage = this.paginationTabs['pagAnulados']['currentPage'];
           // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
@@ -872,27 +893,12 @@ export class ListComponent implements OnInit {
   }
 
   fnShowPreviewCRHB(item, tab_id) {
-    // this.patientData = data['patientData'];
-    // this.patientConcept = data['patientConcept'];
-
-    this.submitted = true;
-    let dataObjectSend = {
-      "paciente": (this.patientData) ? this.patientData : {},
-      "datosConcepto": item,
-    };
     this.utilitiesService.fnSetDataShare({ 
-      paciente: item['dataUser'], 
+      paciente: item, 
       datosConcepto: item,
       tab: tab_id,
-      // patientIncapacities: this.patientIncapacities, 
-      // collectionDocumentTypes: this.collectionDocumentTypes, 
-      // documentNumberPatient: this.documentNumberPatient, 
-      // documentTypePatient: this.documentTypePatient, 
-      // documentTypeSelected: this.documentTypeSelected,
-      // dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['idpacienteporemitir']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['Id']);
   }
 
 

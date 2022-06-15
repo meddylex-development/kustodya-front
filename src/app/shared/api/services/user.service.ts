@@ -344,12 +344,24 @@ export class UserService {
     });
   }
 
-  
   fnHttpGetUsersEntity(guid_user, entity_id, object_data): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     const object_params = object_data;
     this.urlGetUsersEntity = '/api/K2Usuarios/ConsultarUsuarios/entidad/' + entity_id;
     return this.http.get(this.utility.fnGetHost() + this.urlGetUsersEntity,
+    {
+      params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpGetDataUser(guid_user, object_data): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    const object_params = object_data;
+    let urlGetDataUser = '/api/K2Pacientes/ConsultarPaciente';
+    return this.http.get(this.utility.fnGetHost() + urlGetDataUser,
     {
       params: object_params,
       observe: 'response',

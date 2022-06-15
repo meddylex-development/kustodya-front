@@ -228,7 +228,7 @@ export class HeaderComponent implements OnInit {
     this.incapacityService.fnHttpGetAllIPSByEps(this.token, this.Ideps).subscribe((result) => {
       if (result.status == 200) {
         self.list_IPS = result.body;
-        if (self.list_IPS.length > 0) {
+        if (self.list_IPS) {
           self.Idips = self.list_IPS[0].iIdips;
           self.currentIPS = self.list_IPS[0];
           self.utilitiesService.setIPS(self.currentIPS);
