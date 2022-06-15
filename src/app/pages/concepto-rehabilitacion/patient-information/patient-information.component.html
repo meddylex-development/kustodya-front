@@ -163,74 +163,78 @@
       </div>
 
       <div  *ngIf="btnInfo == 2" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Raz&oacute;n social
-              </small>
-              <h6 class="m-0">
-                {{ dataCase?.empresa?.tRazonSocial || "No registra información" }}
-              </h6>
-            </div>
-          </div>
-        </div>
         
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                NIT:
-              </small>
-              <h6 class="m-0">
-                {{ dataCase?.empresa?.nit + "-" + dataCase?.empresa?.tDigitoVerificacion || "No registra información"  }}
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Direcci&oacute;n:
-              </small>
-              <h6 class="m-0">
-                {{ dataCase?.empresa?.tDireccion || "No registra información" }}
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="">
-              <small class="mb-2">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Actividad economica:
-              </small>
-              <div class="mt-3">
-                <small class="mb-2">
-                  C&oacute;digo CIIU:
+        <div>
+          <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+            <div class="w-100">
+              <div class="d-flex justify-content-between">
+                <small class="m-0">
+                  <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                  Raz&oacute;n social
                 </small>
-                <h6 class="mt-2">
-                  {{ dataCase?.empresa?.actividadEconomica?.ciiu || "No registra información" }}
+                <h6 class="m-0">
+                  {{ dataCase?.empresa?.tRazonSocial || "No registra información" }}
                 </h6>
               </div>
-              <div class="mt-3">
-                <small class="mb-2">
-                  Nombre actividad:
+            </div>
+          </div>
+          
+          <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+            <div class="w-100">
+              <div class="d-flex justify-content-between">
+                <small class="m-0">
+                  <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                  NIT:
                 </small>
-                <p class="mt-2">
-                  {{ dataCase?.empresa?.actividadEconomica?.tNombreActividad || "No registra información" }}
-                </p>
+                <h6 class="m-0">
+                  {{ dataCase?.empresa?.nit + "-" + dataCase?.empresa?.tDigitoVerificacion || "No registra información"  }}
+                </h6>
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+            <div class="w-100">
+              <div class="d-flex justify-content-between">
+                <small class="m-0">
+                  <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                  Direcci&oacute;n:
+                </small>
+                <h6 class="m-0">
+                  {{ dataCase?.empresa?.tDireccion || "No registra información" }}
+                </h6>
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+            <div class="w-100">
+              <div class="">
+                <small class="mb-2">
+                  <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                  Actividad economica:
+                </small>
+                <div class="mt-3">
+                  <small class="mb-2">
+                    C&oacute;digo CIIU:
+                  </small>
+                  <h6 class="mt-2">
+                    {{ dataCase?.empresa?.actividadEconomica?.ciiu || "No registra información" }}
+                  </h6>
+                </div>
+                <div class="mt-3">
+                  <small class="mb-2">
+                    Nombre actividad:
+                  </small>
+                  <p class="mt-2">
+                    {{ dataCase?.empresa?.actividadEconomica?.tNombreActividad || "No registra información" }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      
       </div>
 
       <div  *ngIf="btnInfo == 3" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
