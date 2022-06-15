@@ -1183,7 +1183,7 @@
                       <tbody>
                         <tr *ngFor="let item of collectionNotificados | paginate: { id: 'pagNotificados', itemsPerPage: paginationTabs['pagNotificados'].itemsPerPage, currentPage: paginationTabs['pagNotificados'].currentPage, totalItems: paginationTabs['pagNotificados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
-                            <span (click)="fnShowPreviewCRHB(item);" tooltip="Ver concepto de rehabilitación emitido" placement="top" container="body">
+                            <span (click)="fnShowPreviewCRHB(item, 6);" tooltip="Ver CRHB emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1193,7 +1193,7 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
-                            <span (click)="fnAssignCase(item);" tooltip="Enviar vía e-mail" placement="top" container="body">
+                            <span tooltip="Enviar vía e-mail" placement="top" container="body">
                                 <i class="fas fa-paper-plane cursor-pointer text-info"></i>
                             </span>
                           </td>
@@ -1230,37 +1230,9 @@
                               {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}
                             </span>
                           </td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <small style="font-size: 80%;">
-                              {{ item?.dataUser?.eps?.tNombre | titlecase }}
-                            </small>
-                          </td>
-                          <td class="align-middle text-center" *ngIf="false">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-left" *ngIf="false">
-                            <!-- <span (click)="fnShowModalChangeStatusIncapacity(item)" class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Ver cambiar de estado" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.maxestado, 
-                              'badge-state-1': item?.maxestado == 1, 
-                              'badge-state-2': item?.maxestado == 2, 
-                              'badge-state-3': item?.maxestado == 3,
-                              'badge-state-4': item?.maxestado == 4,
-                              'badge-state-5': item?.maxestado == 5,
-                              'badge-state-6': item?.maxestado == 6,
-                              'badge-state-7': item?.maxestado == 7}">
-                              {{ (item?.maxestado) ? statusListIncapacity[item?.maxestado - 1]['name'] : 'Sin estado' }}
-                            </span> -->
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
-                              {{ (item?.estado) ? item?.estado : 'Sin estado' }}
-                            </span>
-                          </td>
-                          <!-- <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Número de archivos adjuntos ({{ (item?.adjuntos?.length) ? item?.adjuntos?.length : ' 0 ' }})" placement="top" container="body">
-                              {{ (item?.adjuntos?.length) ? item?.adjuntos?.length : '0' }}&nbsp;Archivos
-                            </span>
-                          </td> -->
                         </tr>
                       </tbody>
                   </table>
