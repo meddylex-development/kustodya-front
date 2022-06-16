@@ -822,7 +822,7 @@ export class ListComponent implements OnInit {
     //   dataDictamen: item,
     // }, true);
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
-    this.dialogService.open(PatientInformationComponent, { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+    this.dialogService.open(PatientInformationComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       if (res) {
         this.collectionAsignados = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
@@ -838,7 +838,7 @@ export class ListComponent implements OnInit {
     //   dataDictamen: item,
     // }, true);
     // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
-    this.dialogService.open(SpecialistInformationComponent , { context: dataSend, hasScroll: false }).onClose.subscribe((res) => {
+    this.dialogService.open(SpecialistInformationComponent , { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       if (res) {
         this.collectionAsignados = [];
         this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
@@ -878,6 +878,7 @@ export class ListComponent implements OnInit {
   }
 
   fnStartCHRBConceptCase(item, tab_id) {
+    console.log('item: ', item);
     this.utilitiesService.fnSetDataShare({ 
       patientData: item, 
       patientConcept: item,
@@ -889,7 +890,7 @@ export class ListComponent implements OnInit {
       // documentTypeSelected: this.documentTypeSelected,
       // dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['Id']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/editar-concepto/' + item['Id'] + '/' + item['PacienteId']);
   }
 
   fnShowPreviewCRHB(item, tab_id) {
@@ -898,7 +899,7 @@ export class ListComponent implements OnInit {
       datosConcepto: item,
       tab: tab_id,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['Id']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['Id'] + '/' + item['PacienteId']);
   }
 
 

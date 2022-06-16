@@ -114,11 +114,11 @@ const routes: Routes = [
             component: ConceptoRehabilitacionComponent
           },
           {
-            path: 'editar-concepto/:idCaso',
+            path: 'editar-concepto/:idCaso/:idPaciente',
             component: EditComponent,
           }, 
           {
-            path: 'certificado-crhb/:idUser',
+            path: 'certificado-crhb/:idCaso/:idPaciente',
             component: PrintPreviewComponent,
           },
         ]

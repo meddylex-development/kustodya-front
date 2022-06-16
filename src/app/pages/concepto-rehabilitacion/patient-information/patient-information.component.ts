@@ -28,6 +28,7 @@ export class PatientInformationComponent implements OnInit {
   public textSpinner: string = "Cargando...";
   public dataEmployers: any;
   public dataMettrics: any;
+  public employerSelected: any = 0;
   
   constructor(
     protected ref: NbDialogRef<PatientInformationComponent>,
@@ -147,6 +148,11 @@ export class PatientInformationComponent implements OnInit {
         }
       });
     });
+  }
+
+  fnSelectEmployer(item, index) {
+    console.log('item: ', item);
+    this.employerSelected = index;
   }
 
   dismiss(res?) {

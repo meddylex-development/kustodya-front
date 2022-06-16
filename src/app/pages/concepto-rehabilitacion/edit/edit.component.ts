@@ -22,6 +22,8 @@ import { ParameterizationService } from '../../../shared/api/services/parameteri
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
 import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { ActivatedRoute } from '@angular/router';
 defineLocale('es', esLocale);
 
 @Component({
@@ -187,6 +189,8 @@ export class EditComponent implements OnInit {
   public validDiagnostic: boolean = false;
   public textLoading: string = 'Obteniendo información del concepto de rehabilitación...';
   public percentajeConcept: any = null;
+  public dataEmployers: any;
+  public dataMettrics: any;
 
   constructor(
     private location: Location,
@@ -200,6 +204,8 @@ export class EditComponent implements OnInit {
     private auditService: AuditService,
     private rehabilitationConceptService: RehabilitationConceptService,
     private conceptoRehabilitacionService: ConceptoRehabilitacionService,
+    private authService: NbAuthService,
+    private route: ActivatedRoute,
   ) {
   }
   
@@ -209,161 +215,201 @@ export class EditComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
     // /api/K2ConceptoRehabilitacion/ConceptoRehabilitacion/{pacienteporEmitirId}
-    const token = sessionStorage.getItem("token");
-    this.token = token;
     this.bsLocaleService.use('es');
-    let data = this.utilitiesService.fnGetDataShare();
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    console.log('this.dataDoctor: ', this.dataDoctor);
     const user_id = sessionStorage.getItem('user_id');
+    console.log('user_id: ', user_id);
     this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    if (data) {
-      this.patientData = data['patientData'];
-      this.patientConcept = data['patientConcept'];
-      this.submitted = true;
-      this.fnGetDataConcept(this.token, this.patientConcept['idpacienteporemitir']).then((response6) => {
-        if (response6) {
-          this.submitted = false;
-          // this.collectionMedicalConcept = response6['body'];
-          this.dataConcept = response6['body'];
+    console.log('this.dataIPS: ', this.dataIPS);
 
-          this.dataConcept['diagnosticos'].forEach((value, key) => {
-            this.listDiagnosticsPatient.push({
-              'idDiagnosticoConcepto': value['id'],
-              'aplicaLateralidad': null,
-              'iDiasMaxAcumulados': null,
-              'iDiasMaxConsulta': null,
-              'iIdcie10': value['ciE10Id'],
-              'iIdtipoCie': null,
-              'tCie10': null,
-              'tDescripcion': null,
-              'tFullDescripcion': value['nombreDiagnostico'],
-              'fechaIncapacidad': value['fechaIncapacidad'],
-              'etiologia': value['etiologia'],
-              'nombreEtiologia': value['nombreEtiologia'],
-            });
-          });
-          this.dataConcept['secuelas'].forEach((value, key) => {
-            this.listSequelsPatient.push({
-              'id': value['id'],
-              'idTypeSequel': value['tipoSecuela'],
-              'nameTypeSequel': value['nombreTipoSecuela'],
-              'idMedicalPrognosis': value['pronostico'],
-              'nameMedicalPrognosis': value['nombrePronostico'],
-              'sequelDescription': value['descripcion'],
-              'dateSequel': null,
-            });
-          });
-          this.checkPharmacological = this.dataConcept['farmacologico'];
-          this.checkOccupationalTherapy = this.dataConcept['terapiaOcupacional'];
-          this.checkSpeechTherapy = this.dataConcept['fonoAudiologia'];
-          this.checkSurgical = this.dataConcept['quirurgico'];
-          this.checkPhysicalTherapy = this.dataConcept['terapiaFisica'];
-          this.checkOtherTherapy = this.dataConcept['otrosTramites'];
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        // this.dataSession = token.getPayload();
+        this.token = token["token"];
+        console.log('this.token: ', this.token);
 
-          this.patientInputOtherTreatments = this.dataConcept['otrosTratamientos'];
-
-          this.patientGoodShortTerm = (this.dataConcept['cortoPlazo'] == 1) ? true : false;
-          this.patientRegularShortTerm = (this.dataConcept['cortoPlazo'] == 2) ? true : false;
-          this.patientBadShortTerm = (this.dataConcept['cortoPlazo'] == 3) ? true : false;
-
-          this.patientGoodMediumTerm = (this.dataConcept['medianoPlazo'] == 1) ? true : (this.dataConcept['medianoPlazo'] == '' || this.dataConcept['medianoPlazo'] == null) ? true : false;
-          this.patientRegularMediumTerm = (this.dataConcept['medianoPlazo'] == 2) ? true : false;
-          this.patientBadMediumTerm = (this.dataConcept['medianoPlazo'] == 3) ? true : false;
-
-
-
-          let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
-          this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
-          this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
-          this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
-
-
-          setTimeout(() => {
-            this.fnGetPercentaje();
-          }, 1500);
-
-
-          this.fnGetCie10(this.token, 1).then(response1 => {
-            if (response1) {
-              this.collectionPatientDiagnostics = response1;
+        this.route.params.subscribe(params => {
+          console.log('params: ', params);
+          // this.patientData = data['patientData'];
+          // console.log('this.patientData: ', this.patientData);
+          // this.patientConcept = data['patientConcept'];
+          // console.log('this.patientConcept: ', this.patientConcept);
+          let dataObject = {
+            "idPaciente": params['idPaciente'],
+          };
+    
+          this.fnGetDataUser(this.token, dataObject).then((response) => {
+            console.log('response: ', response);
+            if (response) {
+              this.patientData = response['body']['informacionPacientes'][0];
+              this.dataEmployers = response['body']['empleador'];
+              this.dataMettrics = response['body']['datosTotales'];
+              console.log('this.patientData: ', this.patientData);
+              console.log('this.dataEmployers: ', this.dataEmployers);
+              console.log('this.dataMettrics: ', this.dataMettrics);
+              // this.loading = false;
             } else {
-              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            } 
-          });  
-          this.fnGetListEtiologies(this.token).then((response2) => {
-            if (response2) {
-              this.collectionEtiology = response2['body'];
-            } else {
-              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+              // this.dismiss(false);
+              // this.loading = false;
             }
-          });
-          this.fnGetListTypeSequels(this.token).then((response3) => {
-            if (response3) {
-              this.collectionTypeSequel = response3['body'];
-              let data = this.collectionTypeSequel.filter((el) => { return el.value == this.dataConcept['finalidadTratmamiento'] });
-              this.selectPatientTypeSequel = data[0];
-              
-            } else {
-              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            }
-          });
-          this.fnGetListMedicalPrognosis(this.token).then((response4) => {
-            if (response4) {
-              this.collectionMedicalPrognosis = response4['body'];
-            } else {
-              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            }
-          });
-          this.fnGetListMedicalConcept(this.token).then((response5) => {
-            if (response5) {
-              this.collectionMedicalConcept = response5['body'];
-            } else {
-              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            }
+          }).catch((err) => {
+            this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
           });
 
-        } else {
-          this.submitted = false;
-          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-        }
-      });
-
-      this.fnGetDataUserById(this.token, user_id).then((response) => {
-        if (response) {
-          let numeroIdentificacion = response['numeroIdentificacion'];
-          this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            if (responseRethus['body']) {
-
-              this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                if (responseRethusDetail['body']) {
-                  this.dataUserSpecialist = responseRethusDetail['body'];
-                  let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                  if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                    this.flagShowAlertUser = true;
-                  } else {
-                    this.flagShowAlertUser = false;
-                  }
+          this.fnGetDataConcept(this.token, params['idCaso']).then((response6) => {
+            if (response6) {
+              this.submitted = false;
+              // this.collectionMedicalConcept = response6['body'];
+              this.dataConcept = response6['body'];
+    
+              this.dataConcept['diagnosticos'].forEach((value, key) => {
+                this.listDiagnosticsPatient.push({
+                  'idDiagnosticoConcepto': value['id'],
+                  'aplicaLateralidad': null,
+                  'iDiasMaxAcumulados': null,
+                  'iDiasMaxConsulta': null,
+                  'iIdcie10': value['ciE10Id'],
+                  'iIdtipoCie': null,
+                  'tCie10': null,
+                  'tDescripcion': null,
+                  'tFullDescripcion': value['nombreDiagnostico'],
+                  'fechaIncapacidad': value['fechaIncapacidad'],
+                  'etiologia': value['etiologia'],
+                  'nombreEtiologia': value['nombreEtiologia'],
+                });
+              });
+              this.dataConcept['secuelas'].forEach((value, key) => {
+                this.listSequelsPatient.push({
+                  'id': value['id'],
+                  'idTypeSequel': value['tipoSecuela'],
+                  'nameTypeSequel': value['nombreTipoSecuela'],
+                  'idMedicalPrognosis': value['pronostico'],
+                  'nameMedicalPrognosis': value['nombrePronostico'],
+                  'sequelDescription': value['descripcion'],
+                  'dateSequel': null,
+                });
+              });
+              this.checkPharmacological = this.dataConcept['farmacologico'];
+              this.checkOccupationalTherapy = this.dataConcept['terapiaOcupacional'];
+              this.checkSpeechTherapy = this.dataConcept['fonoAudiologia'];
+              this.checkSurgical = this.dataConcept['quirurgico'];
+              this.checkPhysicalTherapy = this.dataConcept['terapiaFisica'];
+              this.checkOtherTherapy = this.dataConcept['otrosTramites'];
+    
+              this.patientInputOtherTreatments = this.dataConcept['otrosTratamientos'];
+    
+              this.patientGoodShortTerm = (this.dataConcept['cortoPlazo'] == 1) ? true : false;
+              this.patientRegularShortTerm = (this.dataConcept['cortoPlazo'] == 2) ? true : false;
+              this.patientBadShortTerm = (this.dataConcept['cortoPlazo'] == 3) ? true : false;
+    
+              this.patientGoodMediumTerm = (this.dataConcept['medianoPlazo'] == 1) ? true : (this.dataConcept['medianoPlazo'] == '' || this.dataConcept['medianoPlazo'] == null) ? true : false;
+              this.patientRegularMediumTerm = (this.dataConcept['medianoPlazo'] == 2) ? true : false;
+              this.patientBadMediumTerm = (this.dataConcept['medianoPlazo'] == 3) ? true : false;
+    
+    
+    
+              let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
+              this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
+              this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
+              this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
+    
+    
+              setTimeout(() => {
+                this.fnGetPercentaje();
+              }, 1500);
+    
+    
+              this.fnGetCie10(this.token, 1).then(response1 => {
+                if (response1) {
+                  this.collectionPatientDiagnostics = response1;
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
                 } 
+              });  
+              this.fnGetListEtiologies(this.token).then((response2) => {
+                if (response2) {
+                  this.collectionEtiology = response2['body'];
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+              this.fnGetListTypeSequels(this.token).then((response3) => {
+                if (response3) {
+                  this.collectionTypeSequel = response3['body'];
+                  let data = this.collectionTypeSequel.filter((el) => { return el.value == this.dataConcept['finalidadTratmamiento'] });
+                  this.selectPatientTypeSequel = data[0];
+                  
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+              this.fnGetListMedicalPrognosis(this.token).then((response4) => {
+                if (response4) {
+                  this.collectionMedicalPrognosis = response4['body'];
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+              this.fnGetListMedicalConcept(this.token).then((response5) => {
+                if (response5) {
+                  this.collectionMedicalConcept = response5['body'];
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+    
+            } else {
+              this.submitted = false;
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+    
+          this.fnGetDataUserById(this.token, user_id).then((response) => {
+            if (response) {
+              let numeroIdentificacion = response['numeroIdentificacion'];
+              this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
+                if (responseRethus['body']) {
+    
+                  this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+                    if (responseRethusDetail['body']) {
+                      this.dataUserSpecialist = responseRethusDetail['body'];
+                      let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+                      if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+                        this.flagShowAlertUser = true;
+                      } else {
+                        this.flagShowAlertUser = false;
+                      }
+                    } 
+                  });
+                } else {
+                  this.flagShowAlertUser = true;
+                  this.dataUserSpecialist = null
+                }
               });
             } else {
               this.flagShowAlertUser = true;
               this.dataUserSpecialist = null
             }
           });
-        } else {
-          this.flagShowAlertUser = true;
-          this.dataUserSpecialist = null
+        });
+
+      }
+    });
+    
+  }
+
+  fnGetDataUser(token, data_object_) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUser(token, data_object_).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
         }
-      })
-
-      
-
-    } else {
-      this.patientData = null;
-      this.patientIncapacities = null;
-      this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/listado-casos');
-    }
+      }, err => {
+        reject(false);
+      });
+    })
   }
 
   fnGetListEtiologies(token) {

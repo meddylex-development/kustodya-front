@@ -15,14 +15,14 @@
             <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerNombre + " " + objectDataUser?.segundoNombre }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerApellido + " " + objectDataUser?.segundoApellido }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerApellido + " " + objectDataUser?.segunsoApellido }}</h6>
           </span>
           <span>
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. {{ objectDataUser?.numeroIdentificacion }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. {{ objectDataUser?.numeroDocumento }}</h6>
           </span>
           <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
             <i class="fas fa-envelope"></i>&nbsp;
-            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.correo }}</h6>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.email }}</h6>
           </span>
         </div>
       </div>
@@ -81,10 +81,10 @@
             <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Reg&iacute;stro m&eacute;dico
+                Tel&eacute;fono
               </small>
               <h6 class="m-0">
-                {{ objectDataUser?.registroMedico }}
+                {{ objectDataUser?.telefono || "No registra información" }}
               </h6>
             </div>
           </div>
@@ -95,38 +95,10 @@
             <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
+                Celular
               </small>
               <h6 class="m-0">
-                {{ objectDataUser?.sexo }}
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                {{ objectDataUser?.fechaNacimiento }} a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                E-mail
-              </small>
-              <h6 class="m-0">
-                {{ objectDataUser?.correo }}
+                {{ objectDataUser?.celular || "No registra información" }}
               </h6>
             </div>
           </div>
@@ -137,31 +109,14 @@
             <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Direcci&oacute;n
+                Perfil
               </small>
-              <h6 class="m-0" *ngIf="objectDataUser?.direcciones?.length > 0">
-                {{ objectDataUser?.direcciones }}
+              <h6 class="m-0">
+                {{ objectDataUser?.perfil || "No registra información" }}
               </h6>
-              <small *ngIf="objectDataUser?.direcciones?.length < 1">
+              <!-- <small>
                 No registra datos
-              </small>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Tel&eacute;fono
-              </small>
-              <h6 class="m-0" *ngIf="objectDataUser?.telefonos?.length > 0">
-                {{ objectDataUser?.telefonos }}
-              </h6>
-              <small *ngIf="objectDataUser?.telefonos?.length < 1">
-                No registra datos
-              </small>
+              </small> -->
             </div>
           </div>
         </div>
@@ -180,180 +135,6 @@
           </div>
         </div>
 
-      </div>
-
-      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Fecha de nacimiento
-              </small>
-              <h6 class="m-0">
-                21 de Octubre de 1992
-              </h6>
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
-              </small>
-              <h6 class="m-0">
-                Masculino
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                30 a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                E-mail
-              </small>
-              <h6 class="m-0">
-                german@german.com
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Fecha de nacimiento
-              </small>
-              <h6 class="m-0">
-                21 de Octubre de 1992
-              </h6>
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
-              </small>
-              <h6 class="m-0">
-                Masculino
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                30 a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                E-mail
-              </small>
-              <h6 class="m-0">
-                german@german.com
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div  *ngIf="false" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Fecha de nacimiento
-              </small>
-              <h6 class="m-0">
-                21 de Octubre de 1992
-              </h6>
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
-              </small>
-              <h6 class="m-0">
-                Masculino
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                30 a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                E-mail
-              </small>
-              <h6 class="m-0">
-                german@german.com
-              </h6>
-            </div>
-          </div>
-        </div>
       </div>
 
     </div>

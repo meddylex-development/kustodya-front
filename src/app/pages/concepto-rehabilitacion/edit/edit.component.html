@@ -39,84 +39,84 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;nombre:&nbsp;</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.primerNombre">{{ (patientData?.primerNombre | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.primerNombre">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="far fa-id-card"></i>&nbsp;Tipo de documento:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.tipoDoc">{{ (patientData?.tipoDoc | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.tipoDoc">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="far fa-calendar-alt"></i>&nbsp;Edad:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
-                            <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.edad">{{ patientData?.edad + ' años' }}</h6>
+                            <small *ngIf="!patientData?.edad">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-map-pin"></i>&nbsp;Pa&iacute;s:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
-                            <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.nombrePais">{{ patientData?.nombrePais | titlecase }}</h6>
+                            <small *ngIf="!patientData?.nombrePais">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;nombre:&nbsp;</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.segundoNombre">{{ (patientData?.segundoNombre | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.segundoNombre">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="far fa-id-card"></i>&nbsp;N&uacute;mero de documento:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
-                            <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.numeroDocumento">{{ patientData?.numeroDocumento }}</h6>
+                            <small *ngIf="!patientData?.numeroDocumento">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
-                            <small *ngIf="!patientData?.tEmail">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.email">{{ patientData?.email }}</h6>
+                            <small *ngIf="!patientData?.email">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-map-pin"></i>&nbsp;Depatamento:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
-                            <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.nombreDepartamento">{{ patientData?.nombreDepartamento | titlecase }}</h6>
+                            <small *ngIf="!patientData?.nombreDepartamento">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;apellido:&nbsp;</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.primerApellido">{{ (patientData?.primerApellido | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.primerApellido">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="far fa-calendar-alt"></i>&nbsp;Fecha de nacimiento:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
-                            <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.fechaNacimiento">{{ patientData?.fechaNacimiento | date:'mediumDate' }}</h6>
+                            <small *ngIf="!patientData?.fechaNacimiento">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
-                            <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.direccion">{{ patientData?.direccion }}</h6>
+                            <small *ngIf="!patientData?.direccion">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-map-pin"></i>&nbsp;Ciudad:</span><br>
-                            <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
-                            <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                            <h6 style="color: #000;" *ngIf="patientData?.nombreMunicipio">{{ patientData?.nombreMunicipio | titlecase }}</h6>
+                            <small *ngIf="!patientData?.nombreMunicipio">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;apellido:&nbsp;</span><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="patientData?.segundoApellido">{{ (patientData?.segundoApellido | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.segundoApellido">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-venus-mars"></i>&nbsp;G&eacute;nero:</span><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
-                            <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="patientData?.genero">{{ (patientData?.genero | titlecase) }}</h6>
+                            <small *ngIf="!patientData?.genero">No registra dato</small>
                           </div>
                           <div style="margin-bottom: 0.5rem;">
                             <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span><br>
-                            <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
-                            <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+                            <h6 style="color: #000;"*ngIf="patientData?.telefono">{{ patientData?.telefono }}</h6>
+                            <small *ngIf="!patientData?.telefono">No registra dato</small>
                           </div>
                         </div>
                       </div>
@@ -1276,9 +1276,9 @@
             <div>
               Paciente: 
               <h4><strong>
-                {{ patientData?.tPrimerNombre | titlecase }} 
-                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
-                {{ patientData?.tPrimerApellido | titlecase }} 
+                {{ patientData?.primerNombre | titlecase }} 
+                {{ patientData?.segundoNombre | titlecase | titlecase }} 
+                {{ patientData?.primerApellido | titlecase }} 
                 {{ patientData?.tSegundoApellido | titlecase }} 
               </strong></h4>
             </div>

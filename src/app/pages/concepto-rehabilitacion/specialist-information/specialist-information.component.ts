@@ -44,11 +44,15 @@ export class SpecialistInformationComponent implements OnInit {
       // this.dataCase
       console.log('this.dataCase: ', this.dataCase);
       this.loading = true;
-      this.GetDataUserById(this.token, this.dataCase['idMedicoAsignado']).then((response) => {
+      let dataObject = {
+        "idUsuario": this.dataCase['idMedicoAsignado']
+      };
+      this.fnGetDataSpecialist(this.token, dataObject).then((response) => {
         console.log('response: ', response);
         if (response) {
-          this.objectDataUser = response['body'];
-          this.objectDataUserOriginal = response['body'];
+          this.objectDataUser = response['body']['informacionUsuarios'][0];
+          console.log('this.objectDataUser: ', this.objectDataUser);
+          this.objectDataUserOriginal = response['body']['informacionUsuarios'][0];
           this.loading = false;
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -70,6 +74,18 @@ export class SpecialistInformationComponent implements OnInit {
   GetDataUserById(token, id_user) {
     return new Promise((resolve, reject) => {
       this.userService.fnHttpGetDataUserById(token, id_user).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
+  fnGetDataSpecialist(token, data_object) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataSpecialist(token, data_object).subscribe((response) => {
         if (response['status'] == 200) {
           resolve(response);
         } else {
