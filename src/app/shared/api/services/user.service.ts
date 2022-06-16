@@ -370,4 +370,17 @@ export class UserService {
     });
   }
 
+  fnHttpGetDataSpecialist(guid_user, object_data): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    const object_params = object_data;
+    let urlGetDataSpecialist = '/api/K2Medicos/ConsultarUsuarios';
+    return this.http.get(this.utility.fnGetHost() + urlGetDataSpecialist,
+    {
+      params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
 }
