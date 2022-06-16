@@ -163,6 +163,101 @@
       </div>
 
       <div  *ngIf="btnInfo == 2" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+        <div class="d-flex justify-content-center align-items-center" *ngIf="dataEmployers?.length >  1" >
+            <span *ngFor="let item of dataEmployers; let i = index;">
+              <span class="badge rounded-pill bg-info text-light cursor-pointer" [ngClass]="{'bg-info': employerSelected == i, 'bg-secondary': employerSelected != i }" (click)="fnSelectEmployer(item, i)">
+                Empleador: {{ i + 1 }}
+              </span>&nbsp;
+            </span>
+          <!-- <span class="badge rounded-pill bg-secondary text-light">
+            Empleador: 2
+          </span> -->
+        </div>
+        <div *ngFor="let item of dataEmployers; let i = index;">
+          <div *ngIf="employerSelected == i">
+            <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <small class="m-0">
+                    <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                    Raz&oacute;n social
+                  </small>
+                  <h6 class="m-0">
+                    {{ item?.nombre || "No registra información" }}
+                  </h6>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <small class="m-0">
+                    <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                    NIT:
+                  </small>
+                  <h6 class="m-0">
+                    {{ (item?.numeroIdentificacion && item?.digitoVerificacion) ? item?.numeroIdentificacion + "-" + item?.digitoVerificacion : "No registra información"  }}
+                  </h6>
+                </div>
+              </div>
+            </div>
+      
+            <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <small class="m-0">
+                    <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                    Direcci&oacute;n:
+                  </small>
+                  <h6 class="m-0">
+                    {{ item?.direccion || "No registra información" }}
+                  </h6>
+                </div>
+              </div>
+            </div>
+      
+            <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+              <div class="w-100">
+                <div class="">
+                  <small class="mb-2">
+                    <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                    Actividad economica:
+                  </small>
+                  <div class="mt-3">
+                    <small class="mb-2">
+                      C&oacute;digo CIIU:
+                    </small>
+                    <h6 class="mt-2" *ngIf="item.ciiu">
+                      {{ item.ciiu | cie10:1 }}
+                    </h6>
+                    <h6 class="mt-2" *ngIf="!item.ciiu">
+                      {{ "No registra información" }}
+                    </h6>
+                  </div>
+                  <div class="mt-3">
+                    <small class="mb-2">
+                      Nombre actividad:
+                    </small>
+                    <p class="mt-2" *ngIf="item.ciiu">
+                      {{ item.ciiu | cie10:0 }}
+                    </p>
+                    <p *ngIf="!item.ciiu">
+                      {{ "No registra información" }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+
+      <div  *ngIf="btnInfo == 3" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+        
+        <!-- <h6 class="text-center">No data service</h6> -->
+
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
@@ -171,7 +266,7 @@
                 Raz&oacute;n social
               </small>
               <h6 class="m-0">
-                {{ dataCase?.empresa?.tRazonSocial || "No registra información" }}
+                {{ dataCase?.arl || "No regista información" }}
               </h6>
             </div>
           </div>
@@ -185,21 +280,7 @@
                 NIT:
               </small>
               <h6 class="m-0">
-                {{ dataCase?.empresa?.nit + "-" + dataCase?.empresa?.tDigitoVerificacion || "No registra información"  }}
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Direcci&oacute;n:
-              </small>
-              <h6 class="m-0">
-                {{ dataCase?.empresa?.tDireccion || "No registra información" }}
+                {{ dataCase?.numeroIdentificacionArl + "-" + dataCase?.digitoVerificacionArl || "No regista información" }}
               </h6>
             </div>
           </div>
@@ -208,86 +289,58 @@
         <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="">
-              <small class="mb-2">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Actividad economica:
-              </small>
-              <div class="mt-3">
-                <small class="mb-2">
-                  C&oacute;digo CIIU:
-                </small>
-                <h6 class="mt-2">
-                  {{ dataCase?.empresa?.actividadEconomica?.ciiu || "No registra información" }}
-                </h6>
-              </div>
-              <div class="mt-3">
-                <small class="mb-2">
-                  Nombre actividad:
-                </small>
-                <p class="mt-2">
-                  {{ dataCase?.empresa?.actividadEconomica?.tNombreActividad || "No registra información" }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div  *ngIf="btnInfo == 3" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
-        
-        <h6 class="text-center">No data service</h6>
-
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Fecha de nacimiento
-              </small>
-              <h6 class="m-0">
-                21 de Octubre de 1992
-              </h6>
-            </div>
-          </div>
-        </div>
-        
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
-              </small>
-              <h6 class="m-0">
-                Masculino
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                30 a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
                 E-mail
               </small>
+              <br>
               <h6 class="m-0">
-                german@german.com
+                {{ dataCase?.emailArl || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Sitio web
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.paginaWebArl || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Direcci&oacute;n
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.direccionArl || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Tel&eacute;fono
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.telefonoArl || "No regista información" }}
               </h6>
             </div>
           </div>
@@ -296,63 +349,96 @@
 
       <div  *ngIf="btnInfo == 4" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
         
-        <h6 class="text-center">No data service</h6>
+        <!-- <h6 class="text-center">No data service</h6> -->
 
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Fecha de nacimiento
+                Raz&oacute;n social
               </small>
               <h6 class="m-0">
-                21 de Octubre de 1992
+                {{ dataCase?.afp || "No regista información" }}
               </h6>
             </div>
           </div>
         </div>
         
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                G&eacute;nero
+                NIT:
               </small>
               <h6 class="m-0">
-                Masculino
+                {{ dataCase?.numeroIdentificacionAfp + "-" + dataCase?.digitoVerificacionAfp || "No regista información" }}
               </h6>
             </div>
           </div>
         </div>
   
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
           <div class="w-100">
-            <div class="d-flex justify-content-between">
-              <small class="m-0">
-                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                Edad
-              </small>
-              <h6 class="m-0">
-                30 a&ntilde;os
-              </h6>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="false" class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
-          <div class="w-100">
-            <div class="d-flex justify-content-between">
+            <div class="">
               <small class="m-0">
                 <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
                 E-mail
               </small>
+              <br>
               <h6 class="m-0">
-                german@german.com
+                {{ dataCase?.emailAfp || "No regista información" }}
               </h6>
             </div>
           </div>
         </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Sitio web
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.paginaWebAfp || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Direcci&oacute;n
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.direccionAfp || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Tel&eacute;fono
+              </small>
+              <br>
+              <h6 class="m-0">
+                {{ dataCase?.telefonoAfp || "No regista información" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>

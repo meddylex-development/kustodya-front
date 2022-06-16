@@ -26,6 +26,9 @@ export class PatientInformationComponent implements OnInit {
   public btnInfo: number = 1;
   public loading: boolean = true;
   public textSpinner: string = "Cargando...";
+  public dataEmployers: any;
+  public dataMettrics: any;
+  public employerSelected: any = 0;
   
   constructor(
     protected ref: NbDialogRef<PatientInformationComponent>,
@@ -52,7 +55,11 @@ export class PatientInformationComponent implements OnInit {
         console.log('response: ', response);
         if (response) {
           this.dataCase = response['body']['informacionPacientes'][0];
+          this.dataEmployers = response['body']['empleador'];
+          this.dataMettrics = response['body']['datosTotales'];
           console.log('this.dataCase: ', this.dataCase);
+          console.log('this.dataEmployers: ', this.dataEmployers);
+          console.log('this.dataMettrics: ', this.dataMettrics);
           this.loading = false;
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -141,6 +148,11 @@ export class PatientInformationComponent implements OnInit {
         }
       });
     });
+  }
+
+  fnSelectEmployer(item, index) {
+    console.log('item: ', item);
+    this.employerSelected = index;
   }
 
   dismiss(res?) {
