@@ -1,4 +1,4 @@
-<div class="row" accent="danger" size="tiny" [nbSpinner]="search == true" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="Buscando información paciente">
+<div class="row" accent="danger" size="tiny" [nbSpinner]="flagSpinner" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
   <div class="col-md-12">
     <nb-card>
       <nb-card-body>
@@ -33,7 +33,7 @@
               </span>
           </div>
           <div class="search-form" style="position: relative; margin-top: 15px; display: block;">
-            <div class="mb-4">
+            <div class="mb-4" *ngIf="false">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
             </div>
             <form class="row" (ngSubmit)="fnSearchPatient(searchPatientForm)" #searchPatientForm="ngForm" aria-labelledby="title">
@@ -73,7 +73,7 @@
               <div class="col-2 animate fadeIn">
                 <button tooltip="Buscar paciente" placement="top" container="body"
                   id="btnSubmitFormSearchPatient" 
-                  [class.btn-pulse]="search"
+                  [class.btn-pulse]="flagSpinner"
                   status="info"
                   [disabled]="((documentTypePatient!=null && documentNumberPatient!='')) ? false : true"
                   nbButton  
@@ -97,7 +97,7 @@
           </div>
         </div>
 
-        <div class="row ml-0 mr-0 mb-0 mt-2 " *ngIf="patientData">
+        <div class="row ml-0 mr-0 mb-0 mt-2 " *ngIf="dataUserPatient">
           <div class="col text-center p-1">
             <button 
               (click)="fnRedirectGeneratePatientIncapacity();"
@@ -156,7 +156,7 @@
           </div>
         </div>
         
-        <div class="mb-4 animated fadeIn" *ngIf="patientData">
+        <div class="mb-4 animated fadeIn" *ngIf="dataUserPatient">
           <div class="text-center mt-3 mb-3">
             <small style="color: #c7c7c7;">------ Resultado de busqueda: ------</small>
           </div>
@@ -240,15 +240,15 @@
                 <i class="fas fa-hospital-user" style="color: #1e90ff; font-size: 20px;"></i>&nbsp;&nbsp;
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">EPS</h5>
                 <h5 class="d-inline-block mb-0 ml-3">
-                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.eps?.tNombre) ? patientData?.eps?.tNombre : 'No registra EPS' }}</span>
+                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (dataUserPatient?.eps) ? dataUserPatient?.eps : 'No registra EPS' }}</span>
                 </h5>
               </span>
               <span class="cursor-pointer btn-show-patient-info">
                 <!-- <i class="fas fa-chevron-circle-down" style="color: #1e90ff; font-size: 20px;"></i> -->
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.tipoAfiliacion?.tNombre), 'text-danger': (!patientData?.tipoAfiliacion?.tNombre)}"></i>
-                    {{ (patientData?.tipoAfiliacion?.tNombre) ? patientData?.tipoAfiliacion?.tNombre : 'No registra afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (dataUserPatient?.tipoAfiliacion), 'text-danger': (!dataUserPatient?.tipoAfiliacion)}"></i>
+                    {{ (dataUserPatient?.tipoAfiliacion) ? dataUserPatient?.tipoAfiliacion : 'No registra afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -262,8 +262,8 @@
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">Estado de afiliaci&oacute;n: </h5>
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.estadoAfiliacion?.name), 'text-danger': (!patientData?.estadoAfiliacion?.name)}"></i>
-                    {{ (patientData?.estadoAfiliacion?.name) ? patientData?.estadoAfiliacion?.name : 'No registra estado de afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (dataUserPatient?.estadoAfiliacion), 'text-danger': (!dataUserPatient?.estadoAfiliacion)}"></i>
+                    {{ (dataUserPatient?.estadoAfiliacion) ? dataUserPatient?.estadoAfiliacion : 'No registra estado de afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -272,8 +272,8 @@
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">Regimen de afiliaci&oacute;n: </h5>
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.regimenAfiliacion?.tNombre), 'text-danger': (!patientData?.regimenAfiliacion?.tNombre)}"></i>
-                    {{ (patientData?.regimenAfiliacion?.tNombre) ? patientData?.regimenAfiliacion?.tNombre : 'No registra regimen de afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (dataUserPatient?.regimenAfiliacion), 'text-danger': (!dataUserPatient?.regimenAfiliacion)}"></i>
+                    {{ (dataUserPatient?.regimenAfiliacion) ? dataUserPatient?.regimenAfiliacion : 'No registra regimen de afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -286,15 +286,15 @@
                 <i class="fas fa-user-shield" style="color: #1e90ff; font-size: 20px;"></i>&nbsp;&nbsp;
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">ARL</h5>
                 <h5 class="d-inline-block mb-0 ml-3">
-                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.arl?.tNombre) ? patientData?.arl?.tNombre : 'No registra ARL' }}</span>
+                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (dataUserPatient?.arl?.tNombre) ? dataUserPatient?.arl?.tNombre : 'No registra ARL' }}</span>
                 </h5>
               </span>
               <span class="cursor-pointer btn-show-patient-info">
                 <!-- <i class="fas fa-chevron-circle-down" style="color: #1e90ff; font-size: 20px;"></i> -->
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.arl?.tipoAfiliacionArl?.tNombre), 'text-danger': (!patientData?.arl?.tipoAfiliacionArl?.tNombre)}"></i>
-                    {{ (patientData?.arl?.tipoAfiliacionArl?.tNombre) ? patientData?.arl?.tipoAfiliacionArl?.tNombre : 'No registra afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (dataUserPatient?.arl?.tipoAfiliacionArl?.tNombre), 'text-danger': (!dataUserPatient?.arl?.tipoAfiliacionArl?.tNombre)}"></i>
+                    {{ (dataUserPatient?.arl?.tipoAfiliacionArl?.tNombre) ? dataUserPatient?.arl?.tipoAfiliacionArl?.tNombre : 'No registra afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -307,15 +307,15 @@
                 <i class="fas fa-hand-holding-usd" style="color: #1e90ff; font-size: 20px;"></i>&nbsp;&nbsp;
                 <h5 class="d-inline-block" style="color: #1e90ff; margin: 0;">AFP</h5>
                 <h5 class="d-inline-block mb-0 ml-3">
-                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (patientData?.afp?.tNombre) ? patientData?.afp?.tNombre : 'No registra fondo pensiones' }}</span>
+                  <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">{{ (dataUserPatient?.afp?.tNombre) ? dataUserPatient?.afp?.tNombre : 'No registra fondo pensiones' }}</span>
                 </h5>
               </span>
               <span class="cursor-pointer btn-show-patient-info">
                 <!-- <i class="fas fa-chevron-circle-down" style="color: #1e90ff; font-size: 20px;"></i> -->
                 <h5 class="d-inline-block mb-0 ml-3">
                   <span class="badge rounded-pill text-light" style="background-color: #1e90ff; font-size: 1.2rem; padding: 0.25em 0.7em !important;">
-                    <i class="fas fa-circle" [ngClass]="{'text-success': (patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre), 'text-danger': (!patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre)}"></i>
-                    {{ (patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre) ? patientData?.afp?.tipoAfiliacionFondoPensiones?.tNombre : 'No registra afiliación' }}
+                    <i class="fas fa-circle" [ngClass]="{'text-success': (dataUserPatient?.afp?.tipoAfiliacionFondoPensiones?.tNombre), 'text-danger': (!dataUserPatient?.afp?.tipoAfiliacionFondoPensiones?.tNombre)}"></i>
+                    {{ (dataUserPatient?.afp?.tipoAfiliacionFondoPensiones?.tNombre) ? dataUserPatient?.afp?.tipoAfiliacionFondoPensiones?.tNombre : 'No registra afiliación' }}
                   </span>
                 </h5>
               </span>
@@ -337,84 +337,114 @@
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;nombre:&nbsp;</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tPrimerNombre">{{ (patientData?.tPrimerNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerNombre">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.primerNombre">{{ (dataUserPatient?.primerNombre | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.primerNombre">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="far fa-id-card"></i>&nbsp;Tipo de documento:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tipoDocumento?.tTipoIdentificacion">{{ (patientData?.tipoDocumento?.tTipoIdentificacion | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tipoDocumento?.tTipoIdentificacion">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.tipoDoc">{{ (dataUserPatient?.tipoDoc | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.tipoDoc">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="far fa-calendar-alt"></i>&nbsp;Edad:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
-                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.iEdad">{{ patientData?.iEdad + ' años' }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.edad">{{ dataUserPatient?.edad + ' años' }}</h6>
+                    <small *ngIf="!dataUserPatient?.edad">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-map-pin"></i>&nbsp;Pa&iacute;s:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
-                    <small *ngIf="!patientData?.iEdad">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombrePais">{{ patientData?.ubicacion?.tNombrePais | titlecase }}</h6>
+                    <small *ngIf="!patientData?.iEdad">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.nombrePais">{{ dataUserPatient?.nombrePais | titlecase }}</h6>
+                    <small *ngIf="!dataUserPatient?.nombrePais">No registra dato</small>
                   </div>
                 </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;nombre:&nbsp;</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tSegundoNombre">{{ (patientData?.tSegundoNombre | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoNombre">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.segundoNombre">{{ (dataUserPatient?.segundoNombre | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.segundoNombre">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="far fa-id-card"></i>&nbsp;N&uacute;mero de documento:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
-                    <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tNumeroDocumento">{{ patientData?.tNumeroDocumento }}</h6>
+                    <small *ngIf="!patientData?.tNumeroDocumento">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.numeroDocumento">{{ dataUserPatient?.numeroDocumento }}</h6>
+                    <small *ngIf="!dataUserPatient?.numeroDocumento">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
-                    <small *ngIf="!patientData?.tEmail">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tEmail">{{ patientData?.tEmail }}</h6>
+                    <small *ngIf="!patientData?.tEmail">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.email">{{ dataUserPatient?.email }}</h6>
+                    <small *ngIf="!dataUserPatient?.email">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-map-pin"></i>&nbsp;Depatamento:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
-                    <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreDepartamento">{{ patientData?.ubicacion?.tNombreDepartamento | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreDepartamento">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.nombreDepartamento">{{ dataUserPatient?.nombreDepartamento | titlecase }}</h6>
+                    <small *ngIf="!dataUserPatient?.nombreDepartamento">No registra dato</small>                    
                   </div>
                 </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;apellido:&nbsp;</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tPrimerApellido">{{ (patientData?.tPrimerApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tPrimerApellido">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.primerApellido">{{ (dataUserPatient?.primerApellido | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.primerApellido">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="far fa-calendar-alt"></i>&nbsp;Fecha de nacimiento:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
-                    <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.dtFechaNacimiento">{{ patientData?.dtFechaNacimiento | date:'mediumDate' }}</h6>
+                    <small *ngIf="!patientData?.dtFechaNacimiento">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.fechaNacimiento">{{ dataUserPatient?.fechaNacimiento | date:'mediumDate' }}</h6>
+                    <small *ngIf="!dataUserPatient?.fechaNacimiento">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
-                    <small *ngIf="!patientData?.tDireccion">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.tDireccion">{{ patientData?.tDireccion }}</h6>
+                    <small *ngIf="!patientData?.tDireccion">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.direccion">{{ dataUserPatient?.direccion }}</h6>
+                    <small *ngIf="!dataUserPatient?.direccion">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-map-pin"></i>&nbsp;Ciudad:</span><br>
-                    <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
-                    <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small>
+                    <!-- <h6 style="color: #000;" *ngIf="patientData?.ubicacion?.tNombreMunicipio">{{ patientData?.ubicacion?.tNombreMunicipio | titlecase }}</h6>
+                    <small *ngIf="!patientData?.ubicacion?.tNombreMunicipio">No registra dato</small> -->
+                    <h6 style="color: #000;" *ngIf="dataUserPatient?.nombreMunicipio">{{ dataUserPatient?.nombreMunicipio | titlecase }}</h6>
+                    <small *ngIf="!dataUserPatient?.nombreMunicipio">No registra dato</small>
                   </div>
                 </div>
                 <div class="col">
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;apellido:&nbsp;</span><br>
-                    <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small>
+                    <!-- <h6 style="color: #000;"*ngIf="patientData?.tSegundoApellido">{{ (patientData?.tSegundoApellido | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.tSegundoApellido">No registra dato</small> -->
+                    <h6 style="color: #000;"*ngIf="dataUserPatient?.segundoApellido">{{ (dataUserPatient?.segundoApellido | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.segundoApellido">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-venus-mars"></i>&nbsp;G&eacute;nero:</span><br>
-                    <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
-                    <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small>
+                    <!-- <h6 style="color: #000;"*ngIf="patientData?.genero?.tGenero">{{ (patientData?.genero?.tGenero | titlecase) }}</h6>
+                    <small *ngIf="!patientData?.genero?.tGenero">No registra dato</small> -->
+                    <h6 style="color: #000;"*ngIf="dataUserPatient?.genero">{{ (dataUserPatient?.genero | titlecase) }}</h6>
+                    <small *ngIf="!dataUserPatient?.genero">No registra dato</small>
                   </div>
                   <div style="margin-bottom: 0.5rem;">
                     <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span><br>
-                    <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
-                    <small *ngIf="!patientData?.tTelefono">No registra dato</small>
+                    <!-- <h6 style="color: #000;"*ngIf="patientData?.tTelefono">{{ patientData?.tTelefono }}</h6>
+                    <small *ngIf="!patientData?.tTelefono">No registra dato</small> -->
+                    <h6 style="color: #000;"*ngIf="patientData?.telefono">{{ patientData?.telefono }}</h6>
+                    <small *ngIf="!patientData?.telefono">No registra dato</small>
                   </div>
                 </div>
               </div>
@@ -569,7 +599,7 @@
         
         </div>
 
-        <div class="mb-4 mt-5" *ngIf="!patientData">
+        <div class="mb-4 mt-5" *ngIf="!dataUserPatient">
           <div>
             <div class="row">
               <div class="col-12 text-center animated fadeIn">

@@ -29,7 +29,7 @@ export class InformacionComponent implements OnInit {
   // public documentNumberPatient: any = '';
   public token: any;
   public patientData: any = null;
-  public search: boolean = false;
+  // public search: boolean = false;
   public loading: boolean = false;
   public showTitleSearch: boolean = false;
   public documentTypeSelected: any = '';
@@ -43,6 +43,10 @@ export class InformacionComponent implements OnInit {
   public dataMetrics: any = null;
   public dataUserPatient: any = null;
   public dataEmlployerPatient: any = null;
+  public userData: any = null;
+
+  public flagSpinner: boolean = false;
+  public textSpinner: string = '';
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -54,68 +58,50 @@ export class InformacionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const self = this;
+    /* **** START - JQuery definition **** */
     $(document).ready(function () {
       // $('.btn-show-search-form').click(); // Emulate click display right sidebar to hide
     });
     /* **** END - JQuery definition **** */
-    const user_id = sessionStorage.getItem('user_id');
-    const token = sessionStorage.getItem("token");
-    if (token && user_id) {
-      this.token = token;
+    this.flagSpinner = true;
+    this.textSpinner = "Cargando...";
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      console.log('response: ', response);
+      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      console.log('this.dataDoctor: ', this.dataDoctor);
       let data = this.utilitiesService.fnGetDataShare();
       console.log('data: ', data);
-      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      this.token = response['token'];
+      console.log('this.token: ', this.token);
+      this.userData = response['user'];
+      console.log('this.userData: ', this.userData);
 
-      if (data) {
-        this.search = false;
-        this.showTitleSearch = true;
-        this.collectionDocumentTypes = data['collectionDocumentTypes'];
-        this.documentNumberPatient = data['documentNumberPatient'];
-        console.log('this.documentNumberPatient: ', this.documentNumberPatient);
-        this.documentTypePatient = data['documentTypePatient'];
-        console.log('this.documentTypePatient: ', this.documentTypePatient);
-        this.patientData = data['patientData'];
-        this.patientIncapacities = data['patientIncapacities'];
-        this.documentTypeSelected = data['documentTypeSelected'];
-        this.totalItems = data['patientIncapacities'].length;
-        this.fnShowContent('search-form');
-        this.fnShowContent('content-patient-info');
-        this.fnGetDataPatientMetrics(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
-          if (response) {
-            let dataMetrics = response['body'];
-            this.dataMetrics = (dataMetrics.length > 0) ? dataMetrics[0] : null;  
-          } else {
-            this.dataMetrics =  null;
-          }
-        });
-        this.fnGetDataEmployerPatient(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
-          if (response) {
-            let dataEmlployerPatient = response['body'];
-            this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
-          } else {
-            this.dataEmlployerPatient =  [];
-          }
-        });
-      } else {
-        this.collectionDocumentTypes = null;
-        this.patientData = null;
-        this.documentTypeSelected = null;
-        this.patientIncapacities = null;
-        this.totalItems = 0;
-        // this.fnClearFormSearchPatient();
-        this.fnGetDocumentTypes(this.token);
-      }
+
+      this.collectionDocumentTypes = null;
+      this.patientData = null;
+      this.documentTypeSelected = null;
+      this.patientIncapacities = null;
+      this.totalItems = 0;
+      // this.fnClearFormSearchPatient();
+      this.fnGetDocumentTypes(this.token);
+      const user_id = sessionStorage.getItem('user_id');
       this.fnGetDataUserById(this.token, user_id).then((response) => {
+        console.log('response: ', response);
         if (response) {
+          this.flagSpinner = false;
+          this.textSpinner = "";
           let numeroIdentificacion = response['numeroIdentificacion'];
           this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            if (responseRethus['body']) {
+            console.log('responseRethus: ', responseRethus);
+            if (responseRethus['body'].length > 0) {
 
               this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+                console.log('responseRethusDetail: ', responseRethusDetail);
                 if (responseRethusDetail['body']) {
                   this.dataUserSpecialist = responseRethusDetail['body'];
+                  console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
                   let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+                  console.log('tipoPorgrama: ', tipoPorgrama);
                   if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
                     this.flagShowAlertUser = true;
                   } else {
@@ -133,17 +119,13 @@ export class InformacionComponent implements OnInit {
           this.dataUserSpecialist = null
         }
       });
-      // this.utilitiesService.fnGetDataUserRethus(this.token, user_id).then((resp) => {
-      //   if (resp) {
-      //     this.dataUserSpecialist = resp['dataUserSpecialist'];
-      //     this.flagShowAlertUser = resp['flagShowAlertUser'];
-      //   }
-      // });
+      
 
-      this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
-    } else {
-      // self.router.navigateByUrl('');
-    }
+    }).catch(error => {
+      this.utilitiesService.fnSignOutUser().then(resp => {
+        this.utilitiesService.fnNavigateByUrl('auth/login');
+      });
+    });
   }
 
   fnShowContent(nameClass) {
@@ -154,7 +136,8 @@ export class InformacionComponent implements OnInit {
     this.utilitiesService.fnSetDataShare(null);
     // this.totalItems = 0;
     // return false;
-    this.search = true;
+    this.flagSpinner = true;
+    this.textSpinner = "Buscando información paciente...";
     if (this.documentNumberPatient != undefined &&
       this.documentNumberPatient != "" &&
       this.documentTypePatient != undefined &&
@@ -171,9 +154,26 @@ export class InformacionComponent implements OnInit {
         this.fnGetDataUserPatient(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
           if (response) {
             let dataUserPatient = response['body'];
-            this.dataUserPatient = (dataUserPatient.length > 0) ? dataUserPatient[0] : null;  
+            this.dataUserPatient = (dataUserPatient.length > 0) ? dataUserPatient[0] : null;
+            console.log('this.dataUserPatient: ', this.dataUserPatient);
+            this.dataUserPatient['arl'] = {
+              "tNombre": this.dataUserPatient['arl'],
+              "tipoAfiliacionArl": {
+                "tNombre": "Cotizante activo",
+              }
+            };
+            this.dataUserPatient['afp'] = {
+              "tNombre": this.dataUserPatient['afp'],
+              "tipoAfiliacionFondoPensiones": {
+                "tNombre": "Cotizante activo",
+              }
+            };
+            this.flagSpinner = false;
+            this.textSpinner = "";
           } else {
             this.dataUserPatient =  null;
+            this.flagSpinner = false;
+            this.textSpinner = "";
           }
         });
         this.fnGetDataEmployerPatient(this.token, this.documentTypePatient, this.documentNumberPatient).then((response) => {
@@ -185,50 +185,55 @@ export class InformacionComponent implements OnInit {
           }
         });
 
-        this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
-          if(resp) {
-            this.patientData = resp;
-            this.patientData['arl'] = {
-              "tNombre": this.dataUserPatient['arl'],
-              "tipoAfiliacionArl": {
-                "tNombre": "Cotizante activo",
-              }
-            };
-            this.patientData['afp'] = {
-              "tNombre": this.dataUserPatient['afp'],
-              "tipoAfiliacionFondoPensiones": {
-                "tNombre": "Cotizante activo",
-              }
-            };
-            // this.patientData;
-            this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
-              if (response) {
-                this.search = false;
-                this.patientIncapacities = response['patientIncapacities'];
-                this.totalItems = response['totalItems'];
-                this.utilitiesService.fnSetDataShare({ 
-                  patientData: this.patientData, 
-                  patientIncapacities: this.patientIncapacities, 
-                  collectionDocumentTypes: this.collectionDocumentTypes, 
-                  documentNumberPatient: this.documentNumberPatient, 
-                  documentTypePatient: this.documentTypePatient, 
-                  documentTypeSelected: this.documentTypeSelected,
-                });
-              } else {
-                this.patientIncapacities = [];
-                this.totalItems = 0;
-              }
-            });
-          } else {
-            this.patientData = null;
-            this.search = false;
-          }
-        }).catch((error) => {
-          this.patientData = [];
-        })
+        // this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
+        //   if(resp) {
+        //     this.patientData = resp;
+        //     this.patientData['arl'] = {
+        //       "tNombre": this.dataUserPatient['arl'],
+        //       "tipoAfiliacionArl": {
+        //         "tNombre": "Cotizante activo",
+        //       }
+        //     };
+        //     this.patientData['afp'] = {
+        //       "tNombre": this.dataUserPatient['afp'],
+        //       "tipoAfiliacionFondoPensiones": {
+        //         "tNombre": "Cotizante activo",
+        //       }
+        //     };
+        //     this.flagSpinner = false;
+        //     this.textSpinner = "";
+        //     // this.patientData;
+        //     // this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']).then((response) => {
+        //     //   if (response) {
+        //     //     this.flagSpinner = false;
+        //     //     this.textSpinner = "";
+        //     //     this.patientIncapacities = response['patientIncapacities'];
+        //     //     this.totalItems = response['totalItems'];
+        //     //     this.utilitiesService.fnSetDataShare({ 
+        //     //       patientData: this.patientData, 
+        //     //       patientIncapacities: this.patientIncapacities, 
+        //     //       collectionDocumentTypes: this.collectionDocumentTypes, 
+        //     //       documentNumberPatient: this.documentNumberPatient, 
+        //     //       documentTypePatient: this.documentTypePatient, 
+        //     //       documentTypeSelected: this.documentTypeSelected,
+        //     //     });
+        //     //   } else {
+        //     //     this.patientIncapacities = [];
+        //     //     this.totalItems = 0;
+        //     //   }
+        //     // });
+        //   } else {
+        //     this.patientData = null;
+        //     this.flagSpinner = false;
+        //     this.textSpinner = "";
+        //   }
+        // }).catch((error) => {
+        //   this.patientData = [];
+        // });
 
     } else {
-      this.search = false;
+      this.flagSpinner = false;
+      this.textSpinner = "";
     }
   }
 
@@ -301,7 +306,7 @@ export class InformacionComponent implements OnInit {
           if (r.body != null) {
             this.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
             this.fnShowContent('search-form');
-            $('.content-patient-info').slideToggle();;
+            // $('.content-patient-info').slideToggle();;
             // this.search = false;
             this.showTitleSearch = true;
             this.patientData = JSON.parse(JSON.stringify(r.body));
@@ -389,7 +394,8 @@ export class InformacionComponent implements OnInit {
   }
   
   fnClearFormSearchPatient() {
-    this.search = false;
+    this.flagSpinner = false;
+    this.textSpinner = "";
     this.documentNumberPatient = '';
     this.documentTypePatient = null;
     this.patientData = null;
