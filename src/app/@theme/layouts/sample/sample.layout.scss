@@ -128,32 +128,33 @@
       }
       
       .menu-item a:hover{
-        background-color: nb-theme(przss-color-5); // PGP - Color blue
         color: nb-theme(color-bg); // PGP - Color blue
         border-radius: nb-theme(pgp-border-radius-none);
+        background-color: #0050a45e;
       }
 
       .menu-item a.active {
-        background-color: nb-theme(przss-color-5); // PGP - Color blue
+        background-color: #0050a45e;
       }
       
       .menu-item .menu-icon {
         color: nb-theme(color-bg);
+        font-size: 1.3rem !important;
       }
 
       li.menu-item .menu-icon {
         // border-bottom: 0px solid nb-theme(color-bg);
-        border-bottom: 0px solid #FFF;
+        // border-bottom: 0px solid #FFF;
       }
 
       .menu-item a {
         color: #ffffff;
-        border-bottom: 1px solid #fff;
+        // border-bottom: 1px solid #fff;
         border-radius: 0px !important;
       }
 
       .menu-item a.active::before {
-        background: nb-theme(przss-color-2);
+        background: #ffffff;
       }
 
       .menu-items > .menu-item{
@@ -162,15 +163,15 @@
 
       .menu-item > .menu-items > .menu-item {
         border: none;
-        background: #1e90ff;//nb-theme(przss-color-1);
+        background: #10A6FF;
         color: #4b4b4b;
         padding: 0rem;
         margin: 0px;
-        border-top: 1px solid #FFF;
+        border-top: 1px solid #ffffff30;
 
         a {
           border: none;
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 1rem 0.5rem 1.5rem;
         }
       }
       

@@ -20,11 +20,12 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
+import { ActivatedRoute } from '@angular/router';
 defineLocale('es', esLocale);
 
 @Component({
   selector: 'ngx-generar-incapacidad',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './generar-incapacidad.component.html',
   styleUrls: ['./generar-incapacidad.component.scss']
 })
@@ -208,6 +209,11 @@ export class GenerarIncapacidadComponent implements OnInit {
   public daysAFPToPay: any = 0;
   public AFPValueToPay: any = 0;
   public patientDaysAccum: any = [];
+  public userData: any = null;
+  public flagSpinner: boolean = false;
+  public textSpinner: string = '';
+  public dataEmployers: any;
+  public dataMettrics: any;
 
   constructor(
     private location: Location,
@@ -219,144 +225,164 @@ export class GenerarIncapacidadComponent implements OnInit {
     private dialogService: NbDialogService,
     private parameterizationService: ParameterizationService,
     private auditService: AuditService,
+    private route: ActivatedRoute,
   ) {
   }
   
   ngOnInit() {
-    const token = sessionStorage.getItem("token");
-    this.token = token;
+    $(document).ready(function () {
+      
+    });
+    /* **** END - JQuery definition **** */
     this.bsLocaleService.use('es');
+    this.flagSpinner = true;
+    this.textSpinner = "Cargando...";
     let data = this.utilitiesService.fnGetDataShare();
-    this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-    const user_id = sessionStorage.getItem('user_id');
-    this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    if (data) {
-      this.patientData = data['patientData'];
-      this.dataUserSpecialist = data['dataUserSpecialist'];
-      // this.dataUserSpecialist = responseRethusDetail['body'];
-      if(this.dataUserSpecialist) {
-        let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-        if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-          this.flagShowAlertUser = true;
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      this.token = response['token'];
+      this.userData = response['user'];
+      console.log('this.token: ', this.token);
+      console.log('this.userData: ', this.userData);
+      console.log('data: ', data);
+
+      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      const user_id = sessionStorage.getItem('user_id');
+      this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
+      
+      if (data) {
+        this.patientData = data['patientData'];
+        this.dataUserSpecialist = data['dataUserSpecialist'];
+        // this.dataUserSpecialist = responseRethusDetail['body'];
+        if(this.dataUserSpecialist) {
+          let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+          if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+            this.flagShowAlertUser = true;
+          } else {
+            this.flagShowAlertUser = false;
+          }
         } else {
-          this.flagShowAlertUser = false;
+          this.flagShowAlertUser = true;
+          this.dataUserSpecialist = null
         }
-      } else {
-        this.flagShowAlertUser = true;
-        this.dataUserSpecialist = null
-      }
+  
+        if (!this.patientData['diagnostic']) {
+          this.patientData['diagnostic'] = {
+            'soatInsurance': false,
+            'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
+            'laterality': null,
+            'patientDaysGranted': 1,
+            'patientConditionKeywords': null,
+            'addressPlace': {
+              // 'patientAddressFirstNumber': '',
+              // 'patientAddressFirstLetter': '',
+              // 'patientAddressSufixBis': '',
+              // 'patientAddressSecondLetter': '',
+              // 'patientAddressFirstCardinalSufix': '',
+              // 'patientAddressSecondNumber': '',
+              // 'patientAddressThirdLetter': '',
+              // 'patientAddressThirdNumber': '',
+              // 'patientAddressSecondCardinalSufix': '',
+              // 'patientAddressPlaceCondition': '',
+            },
+          };
+        } else {
+          this.patientData['diagnostic'] = {
+            'soatInsurance': false,
+            'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
+            'laterality': null,
+            'patientDaysGranted': 1,
+            'patientConditionKeywords': null,
+            'addressPlace': {
+              // 'patientAddressFirstNumber': '',
+              // 'patientAddressFirstLetter': '',
+              // 'patientAddressSufixBis': '',
+              // 'patientAddressSecondLetter': '',
+              // 'patientAddressFirstCardinalSufix': '',
+              // 'patientAddressSecondNumber': '',
+              // 'patientAddressThirdLetter': '',
+              // 'patientAddressThirdNumber': '',
+              // 'patientAddressSecondCardinalSufix': '',
+              // 'patientAddressPlaceCondition': '',
+            },
+          };
+        }
 
-      if (!this.patientData['diagnostic']) {
-        this.patientData['diagnostic'] = {
-          'soatInsurance': false,
-          'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
-          'laterality': null,
-          'patientDaysGranted': 1,
-          'patientConditionKeywords': null,
-          'addressPlace': {
-            // 'patientAddressFirstNumber': '',
-            // 'patientAddressFirstLetter': '',
-            // 'patientAddressSufixBis': '',
-            // 'patientAddressSecondLetter': '',
-            // 'patientAddressFirstCardinalSufix': '',
-            // 'patientAddressSecondNumber': '',
-            // 'patientAddressThirdLetter': '',
-            // 'patientAddressThirdNumber': '',
-            // 'patientAddressSecondCardinalSufix': '',
-            // 'patientAddressPlaceCondition': '',
-          },
+        let dataObject = {
+          "idPaciente": this.patientData['iIDPaciente'],
         };
+  
+        this.fnGetDataUser(this.token, dataObject).then((response) => {
+          console.log('response: ', response);
+          if (response) {
+            // this.patientData = response['body']['informacionPacientes'][0];
+            this.dataEmployers = response['body']['empleador'];
+            this.dataMettrics = response['body']['datosTotales'];
+            console.log('this.patientData: ', this.patientData);
+            console.log('this.dataEmployers: ', this.dataEmployers);
+            console.log('this.dataMettrics: ', this.dataMettrics);
+            // this.loading = false;
+          } else {
+            this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+            // this.dismiss(false);
+            // this.loading = false;
+          }
+        }).catch((err) => {
+          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        });
+  
+        this.fnGetContabilidad(this.token, "001");
+        this.patientIncapacities = data['patientIncapacities'];
+        // this.totalItems = data['patientIncapacities'].length;
+        this.fnGetIncapacityAttentionTypes(this.token);
+        // this.fnGetIncapacityType(this.token);
+        this.fnGetCie10(this.token, 3, "mockdata_diagnostics_signos.json").then(response1 => {
+          this.collectionPatientSigns = response1;
+          return this.fnGetCie10(this.token, 2, "mockdata_diagnostics_sintomas.json");
+        }).then(response2 => {
+          this.collectionPatientSymptoms = response2;
+          return this.fnGetCie10(this.token, 1, "mockdata_diagnostics_cie10.json");
+        }).then(response3 => {
+          this.collectionPatientDiagnostics = response3;
+        });
+  
+        this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
+          const dataCountries = JSON.parse(JSON.stringify(response['body']));
+          let dataContry = [];
+          // dataCountries.forEach(element => {
+          //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
+          // });
+          dataContry = [{ name: ' Colombia', flag: 'null', allDataCountry: {} }];
+          this.collectionCountries = dataContry;
+          this.patientData['diagnostic']['patientCountryCondition'] = this.collectionCountries[34];
+        }, (error) => {
+        });
+  
+        let urlApi = this.utilitiesService.fnReturnUrlApiMapDivPolColombia();
+        this.utilitiesService.fnHttpGetDataJSONAPI(urlApi).then(response => {
+          this.collectionDepartaments = JSON.parse(JSON.stringify(response));
+        }, (error) => {
+        });
+        this.fnGetLateralities(this.token);
       } else {
-        this.patientData['diagnostic'] = {
-          'soatInsurance': false,
-          'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
-          'laterality': null,
-          'patientDaysGranted': 1,
-          'patientConditionKeywords': null,
-          'addressPlace': {
-            // 'patientAddressFirstNumber': '',
-            // 'patientAddressFirstLetter': '',
-            // 'patientAddressSufixBis': '',
-            // 'patientAddressSecondLetter': '',
-            // 'patientAddressFirstCardinalSufix': '',
-            // 'patientAddressSecondNumber': '',
-            // 'patientAddressThirdLetter': '',
-            // 'patientAddressThirdNumber': '',
-            // 'patientAddressSecondCardinalSufix': '',
-            // 'patientAddressPlaceCondition': '',
-          },
-        };
-        // this.applyLaterality = (this.patientData['diagnostic']['laterality']) ? true : false;
-        // let objectDiagnosticPatient = this.patientData['diagnostic']['patientDiagnostics'];
-        // this.fnGetCorrelationDiagnostic(objectDiagnosticPatient);
-        // this.loadingData = true;
+        this.patientData = null;
+        this.patientIncapacities = null;
+        this.totalItems = null;
+        this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
       }
+    });
+    
+  }
 
-      // this.fnGetDataUserById(this.token, user_id).then((response) => {
-      //   if (response) {
-      //     let numeroIdentificacion = response['numeroIdentificacion'];
-      //     this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-      //       if (responseRethus) {
-
-      //         this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-      //           if (responseRethusDetail) {
-      //             this.dataUserSpecialist = responseRethusDetail['body'];
-      //             let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-      //             if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-      //               this.flagShowAlertUser = true;
-      //             } else {
-      //               this.flagShowAlertUser = false;
-      //             }
-      //           } 
-      //         });
-      //       } else {
-
-      //       }
-      //     });
-
-      //   } else {
-
-      //   }
-      // })
-      this.fnGetContabilidad(this.token, "001");
-      this.patientIncapacities = data['patientIncapacities'];
-      this.totalItems = data['patientIncapacities'].length;
-      this.fnGetIncapacityAttentionTypes(this.token);
-      // this.fnGetIncapacityType(this.token);
-      this.fnGetCie10(this.token, 3).then(response1 => {
-        this.collectionPatientSigns = response1;
-        return this.fnGetCie10(this.token, 2);
-      }).then(response2 => {
-        this.collectionPatientSymptoms = response2;
-        return this.fnGetCie10(this.token, 1);
-      }).then(response3 => {
-        this.collectionPatientDiagnostics = response3;
+  fnGetDataUser(token, data_object_) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataUser(token, data_object_).subscribe(respList => {
+        if (respList.status == 200) {
+          resolve(respList);
+        }
+      }, err => {
+        reject(false);
       });
-
-      this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
-        const dataCountries = JSON.parse(JSON.stringify(response['body']));
-        let dataContry = [];
-        // dataCountries.forEach(element => {
-        //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
-        // });
-        dataContry = [{ name: ' Colombia', flag: 'null', allDataCountry: {} }];
-        this.collectionCountries = dataContry;
-        this.patientData['diagnostic']['patientCountryCondition'] = this.collectionCountries[34];
-      }, (error) => {
-      });
-
-      let urlApi = this.utilitiesService.fnReturnUrlApiMapDivPolColombia();
-      this.utilitiesService.fnHttpGetDataJSONAPI(urlApi).then(response => {
-        this.collectionDepartaments = JSON.parse(JSON.stringify(response));
-      }, (error) => {
-      });
-      this.fnGetLateralities(this.token);
-    } else {
-      this.patientData = null;
-      this.patientIncapacities = null;
-      this.totalItems = null;
-      this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-    }
+    })
   }
 
   fnReturnPage(): void {
@@ -405,11 +431,15 @@ export class GenerarIncapacidadComponent implements OnInit {
     });
   }
 
-  fnGetCie10(token, typeCie10) {
+  fnGetCie10(token, typeCie10, urlFile) {
     // this.errors = [];
     // this.submitted = true;
     return new Promise ((resolve, reject) => {
-      this.incapacityService.fnHttpGetCie10(token, typeCie10).subscribe((result) => {
+
+      // let urlFile = "mockdata_diagnostics_cie10.json";
+
+      this.utilitiesService.fnGetDataJson(urlFile).subscribe(result => {
+      // this.incapacityService.fnHttpGetCie10(token, typeCie10).subscribe((result) => {
         // this.submitted = false;
         if (result.status == 200) {
           let collectionList = JSON.parse(JSON.stringify(result.body));
@@ -544,6 +574,34 @@ export class GenerarIncapacidadComponent implements OnInit {
       // const data_ips = JSON.parse(sessionStorage.getItem('ips'));
       // const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
       // // this.lateralidad
+      object_data = {
+        "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
+        "iIDPaciente": this.patientData['iIDPaciente'],
+        "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
+        "iIDTipoAtencion": this.patientData['diagnostic']['attentionTypes'],
+        "iIDTipoAfeccion": this.patientData['diagnostic']['afectionType'],
+        "bSOAT": (this.patientData['diagnostic']['incapacityType'] == 2) ? true : false,
+        "bPregunta1": true,
+        "bPregunta2": true,
+        "bPregunta3": true,
+        "bPregunta4": true,
+        "bPregunta5": true,
+        "iIDPresuntoOrigenIncapacidad": this.patientData['diagnostic']['incapacityType'],
+        "tPalabrasClave": this.patientData['diagnostic']['patientConditionKeywords'],
+        "tDescripcion": this.patientData['diagnostic']['patientModeDescription'],
+        "iIDCiudad": this.patientData['diagnostic']['patientCityCondition'],
+        "tDireccion": this.addressPlaceBuilded,
+        "tBarrio": this.patientData['diagnostic']['addressPlace']['patientAddressPlaceCondition'],
+        "iIDDiagnosticoCorrelacion": this.patientData['diagnostic']['patientCityCondition'],
+        "iIDLateralidad": 0,
+        "tDescripcionSintomatologica": "string",
+        "bProrroga": true,
+        "iDiasIncapacidad": 0,
+        "tJustificacion": "string",
+        "iIDUsuarioCreador": 0,
+        "bAuditoria": true
+      };
+
       object_data = {
         "bProrroga": (this.dataDiagnosticCorrelation['bProrroga']) ? this.dataDiagnosticCorrelation['bProrroga'] : false,
         "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,

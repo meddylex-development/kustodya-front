@@ -81,10 +81,10 @@ export class DashboardComponent implements OnInit {
     const self = this;
 
     $(document).ready(function () {
-      $('#pgp-btn_toogle_side_bar').click(); // Emulate click display right sidebar to hide
+      // $('#pgp-btn_toogle_side_bar').click(); // Emulate click display right sidebar to hide
       $('.menu-sidebar').removeClass('d-block').addClass('d-none');
-      $('#toggle-settings').removeClass('was-expanded').addClass('was-collapse'); // Hide right sidebar to this component
-      $('#toggle-settings').removeClass('d-block').addClass('d-none'); // Hide right sidebar to this component
+      // $('#toggle-settings').removeClass('was-expanded').addClass('was-collapse'); // Hide right sidebar to this component
+      // $('#toggle-settings').removeClass('d-block').addClass('d-none'); // Hide right sidebar to this component
     });
     /* **** END - JQuery definition **** */
 

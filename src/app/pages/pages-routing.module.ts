@@ -60,7 +60,7 @@ const routes: Routes = [
             component: CertificadoIncapacidadComponent,
           }, 
           {
-            path: 'generar-certificado',
+            path: 'generar-certificado/:idPaciente',
             component: GenerarIncapacidadComponent,
           }, 
           {

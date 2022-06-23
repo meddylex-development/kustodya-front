@@ -66,15 +66,10 @@ export class InformacionComponent implements OnInit {
     this.flagSpinner = true;
     this.textSpinner = "Cargando...";
     this.utilitiesService.fnAuthValidUser().then(response => {
-      console.log('response: ', response);
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      console.log('this.dataDoctor: ', this.dataDoctor);
       let data = this.utilitiesService.fnGetDataShare();
-      console.log('data: ', data);
       this.token = response['token'];
-      console.log('this.token: ', this.token);
       this.userData = response['user'];
-      console.log('this.userData: ', this.userData);
 
 
       this.collectionDocumentTypes = null;
@@ -86,22 +81,17 @@ export class InformacionComponent implements OnInit {
       this.fnGetDocumentTypes(this.token);
       const user_id = sessionStorage.getItem('user_id');
       this.fnGetDataUserById(this.token, user_id).then((response) => {
-        console.log('response: ', response);
         if (response) {
           this.flagSpinner = false;
           this.textSpinner = "";
           let numeroIdentificacion = response['numeroIdentificacion'];
           this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            console.log('responseRethus: ', responseRethus);
             if (responseRethus['body'].length > 0) {
 
               this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                console.log('responseRethusDetail: ', responseRethusDetail);
                 if (responseRethusDetail['body']) {
                   this.dataUserSpecialist = responseRethusDetail['body'];
-                  console.log('this.dataUserSpecialist: ', this.dataUserSpecialist);
                   let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                  console.log('tipoPorgrama: ', tipoPorgrama);
                   if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
                     this.flagShowAlertUser = true;
                   } else {
@@ -155,7 +145,6 @@ export class InformacionComponent implements OnInit {
           if (response) {
             let dataUserPatient = response['body'];
             this.dataUserPatient = (dataUserPatient.length > 0) ? dataUserPatient[0] : null;
-            console.log('this.dataUserPatient: ', this.dataUserPatient);
             this.dataUserPatient['arl'] = {
               "tNombre": this.dataUserPatient['arl'],
               "tipoAfiliacionArl": {
@@ -411,8 +400,9 @@ export class InformacionComponent implements OnInit {
   }
 
   fnRedirectViewPatientIncapacitiesHistory() {
+    this.dataUserPatient['iIdpaciente'] = this.dataUserPatient['iIDPaciente'];
     this.utilitiesService.fnSetDataShare({ 
-      patientData: this.patientData, 
+      patientData: this.dataUserPatient, 
       patientIncapacities: this.patientIncapacities, 
       collectionDocumentTypes: this.collectionDocumentTypes, 
       documentNumberPatient: this.documentNumberPatient, 
@@ -424,8 +414,9 @@ export class InformacionComponent implements OnInit {
   }
 
   fnRedirectGeneratePatientIncapacity() {
+    this.dataUserPatient['iIdpaciente'] = this.dataUserPatient['iIDPaciente'];
     this.utilitiesService.fnSetDataShare({ 
-      patientData: this.patientData, 
+      patientData: this.dataUserPatient, 
       patientIncapacities: this.patientIncapacities, 
       collectionDocumentTypes: this.collectionDocumentTypes, 
       documentNumberPatient: this.documentNumberPatient, 
@@ -433,7 +424,7 @@ export class InformacionComponent implements OnInit {
       documentTypeSelected: this.documentTypeSelected,
       dataUserSpecialist: this.dataUserSpecialist,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/generar-certificado');
+    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/generar-certificado/' + this.dataUserPatient['iIDPaciente']);
   }
 
   fnGetDoctorRethusByDNI(token, document_type, document_number) {
