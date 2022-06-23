@@ -787,6 +787,7 @@ export class UtilitiesService {
 
   fnGetDataCie10Json(file_name: string) {
     const urlFileJson = '../../../../app/shared/api/mock/' + file_name ;
+    console.log('urlFileJson: ', urlFileJson);
     return this.http.get(urlFileJson,
     {
       observe: 'response',

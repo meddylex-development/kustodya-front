@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { MENU_ITEMS, MENU_ITEMS_CONFIG, MENU_ITEMS_GROUPS_MODULE } from './pages-menu';
-import { MENU_ITEMS } from './pages-menu';
+import { MENU_ITEMS, MENU_ITEMS_TEST } from './pages-menu';
 import { MenuService } from '../shared/api/services/menu.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbMenuItem, NbMenuService, NbSidebarService } from '@nebular/theme';
@@ -41,6 +41,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   MENU_ITEMS_CONFIG: NbMenuItem[] = [];
   MENU_ITEMS: NbMenuItem[] = [];
+  MENU_ITEMS_DATA: NbMenuItem[] = [];
 
   constructor(
     private menuService: MenuService,
@@ -53,6 +54,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.MENU_ITEMS_DATA = MENU_ITEMS_TEST;
     this.nbMenuService.onItemClick().subscribe(response => {
       if (response.tag === 'left-menu') {
         this.data_item = response.item;

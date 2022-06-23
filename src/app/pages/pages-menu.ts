@@ -1,7 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
 
-let id_company = null;
-id_company = sessionStorage.getItem('id_company');
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Base',
@@ -36,6 +34,83 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   ],
   // },
 ];
+export const MENU_ITEMS_TEST: NbMenuItem[] = [
+  {
+    "title": "Inicio",
+    // "home": true,
+    "icon": "fas fa-home",
+    "link": "/pages/home",
+    "selected": false,
+  },
+  {
+    "title": "Administración",
+    "home": false,
+    "icon": "fas fa-users",
+    "link": "/pages/admin",
+    "selected": false,
+    "children": [
+      {
+          "title": "Usuarios",
+          "home": false,
+          "icon": "fas fa-user",
+          "link": "/pages/admin/users",
+          "selected": false,
+      },
+      {
+          "title": "Perfiles",
+          "home": false,
+          "icon": "fas fa-chalkboard-teacher",
+          "link": "/pages/admin/profiles",
+          "selected": false,
+      },
+      {
+          "title": "Parametrización",
+          "home": false,
+          "icon": "fas fa-border-none",
+          "link": "/pages/admin/config",
+          "selected": false,
+      }
+    ],
+  },
+  {
+    "title": "Estructura Organizacional",
+    "home": false,
+    "icon": "fas fa-map-signs",
+    "link": "/pages/org",
+    "selected": false,
+    "children": [
+      {
+        "title": "Empresa",
+        "home": false,
+        "icon": "far fa-building",
+        "link": "/pages/org/company",
+        "selected": false,
+      },
+      {
+        "title": "Areas",
+        "home": false,
+        "icon": "fas fa-chart-area",
+        "link": "/pages/org/areas",
+        "selected": false,
+      },
+      {
+        "title": "Sucursales",
+        "home": false,
+        "icon": "fas fa-map-marked-alt",
+        "link": "/pages/org/offices",
+        "selected": false,
+      },
+      {
+        "title": "Cargos",
+        "home": false,
+        "icon": "fas fa-id-card-alt",
+        "link": "/pages/org/positions",
+        "selected": false,
+      },
+    ],
+  }
+];
+
 // export const MENU_ITEMS_CONFIG: NbMenuItem[] = [];
 // export const MENU_ITEMS_CONFIG: NbMenuItem[] = [{
 //   title: 'Versions',
