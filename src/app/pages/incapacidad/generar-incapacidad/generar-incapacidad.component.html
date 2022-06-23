@@ -1134,7 +1134,7 @@
                                 Valores incapacidades por empleador
                               </div>
                               <div class="card-body" style="padding-bottom: 3rem;">
-                                <div class="row pr-4 pl-4">
+                                <div class="row pr-4 pl-4" *ngIf="false">
                                   <div class="col p-0">
                                     <button 
                                       type="button" 
@@ -1150,13 +1150,13 @@
                                   </div>
                                 </div>
                                 <div class="row p-4">
-                                  <div *ngFor="let itemEmployer of collectionDataEmployers; let i = index;" class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+                                  <div *ngFor="let itemEmployer of dataEmployers; let i = index;" class="col-12 mb-2" style="border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                     <div class="row">
                                       <div class="col-2">
-                                        <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.nit }}</h4>
+                                        <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.numeroIdentificacion }}-{{ itemEmployer?.digitoVerificacion }}</h4>
                                       </div>
                                       <div class="col">
-                                        <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.tRazonSocial }}</h4>
+                                        <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.nombre }}</h4>
                                       </div>
                                       <div class="col">
                                         <span>Valor total incapacidad:</span>
@@ -1172,6 +1172,11 @@
                                         </span>
                                       </div>
                                       <div class="col-1 d-flex">
+                                        <span (click)="fnShowPreviewIncapacityCertificate(itemEmployer, i)" style="display: flex; justify-content: end; align-items: center;" tooltip="Ver valores en detalle" placement="top" container="body">
+                                          <i class="fas fa-search-dollar" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
+                                        </span>
+                                      </div>
+                                      <div class="col-1 d-flex">
                                         <span style="display: flex; justify-content: end; align-items: center;" tooltip="Ver detalle" placement="top" container="body">
                                           <i (click)="fnShowContent('content-prices-' + i)" class="fas fa-chevron-circle-down cursor-pointer" style="color: #888888; font-size: 25px; display: flex; justify-content: end; align-items: center;"></i>
                                         </span>
@@ -1180,8 +1185,8 @@
                                     <div class="col-12 content-prices-detail content-prices-{{i}}" style="display: none; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
                                       <div class="row">
                                         <div class="col-12">
-                                          <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.nit }}</h4>
-                                          <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.tRazonSocial }}</h4>
+                                          <span>NIT:</span>&nbsp;<h4>{{ itemEmployer?.numeroIdentificacion }}-{{ itemEmployer?.digitoVerificacion }}</h4>
+                                          <span>Nombre:</span>&nbsp;<h4>{{ itemEmployer?.nombre }}</h4>
                                           <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ itemEmployer?.ciiu | titlecase }}</h4>
                                           <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ itemEmployer?.ocupacionPaciente | titlecase }}</h4>
                                           <span>Fecha de ingreso:</span>&nbsp;<h4>{{ itemEmployer?.fechaIngreso }}</h4>
