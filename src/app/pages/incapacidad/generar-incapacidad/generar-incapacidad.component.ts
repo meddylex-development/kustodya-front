@@ -21,6 +21,7 @@ import { esLocale } from 'ngx-bootstrap/locale';
 import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { ActivatedRoute } from '@angular/router';
+import { ValoresIncapacidadComponent } from '../valores-incapacidad/valores-incapacidad.component';
 defineLocale('es', esLocale);
 
 @Component({
@@ -560,21 +561,55 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnGenerateNewIncapacityCertificate() {
     return new Promise((resolve, reject) => {
-  
+      
       const dateNowUnix = moment(new Date()).unix();
       const dateNowValueOf = moment(new Date()).valueOf();
       const date_incapcatity = moment(moment(new Date()).add(this.patientData['diagnostic']['patientDaysGranted'], 'days')).valueOf();
       
-
+      
       
       // this.dataIPS = dataIPS;
-  
+      console.log('this.dataIPS: ', this.dataIPS);
+      let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
+      console.log('dataEPS: ', dataEPS);
+
+      
       let object_data = null;
       // const fechaActual = new Date();
       // const data_ips = JSON.parse(sessionStorage.getItem('ips'));
       // const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
       // // this.lateralidad
+      console.log('this.patientData: ', this.patientData);
       object_data = {
+        "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
+        "iIDPaciente": this.patientData['iIDPaciente'],
+        "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
+        "iIDTipoAtencion": this.patientData['diagnostic']['attentionTypes'],
+        "iIDTipoAfeccion": this.patientData['diagnostic']['afectionType'],
+        "bSOAT": (this.patientData['diagnostic']['incapacityType'] == 2) ? true : false,
+        "tJustificacionDiasAdicionales": true,
+        "iIDPais": true,
+        "iIDDepartamento": true,
+        "iIDPresuntoOrigenIncapacidad": 0,
+        "tPalabrasClave": "string",
+        "tDescripcion": "string",
+        "iIDCiudad": 0,
+        "tDireccion": "string",
+        "tBarrio": "string",
+        "iIDDiagnosticoCorrelacion": 0,
+        "iIDLateralidad": 0,
+        "tDescripcionSintomatologica": "string",
+        "bProrroga": true,
+        "iDiasIncapacidad": 0,
+        "tJustificacion": "string",
+        "iIDUsuarioCreador": 0,
+        "bAuditoria": true,
+        "iIDOrigenCalificadoIncapacidad": 0,
+        "bEsTranscripcion": true,
+        "numeroIncapacidadIPSTranscripcion": "string"
+      };
+
+      /*object_data = {
         "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
         "iIDPaciente": this.patientData['iIDPaciente'],
         "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
@@ -651,7 +686,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
         "eps": (this.patientData['eps']) ? this.patientData['eps'] : '',
         "ips": (this.dataIPS) ? this.dataIPS : '',
-      };
+      };*/
   
       // const object_data_test = {
       //   'iIddiagnosticoIncapacidad': 0,
@@ -676,6 +711,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       //   "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
       // };
       console.log('object_data: ', object_data);
+      return false;
       // console.log('object_data_test: ', object_data_test);
       // return false;
       // this.submitted = true;
@@ -771,24 +807,24 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGenerateIncapacity() {
-    this.submitted = true;
+    // this.submitted = true;
     // this.fnSendMailPatientAlert();
     if (this.dataDiagnosticCorrelation['bProrroga']) {
       // Envio de mail -  Alerta Paciente con prórroga acumulada
       // 1 - Alerta Paciente con prórroga acumulada
-      this.fnSendMailPatientAlert(1);
+      // this.fnSendMailPatientAlert(1);
     }
 
     if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
       // Envio de mail -  Alerta Incapacidad con días en exceso
       // 2 - Alerta Incapacidad con días en exceso
-      this.fnSendMailPatientAlert(2);
+      // this.fnSendMailPatientAlert(2);
     }
 
     if(this.flagShowAlertUser == true) {
       // Envio de mail -  Alerta Incapacidad generada por personal no autorizado
       // 3 - Alerta Incapacidad generada por personal no autorizado
-      this.fnSendMailPatientAlert(3);
+      // this.fnSendMailPatientAlert(3);
     }
 
     this.collectionDataEmployers.forEach((element, key) => {
@@ -853,7 +889,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       ((this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix.name : '')  +' '+
       ((this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition) ? this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition : '' );
     this.addressPlaceBuilded = addressPlaceBuilded
-}
+  }
 
   fnSendMailPatientAlert(type_email) {
     // this.patientData
@@ -1270,6 +1306,16 @@ export class GenerarIncapacidadComponent implements OnInit {
       } 
     }
 
+  }
+
+  fnShowValuesIncapacity(item, index) {
+    console.log('item: ', item);
+    console.log('index: ', index);
+    let dataSend = {};
+    dataSend['data'] = { module: '', title: 'Agregar empleador', description: 'En el siguiente formulario puedes agregar un nuevo empleador asociado al paciente.' };
+    this.dialogService.open(ValoresIncapacidadComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
   }
 
 

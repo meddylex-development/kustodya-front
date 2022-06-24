@@ -1,0 +1,208 @@
+<nb-card size="large" style="max-width: 100% !important; height: calc(90vh - 1rem) !important;">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    {{ data?.title }}
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="row ml-0 mr-0">
+        
+          <div class="col-12 pl-0 pr-0">
+            <p>
+                Valores de cotizaci&oacute;n y salario del paciente.
+            </p>
+          </div>
+          <div class="col-12 p-0">
+            
+              <div class="row">
+                
+                <!-- ********** START - Numero de identificación ********** -->
+                <div class="mt-2 mb-2 col-12">
+                  <div class="form-group" [formGroup]="myGroup">
+                    <label for="input-patientSalary">
+                      <h5 class="m-0">
+                        <i class="fas fa-file-invoice-dollar"></i>&nbsp;Salario:&nbsp;
+                        <span class="cursor-pointer text-optional-field" tooltip="Campo opcional" placement="top" container="body">*</span>
+                      </h5>
+                    </label>
+                      <input 
+                        class=""
+                        nbInput
+                        fullWidth 
+                        fieldSize="large"  
+                        type="text" 
+                        currencyMask 
+                        formControlName="value" 
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',' }"
+                        [readonly]="false" 
+                        [disabled]="false" 
+                        placeholder="Ingrese salario del paciente"
+                        id="input-patientSalary"  
+                        name="patientSalary" 
+                        [(ngModel)]="employerData.patientSalary" 
+                        [status]="'basic'">
+                  </div>
+                </div>
+                <!-- *********** END - Numero de identificación *********** -->
+                <div class="col-12">
+                  <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <h5 class="text-center text-primary fw-bolder">Salario</h5>
+                    <h4 class="text-center">{{ employerData.patientSalary | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                  </div>
+                  <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <h5 class="text-center text-primary fw-bolder">IBC</h5>
+                    <h4 class="text-center">{{ (employerData.patientSalary * 0.25) | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                  </div>
+                  <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
+                    <h4 class="text-center">{{ ((employerData.patientSalary / 30) * 0.80) | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                  </div>
+                  <!-- <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
+                    <h2 class="text-center" style="font-weight: 700;">
+                      <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                        {{ patientData?.diagnostic?.patientDaysGranted * data?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                      </span>
+                    </h2>
+                  </div> -->
+                </div>
+              </div>
+            
+          </div>
+          <div class="col-12 content-prices-detail content-prices-0" style="display: block; border: 1px solid #ccc; margin: 0; padding: 17px; border-radius: 12px; background-color: #f5e9ff;">                                    
+            <div class="row">
+              <div class="col-12">
+                <span>NIT:</span>&nbsp;<h4>{{ data?.numeroIdentificacion }}-{{ data?.digitoVerificacion }}</h4>
+                <span>Nombre:</span>&nbsp;<h4>{{ data?.nombre }}</h4>
+                <span>C&oacute;digo CIIU:</span>&nbsp;<h4>{{ data?.ciiu | titlecase }}</h4>
+                <span>Ocupaci&oacute;n:</span>&nbsp;<h4>{{ data?.ocupacionPaciente | titlecase }}</h4>
+                <span>Fecha de ingreso:</span>&nbsp;<h4>{{ data?.fechaIngreso }}</h4>
+                <span>Contrato:</span>&nbsp;<h5><span class="badge rounded-pill text-light" [ngClass]="{'bg-success': data?.estadoContrato, 'bg-danger': !data?.estadoContrato }" style="padding: 7px; width: 65px;">{{ (data?.estadoContrato) ? 'Activo' : 'Inactivo' }}</span></h5>
+              </div>
+              <div class="col-12">
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">IBC</h5>
+                  <!-- <h4 class="text-center">{{ data?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4> -->
+                  <input 
+                    class=""
+                    nbInput
+                    fullWidth 
+                    fieldSize="large"  
+                    type="text" 
+                    [readonly]="false" 
+                    [disabled]="false" 
+                    placeholder="Ingrese salario del paciente"
+                    id="input-patientIBC"  
+                    name="patientIBC" 
+                    [(ngModel)]="patientIBC" 
+                    (input)="fnCalcValueIncapacity(patientDaysAccum, patientIBC, true, 10, false, 0)" 
+                    [status]="'info'">
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">D&iacute;as acumulados</h5>
+                  <!-- <h4 class="text-center">{{ data?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4> -->
+                  <input 
+                    class=""
+                    nbInput
+                    fullWidth 
+                    fieldSize="large"  
+                    type="text" 
+                    [readonly]="false" 
+                    [disabled]="false" 
+                    placeholder="Ingrese días acumulados paciente"
+                    id="input-patientDaysAccum"  
+                    name="patientDaysAccum" 
+                    [(ngModel)]="patientDaysAccum" 
+                    (input)="fnCalcValueIncapacity(patientDaysAccum, patientIBC, true, 10, false, 0)" 
+                    [status]="'info'">
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor IBC diario</h5>
+                  <h4 class="text-center">{{ valueDayJob | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">D&iacute;as de incapacidad otorgados</h5>
+                  <h4 class="text-center">{{ '10' }} d&iacute;as</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por la EPS</h5>
+                  <h4 class="text-center">{{ daysEPSToPay }} d&iacute;as</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor a pagar por la EPS</h5>
+                  <h4 class="text-center" *ngIf="EPSValuePay > 0">{{ EPSValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                  <h4 class="text-center" *ngIf="EPSValuePay < 1">${{ '0,00' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por la AFP</h5>
+                  <h4 class="text-center">{{ daysAFPToPay }} d&iacute;as</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor a pagar por la AFP</h5>
+                  <h4 class="text-center" *ngIf="AFPValueToPay > 0">{{ AFPValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                  <h4 class="text-center" *ngIf="AFPValueToPay < 1">${{ '0,00' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">D&iacute;as a pagar por el empleador</h5>
+                  <h4 class="text-center">{{ daysEmployerToPay }} d&iacute;as</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor a pagar por el empleador</h5>
+                  <h4 class="text-center">{{ employerValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor total incapacidad</h5>
+                  <h2 class="text-center" style="font-weight: 700;">
+                    <span *ngIf="totalPatientValueToPay > 0" class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                      {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                    </span>
+                    <span *ngIf="totalPatientValueToPay < 1" class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                      ${{ '0,00' }} COP
+                    </span>
+                  </h2>
+                </div>
+                <!-- <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Salario</h5>
+                  <h4 class="text-center">{{ data?.salario | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">IBC</h5>
+                  <h4 class="text-center">{{ data?.ibc | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor por d&iacute;a de incapacidad</h5>
+                  <h4 class="text-center">{{ data?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP</h4>
+                </div>
+                <div class="text-center p-2 m-1" style="border: 1px solid #ccc; border-radius: 10px;">
+                  <h5 class="text-center text-primary fw-bolder">Valor total dias incapacidad</h5>
+                  <h2 class="text-center" style="font-weight: 700;">
+                    <span class="badge p-1" style="padding: 5px !important; background-color: #201E50 !important; color: #fff !important;">
+                      {{ patientData?.diagnostic?.patientDaysGranted * data?.valorDiaIncapcidad | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+                    </span>
+                  </h2>
+                </div> -->
+              </div>
+              
+            </div>
+          </div>
+          
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div>
+      <button 
+          class="cursor-pointer mb-2"
+          nbButton 
+          fullWidth 
+          type="button"
+          [class.btn-pulse]="submitted" 
+          (click)="fnCancelData()"
+          style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff;">
+          Cerrar
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

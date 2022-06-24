@@ -79,36 +79,38 @@ export class InformacionComponent implements OnInit {
       this.totalItems = 0;
       // this.fnClearFormSearchPatient();
       this.fnGetDocumentTypes(this.token);
-      const user_id = sessionStorage.getItem('user_id');
-      this.fnGetDataUserById(this.token, user_id).then((response) => {
-        if (response) {
-          this.flagSpinner = false;
-          this.textSpinner = "";
-          let numeroIdentificacion = response['numeroIdentificacion'];
-          this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            if (responseRethus['body'].length > 0) {
+      this.flagSpinner = false;
+      this.textSpinner = "";
+      // const user_id = sessionStorage.getItem('user_id');
+      // this.fnGetDataUserById(this.token, user_id).then((response) => {
+      //   if (response) {
+      //     this.flagSpinner = false;
+      //     this.textSpinner = "";
+      //     let numeroIdentificacion = response['numeroIdentificacion'];
+      //     this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
+      //       if (responseRethus['body'].length > 0) {
 
-              this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                if (responseRethusDetail['body']) {
-                  this.dataUserSpecialist = responseRethusDetail['body'];
-                  let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                  if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                    this.flagShowAlertUser = true;
-                  } else {
-                    this.flagShowAlertUser = false;
-                  }
-                } 
-              });
-            } else {
-              this.flagShowAlertUser = true;
-              this.dataUserSpecialist = null
-            }
-          });
-        } else {
-          this.flagShowAlertUser = true;
-          this.dataUserSpecialist = null
-        }
-      });
+      //         this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+      //           if (responseRethusDetail['body']) {
+      //             this.dataUserSpecialist = responseRethusDetail['body'];
+      //             let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+      //             if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+      //               this.flagShowAlertUser = true;
+      //             } else {
+      //               this.flagShowAlertUser = false;
+      //             }
+      //           } 
+      //         });
+      //       } else {
+      //         this.flagShowAlertUser = true;
+      //         this.dataUserSpecialist = null
+      //       }
+      //     });
+      //   } else {
+      //     this.flagShowAlertUser = true;
+      //     this.dataUserSpecialist = null
+      //   }
+      // });
       
 
     }).catch(error => {

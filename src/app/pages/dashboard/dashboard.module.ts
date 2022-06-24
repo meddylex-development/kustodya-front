@@ -202,6 +202,7 @@ import { DatosOcrComponent } from '../incapacidad/datos-ocr/datos-ocr.component'
 import { RegistroContableComponent } from '../incapacidad/registro-contable/registro-contable.component';
 import { ReporteIncapacidadesComponent } from '../incapacidad/reporte-incapacidades/reporte-incapacidades.component';
 import { ReporteResolucionComponent } from '../reporte/reporte-resolucion/reporte-resolucion.component';
+import { ValoresIncapacidadComponent } from '../incapacidad/valores-incapacidad/valores-incapacidad.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -375,6 +376,7 @@ const ENTRY_COMPONENTS = [
   AdministracionCorreosComponent,
   ReporteIncapacidadesComponent,
   DatosOcrComponent,
+  ValoresIncapacidadComponent,
 ];
 
 @NgModule({
@@ -538,6 +540,7 @@ const ENTRY_COMPONENTS = [
     AdministracionCorreosComponent,
     ReporteIncapacidadesComponent,
     DatosOcrComponent,
+    ValoresIncapacidadComponent,
   ],
   imports: [
     NgxCurrencyModule,
