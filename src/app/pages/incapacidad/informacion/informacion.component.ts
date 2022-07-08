@@ -34,7 +34,7 @@ export class InformacionComponent implements OnInit {
   public showTitleSearch: boolean = false;
   public documentTypeSelected: any = '';
   public html: any = '';
-  public totalItems: any = 1;
+  public totalItems: any = 0;
   public patientIncapacities: any = '';
   public dataDoctor: any = '';
   public flagShowAlertUser: boolean = false;
@@ -45,6 +45,7 @@ export class InformacionComponent implements OnInit {
   public dataEmlployerPatient: any = null;
   public userData: any = null;
 
+  public objectDataUser: any = null;
   public flagSpinner: boolean = false;
   public textSpinner: string = '';
 
@@ -71,7 +72,6 @@ export class InformacionComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
 
-
       this.collectionDocumentTypes = null;
       this.patientData = null;
       this.documentTypeSelected = null;
@@ -79,37 +79,26 @@ export class InformacionComponent implements OnInit {
       this.totalItems = 0;
       // this.fnClearFormSearchPatient();
       this.fnGetDocumentTypes(this.token);
-      const user_id = sessionStorage.getItem('user_id');
-      this.fnGetDataUserById(this.token, user_id).then((response) => {
+      const user_id = this.userData['UserId'];
+
+      let dataObject = {
+        "idUsuario": user_id,
+      };
+      this.fnGetDataSpecialist(this.token, dataObject).then((response) => {
         if (response) {
+          this.objectDataUser = response['body']['informacionUsuarios'][0];
           this.flagSpinner = false;
           this.textSpinner = "";
-          let numeroIdentificacion = response['numeroIdentificacion'];
-          this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-            if (responseRethus['body'].length > 0) {
-
-              this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                if (responseRethusDetail['body']) {
-                  this.dataUserSpecialist = responseRethusDetail['body'];
-                  let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                  if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                    this.flagShowAlertUser = true;
-                  } else {
-                    this.flagShowAlertUser = false;
-                  }
-                } 
-              });
-            } else {
-              this.flagShowAlertUser = true;
-              this.dataUserSpecialist = null
-            }
-          });
+          let numeroIdentificacion = this.objectDataUser['numeroDocumento'];
+          this.fnValidUserRethus(this.token, numeroIdentificacion);
         } else {
           this.flagShowAlertUser = true;
           this.dataUserSpecialist = null
         }
+      }).catch((err) => {
+        this.flagShowAlertUser = true;
+        this.dataUserSpecialist = null
       });
-      
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
@@ -458,6 +447,40 @@ export class InformacionComponent implements OnInit {
         resolve(new Error(err));
           this.utilitiesService.showToast('top-right', '', 'Error consultado la cantidad de diagnoticos!');
       });
+    });
+  }
+
+  fnGetDataSpecialist(token, data_object) {
+    return new Promise((resolve, reject) => {
+      this.userService.fnHttpGetDataSpecialist(token, data_object).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
+  fnValidUserRethus(token, numeroIdentificacion){
+    this.fnGetDoctorRethusByDNI(token, 1, numeroIdentificacion).then((responseRethus) => {
+      if (responseRethus['body'].length > 0) {
+
+        this.fnGetDoctorRethusByDNI(token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+          if (responseRethusDetail['body']) {
+            this.dataUserSpecialist = responseRethusDetail['body'];
+            let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+            if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+              this.flagShowAlertUser = true;
+            } else {
+              this.flagShowAlertUser = false;
+            }
+          } 
+        });
+      } else {
+        this.flagShowAlertUser = true;
+        this.dataUserSpecialist = null
+      }
     });
   }
 

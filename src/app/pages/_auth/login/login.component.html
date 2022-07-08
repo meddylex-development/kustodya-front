@@ -65,31 +65,6 @@
       </div>
     </div>
 
-    <div class="form-control-group animate fadeIn" *ngIf="show_entities">
-      <label class="label">Entidad:</label>
-      <ng-select 
-        [items]="list_entities" 
-        bindLabel="nombre" 
-        bindValue="id" 
-        id="przss-select-entity" 
-        name="entity"
-        #ngentity="ngModel" 
-        (change)="onChangeEntities()" 
-        bindValue="id" 
-        placeholder="Select entity"
-        [ngModelOptions]="{standalone: true}" 
-        [(ngModel)]="current_entity" 
-        (focus)="errors = []" 
-        required>
-      </ng-select>
-      <!-- [minlength]="minlength" [maxlength]="maxlength" [attr.aria-invalid]="aria_invalid" -->
-
-      <ng-container *ngIf="ngentity.invalid || error_entity">
-        <p class="error-message">
-          La entidad es requerida!
-        </p>
-      </ng-container>
-    </div>
     <button nbButton fullWidth status="success" class="przss-button_signin font_family_roboto pgp-pointer"
       [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
       SIGUIENTE

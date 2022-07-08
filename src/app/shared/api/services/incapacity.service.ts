@@ -307,4 +307,28 @@ export class IncapacityService {
       });
   }
 
+  fnHttpGetUserIPSList(guid_user, objectParams): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    this.urlGetDataEmployerPatient = '/api/IPS';
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataEmployerPatient,
+      {
+        params: objectParams,
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
+  fnHttpPostAddNewIncapacity(guid_user, data_object): Observable<any> {
+    console.log('data_object: ', data_object);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    let urlPostAddNewIncapacity = '/api/K2Incapacidad/CrearIncapacidad';
+    return this.http.post(this.utility.fnGetHost() + urlPostAddNewIncapacity, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
 }

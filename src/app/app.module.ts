@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { APP_BASE_HREF } from '@angular/common';
+import { APP_BASE_HREF, TitleCasePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, LOCALE_ID } from '@angular/core';
@@ -194,9 +194,20 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
               failure: null,
             },
           },
-          logout: {
-            endpoint: '/api/Auth/SignOut',
-            method: 'post',
+          // logout: {
+          //   endpoint: '/api/Auth/SignOut',
+          //   method: 'post',
+          //   redirect: {
+          //     success: 'auth/login',
+          //     failure: 'auth/login',
+          //   },
+          // },
+          logout: { 
+            method: null, 
+            redirect: { 
+              success: '/', 
+              failure: '/' 
+            } 
           },
           requestPass: {
             endpoint: '/api/Auth/RememberPassword',
@@ -234,6 +245,7 @@ export function setReturnDataErrors(module: string, res: HttpErrorResponse): Obj
   exports: [GridFilterPipe],
   providers: [
     AuthGuard,
+    TitleCasePipe,
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,

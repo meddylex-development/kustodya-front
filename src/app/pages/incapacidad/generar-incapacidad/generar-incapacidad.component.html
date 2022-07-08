@@ -719,6 +719,7 @@
                                         placeholder="Seleccione fecha de inicio"
                                         id="input-patientAddressPlaceCondition"  
                                         name="patientAddressPlaceCondition" 
+                                        (input)="fnBuildAddress($event)"
                                         (focus)="patientData.diagnostic.addressPlace.patientAddressPlaceCondition = '';"
                                         [(ngModel)]="patientData.diagnostic.addressPlace.patientAddressPlaceCondition" 
                                         [ngModelOptions]="{standalone: true}"
@@ -1367,9 +1368,9 @@
               </div>
             </div>
 
-            <!-- <pre>
-              {{ patientData.diagnostic | json }}
-            </pre> -->
+            <pre>
+              {{ patientData?.diagnostic | json }}
+            </pre>
 
           </nb-card-body>
         </nb-card>

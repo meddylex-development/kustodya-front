@@ -70,6 +70,13 @@ export class HistoricoPacienteComponent implements OnInit {
     { 'id': 6, 'name': 'Aprobada' },
     { 'id': 7, 'name': 'Pagada' },
   ];
+  public dataUserSpecialist: any = null;
+  public flagShowAlertUser: boolean = false;
+  public dataIPS: any = null;
+  public dataDoctor: any = null;
+  public userData: any = null;
+  public flagSpinner: boolean = false;
+  public textSpinner: string = '';
 
   constructor(
     private dialogService: NbDialogService,
@@ -79,7 +86,47 @@ export class HistoricoPacienteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // const self = this;
+    
+    this.flagSpinner = true;
+    this.textSpinner = "Cargando...";
+    let data = this.utilitiesService.fnGetDataShare();
+    console.log('data: ', data);
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      this.token = response['token'];
+      this.userData = response['user'];
+      console.log('this.userData: ', this.userData);
+
+      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      console.log('this.dataDoctor: ', this.dataDoctor);
+      const user_id = this.userData['UserId'];
+      this.fnGetDataIPS();
+      if (data) {
+        this.dataUserSpecialist = data['dataUserSpecialist'];
+        this.patientData = data['patientData'];
+        console.log('this.patientData: ', this.patientData);
+        this.fnTaskDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIDPaciente']);
+        // this.dataUserSpecialist = responseRethusDetail['body'];
+        if(this.dataUserSpecialist) {
+          let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+          if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+            this.flagShowAlertUser = true;
+          } else {
+            this.flagShowAlertUser = false;
+          }
+        } else {
+          this.flagShowAlertUser = true;
+          this.dataUserSpecialist = null
+        }
+      } else {
+        this.patientData = null;
+        this.patientIncapacities = null;
+        this.totalItems = null;
+        this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+      }
+    });
+
+
+    /*
     const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
@@ -115,7 +162,32 @@ export class HistoricoPacienteComponent implements OnInit {
       this.totalItems = null;
       this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
     }
+    */
   }
+
+  fnGetDataIPS = async () => {
+    this.dataIPS = await this.utilitiesService.fnGetDataShareIps();
+    this.utilitiesService.dataChange.subscribe((data) => {
+      this.dataIPS = data;
+    });
+  };
+  fnTaskDiagnosicosIncapacidadByPaciente = (token, IdPaciente) => {
+    this.fnGetDiagnosicosIncapacidadByPaciente(token, IdPaciente).then((response) => {
+      if (response) {
+        let patientIncapacities = response['patientIncapacities'];
+        this.patientIncapacities = patientIncapacities;
+        this.totalItems = response['totalItems'];
+        this.submitted = false;
+        this.flagSpinner = false;
+        this.textSpinner = "";
+        // this.fnGetCantidadDiagnoticosIncapacidadByPaciente(this.token);
+      } else {
+        this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
+        this.submitted = false;
+      }
+    }).catch((error) => {
+    });
+  };
 
   fnReturnPage(): void {
     // this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
