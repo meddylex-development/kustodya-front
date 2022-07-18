@@ -21,6 +21,7 @@ import { esLocale } from 'ngx-bootstrap/locale';
 import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { ActivatedRoute } from '@angular/router';
+import { ValoresIncapacidadComponent } from '../valores-incapacidad/valores-incapacidad.component';
 defineLocale('es', esLocale);
 
 @Component({
@@ -214,6 +215,7 @@ export class GenerarIncapacidadComponent implements OnInit {
   public textSpinner: string = '';
   public dataEmployers: any;
   public dataMettrics: any;
+  public dataEmlployerPatient: any = null;
 
   constructor(
     private location: Location,
@@ -326,6 +328,15 @@ export class GenerarIncapacidadComponent implements OnInit {
         }).catch((err) => {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
         });
+
+        this.fnGetDataEmployerPatient(this.token, this.patientData['iIDTipoDoc'], this.patientData['numeroDocumento']).then((response) => {
+          if (response) {
+            let dataEmlployerPatient = response['body'];
+            this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
+          } else {
+            this.dataEmlployerPatient =  [];
+          }
+        });
   
         this.fnGetContabilidad(this.token, "001");
         this.patientIncapacities = data['patientIncapacities'];
@@ -372,6 +383,26 @@ export class GenerarIncapacidadComponent implements OnInit {
       });
     });
     
+  }
+
+  fnGetDataEmployerPatient(token, type_document, document_number) {
+    return new Promise((resolve, reject) => {
+      let objectData = {
+        'NumeroDocumento': document_number,
+        'TipoDoc': type_document,
+      }
+      this.incapacityService.fnHttpGetDataEmployerPatient(token, objectData).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    })
   }
 
   fnGetDataIPS = async () => {
@@ -559,31 +590,64 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnShowPreviewIncapacityCertificate(itemEmployer, i) {
     this.patientData['employer'] = itemEmployer;
-    this.utilitiesService.fnSetDataShare({ 
-      patientData: this.patientData, 
-      patientIncapacities: this.patientIncapacities, 
-      dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
-    });
+    // this.utilitiesService.fnSetDataShare({ 
+    //   patientData: this.patientData, 
+    //   patientIncapacities: this.patientIncapacities, 
+    //   dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
+    // });
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/vista-previa-certificado');
   }
 
   fnGenerateNewIncapacityCertificate() {
     return new Promise((resolve, reject) => {
-  
+      
       const dateNowUnix = moment(new Date()).unix();
       const dateNowValueOf = moment(new Date()).valueOf();
       const date_incapcatity = moment(moment(new Date()).add(this.patientData['diagnostic']['patientDaysGranted'], 'days')).valueOf();
       
-
+      
       
       // this.dataIPS = dataIPS;
-  
+      console.log('this.dataIPS: ', this.dataIPS);
+      let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
+      console.log('dataEPS: ', dataEPS);
+
+      
       let object_data = null;
       // const fechaActual = new Date();
       // const data_ips = JSON.parse(sessionStorage.getItem('ips'));
       // const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
       // // this.lateralidad
       /* object_data = {
+        "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
+        "iIDPaciente": this.patientData['iIDPaciente'],
+        "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
+        "iIDTipoAtencion": this.patientData['diagnostic']['attentionTypes'],
+        "iIDTipoAfeccion": this.patientData['diagnostic']['afectionType'],
+        "bSOAT": (this.patientData['diagnostic']['incapacityType'] == 2) ? true : false,
+        "tJustificacionDiasAdicionales": true,
+        "iIDPais": true,
+        "iIDDepartamento": true,
+        "iIDPresuntoOrigenIncapacidad": 0,
+        "tPalabrasClave": "string",
+        "tDescripcion": "string",
+        "iIDCiudad": 0,
+        "tDireccion": "string",
+        "tBarrio": "string",
+        "iIDDiagnosticoCorrelacion": 0,
+        "iIDLateralidad": 0,
+        "tDescripcionSintomatologica": "string",
+        "bProrroga": true,
+        "iDiasIncapacidad": 0,
+        "tJustificacion": "string",
+        "iIDUsuarioCreador": 0,
+        "bAuditoria": true,
+        "iIDOrigenCalificadoIncapacidad": 0,
+        "bEsTranscripcion": true,
+        "numeroIncapacidadIPSTranscripcion": "string"
+      };
+
+      /*object_data = {
         "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
         "iIDPaciente": this.patientData['iIDPaciente'],
         "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
@@ -817,24 +881,24 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGenerateIncapacity() {
-    this.submitted = true;
+    // this.submitted = true;
     // this.fnSendMailPatientAlert();
     if (this.dataDiagnosticCorrelation['bProrroga']) {
       // Envio de mail -  Alerta Paciente con prórroga acumulada
       // 1 - Alerta Paciente con prórroga acumulada
-      this.fnSendMailPatientAlert(1);
+      // this.fnSendMailPatientAlert(1);
     }
 
     if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
       // Envio de mail -  Alerta Incapacidad con días en exceso
       // 2 - Alerta Incapacidad con días en exceso
-      this.fnSendMailPatientAlert(2);
+      // this.fnSendMailPatientAlert(2);
     }
 
     if(this.flagShowAlertUser == true) {
       // Envio de mail -  Alerta Incapacidad generada por personal no autorizado
       // 3 - Alerta Incapacidad generada por personal no autorizado
-      this.fnSendMailPatientAlert(3);
+      // this.fnSendMailPatientAlert(3);
     }
 
     
@@ -901,7 +965,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       ((this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix.name : '')  +' '+
       ((this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition) ? this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition : '' );
     this.addressPlaceBuilded = addressPlaceBuilded
-}
+  }
 
   fnSendMailPatientAlert(type_email) {
     // this.patientData
@@ -1315,6 +1379,27 @@ export class GenerarIncapacidadComponent implements OnInit {
       } 
     }
 
+  }
+
+  fnShowValuesIncapacity(item, index) {
+    console.log('item: ', item);
+    console.log('index: ', index);
+    item['ibc'] = "2500000";
+    item['patientDaysAccum'] = "185";
+    let dataSend = {};
+    dataSend['data'] = { 
+      index: index,
+      module: '', 
+      title: 'Valores incapacidad', 
+      description: 'En el siguiente formulario puedes ver en detalle la responsabilidad de los pagos totales o parciales dependiendo de la proroga y los dias otorgados.' ,
+      employer: item,
+      diagnostic: this.patientData['diagnostic'],
+      patientData: this.patientData,
+    };
+    dataSend['employer'] = item;
+    this.dialogService.open(ValoresIncapacidadComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
   }
 
 

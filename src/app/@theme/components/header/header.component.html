@@ -1,5 +1,4 @@
-<div class="header-container font_family_roboto" [class.left]="position === 'normal'"
-  [class.right]="position === 'inverse'">
+<div class="header-container font_family_roboto" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
   <div class="logo-containter">
     <a id="icon-main-menu" (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
     <!-- <div class="logo" (click)="goToHome()">ngx-<span>admin</span></div> -->
@@ -11,11 +10,11 @@
 </div>
 
 <div class="header-container">
-  <ng-select [items]="list_EPS" class="selectEPS" bindLabel="tNombre" id="select-EPS" name="ngEPS" #ngEPS="ngModel"
+  <!-- <ng-select [items]="list_EPS" class="selectEPS" bindLabel="tNombre" id="select-EPS" name="ngEPS" #ngEPS="ngModel"
     (change)="onChangeEPS()" bindValue="iIdeps" placeholder="Seleccione EPS" [ngModelOptions]="{standalone: true}"
     [(ngModel)]="Ideps" (focus)="errors = []" required [virtualScroll]="true" dropdownPosition="bottom"
-    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false" *ngIf="false">
-  </ng-select>
+    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false" *ngIf="true">
+  </ng-select> -->
   <ng-select 
     [items]="collectionIPSUser" 
     class="selectIPS" 
