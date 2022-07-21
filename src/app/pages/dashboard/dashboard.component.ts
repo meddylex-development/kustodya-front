@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
   item_children: Object = {};
   item_menu_children: Array<[]> = [];
-  items_second_menu: Array<[]> = [];
+  items_second_menu: any = [];
   // collection_levels_menu: Object = {};
   collection_levels_menu: any = [];
   level_menu: any = 5;
@@ -64,6 +64,7 @@ export class DashboardComponent implements OnInit {
   enum_document_type: any = null;
   document_number: any = null;
   section_navigate: any = null;
+  private user: any = {};
 
   constructor(
     private pagesComponent: PagesComponent,
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     /* *** START - JQuery definition *** */
     // JQuery ready
-    const self = this;
+    const _this = this;
 
     $(document).ready(function () {
       // $('#pgp-btn_toogle_side_bar').click(); // Emulate click display right sidebar to hide
@@ -88,84 +89,67 @@ export class DashboardComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
 
-    self.myAccountService.dataChangeMyAccount.subscribe((data) => {
+    _this.myAccountService.dataChangeMyAccount.subscribe((data) => {
       if (data['showMyAccount']) {
-        self.menu_items = self.menu_items_original;
-        // self.fnCollapse('sidebar');
+        _this.menu_items = _this.menu_items_original;
+        // _this.fnCollapse('sidebar');
         $('#sidebar').toggleClass('active');
-        self.collapse_side_bar_one = false;
+        _this.collapse_side_bar_one = false;
         $('.przss-content-child-menu').css('display', 'none');
-        self.url_iframe_content = null;
-        self.content_user_profile = true;
-        self.content_terms_conditions = false;
+        _this.url_iframe_content = null;
+        _this.content_user_profile = true;
+        _this.content_terms_conditions = false;
       } else if(data['showTermsConditions']) {
-        self.menu_items = self.menu_items_original;
+        _this.menu_items = _this.menu_items_original;
         $('#sidebar').toggleClass('active');
-        self.collapse_side_bar_one = false;
+        _this.collapse_side_bar_one = false;
         $('.przss-content-child-menu').css('display', 'none');
-        self.url_iframe_content = null;
-        self.content_terms_conditions = true;
-        self.content_user_profile = false;
+        _this.url_iframe_content = null;
+        _this.content_terms_conditions = true;
+        _this.content_user_profile = false;
       } else {
-        self.url_iframe_content = null;
-        self.content_user_profile = false;
-        self.content_terms_conditions = false;
+        _this.url_iframe_content = null;
+        _this.content_user_profile = false;
+        _this.content_terms_conditions = false;
       }
     });
 
-    self.route.params.subscribe(params => {
-      if (params.token && params.entity) {
-        self.token = params.token;
-        self.entity = params.entity;
-        if (params.cun && params.cun != 'null') {
-          self.cun = params.cun;
-        }
-        self.fnGetMenuDashboard(self.token, self.entity, null, null, function (resp) {
-          if(params.findrethus == '1') {
-            self.flag_find_rethus = 1;
-            self.section_navigate = '1';
-            self.enum_document_type = params.enumdoctype;
-            self.document_number = params.docnumber;
-            const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
-            console.log('main_manu_collection: ', main_manu_collection);
-            main_manu_collection.forEach((value, index) => {
-              if (value.id == 528) {
-                const menu_rethus = resp['menu_items'][index];
-                self.fnShowChildrens(index, menu_rethus);
-                self.fnSetLevelData(menu_rethus.menuLevel, menu_rethus.title, resp['menu_items'], menu_rethus.children,  index);
-              }
-            });
-            // self.current_item = resp['menu_items'][3];
-            
-          } else if(params.findrethus == '2') {
-            self.section_navigate = '2';
-            self.flag_find_rethus = false;
-            self.enum_document_type = null;
-            self.document_number = null;
-            const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
-            main_manu_collection.forEach((value, index) => {
-              if (value.id == 530) {
-                const menu_rethus = resp['menu_items'][index];
-                // self.fnShowChildrens(index, resp['menu_items']);
-                $('#sub_menu_' + index).slideToggle();
-                // self.fnSetLevelData(menu_rethus.menuLevel, menu_rethus.title, resp['menu_items'], menu_rethus.children,  index);
-                self.fnValidContentSeconBarMenu(resp['menu_items'][index]['children'][1], resp['menu_items'][index]['children'], resp['menu_items'][index], resp['menu_items'], 1, index);
-              }
-            });
-            // self.current_item = resp['menu_items'][3];
-            
-          } else {
-            self.section_navigate = null;
-            self.flag_find_rethus = false;
-            self.enum_document_type = null;
-            self.document_number = null;
-          }
+    _this.utilitiesService.fnAuthValidUser().then(response => {
+      if (response) {
+        console.log('response ---- dashboard: ', response);
+        _this.token = response['token'];
+        _this.user = response['user'];
+        // _this.fnLoadMenu(_this.token);
+
+        _this.fnGetMenuDashboard(_this.token, 1, null, null, function (resp) {
+          console.log('resp: ', resp);
+            // _this.flag_find_rethus = 1;
+            // _this.section_navigate = '1';
+            // _this.enum_document_type = 9;
+            // _this.document_number = 1111;
+            // const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
+            // console.log('main_manu_collection: ', main_manu_collection);
+            // main_manu_collection.forEach((value, index) => {
+            //   if (value.children.length > 0) {
+            //     console.log('value: ', value);
+            //     console.log('#sub_menu_' + index);
+            //     // $("#sub_menu_1").css('display', 'none');
+            //   }
+            // });
+            // _this.current_item = resp['menu_items'][3];
+            _this.section_navigate = null;
+            _this.flag_find_rethus = false;
+            _this.enum_document_type = null;
+            _this.document_number = null;
         });
 
       } else {
-        self.router.navigateByUrl('');
+        _this.utilitiesService.fnSignOutUser().then(resp => {
+          _this.utilitiesService.fnNavigateByUrl('auth/login');
+        });
       }
     });
+
   }
 
   fnClickContainer() {

@@ -1,0 +1,249 @@
+<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    Valores incapacidad
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0" style="width: 500px;">
+      <div *ngIf="false" class="d-flex justify-content-center align-items-center" style="background-image: url('../../../../assets/images/imgs/clouds.png'); height: 160px;width: 450px;background-color: #d2e8ff;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+        <div class="text-center">
+          <img src="../../../../assets/images/imgs/patient-avatar.png" width="70px" height="70px" alt="" srcset="">
+          <br>
+          <span>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerNombre + " " + objectDataUser?.segundoNombre }}</h6>
+          </span>
+          <span>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.primerApellido + " " + objectDataUser?.segunsoApellido }}</h6>
+          </span>
+          <span>
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">C.C. {{ objectDataUser?.numeroDocumento }}</h6>
+          </span>
+          <span class="d-flex align-items-center badge rounded-pill bg-light" style="padding: 0.1rem 0.5rem;">
+            <i class="fas fa-envelope"></i>&nbsp;
+            <h6 style="color: #2a2a2a; font-weight: 700;" class="m-0">{{ objectDataUser?.email }}</h6>
+          </span>
+        </div>
+      </div>
+      
+      <div *ngIf="false" class="p-2 d-flex justify-content-center align-items-center w-100">
+        <div [ngClass]="{'flipInX': btnInfo == 1}" class="animated m-1 btn-info" (click)="btnInfo = 1" [ngStyle]="{'background-color': btnInfo == 1 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="m-3 text-center">
+            <span>
+              <i class="fas fa-user fa-2x text-secondary"></i>
+            </span>
+            <h6>Datos</h6>
+          </div>
+          <div *ngIf="btnInfo == 1" style="text-align: center;margin-top: -3px;">
+            <i class="fas fa-caret-down fa-2x text-secondary"></i>
+          </div>
+        </div>
+        <!-- <div [ngClass]="{'flipInX': btnInfo == 2}" class="animated m-1 btn-info" (click)="btnInfo = 2" [ngStyle]="{'background-color': btnInfo == 2 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px; border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="m-3 text-center">
+            <span>
+              <i class="fas fa-hospital-user fa-2x text-secondary"></i>
+            </span>
+            <h6>EPS</h6>
+          </div>
+          <div *ngIf="btnInfo == 2" style="text-align: center;margin-top: -3px;">
+            <i class="fas fa-caret-down fa-2x text-secondary"></i>
+          </div>
+        </div>
+        <div [ngClass]="{'flipInX': btnInfo == 3}" class="animated m-1 btn-info" (click)="btnInfo = 3" [ngStyle]="{'background-color': btnInfo == 3 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px; border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="m-3 text-center">
+            <span>
+              <i class="fas fa-hard-hat fa-2x text-secondary"></i>
+            </span>
+            <h6>ARL</h6>
+          </div>
+          <div *ngIf="btnInfo == 3" style="text-align: center;margin-top: -3px;">
+            <i class="fas fa-caret-down fa-2x text-secondary"></i>
+          </div>
+        </div>
+        <div [ngClass]="{'flipInX': btnInfo == 4}" class="animated m-1 btn-info" (click)="btnInfo = 4" [ngStyle]="{'background-color': btnInfo == 4 ? '#dceeff' : '#fff'}" style="cursor: pointer; width: 80px; height: 80px; border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="m-3 text-center">
+            <span>
+              <i class="fas fa-hand-holding-usd fa-2x text-secondary"></i>
+            </span>
+            <h6>AFP</h6>
+          </div>
+          <div *ngIf="btnInfo == 4" style="text-align: center;margin-top: -3px;">
+            <i class="fas fa-caret-down fa-2x text-secondary"></i>
+          </div>
+        </div> -->
+      </div>
+      
+      <div  *ngIf="btnInfo == 1" class="animated fadeIn slow content-info w-100" style="padding: 0.7rem;border-radius: 10px;box-shadow: 0px 3px 14px -8px;border: 1px solid #eaeaea;">
+
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                IBC
+              </small>
+              <h6 class="m-0">
+                {{ inputValueIBCPatient | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                D&iacute;as acumulados
+              </small>
+              <h6 class="m-0">
+                {{ patientEmployer?.patientDaysAccum }} d&iacute;as
+              </h6>
+            </div>
+          </div>
+        </div>
+  
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Valor IBC diario
+              </small>
+              <h6 class="m-0">
+                {{ valueDayJob | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+              <!-- <small>
+                No registra datos
+              </small> -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                D&iacute;as de incapacidad otorgados
+              </small>
+              <h6 class="m-0">
+                {{ patientDiagnostic?.patientDaysGranted }} d&iacute;as
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                D&iacute;as a pagar por la EPS 
+              </small>
+              <h6 class="m-0">
+                {{ daysEPSToPay }} d&iacute;as
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Valor a pagar por la EPS 
+              </small>
+              <h6 class="m-0" *ngIf="EPSValuePay > 0">
+                {{ EPSValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+              <h6 class="m-0" *ngIf="EPSValuePay < 1">
+                ${{ '0,00' }} COP
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                D&iacute;as a pagar por la AFP 
+              </small>
+              <h6 class="m-0">
+                {{ daysAFPToPay }} d&iacute;as
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Valor a pagar por la AFP
+              </small>
+              <h6 class="m-0" *ngIf="AFPValueToPay > 0">
+                {{ AFPValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+              <h6 class="m-0" *ngIf="AFPValueToPay < 1">
+                ${{ '0,00' }} COP
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                D&iacute;as a pagar por el empleador
+              </small>
+              <h6 class="m-0">
+                {{ daysEmployerToPay }} d&iacute;as
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Valor a pagar por el empleador
+              </small>
+              <h6 class="m-0">
+                {{ employerValuePay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 d-flex justify-content-start align-items-center" style="background-color: #ffffff;border-radius: 10px; border: 1px solid #eaeaea; margin-top: 5px;">
+          <div class="w-100">
+            <div class="d-flex justify-content-between">
+              <small class="m-0">
+                <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
+                Valor total incapacidad
+              </small>
+              <h6 class="m-0" *ngIf="totalPatientValueToPay > 0">
+                {{ totalPatientValueToPay | currency:'CAD':'symbol-narrow':'4.0-0' }} COP
+              </h6>
+              <h6 class="m-0" *ngIf="totalPatientValueToPay < 1">
+                ${{ '0,00' }} COP
+              </h6>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </nb-card-body>
+</nb-card>

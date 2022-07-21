@@ -21,6 +21,7 @@ import { esLocale } from 'ngx-bootstrap/locale';
 import { ParameterizationService } from '../../../shared/api/services/parameterization.service';
 import { AuditService } from '../../../shared/api/services/audit-accounting.service';
 import { ActivatedRoute } from '@angular/router';
+import { ValoresIncapacidadComponent } from '../valores-incapacidad/valores-incapacidad.component';
 defineLocale('es', esLocale);
 
 @Component({
@@ -214,6 +215,7 @@ export class GenerarIncapacidadComponent implements OnInit {
   public textSpinner: string = '';
   public dataEmployers: any;
   public dataMettrics: any;
+  public dataEmlployerPatient: any = null;
 
   constructor(
     private location: Location,
@@ -238,17 +240,18 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.flagSpinner = true;
     this.textSpinner = "Cargando...";
     let data = this.utilitiesService.fnGetDataShare();
+    console.log('data: ', data);
     this.utilitiesService.fnAuthValidUser().then(response => {
       this.token = response['token'];
       this.userData = response['user'];
-      console.log('this.token: ', this.token);
       console.log('this.userData: ', this.userData);
-      console.log('data: ', data);
 
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      const user_id = sessionStorage.getItem('user_id');
-      this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-      
+      console.log('this.dataDoctor: ', this.dataDoctor);
+      const user_id = this.userData['UserId'];
+      // this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
+      this.fnGetDataIPS();
+
       if (data) {
         this.patientData = data['patientData'];
         this.dataUserSpecialist = data['dataUserSpecialist'];
@@ -312,14 +315,10 @@ export class GenerarIncapacidadComponent implements OnInit {
         };
   
         this.fnGetDataUser(this.token, dataObject).then((response) => {
-          console.log('response: ', response);
           if (response) {
             // this.patientData = response['body']['informacionPacientes'][0];
             this.dataEmployers = response['body']['empleador'];
             this.dataMettrics = response['body']['datosTotales'];
-            console.log('this.patientData: ', this.patientData);
-            console.log('this.dataEmployers: ', this.dataEmployers);
-            console.log('this.dataMettrics: ', this.dataMettrics);
             // this.loading = false;
           } else {
             this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -328,6 +327,15 @@ export class GenerarIncapacidadComponent implements OnInit {
           }
         }).catch((err) => {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        });
+
+        this.fnGetDataEmployerPatient(this.token, this.patientData['iIDTipoDoc'], this.patientData['numeroDocumento']).then((response) => {
+          if (response) {
+            let dataEmlployerPatient = response['body'];
+            this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
+          } else {
+            this.dataEmlployerPatient =  [];
+          }
         });
   
         this.fnGetContabilidad(this.token, "001");
@@ -369,9 +377,40 @@ export class GenerarIncapacidadComponent implements OnInit {
         this.totalItems = null;
         this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
       }
+    }).catch(error => {
+      this.utilitiesService.fnSignOutUser().then(resp => {
+        this.utilitiesService.fnNavigateByUrl('auth/login');
+      });
     });
     
   }
+
+  fnGetDataEmployerPatient(token, type_document, document_number) {
+    return new Promise((resolve, reject) => {
+      let objectData = {
+        'NumeroDocumento': document_number,
+        'TipoDoc': type_document,
+      }
+      this.incapacityService.fnHttpGetDataEmployerPatient(token, objectData).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
+    })
+  }
+
+  fnGetDataIPS = async () => {
+    this.dataIPS = await this.utilitiesService.fnGetDataShareIps();
+    this.utilitiesService.dataChange.subscribe((data) => {
+      this.dataIPS = data;
+    });
+  };
 
   fnGetDataUser(token, data_object_) {
     return new Promise((resolve, reject) => {
@@ -527,6 +566,7 @@ export class GenerarIncapacidadComponent implements OnInit {
     let idCIE10 = item_cie_10['iIdcie10'];
     this.incapacityService.fnHttpGetCorrelationDiagnostic(this.token, idCIE10, this.patientData['iIdpaciente']).subscribe(r => {
       this.dataDiagnosticCorrelation = JSON.parse(JSON.stringify(r.body));
+      console.log('this.dataDiagnosticCorrelation: ', this.dataDiagnosticCorrelation);
       this.patientData['diagnostic']['extensionIncapacity'] = this.dataDiagnosticCorrelation['bProrroga'];
       this.loadingData = true;
     }, err => {
@@ -550,31 +590,64 @@ export class GenerarIncapacidadComponent implements OnInit {
 
   fnShowPreviewIncapacityCertificate(itemEmployer, i) {
     this.patientData['employer'] = itemEmployer;
-    this.utilitiesService.fnSetDataShare({ 
-      patientData: this.patientData, 
-      patientIncapacities: this.patientIncapacities, 
-      dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
-    });
+    // this.utilitiesService.fnSetDataShare({ 
+    //   patientData: this.patientData, 
+    //   patientIncapacities: this.patientIncapacities, 
+    //   dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
+    // });
     this.utilitiesService.fnNavigateByUrl('pages/incapacidad/vista-previa-certificado');
   }
 
   fnGenerateNewIncapacityCertificate() {
     return new Promise((resolve, reject) => {
-  
+      
       const dateNowUnix = moment(new Date()).unix();
       const dateNowValueOf = moment(new Date()).valueOf();
       const date_incapcatity = moment(moment(new Date()).add(this.patientData['diagnostic']['patientDaysGranted'], 'days')).valueOf();
       
-
+      
       
       // this.dataIPS = dataIPS;
-  
+      console.log('this.dataIPS: ', this.dataIPS);
+      let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
+      console.log('dataEPS: ', dataEPS);
+
+      
       let object_data = null;
       // const fechaActual = new Date();
       // const data_ips = JSON.parse(sessionStorage.getItem('ips'));
       // const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
       // // this.lateralidad
-      object_data = {
+      /* object_data = {
+        "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
+        "iIDPaciente": this.patientData['iIDPaciente'],
+        "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
+        "iIDTipoAtencion": this.patientData['diagnostic']['attentionTypes'],
+        "iIDTipoAfeccion": this.patientData['diagnostic']['afectionType'],
+        "bSOAT": (this.patientData['diagnostic']['incapacityType'] == 2) ? true : false,
+        "tJustificacionDiasAdicionales": true,
+        "iIDPais": true,
+        "iIDDepartamento": true,
+        "iIDPresuntoOrigenIncapacidad": 0,
+        "tPalabrasClave": "string",
+        "tDescripcion": "string",
+        "iIDCiudad": 0,
+        "tDireccion": "string",
+        "tBarrio": "string",
+        "iIDDiagnosticoCorrelacion": 0,
+        "iIDLateralidad": 0,
+        "tDescripcionSintomatologica": "string",
+        "bProrroga": true,
+        "iDiasIncapacidad": 0,
+        "tJustificacion": "string",
+        "iIDUsuarioCreador": 0,
+        "bAuditoria": true,
+        "iIDOrigenCalificadoIncapacidad": 0,
+        "bEsTranscripcion": true,
+        "numeroIncapacidadIPSTranscripcion": "string"
+      };
+
+      /*object_data = {
         "iIDIPS": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
         "iIDPaciente": this.patientData['iIDPaciente'],
         "dtFechaInicioAfeccion": this.patientData['diagnostic']['dateStartPatientCondition'],
@@ -618,7 +691,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "iIdips": (this.dataIPS) ? this.dataIPS['iIdips'] : 0,
         "iIdEps": (this.patientData['eps']['iIdeps']) ? this.patientData['eps']['iIdeps'] : 0,
         "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : 0,
-        "iIdUsuarioCreador": (this.dataDoctor['userId']) ? this.dataDoctor['userId'] : 0,
+        "iIdUsuarioCreador": (this.userData['UserId']) ? this.userData['UserId'] : 0,
         "lugarExpedicion": {
           "iIdDane": 0,
           "iIdDepartamento": 0,
@@ -651,8 +724,42 @@ export class GenerarIncapacidadComponent implements OnInit {
         "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
         "eps": (this.patientData['eps']) ? this.patientData['eps'] : '',
         "ips": (this.dataIPS) ? this.dataIPS : '',
+      }; */
+      let fechaAfeccion = moment(moment(moment(this.patientData['diagnostic']['dateStartPatientCondition']).format('YYYY-MM-DD') + ' ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute'] + ':00').valueOf()).format("YYYY-MM-DD HH:mm:ss");
+      console.log('fechaAfeccion: ', fechaAfeccion);
+      let dateTest = moment(fechaAfeccion).toISOString();
+      console.log('dateTest: ', dateTest);
+      object_data = {
+        "iIDIPS": (this.dataIPS) ? this.dataIPS['TblIpsId'] : -1,
+        "iIDPaciente": (this.patientData['iIDPaciente']) ? this.patientData['iIDPaciente'] : -1,
+        "dtFechaInicioAfeccion": (this.patientData['diagnostic']['dateStartPatientCondition']) ? dateTest : '',
+        "iIDTipoAtencion": (this.patientData['diagnostic']['attentionTypes']) ? this.patientData['diagnostic']['attentionTypes']['iIdTipoAtencion'] : -1,
+        "iIDTipoAfeccion": (this.patientData['diagnostic']['afectionType']) ? this.patientData['diagnostic']['afectionType']['id'] : -1,
+        "bSOAT": (this.patientData['diagnostic']['incapacityType']['iIdOrigenIncapacidad'] == 2) ? true : false,
+        "tJustificacionDiasAdicionales": (this.patientData['diagnostic']['patientDaysGaratedDescription']) ? this.patientData['diagnostic']['patientDaysGaratedDescription'] : '',
+        "iIDPais": 10,
+        "iIDDepartamento": 5,
+        "iIDPresuntoOrigenIncapacidad": this.patientData['diagnostic']['incapacityType']['iIdOrigenIncapacidad'],
+        "tPalabrasClave": (this.patientData['diagnostic']['patientConditionKeywords']) ? JSON.stringify(this.patientData['diagnostic']['patientConditionKeywords']) : '',
+        "tDescripcion": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
+        "iIDCiudad": 11,
+        "tDireccion": (this.addressPlaceBuilded) ? this.addressPlaceBuilded : '',
+        "tBarrio": (this.patientData['diagnostic']['addressPlace']) ? this.patientData['diagnostic']['addressPlace']['patientAddressPlaceCondition'] : '',
+        "iIDDiagnosticoCorrelacion": (this.patientData['diagnostic']['patientDiagnostics']) ? this.patientData['diagnostic']['patientDiagnostics']['iIdcie10'] : -1,
+        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 7,
+        "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
+        "bProrroga": (this.patientData['diagnostic']['extensionIncapacity']) ? this.patientData['diagnostic']['extensionIncapacity'] : false,
+        "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : 0,
+        "tJustificacion": (this.patientData['diagnostic']['patientExtensionChangeDescription']) ? this.patientData['diagnostic']['patientExtensionChangeDescription'] : '',
+        "iIDUsuarioCreador": (this.userData) ? parseInt(this.userData['UserId']) : -1,
+        "bAuditoria": true,
+        "iIDOrigenCalificadoIncapacidad": 0, // this.patientData['diagnostic']['incapacityType']['iIdOrigenIncapacidad'],
+        "bEsTranscripcion": false,
+        "numeroIncapacidadIPSTranscripcion": ""
       };
-  
+      
+      console.log('object_data: ', object_data);
+      // return false;
       // const object_data_test = {
       //   'iIddiagnosticoIncapacidad': 0,
       //   'uiCodigoDiagnostico': null,
@@ -675,11 +782,10 @@ export class GenerarIncapacidadComponent implements OnInit {
       //   "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
       //   "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
       // };
-      console.log('object_data: ', object_data);
-      // console.log('object_data_test: ', object_data_test);
       // return false;
       // this.submitted = true;
-      this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data).subscribe(response => {
+      this.incapacityService.fnHttpPostAddNewIncapacity(this.token, object_data).subscribe(response => {
+        console.log('response: ', response);
         if (response.status == 200) {
           // this.patientData['diagnostic'] = {
           //   'soatInsurance': false,
@@ -701,6 +807,7 @@ export class GenerarIncapacidadComponent implements OnInit {
           }
 
           // Consumir API que envia correo
+          console.log('dataResolve: ', dataResolve);
           resolve(dataResolve);
         }
         if (response.status == 206) {
@@ -735,7 +842,9 @@ export class GenerarIncapacidadComponent implements OnInit {
 
     let datesDataIncapacityCreated = dataIncapacityCreated['dates'];
     let objectDataSend = dataIncapacityCreated['objectDataSend'];
-    let dataResponse = dataIncapacityCreated['dataResponse']['body'];
+    console.log('objectDataSend: ', objectDataSend);
+    let dataResponse = dataIncapacityCreated['dataResponse']['body'][0];
+    console.log('dataResponse: ', dataResponse);
 
     let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY/MM/DD');
     let monthDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('MM');
@@ -748,8 +857,8 @@ export class GenerarIncapacidadComponent implements OnInit {
       let object_send = {
         "EstadoId": 1,
         // "descripcionFicha": "Comprobante de emisión - Nueva incapacidad",
-        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['tNumeroDocumento']}-${monthDateIncapacity}/${yearDateIncapacity}`,
-        "usuarioCreacionId": this.dataDoctor['userId'],
+        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['numeroDocumento']}-${monthDateIncapacity}/${yearDateIncapacity}`,
+        "usuarioCreacionId": this.userData['UserId'],
         "contabilidadId": idContabilidad,
         // "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
         "entidadId": 1,
@@ -757,6 +866,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "nitEmpleador": dataEmployer['nit'],
         "valor": Math.round(this.totalPatientValueToPay),
       };
+      console.log('object_send: ', object_send);
       this.auditService.fnHttpPostCrearMovimientoContable(token, dataResponse['uiCodigoDiagnostico'], object_send).subscribe( r => {
         resolve(true);
         // if (r.status == 201) {
@@ -771,34 +881,36 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnGenerateIncapacity() {
-    this.submitted = true;
+    // this.submitted = true;
     // this.fnSendMailPatientAlert();
     if (this.dataDiagnosticCorrelation['bProrroga']) {
       // Envio de mail -  Alerta Paciente con prórroga acumulada
       // 1 - Alerta Paciente con prórroga acumulada
-      this.fnSendMailPatientAlert(1);
+      // this.fnSendMailPatientAlert(1);
     }
 
     if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
       // Envio de mail -  Alerta Incapacidad con días en exceso
       // 2 - Alerta Incapacidad con días en exceso
-      this.fnSendMailPatientAlert(2);
+      // this.fnSendMailPatientAlert(2);
     }
 
     if(this.flagShowAlertUser == true) {
       // Envio de mail -  Alerta Incapacidad generada por personal no autorizado
       // 3 - Alerta Incapacidad generada por personal no autorizado
-      this.fnSendMailPatientAlert(3);
+      // this.fnSendMailPatientAlert(3);
     }
 
-    this.collectionDataEmployers.forEach((element, key) => {
-      let dataEmployer = element;
-      this.fnGenerateNewIncapacityCertificate().then(response => {
-        if (!response) {
-          this.submitted = false;
-          return false;
-        } else {
-          let dataIncapacityCreated = response;
+    
+
+    this.fnGenerateNewIncapacityCertificate().then(response => {
+      if (!response) {
+        this.submitted = false;
+        return false;
+      } else {
+        let dataIncapacityCreated = response;
+        this.collectionDataEmployers.forEach((element, key) => {
+          let dataEmployer = element;
           this.fnGenerateNewAccountingRegistry(dataIncapacityCreated, dataEmployer, this.dataAccountingBasicInfo, this.token, this.idContabilidad).then((responseAccounting) => {
             if (responseAccounting) {
               if(this.collectionDataEmployers.length == key + 1) {
@@ -810,8 +922,8 @@ export class GenerarIncapacidadComponent implements OnInit {
             }
   
           });
-        }
-      });
+        });
+      }
     });
   }
 
@@ -853,17 +965,14 @@ export class GenerarIncapacidadComponent implements OnInit {
       ((this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix.name : '')  +' '+
       ((this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition) ? this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition : '' );
     this.addressPlaceBuilded = addressPlaceBuilded
-}
+  }
 
   fnSendMailPatientAlert(type_email) {
     // this.patientData
 
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-    console.log('this.dataDoctor: ', this.dataDoctor);
     let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
-    console.log('dataEPS: ', dataEPS);
     let dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    console.log('dataIPS: ', dataIPS);
     if (this.dataDoctor) {
       const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
       const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
@@ -885,7 +994,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       let object_data_send = {
         patientname: this.patientData['tPrimerNombre'] + ' ' + this.patientData['tSegundoNombre'] + ' ' + this.patientData['tPrimerApellido'] + ' ' + this.patientData['tSegundoApellido'],
         patientEmail: this.patientData['tEmail'],
-        patientDocumentNumber: this.patientData['tNumeroDocumento'],
+        patientDocumentNumber: this.patientData['numeroDocumento'],
         patientDocumentType: this.patientData['tipoDocumento']['tTipoIdentificacion'],
         patientPhoneNumber: this.patientData['tTelefono'],
         doctorname: this.dataDoctor['name'],
@@ -898,7 +1007,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         diasMaximoConsulta: diasMaximoConsulta,
         diasDeIncapacidadOtorgadosJustificacion: this.patientData.diagnostic.patientDaysGaratedDescription,
         patientIncapacities: this.totalItems,
-        doctorDocumentNumber: this.dataDoctor['usuario']['tNumeroDocumento'],
+        doctorDocumentNumber: this.dataDoctor['usuario']['numeroDocumento'],
         doctorDocumentNumberType: this.dataDoctor['usuario']['tipoDocumento']['tNombre'],
         doctorPhoneNumber: "+573004401625",
         doctorMedicalRegister: this.dataDoctor['medicalRegister'],
@@ -1270,6 +1379,27 @@ export class GenerarIncapacidadComponent implements OnInit {
       } 
     }
 
+  }
+
+  fnShowValuesIncapacity(item, index) {
+    console.log('item: ', item);
+    console.log('index: ', index);
+    item['ibc'] = "2500000";
+    item['patientDaysAccum'] = "185";
+    let dataSend = {};
+    dataSend['data'] = { 
+      index: index,
+      module: '', 
+      title: 'Valores incapacidad', 
+      description: 'En el siguiente formulario puedes ver en detalle la responsabilidad de los pagos totales o parciales dependiendo de la proroga y los dias otorgados.' ,
+      employer: item,
+      diagnostic: this.patientData['diagnostic'],
+      patientData: this.patientData,
+    };
+    dataSend['employer'] = item;
+    this.dialogService.open(ValoresIncapacidadComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+      console.log('res: ', res);
+    });
   }
 
 

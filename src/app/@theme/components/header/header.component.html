@@ -1,5 +1,4 @@
-<div class="header-container font_family_roboto" [class.left]="position === 'normal'"
-  [class.right]="position === 'inverse'">
+<div class="header-container font_family_roboto" [class.left]="position === 'normal'" [class.right]="position === 'inverse'">
   <div class="logo-containter">
     <a id="icon-main-menu" (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
     <!-- <div class="logo" (click)="goToHome()">ngx-<span>admin</span></div> -->
@@ -11,20 +10,44 @@
 </div>
 
 <div class="header-container">
-  <ng-select [items]="list_EPS" class="selectEPS" bindLabel="tNombre" id="select-EPS" name="ngEPS" #ngEPS="ngModel"
+  <!-- <ng-select [items]="list_EPS" class="selectEPS" bindLabel="tNombre" id="select-EPS" name="ngEPS" #ngEPS="ngModel"
     (change)="onChangeEPS()" bindValue="iIdeps" placeholder="Seleccione EPS" [ngModelOptions]="{standalone: true}"
     [(ngModel)]="Ideps" (focus)="errors = []" required [virtualScroll]="true" dropdownPosition="bottom"
-    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false" *ngIf="false">
-  </ng-select>
-  <ng-select [items]="list_IPS" class="selectIPS" bindLabel="tNombre" id="select-IPS" name="ngIPS" #ngIPS="ngModel"
-    (change)="onChangeIPS()" bindValue="iIdips" placeholder="Seleccione IPS" [ngModelOptions]="{standalone: true}"
-    [(ngModel)]="Idips" (focus)="errors = []" required [virtualScroll]="true" dropdownPosition="bottom"
-    [loading]="loadingIPS" [selectOnTab]="true" [disabled]="loadingIPS" [clearable]="false" *ngIf="false">
+    [loading]="loadingEPS" [selectOnTab]="true" [disabled]="loadingEPS" [clearable]="false" *ngIf="true">
+  </ng-select> -->
+  <ng-select 
+    [items]="collectionIPSUser" 
+    class="selectIPS" 
+    bindLabel="name" 
+    id="select-IPS" 
+    name="ngIPS" 
+    #ngIPS="ngModel"
+    (change)="onChangeIPS($event)" 
+    bindValue="TblIpsId" 
+    placeholder="Seleccione IPS" 
+    [ngModelOptions]="{standalone: true}"
+    [(ngModel)]="ipsSelected" 
+    (focus)="errors = []" 
+    required 
+    [virtualScroll]="true" 
+    dropdownPosition="bottom"
+    [loading]="loadingIPS" 
+    [selectOnTab]="true" 
+    [disabled]="loadingIPS" 
+    [clearable]="false" 
+    *ngIf="true">
   </ng-select>
   <ngx-layout-direction-switcher *ngIf="false"></ngx-layout-direction-switcher>
   <nb-actions size="medium" [class.right]="position === 'normal'" [class.left]="position === 'inverse'">
     <nb-action *nbIsGranted="['view', 'user']" id="test_1" >
-      <nb-user id="test_2" tag="userMenu" [nbContextMenuPlacement]="'bottom'" [nbContextMenu]="userMenu" [name]="user?.name" [picture]="user?.picture">
+      <nb-user 
+        id="test_2" 
+        tag="userMenu" 
+        [nbContextMenuPlacement]="'bottom'" 
+        [nbContextMenu]="userMenu" 
+        [name]="user?.name" 
+        [title]="user?.email" 
+        [picture]="user?.picture">
       </nb-user>
     </nb-action>
     <!-- <nb-action class="control-item" icon="fas fa-question-circle"></nb-action>

@@ -16,7 +16,7 @@ import { ngCopy } from 'angular-6-clipboard';
 import * as moment from 'moment';
 
 /* ************+ Import module auth ************ */
-import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { NbAuthJWTToken, NbAuthService, NbTokenService } from '@nebular/auth';
 import { map } from 'rxjs/operators';
 
 declare var $: any;
@@ -41,6 +41,9 @@ export class UtilitiesService {
   private index: number = 0;
   public token: string = '';
   result: Object;
+
+  public dataShareIps: any = null;
+  public dataShareIpsOrigin: any = null;
   
 
   constructor(
@@ -49,6 +52,8 @@ export class UtilitiesService {
     private authService: NbAuthService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
+    protected service: NbAuthService,
+    private nbTokenService: NbTokenService,
     // private userService: UserService, 
     // private rethusService: RethusService, 
   ) {
@@ -695,14 +700,20 @@ export class UtilitiesService {
   fnSignOutUser() {
     return new Promise((resolve, reject) => {
       if (true) {
-        localStorage.clear();
-        sessionStorage.clear();
-        resolve(true);
+        this.service.logout('user').subscribe((result) => {
+          const redirect = result.getRedirect();
+          localStorage.clear();
+          sessionStorage.clear();
+          this.nbTokenService.clear();
+          resolve(true);
+        });
       } else {
         reject(false);
       }
     });
   }
+
+  
 
   fnNavigateByUrl(url: string) {
     this.router.navigateByUrl(url);
@@ -832,7 +843,41 @@ export class UtilitiesService {
     });
   };
 
-  
+  // setDataIPSUser(data: any) {
+  //   this.data = data;
+  //   // this.fnSetSessionStorage('ipsid', data['TblIpsId']);
+  // }
+
+  fnSetDataShareIps = (data, originMod?) => {
+    return new Promise((resolve, reject) => {
+      if (data) {
+        this.dataChangeObserver.next(data);
+        if (originMod) {
+          this.dataShareIpsOrigin = data;
+          resolve(true);
+        } else {
+          this.dataShareIps = data;
+          resolve(true);
+        }
+      } else {
+        reject(new Error("IPS no definida"));
+      }
+    });
+  }
+
+  fnGetDataShareIps = (originMod?) => {
+    return new Promise((resolve, reject) => {
+      if (this.dataShareIps || this.dataShareIpsOrigin) {
+        if (originMod) {
+          resolve(this.dataShareIpsOrigin);
+        } else {
+          resolve(this.dataShareIps);
+        }
+      } else {
+        reject(new Error("IPS no definida"));
+      }
+    });
+  }
 
 
 }

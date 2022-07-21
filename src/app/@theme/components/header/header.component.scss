@@ -16,9 +16,9 @@
   .selectEPS {
     min-width: 15rem;
     max-width: 15rem;
-    border: 1px solid #1e90ff;
-    border-radius: 6px;
-    font-family: 'Roboto';
+    // border: 1px solid #1e90ff;
+    // border-radius: 6px;
+    // font-family: 'Roboto';
 
     // /deep/ .ng-clear-wrapper {
     //   display: none;
@@ -74,13 +74,20 @@
     cursor: pointer;
   }
 
+  ::ng-deep .ng-select .ng-select-container {
+    // border-color: none !important;
+    height: 45px !important;
+    text-transform: capitalize !important;
+  }
+
+
 
   .header-container {
     display: flex;
     align-items: center;
     width: auto;
-    font-family: 'Roboto';
-    font-size: 0.75rem;
+    // font-family: 'Roboto';
+    // font-size: 0.75rem;
 
     .navigation {
       @include nb-ltr(padding-right, nb-theme(padding));

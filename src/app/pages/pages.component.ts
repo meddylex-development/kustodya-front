@@ -38,6 +38,8 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   private alive: boolean = true;
   selectedItem: string;
+  private token: any = null;
+  private user: any = {};
 
   MENU_ITEMS_CONFIG: NbMenuItem[] = [];
   MENU_ITEMS: NbMenuItem[] = [];
@@ -55,6 +57,22 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.MENU_ITEMS_DATA = MENU_ITEMS_TEST;
+
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      if (response) {
+        console.log('response ---- Menu: ', response);
+        this.token = response['token'];
+        this.user = response['user'];
+        // this.fnLoadMenu(this.token);
+
+      } else {
+        this.utilitiesService.fnSignOutUser().then(resp => {
+          this.utilitiesService.fnNavigateByUrl('auth/login');
+        });
+      }
+    });
+
+
     this.nbMenuService.onItemClick().subscribe(response => {
       if (response.tag === 'left-menu') {
         this.data_item = response.item;
@@ -73,6 +91,30 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     this.nbMenuService.getSelectedItem('left-menu').pipe(takeWhile(() => this.alive)).subscribe((menuBag) => {
       // this.selectedItem = menuBag.item.title;
+    });
+  }
+
+  fnLoadMenu(token) {
+    this.fnGetMenuDashboard(token, 1).then((response) => {
+      // this.MENU_ITEMS = response;
+      console.log('response: ', response);
+      if (response) {
+        this.MENU_ITEMS = response['body'];
+      } else {
+        this.MENU_ITEMS = []
+      }
+    });
+  }
+
+  fnGetMenuDashboard(token, entity_id) {
+    return new Promise((resolve, reject) => {
+      this.menuService.fnHttpGetMenuDashboard(token, entity_id).subscribe(response => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
     });
   }
 

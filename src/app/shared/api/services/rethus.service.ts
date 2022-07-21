@@ -23,7 +23,7 @@ export class RethusService {
   }
 
   fnHttpGetListDoctorsRethusByDNI(guid_user, document_type, document_number, first_name, last_name): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     //console.log(document_type);
     //console.log(document_number);
     const object_params = {};

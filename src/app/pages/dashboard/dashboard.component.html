@@ -19,7 +19,7 @@
             placement="right" container="body"></i>
           <h6 class="przss-title-item-list font_family_roboto m-0">{{ item_menu.title }}</h6>
         </a>
-        <ul *ngIf="item_menu.children?.length > 0" class="list-unstyled przss-content-child-menu" id="sub_menu_{{ index_menu }}" [ngClass]="{'expanded': (section_navigate == '2' && item_menu?.id == 530 && flag_find_rethus === false), 'collapse': (section_navigate == null && flag_find_rethus === false) || (section_navigate == '2' && item_menu?.id != 530) }" >
+        <ul *ngIf="item_menu.children?.length > 0" class="list-unstyled przss-content-child-menu collapse" id="sub_menu_{{ index_menu }}" >
           <li *ngFor="let item_children of item_menu?.children; let index_child = index;">
             <a id="sub_menu_a_{{ index_menu }}_{{ index_child }}" [ngClass]="{'current': (section_navigate == '2' && item_children?.id == 535)}" (click)="fnValidContentSeconBarMenu(item_children, item_menu.children, item_menu, menu_items, index_child, index_menu)"
               data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sub-menu">
@@ -78,7 +78,7 @@
             <li *ngFor="let s2_l1_item of items_second_menu; let index_sec_menu = index;">
               <a (click)="fnShowChildrensTwoMenu('s2_l2_'+index_sec_menu, s2_l1_item, ''); fnValidContentMenu(items_second_menu, s2_l1_item, index_sec_menu);"
                 data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                <i class="{{ s2_l1_item.icon }}" [ngbTooltip]="(collapse_side_bar_two) ? s2_l1_item.title : ''"
+                <i class="{{ s2_l1_item?.icon }}" [ngbTooltip]="(collapse_side_bar_two) ? s2_l1_item.title : ''"
                   placement="right" container="body"></i>
                 <h6 class="przss-title-subitem-list font_family_roboto m-0 przss-title-menu">
                   {{ s2_l1_item.title }}

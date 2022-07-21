@@ -41,8 +41,11 @@ const routes: Routes = [
       {
         path: 'base/:token/:entity/:cun',
         component: DashboardComponent,
+      // }, {
+      //   path: 'dashboard/:token/:entity/:cun/:findrethus/:enumdoctype/:docnumber',
+      //   component: DashboardComponent,
       }, {
-        path: 'dashboard/:token/:entity/:cun/:findrethus/:enumdoctype/:docnumber',
+        path: 'dashboard',
         component: DashboardComponent,
       }, {
         path: 'incapacidad',

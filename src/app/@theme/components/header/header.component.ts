@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserData } from '../../../@core/data/users';
@@ -14,6 +15,8 @@ import { UtilitiesService } from '../../../shared/api/services/utilities.service
 import { MyAccountService } from '../../../shared/api/services/my-account.service';
 import { IncapacityService } from '../../../shared/api/services/incapacity.service';
 import { TemperatureHumidityService } from '../../../@core/mock/temperature-humidity.service';
+import { resolve } from 'url';
+import { MenuService } from '../../../shared/api/services/menu.service';
 
 declare var $: any;
 @Component({
@@ -47,6 +50,8 @@ export class HeaderComponent implements OnInit {
   Idips: number = -1;
   currentIPS: any = null;
   loadingIPS: boolean = false;
+  collectionIPSUser: any = [];
+  ipsSelected: any = null;
 
   token: any = null;
 
@@ -62,38 +67,75 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private authService: NbAuthService,
-    private incapacityService: IncapacityService) {
+    private incapacityService: IncapacityService,
+    private titlecase: TitleCasePipe,
+    private menuDataService: MenuService,
+    ) {
     if (this.utilitiesService.dataChangeObserver == undefined) {
       this.utilitiesService.dataChange.subscribe();
     }
   }
 
   ngOnInit() {
-    const self = this;
-    $(document).ready(function () {
-      $('nb-context-menu').css('border', 'none');
-    });
-    self.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
-      if (token.isValid()) {
-        // here we receive a payload from the token and assigne it to our `user` variable
-        self.user = token.getPayload();
-        self.user['name'] = self.user['given_name'] + ' ' + self.user['family_name'];
+    
+
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      if (response) {
+        console.log('response: ', response);
+        this.token = response['token'];
+        this.user = response['user'];
+        this.user['name'] = `${response['user']['given_name']} ${response['user']['family_name']}`;
+        this.user['email'] = `${response['user']['email']}`;
+        // this.user['picture'] = 'https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png';
+
+        this.fnGetUserIPSList(this.token, { 'idUsuario': this.user['UserId'] }).then((response) => {
+          console.log('response: ', response);
+          if (response) {
+            this.collectionIPSUser = response['body'];
+            this.collectionIPSUser.forEach(element => {
+              element['name'] = this.titlecase.transform(element['tNombre']);
+              // this.collectionIPSUser.push(element);
+            });
+            console.log('this.collectionIPSUser: ', this.collectionIPSUser);
+            this.ipsSelected = this.collectionIPSUser[0]['TblIpsId'];
+            this.onChangeIPS(this.collectionIPSUser[0]);
+            console.log('this.ipsSelected: ', this.ipsSelected);
+          } else {
+            this.collectionIPSUser = []
+          }
+        });
+        
+      } else {
+        this.utilitiesService.fnSignOutUser().then(resp => {
+          this.utilitiesService.fnNavigateByUrl('auth/login');
+        });
       }
     });
 
-    self.token = self.utilitiesService.fnGetToken();
-    self.user.name = JSON.parse(self.utilitiesService.fnGetUser())['name'];
-
-    if (self.token == null || self.token == undefined) {
-      self.router.navigateByUrl('');
-    }
-
-    self.fnGetEPSByUser(function(response_eps){
-      self.fnGetAllEPS(response_eps);
+    this.menuService.onItemClick().subscribe((event) => {
+      this.onItemSelection(event);
     });
-    self.menuService.onItemClick().subscribe((event) => {
-      self.onItemSelection(event);
-    });
+
+    // fnGetMenu
+
+    // this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+    //   if (token.isValid()) {
+    //     // here we receive a payload from the token and assigne it to our `user` variable
+    //     this.user = token.getPayload();
+    //     this.user['name'] = this.user['given_name'] + ' ' + this.user['family_name'];
+    //   }
+    // });
+
+    // this.token = this.utilitiesService.fnGetToken();
+    // this.user.name = JSON.parse(this.utilitiesService.fnGetUser())['name'];
+
+    // if (this.token == null || this.token == undefined) {
+    //   this.router.navigateByUrl('');
+    // }
+
+    // this.fnGetEPSByUser(function(response_eps){
+    //   this.fnGetAllEPS(response_eps);
+    // });
   }
 
   onItemSelection(event) {
@@ -106,15 +148,27 @@ export class HeaderComponent implements OnInit {
       //   this.router.navigate(['/pages/my-account']);
       //   break;
       case 'Cerrar sesión':
-        this.router.navigate(['/auth/login']);
-        this.utilitiesService.fnDestroySessionData(function (res_clean_session) {
-          // Destroy session callback
+        // this.router.navigate(['/auth/login']);
+        this.utilitiesService.fnSignOutUser().then(resp => {
+          this.utilitiesService.fnNavigateByUrl('auth/login');
         });
         break;
       case 'Términos y condiciones':
         this.myAccountService.showMyAccount({ 'showTermsConditions': true });
         break;
     }
+  }
+
+  fnGetUserIPSList(token, data_object) {
+    return new Promise((resolve, reject) => {
+      this.incapacityService.fnHttpGetUserIPSList(token, data_object).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
   }
 
   fnSetDataUser(user_name) {
@@ -247,15 +301,20 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onChangeIPS() {
-    if (this.Idips < 0 || this.Idips == null) {
-      this.utilitiesService.showToast('bottom-right', 'danger', 'IPS requerida', 'nb-alert');
-      this.Idips = this.list_IPS[1].iIdips;
+  onChangeIPS = async($event) => {
+    console.log('$event: ', $event);
+    if (this.ipsSelected > 0) {
+      let data = await this.utilitiesService.fnSetDataShareIps($event);
+      console.log('data: ', data);
     }
-    else {
-      this.currentIPS = this.list_IPS.filter(e => e.iIdips == this.Idips)[0];
-    }
+    // if (this.Idips < 0 || this.Idips == null) {
+    //   this.utilitiesService.showToast('bottom-right', 'danger', 'IPS requerida', 'nb-alert');
+    //   this.Idips = this.list_IPS[1].iIdips;
+    // }
+    // else {
+    //   this.currentIPS = this.list_IPS.filter(e => e.iIdips == this.Idips)[0];
+    // }
 
-    this.utilitiesService.setData({ ips: this.currentIPS, eps: this.currentEPS });
+    // this.utilitiesService.setData({ ips: this.currentIPS, eps: this.currentEPS });
   }
 }
