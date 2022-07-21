@@ -191,6 +191,7 @@ export class EditComponent implements OnInit {
   public percentajeConcept: any = null;
   public dataEmployers: any;
   public dataMettrics: any;
+  public linearMode: boolean = true;
 
   constructor(
     private location: Location,
@@ -215,14 +216,47 @@ export class EditComponent implements OnInit {
     });
     /* **** END - JQuery definition **** */
     // /api/K2ConceptoRehabilitacion/ConceptoRehabilitacion/{pacienteporEmitirId}
-    this.bsLocaleService.use('es');
-    this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-    console.log('this.dataDoctor: ', this.dataDoctor);
-    const user_id = sessionStorage.getItem('user_id');
-    console.log('user_id: ', user_id);
-    this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    console.log('this.dataIPS: ', this.dataIPS);
+    // this.bsLocaleService.use('es');
+    // this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+    // console.log('this.dataDoctor: ', this.dataDoctor);
+    // const user_id = sessionStorage.getItem('user_id');
+    // console.log('user_id: ', user_id);
+    // this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
+    // console.log('this.dataIPS: ', this.dataIPS);
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.token = token["token"];
+        console.log('this.token: ', this.token);
 
+        this.route.params.subscribe(params => {
+          console.log('params: ', params);
+          let dataObject = {
+            "idPaciente": params['idPaciente'],
+          };
+    
+          this.fnGetDataUser(this.token, dataObject).then((response) => {
+            console.log('response: ', response);
+            if (response) {
+              this.patientData = response['body']['informacionPacientes'][0];
+              this.dataEmployers = response['body']['empleador'];
+              this.dataMettrics = response['body']['datosTotales'];
+              console.log('this.patientData: ', this.patientData);
+              console.log('this.dataEmployers: ', this.dataEmployers);
+              console.log('this.dataMettrics: ', this.dataMettrics);
+              // this.loading = false;
+            } else {
+              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+              // this.dismiss(false);
+              // this.loading = false;
+            }
+          }).catch((err) => {
+            this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          });
+        });
+
+      }
+    });
+    /*
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       if (token.isValid()) {
         // this.dataSession = token.getPayload();
@@ -397,6 +431,7 @@ export class EditComponent implements OnInit {
 
       }
     });
+    */
     
   }
 

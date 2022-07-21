@@ -9,6 +9,7 @@ import {
   NbRadioModule,
   NbSelectModule,
   NbUserModule, 
+  NbStepperModule,
 } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
@@ -94,7 +95,8 @@ const ENTRY_COMPONENTS = [
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
     NgxDocViewerModule,
-    TooltipModule.forRoot(),
+    TooltipModule.forRoot(), 
+    NbStepperModule,
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,
