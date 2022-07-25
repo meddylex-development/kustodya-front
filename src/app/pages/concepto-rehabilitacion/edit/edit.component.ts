@@ -252,6 +252,118 @@ export class EditComponent implements OnInit {
           }).catch((err) => {
             this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
           });
+
+          this.fnGetDataConcept(this.token, params['idCaso']).then((response6) => {
+            if (response6) {
+              this.submitted = false;
+              // this.collectionMedicalConcept = response6['body'];
+              this.dataConcept = response6['body'];
+    
+              this.dataConcept['diagnosticos'].forEach((value, key) => {
+                this.listDiagnosticsPatient.push({
+                  'idDiagnosticoConcepto': value['id'],
+                  'aplicaLateralidad': null,
+                  'iDiasMaxAcumulados': null,
+                  'iDiasMaxConsulta': null,
+                  'iIdcie10': value['ciE10Id'],
+                  'iIdtipoCie': null,
+                  'tCie10': null,
+                  'tDescripcion': null,
+                  'tFullDescripcion': value['nombreDiagnostico'],
+                  'fechaIncapacidad': value['fechaIncapacidad'],
+                  'etiologia': value['etiologia'],
+                  'nombreEtiologia': value['nombreEtiologia'],
+                });
+              });
+              this.dataConcept['secuelas'].forEach((value, key) => {
+                this.listSequelsPatient.push({
+                  'id': value['id'],
+                  'idTypeSequel': value['tipoSecuela'],
+                  'nameTypeSequel': value['nombreTipoSecuela'],
+                  'idMedicalPrognosis': value['pronostico'],
+                  'nameMedicalPrognosis': value['nombrePronostico'],
+                  'sequelDescription': value['descripcion'],
+                  'dateSequel': null,
+                });
+              });
+              this.checkPharmacological = this.dataConcept['farmacologico'];
+              this.checkOccupationalTherapy = this.dataConcept['terapiaOcupacional'];
+              this.checkSpeechTherapy = this.dataConcept['fonoAudiologia'];
+              this.checkSurgical = this.dataConcept['quirurgico'];
+              this.checkPhysicalTherapy = this.dataConcept['terapiaFisica'];
+              this.checkOtherTherapy = this.dataConcept['otrosTramites'];
+    
+              this.patientInputOtherTreatments = this.dataConcept['otrosTratamientos'];
+    
+              this.patientGoodShortTerm = (this.dataConcept['cortoPlazo'] == 1) ? true : false;
+              this.patientRegularShortTerm = (this.dataConcept['cortoPlazo'] == 2) ? true : false;
+              this.patientBadShortTerm = (this.dataConcept['cortoPlazo'] == 3) ? true : false;
+    
+              this.patientGoodMediumTerm = (this.dataConcept['medianoPlazo'] == 1) ? true : (this.dataConcept['medianoPlazo'] == '' || this.dataConcept['medianoPlazo'] == null) ? true : false;
+              this.patientRegularMediumTerm = (this.dataConcept['medianoPlazo'] == 2) ? true : false;
+              this.patientBadMediumTerm = (this.dataConcept['medianoPlazo'] == 3) ? true : false;
+    
+    
+    
+              let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
+              this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
+              this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
+              this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
+    
+    
+              setTimeout(() => {
+                this.fnGetPercentaje();
+              }, 1500);
+    
+    
+              this.fnGetCie10(this.token, 1).then(response1 => {
+                console.log('response1: ', response1);
+                if (response1) {
+                  this.collectionPatientDiagnostics = response1;
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                } 
+              });  
+              this.fnGetListEtiologies(this.token).then((response2) => {
+                console.log('response2: ', response2);
+                if (response2) {
+                  this.collectionEtiology = response2['body'];
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+              // this.fnGetListTypeSequels(this.token).then((response3) => {
+              //   if (response3) {
+              //     this.collectionTypeSequel = response3['body'];
+              //     let data = this.collectionTypeSequel.filter((el) => { return el.value == this.dataConcept['finalidadTratmamiento'] });
+              //     this.selectPatientTypeSequel = data[0];
+                  
+              //   } else {
+              //     this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+              //   }
+              // });
+              // this.fnGetListMedicalPrognosis(this.token).then((response4) => {
+              //   if (response4) {
+              //     this.collectionMedicalPrognosis = response4['body'];
+              //   } else {
+              //     this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+              //   }
+              // });
+              // this.fnGetListMedicalConcept(this.token).then((response5) => {
+              //   if (response5) {
+              //     this.collectionMedicalConcept = response5['body'];
+              //   } else {
+              //     this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+              //   }
+              // });
+    
+            } else {
+              this.submitted = false;
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            }
+          });
+          
+
         });
 
       }
