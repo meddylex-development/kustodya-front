@@ -92,7 +92,6 @@ export class AddComponent implements OnInit {
   }
 
   fnSelectDocumentType(event) {
-    console.log('event: ', event);
     this.searchStatus = 0;
 
   }
@@ -124,7 +123,6 @@ export class AddComponent implements OnInit {
       this.documentTypePatient != undefined &&
       this.documentTypePatient != "") {
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((response) => {
-          console.log('response: ', response);
           if (response) {
             this.loading = false;
             this.patientData = response["body"];
@@ -166,7 +164,6 @@ export class AddComponent implements OnInit {
   }
 
   fnCreateNewCase(patientData) {
-    console.log('patientData: ', patientData);
     this.loading = true;
     this.textSpinner = "Creando nuevo caso";
     let dataObject = {
@@ -174,7 +171,6 @@ export class AddComponent implements OnInit {
       "prioridad": this.priorityCase,
     };
     this.fnSetCreateNewCase(this.token, dataObject).then((response) => {
-      console.log('response: ', response);
       if(response) {
         this.loading = false;
         this.utilitiesService.showToast('top-right', 'success', 'Caso ha sido creado satisfactoriamente!');
@@ -187,7 +183,6 @@ export class AddComponent implements OnInit {
         this.textSpinner = "";
       }
     }).catch((err) => {
-      console.log('err: ', err);
       this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
       this.dismiss(false);
     });

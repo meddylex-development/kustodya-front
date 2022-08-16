@@ -61,6 +61,10 @@
         box-shadow: none !important;
     }
 
+    ::ng-deep .step-content {
+        padding: 0 !important;
+    }
+
     .ngb-tp-hour > .btn :focus {
         box-shadow: none !important;
     }
@@ -109,6 +113,25 @@
 
     nb-card-header {
         display: block !important;
+    }
+
+    .test{
+        ::ng-deep #stepper-crhb > .header > div:nth-child(5) > div {
+            color: #ff6780 !important;
+            // background-color: #ff6780 !important;
+        }
+    }
+
+    ::ng-deep .step-border-red {
+        border: 2px solid #ff6780 !important;
+    }
+
+    ::ng-deep .step-color-red {
+        color: #ff6780 !important;
+    }
+
+    .f-roboto {
+        font-family: 'Roboto' !important;
     }
 
     .alert-danger {

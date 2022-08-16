@@ -568,7 +568,7 @@
 
                           <td class="align-middle text-center" *ngIf="false">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaCreacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
                             <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Estado" placement="top" container="body">
                               {{ (item?.estado) ? item?.estado : 'Sin estado' }}
@@ -774,7 +774,7 @@
                               </div>
                             </span>
                           </td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaActualizacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-left" *ngIf="false">
@@ -826,6 +826,24 @@
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                 </span>
                               </th> -->
+                              <th class="text-truncate">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
+                              <th class="text-truncate">
+                                &nbsp;
+                                <span tooltip="Ayuda" placement="top" container="body">
+                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
+                                </span>
+                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
+                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
+                                </span> -->
+                              </th>
                               <th class="text-truncate">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
@@ -959,6 +977,11 @@
                             </span>
                           </td>
                           <td class="align-middle text-center">
+                            <span (click)="fnEditCRHBLetter(item, 5, i);" tooltip="Editar carta CRHB" placement="top" container="body">
+                                <i class="fas fa-file-signature cursor-pointer text-info"></i>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center">
                             <span (click)="fnShowPatientInformation(item)" tooltip="Ver información paciente" placement="top" container="body">
                               <i class="fas fa-user-injured cursor-pointer text-info"></i>
                             </span>
@@ -968,6 +991,10 @@
                                 <i class="fas fa-eye cursor-pointer text-info"></i>
                             </span>
                           </td>
+                          <td class="align-middle text-center">
+                            <span tooltip="Enviar vía e-mail" placement="top" container="body">
+                                <i class="fas fa-paper-plane cursor-pointer text-info"></i>
+                            </span>
                           <td class="align-middle text-left" *ngIf="profileUser == 1">
                             <div>
                               <span>
@@ -1002,9 +1029,9 @@
                             </small>
                           </td>
                           <td class="align-middle text-center" *ngIf="false">{{ item?.dataUser?.tipoAfiliacion?.tNombre }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaEmision | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                           <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
-                          <td class="align-middle text-center">{{ item?.fechaAsignacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                          <td class="align-middle text-center">{{ item?.fechaCreacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                         </tr>
                       </tbody>
                   </table>
@@ -1307,26 +1334,8 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate" style="width: 102px !important;">
-                                Prioridad&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
-                              <th class="text-truncate">
-                                AFP&nbsp;
-                                <span tooltip="Ayuda" placement="top" container="body">
-                                    <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
-                                </span>
-                                <!-- <span nbTooltip="{{ (typeSort[0]['state'] == 'DEFAULT') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDefault.text : (typeSort[0]['state'] == 'DESC') ? DATA_LANG_GENERAL?.lblHelpTooltipTableSortDesc.text : DATA_LANG_GENERAL?.lblHelpTooltipTableSortAsc.text }}" class="float-right" (click)="fnOrderList('name', collectionData, typeSort, 0)">
-                                    <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
-                                </span> -->
-                              </th> 
-                              <th class="text-truncate" style="width: 140px !important;">
-                                Regimen afiliaci&oacute;n&nbsp;
+                              <th class="text-truncate" style="width: auto;">
+                                  Causal&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -1334,8 +1343,8 @@
                                       <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                   </span> -->
                               </th>
-                              <th class="text-truncate" style="width: 140px !important;">
-                                Tipo afiliaci&oacute;n&nbsp;
+                              <th class="text-truncate" style="width: auto;">
+                                  Justificaci&oacute;n&nbsp;
                                   <span tooltip="Ayuda" placement="top" container="body">
                                       <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
                                   </span>
@@ -1374,25 +1383,12 @@
                           <td class="align-middle text-center">
                             <strong>{{ item?.diasAcumuladosUltimaProrroga || 0 }}</strong> d&iacute;as
                           </td>
-                          <td class="align-middle text-center">
-                            <span class="badge rounded-pill text-light cursor-pointer badge-state-1" tooltip="Prioridad: {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}" placement="top" container="body" 
-                            [ngClass]="{
-                              'badge-state-0': !item?.prioridad, 
-                              'badge-state-1': item?.prioridad == 1, 
-                              'badge-state-6': item?.prioridad == 2, 
-                              'badge-state-5': item?.prioridad == 3
-                            }">
-                              <!-- <i class="fas fa-exclamation"></i>&nbsp; -->
-                              {{ (item?.prioridad == 1) ? 'Baja' : (item?.prioridad == 2) ? 'Media' : (item?.prioridad == 3) ? 'Alta' : 'Sin prioridad' }}
-                            </span>
+                          <td class="align-middle text-left">
+                            <p class="p-0 m-0">{{ item?.causalNoAplica }}</p>
                           </td>
                           <td class="align-middle text-left">
-                            <small style="font-size: 80%;">
-                              <small>{{ item?.afp | titlecase }}</small>
-                            </small>
+                            <p class="p-0 m-0">{{ item?.justificacionNoAplica }}</p>
                           </td>
-                          <td class="align-middle text-center">{{ item?.regimenAfiliacion }}</td>
-                          <td class="align-middle text-center">{{ item?.tipoAfiliacion }}</td>
                           <td class="align-middle text-center">{{ item?.fechaCreacion | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
                         </tr>
                       </tbody>

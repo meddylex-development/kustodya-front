@@ -42,7 +42,6 @@ export class ReAssignCaseComponent implements OnInit {
       this.userData = response['user'];
       // this.dataCase
       // this.dataCase['usuarioAsignadoId']
-      console.log('this.dataCase: ', this.dataCase);
       let objDataSend = {
         //"entidadId": 1,
         //"busqueda": 1,
@@ -51,10 +50,8 @@ export class ReAssignCaseComponent implements OnInit {
       };
 
       this.fnGetDataUserByID(this.token, this.dataCase['usuarioAsignadoId']).then((respDataUser) => {
-        console.log('respDataUser: ', respDataUser);
         if (respDataUser) {
           this.userAssign = respDataUser['body'];
-          console.log('this.userAssign: ', this.userAssign);
         } else {
           this.dismiss();
         }
@@ -65,16 +62,11 @@ export class ReAssignCaseComponent implements OnInit {
           let dataDoctorsFiltered = [];
           let collectionDoctors = response['body']['usuariosOutputModel'];
           collectionDoctors.forEach(element => {
-            console.log('usuarioAsignadoId: ', this.dataCase['usuarioAsignadoId']);
-            console.log('element: ', element['id']);
             if (this.dataCase['usuarioAsignadoId'] !== element['id']) {
-              console.log("entro por aca");
               dataDoctorsFiltered.push(element);
-              console.log('dataDoctorsFiltered: ', dataDoctorsFiltered);
             }
           });
           this.collectionDoctors = dataDoctorsFiltered;
-          console.log('this.collectionDoctors: ', this.collectionDoctors);
           this.collectionDoctorsOriginal = response['body']['usuariosOutputModel'];
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');

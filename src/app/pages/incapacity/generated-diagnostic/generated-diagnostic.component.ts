@@ -47,22 +47,15 @@ export class GeneratedDiagnosticComponent implements OnInit {
   token: string = '';
   listLateralities: any = [];
   ngOnInit() {
-    console.log("Hola formato de impresion");
     this.token = this.utilitiesService.fnGetToken();
-    console.log('token: ', this.token);
     if (this.token) {
       // here we receive a payload from the token and assigne it to our `user` variable
       this.fnGetLateralities(this.token).then(response => {
-        console.log('response: ', response);
         
         this.listLateralities = response;
-        console.log('listLateralities: ', this.listLateralities);
         let nameLaterality = this.listLateralities.filter(d => d.iIDLateralidad == this.diagnostigoGenerado['iIDLateralidad']);
-        console.log('nameLaterality: ', nameLaterality);
         this.nameLaterality = nameLaterality[0];
-        console.log('this.nameLaterality: ', this.nameLaterality);
       }).catch(error => {
-        console.log('error: ', error);
       });
     }
 
@@ -101,12 +94,9 @@ export class GeneratedDiagnosticComponent implements OnInit {
     let collectionLateralidad = [];
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-        console.log('response: ', response);
         collectionLateralidad = response['body'];
-        console.log('collectionLateralidad: ', collectionLateralidad);
         resolve(collectionLateralidad);
       }, (error) => {
-        console.log('error: ', error);
         resolve(collectionLateralidad);
       })
     });

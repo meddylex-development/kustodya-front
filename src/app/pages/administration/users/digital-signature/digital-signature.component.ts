@@ -154,33 +154,22 @@ export class DigitalSignatureComponent implements OnInit {
   }
 
   fntestblob(file) {
-    console.log('file: ', file);
     let dataFile = file.target.files[0];
-    console.log('dataFile: ', dataFile);
     let typeFile = dataFile.type;
-    console.log('typeFile: ', typeFile);
     this.utilitiesService.changeFile(dataFile).then((base64: string): any => {
-      console.log(base64);
       let blobData = this.b64toBlob(file);
-      console.log('blobData: ', blobData);
       // this.b64toBlob(base64, typeFile).then((response) => {
-      //   console.log('response: ', response);
       // });
       // let fileBlob = this.b64Blob([base64], type);
-      // console.log(fileBlob)
     });
   }
 
   b64toBlob = (fileInput) => {
     let blob1 = new Blob(fileInput.target.files, { type: fileInput.target.files[0].type });
     let blob = new Blob(fileInput.target.files, { type: fileInput.target.files[0].type });
-    console.log('blob: ', blob);
     let url = window.URL.createObjectURL(blob);
-    console.log('url: ', url);
     this.urlBlobTest = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    console.log('this.urlBlobTest: ', this.urlBlobTest);
     this.userService.fnHttpSetUploadBlob(this.current_payload, this.user_id , blob).subscribe((response) => {
-      console.log('response: ', response);
     });
   };
 

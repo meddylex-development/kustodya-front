@@ -23,7 +23,8 @@ import { AuditService } from '../../../shared/api/services/audit-accounting.serv
 import { RehabilitationConceptService } from '../../../shared/api/services/rehabilitation-concept.service';
 import { ConceptoRehabilitacionService } from '../../../shared/api/services/concepto-rehabilitacion.service';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BuildAddressComponent } from '../../../common/build-address/build-address.component';
 defineLocale('es', esLocale);
 
 @Component({
@@ -41,25 +42,10 @@ export class EditComponent implements OnInit {
   public flipped: boolean = false;
   public token: any;
   public submitted: boolean = false;
-  public listCantidadDiagnoticosIncapacidad: any;
   public collectionIncapacityType: any = [];
   public collectionPatientSigns: any = [];
   public collectionPatientSymptoms: any = [];
   public collectionPatientDiagnostics: any = [];
-  public collectionPatientConditionKeywords: any = [
-    { 'id': 1, 'name': 'Golpe' },
-    { 'id': 2, 'name': 'Caida' },
-    { 'id': 3, 'name': 'Accidente de transito' },
-    { 'id': 4, 'name': 'Fractura' },
-    { 'id': 5, 'name': 'Accidente en trabajo' },
-    { 'id': 6, 'name': 'Choque' },
-  ];
-  public collectionAfectionType: any = [
-    { 'id': 1, 'name': 'Accidente' },
-    { 'id': 2, 'name': 'Enfermedad' },
-  ];
-  public patientTimeStartCondition: any = { 'hour': 13, 'minute': 30 };
-  public meridian: boolean = true;
 
   public colorTheme = 'theme-green';
   public bsConfig: Partial<BsDatepickerConfig>;
@@ -176,6 +162,10 @@ export class EditComponent implements OnInit {
     // {'value': 1, 'name': 'Favorable'},
     // {'value': 2, 'name': 'Desfavorable'},
   ];
+  public collectionTreatmentPurpose: any = [
+    // {'value': 1, 'name': 'Favorable'},
+    // {'value': 2, 'name': 'Desfavorable'},
+  ];
   public selectMedicalConcept: any = '';
   public dataCollectionConcepts: any = [
     {'value': 1, 'name': 'Favorable'},
@@ -192,6 +182,32 @@ export class EditComponent implements OnInit {
   public dataEmployers: any;
   public dataMettrics: any;
   public linearMode: boolean = true;
+  public dataSession;
+  public inputEmailPatient: boolean = false;
+  public inputPhonePatient: boolean = false;
+  public inputAddressPatient: boolean = false;
+  public patientCountry: any = null;
+  public patientDepartament: any = null;
+  public patientCity: any = null;
+  public patientAddressWayType: any = null;
+  public patientAddressFirstNumber: any = null;
+  public patientAddressFirstLetter: any = null;
+  public patientAddressSufixBis: any = null;
+  public patientAddressSecondLetter: any = null;
+  public patientAddressFirstCardinalSufix: any = null;
+  public patientAddressSecondNumber: any = null;
+  public patientAddressThirdLetter: any = null;
+  public patientAddressThirdNumber: any = null;
+  public patientAddressSecondCardinalSufix: any = null;
+  public patientAddressPlaceCondition: any = null;
+  public idPaciente: any = null;
+  public idCaso: any = null;
+  public collectionDataSelectors: any = null;
+  public patientFullName: string;
+  public dataConceptForm: any = {
+    'ResumenHistoriaClinica': '',
+    'FinalidadTratamientos': '',
+  };
 
   constructor(
     private location: Location,
@@ -207,153 +223,140 @@ export class EditComponent implements OnInit {
     private conceptoRehabilitacionService: ConceptoRehabilitacionService,
     private authService: NbAuthService,
     private route: ActivatedRoute,
+    private router: Router,
+
   ) {
   }
   
   ngOnInit() {
     $(document).ready(function () {
-      
+      // $("#stepper-crhb > .header > div:nth-child(5) > .label-index").css("border", "2px solid #ff6780");
+      // $("#stepper-crhb > .header > div:nth-child(5) > div").css("color", "#ff6780").click((resp) => {
+      //   console.log('resp: ', resp);
+      //   alert("Alert!");
+      // });
+
     });
     /* **** END - JQuery definition **** */
     // /api/K2ConceptoRehabilitacion/ConceptoRehabilitacion/{pacienteporEmitirId}
     // this.bsLocaleService.use('es');
     // this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-    // console.log('this.dataDoctor: ', this.dataDoctor);
-    // const user_id = sessionStorage.getItem('user_id');
-    // console.log('user_id: ', user_id);
-    // this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    // console.log('this.dataIPS: ', this.dataIPS);
+    this.submitted = true;
+    // this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       if (token.isValid()) {
         this.token = token["token"];
-        console.log('this.token: ', this.token);
+        this.dataSession = token.getPayload();
 
         this.route.params.subscribe(params => {
-          console.log('params: ', params);
+          this.idPaciente = params['idPaciente'];
+          this.idCaso = params['idCaso'];
           let dataObject = {
-            "idPaciente": params['idPaciente'],
+            "idPaciente": this.idPaciente,
           };
-    
-          this.fnGetDataUser(this.token, dataObject).then((response) => {
-            console.log('response: ', response);
-            if (response) {
-              this.patientData = response['body']['informacionPacientes'][0];
-              this.dataEmployers = response['body']['empleador'];
-              this.dataMettrics = response['body']['datosTotales'];
-              console.log('this.patientData: ', this.patientData);
-              console.log('this.dataEmployers: ', this.dataEmployers);
-              console.log('this.dataMettrics: ', this.dataMettrics);
-              // this.loading = false;
-            } else {
-              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-              // this.dismiss(false);
-              // this.loading = false;
-            }
-          }).catch((err) => {
-            this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-          });
-        });
 
-      }
-    });
-    /*
-    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
-      if (token.isValid()) {
-        // this.dataSession = token.getPayload();
-        this.token = token["token"];
-        console.log('this.token: ', this.token);
+          // let service1 = this.fnGetDataUser(this.token, dataObject);
+          // let service2 = this.fnGetDataConcept(this.token, params['idCaso']);
 
-        this.route.params.subscribe(params => {
-          console.log('params: ', params);
-          // this.patientData = data['patientData'];
-          // console.log('this.patientData: ', this.patientData);
-          // this.patientConcept = data['patientConcept'];
-          // console.log('this.patientConcept: ', this.patientConcept);
-          let dataObject = {
-            "idPaciente": params['idPaciente'],
-          };
-    
-          this.fnGetDataUser(this.token, dataObject).then((response) => {
-            console.log('response: ', response);
-            if (response) {
-              this.patientData = response['body']['informacionPacientes'][0];
-              this.dataEmployers = response['body']['empleador'];
-              this.dataMettrics = response['body']['datosTotales'];
-              console.log('this.patientData: ', this.patientData);
-              console.log('this.dataEmployers: ', this.dataEmployers);
-              console.log('this.dataMettrics: ', this.dataMettrics);
-              // this.loading = false;
-            } else {
-              this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-              // this.dismiss(false);
-              // this.loading = false;
-            }
-          }).catch((err) => {
-            this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
-          });
+          // Promise.all([service1, service2]).then((response) => {
+          //   console.log('response: ', response);
+          //   if (response.length > 0) {
+              
+          //   } else {
+          //     this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          //   }
+          // });
 
           this.fnGetDataConcept(this.token, params['idCaso']).then((response6) => {
             if (response6) {
-              this.submitted = false;
               // this.collectionMedicalConcept = response6['body'];
               this.dataConcept = response6['body'];
+              this.dataConceptForm = response6['body']['Concepto'][0];
     
-              this.dataConcept['diagnosticos'].forEach((value, key) => {
+              this.dataConcept['DiagnosticosConcepto'].forEach((value, key) => {
                 this.listDiagnosticsPatient.push({
                   'idDiagnosticoConcepto': value['id'],
                   'aplicaLateralidad': null,
                   'iDiasMaxAcumulados': null,
                   'iDiasMaxConsulta': null,
-                  'iIdcie10': value['ciE10Id'],
+                  'iIdcie10': value['Cie10Id'],
                   'iIdtipoCie': null,
-                  'tCie10': null,
-                  'tDescripcion': null,
-                  'tFullDescripcion': value['nombreDiagnostico'],
-                  'fechaIncapacidad': value['fechaIncapacidad'],
-                  'etiologia': value['etiologia'],
+                  'tCie10': value['tCIE10'],
+                  'tDescripcion': value['tDescripcion'],
+                  'tFullDescripcion': `${ value['tCIE10'] } ${ value['tDescripcion'] }`,
+                  'fechaIncapacidad': value['FechaIncapacidad'],
+                  'etiologia': value['Etiologia'],
                   'nombreEtiologia': value['nombreEtiologia'],
                 });
               });
-              this.dataConcept['secuelas'].forEach((value, key) => {
+              this.dataConcept['SecuelasConcepto'].forEach((value, key) => {
                 this.listSequelsPatient.push({
-                  'id': value['id'],
-                  'idTypeSequel': value['tipoSecuela'],
-                  'nameTypeSequel': value['nombreTipoSecuela'],
-                  'idMedicalPrognosis': value['pronostico'],
+                  'id': value['Id'],
+                  'idTypeSequel': value['Tipo'],
+                  'nameTypeSequel': value['nombreSecuela'],
+                  'idMedicalPrognosis': value['Pronostico'],
                   'nameMedicalPrognosis': value['nombrePronostico'],
-                  'sequelDescription': value['descripcion'],
+                  'sequelDescription': value['Descripcion'],
                   'dateSequel': null,
                 });
               });
-              this.checkPharmacological = this.dataConcept['farmacologico'];
-              this.checkOccupationalTherapy = this.dataConcept['terapiaOcupacional'];
-              this.checkSpeechTherapy = this.dataConcept['fonoAudiologia'];
-              this.checkSurgical = this.dataConcept['quirurgico'];
-              this.checkPhysicalTherapy = this.dataConcept['terapiaFisica'];
-              this.checkOtherTherapy = this.dataConcept['otrosTramites'];
+              this.checkPharmacological = this.dataConceptForm['farmacologico'];
+              this.checkOccupationalTherapy = this.dataConceptForm['terapiaOcupacional'];
+              this.checkSpeechTherapy = this.dataConceptForm['fonoAudiologia'];
+              this.checkSurgical = this.dataConceptForm['quirurgico'];
+              this.checkPhysicalTherapy = this.dataConceptForm['terapiaFisica'];
+              this.checkOtherTherapy = this.dataConceptForm['otrosTramites'];
     
-              this.patientInputOtherTreatments = this.dataConcept['otrosTratamientos'];
+              this.patientInputOtherTreatments = this.dataConceptForm['otrosTratamientos'];
     
-              this.patientGoodShortTerm = (this.dataConcept['cortoPlazo'] == 1) ? true : false;
-              this.patientRegularShortTerm = (this.dataConcept['cortoPlazo'] == 2) ? true : false;
-              this.patientBadShortTerm = (this.dataConcept['cortoPlazo'] == 3) ? true : false;
+              this.patientGoodShortTerm = (this.dataConceptForm['PlazoCorto'] == 1) ? true : false;
+              this.patientRegularShortTerm = (this.dataConceptForm['PlazoCorto'] == 2) ? true : false;
+              this.patientBadShortTerm = (this.dataConceptForm['PlazoCorto'] == 3) ? true : false;
     
-              this.patientGoodMediumTerm = (this.dataConcept['medianoPlazo'] == 1) ? true : (this.dataConcept['medianoPlazo'] == '' || this.dataConcept['medianoPlazo'] == null) ? true : false;
-              this.patientRegularMediumTerm = (this.dataConcept['medianoPlazo'] == 2) ? true : false;
-              this.patientBadMediumTerm = (this.dataConcept['medianoPlazo'] == 3) ? true : false;
-    
-    
-    
-              let dataType = ((this.dataConcept['concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.value == this.dataConcept['concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.value == 2 }))[0]) || 0;
-              this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
-              this.unfavTypeWithIncapacity = (this.dataConcept['concepto'] == 2) ? true : false;
-              this.unfavTypeNoIncapacity = (this.dataConcept['concepto'] == 3) ? true : false;
+              this.patientGoodMediumTerm = (this.dataConceptForm['PlazoMediano'] == 1) ? true : false;
+              this.patientRegularMediumTerm = (this.dataConceptForm['PlazoMediano'] == 2) ? true : false;
+              this.patientBadMediumTerm = (this.dataConceptForm['PlazoMediano'] == 3) ? true : false;
     
     
-              setTimeout(() => {
-                this.fnGetPercentaje();
-              }, 1500);
     
+              // let dataType = ((this.dataConceptForm['Concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.pronosticoConceptoId == this.dataConceptForm['Concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.pronosticoConceptoId == 2 }))[0]) || 0;
+              let dataType = (this.dataConceptForm['Concepto'] == 1) ? 1 : (this.dataConceptForm['Concepto'] == 2 || this.dataConceptForm['Concepto'] == 3) ? 2 : 0;
+              // this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
+              this.selectMedicalConcept = dataType;
+              this.unfavTypeWithIncapacity = (this.dataConceptForm['Concepto'] == 2) ? true : false;
+              this.unfavTypeNoIncapacity = (this.dataConceptForm['Concepto'] == 3) ? true : false;
+
+              this.fnGetDataUser(this.token, dataObject).then((response) => {
+                if (response) {
+                  this.submitted = false;
+                  this.fnClickStep(2);
+                  this.textLoading = '';
+                  this.patientData = response['body']['informacionPacientes'][0];
+                  this.patientFullName = (`${this.patientData['primerNombre']} ${this.patientData['segundoNombre']} ${this.patientData['primerApellido']} ${this.patientData['segundoApellido']}`).trim();
+                  this.dataEmployers = response['body']['empleador'];
+                  this.dataMettrics = response['body']['datosTotales'];
+                  // this.loading = false;
+                } else {
+                  this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+                  // this.dismiss(false);
+                  // this.loading = false;
+                }
+              }).catch((err) => {
+                this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+              });
+    
+    
+              this.fnGetDataSelectors(this.token).then(response1 => {
+                if (response1) {
+                  this.collectionDataSelectors = response1;
+                  this.collectionEtiology = response1['TiposEtiologia'];
+                  this.collectionTypeSequel = response1['TiposSecuela'];
+                  this.collectionMedicalPrognosis = response1['TiposPronostico'];
+                  this.collectionTreatmentPurpose = response1['TiposFinalidadTratamiento'];
+                } else {
+                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                } 
+              });
     
               this.fnGetCie10(this.token, 1).then(response1 => {
                 if (response1) {
@@ -361,36 +364,53 @@ export class EditComponent implements OnInit {
                 } else {
                   this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
                 } 
-              });  
-              this.fnGetListEtiologies(this.token).then((response2) => {
-                if (response2) {
-                  this.collectionEtiology = response2['body'];
-                } else {
-                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-                }
               });
-              this.fnGetListTypeSequels(this.token).then((response3) => {
-                if (response3) {
-                  this.collectionTypeSequel = response3['body'];
-                  let data = this.collectionTypeSequel.filter((el) => { return el.value == this.dataConcept['finalidadTratmamiento'] });
-                  this.selectPatientTypeSequel = data[0];
-                  
-                } else {
-                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-                }
-              });
-              this.fnGetListMedicalPrognosis(this.token).then((response4) => {
-                if (response4) {
-                  this.collectionMedicalPrognosis = response4['body'];
-                } else {
-                  this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-                }
-              });
+
               this.fnGetListMedicalConcept(this.token).then((response5) => {
                 if (response5) {
                   this.collectionMedicalConcept = response5['body'];
                 } else {
                   this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+                }
+              });
+
+              this.fnGetDataPlace();
+              this.percentajeConcept = this.dataConceptForm['Progreso'];
+              this.fnGetPercentaje()
+
+              // this.fnGetListMedicalPrognosis(this.token).then((response4) => {
+              //   if (response4) {
+              //     this.collectionMedicalPrognosis = response4['body'];
+              //   } else {
+              //     this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+              //   }
+              // });
+
+              this.fnGetDataUserById(this.token, this.dataSession['UserId']).then((response) => {
+                if (response) {
+                  let numeroIdentificacion = response['numeroIdentificacion'];
+                  this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
+                    if (responseRethus['body']) {
+        
+                      this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
+                        if (responseRethusDetail['body']) {
+                          this.dataUserSpecialist = responseRethusDetail['body'];
+                          let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
+                          if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
+                            this.flagShowAlertUser = true;
+                          } else {
+                            this.flagShowAlertUser = false;
+                          }
+                        } 
+                      });
+                    } else {
+                      this.flagShowAlertUser = true;
+                      this.dataUserSpecialist = null
+                    }
+                  });
+                } else {
+                  this.flagShowAlertUser = true;
+                  this.dataUserSpecialist = null
                 }
               });
     
@@ -399,40 +419,30 @@ export class EditComponent implements OnInit {
               this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
             }
           });
-    
-          this.fnGetDataUserById(this.token, user_id).then((response) => {
-            if (response) {
-              let numeroIdentificacion = response['numeroIdentificacion'];
-              this.fnGetDoctorRethusByDNI(this.token, 1, numeroIdentificacion).then((responseRethus) => {
-                if (responseRethus['body']) {
-    
-                  this.fnGetDoctorRethusByDNI(this.token, 'CC', numeroIdentificacion).then((responseRethusDetail) => {
-                    if (responseRethusDetail['body']) {
-                      this.dataUserSpecialist = responseRethusDetail['body'];
-                      let tipoPorgrama = this.dataUserSpecialist['detalles'][0]['tipoProgramaOrigen'];
-                      if(tipoPorgrama == 'AUX' || tipoPorgrama == 'TCP' || tipoPorgrama == 'TEC') {
-                        this.flagShowAlertUser = true;
-                      } else {
-                        this.flagShowAlertUser = false;
-                      }
-                    } 
-                  });
-                } else {
-                  this.flagShowAlertUser = true;
-                  this.dataUserSpecialist = null
-                }
-              });
-            } else {
-              this.flagShowAlertUser = true;
-              this.dataUserSpecialist = null
-            }
-          });
         });
 
       }
     });
-    */
-    
+  }
+
+  fnGetDataPlace() {
+    this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
+      const dataCountries = JSON.parse(JSON.stringify(response['body']));
+      let dataContry = [];
+      // dataCountries.forEach(element => {
+      //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
+      // });
+      dataContry = [{ name: ' Colombia', flag: 'null', allDataCountry: {} }];
+      this.collectionCountries = dataContry;
+      // this.patientData['diagnostic']['patientCountryCondition'] = this.collectionCountries[34];
+    }, (error) => {
+    });
+
+    let urlApi = this.utilitiesService.fnReturnUrlApiMapDivPolColombia();
+    this.utilitiesService.fnHttpGetDataJSONAPI(urlApi).then(response => {
+      this.collectionDepartaments = JSON.parse(JSON.stringify(response));
+    }, (error) => {
+    });
   }
 
   fnGetDataUser(token, data_object_) {
@@ -478,10 +488,24 @@ export class EditComponent implements OnInit {
         'etiologia': selectPatientEtiology['id'],
         'nombreEtiologia': selectPatientEtiology['name'],
       });
+      let dataObjectDiagnostic = {
+        "conceptoRehabilitacionId": this.dataConceptForm['iIDConcepto'],
+        "cie10Id": selectPatientDiagnostics['iIdcie10'],
+        "fechaIncapacidad": (moment(patientDiagnosticDate).format('YYYY-MM-DD')) + 'T' + (moment(patientDiagnosticDate).format('HH:mm:ss')), // 2022-04-22T21:52:54.177Z HH:mm:ss
+        "etiologia": selectPatientEtiology['iIDMultivalor'],
+      };
+      this.fnSaveConceptDiagnostic(this.token, dataObjectDiagnostic).then((response) => {
+        if (response) {
+          this.utilitiesService.showToast('bottom-right', 'success', 'Diagnostico agegado satisfactoriamente!', 'nb-check');
+          this.fnUpdateConcept();
+          this.fnGetPercentaje();
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando el diagnóstico', 'nb-alert');
+        }
+      });
       this.selectPatientDiagnostics = '';
       this.selectPatientEtiology = '';
       this.patientInputDiagnosticDate = '';
-      this.fnGetPercentaje();
     } else {
       let validData = false;
       this.listDiagnosticsPatient.forEach((element, key) => {
@@ -518,22 +542,23 @@ export class EditComponent implements OnInit {
               'tDescripcion': selectPatientDiagnostics['tDescripcion'],
               'tFullDescripcion': selectPatientDiagnostics['tFullDescripcion'],
               'fechaIncapacidad': patientDiagnosticDate,
-              'etiologia': selectPatientEtiology['value'],
-              'nombreEtiologia': selectPatientEtiology['name'],
+              'etiologia': selectPatientEtiology['iIDMultivalor'],
+              'nombreEtiologia': selectPatientEtiology['tDescripcion'],
             });
             this.selectPatientDiagnostics = '';
             this.selectPatientEtiology = '';
             this.patientInputDiagnosticDate = '';
             // /api/K2ConceptoRehabilitacion/AgregarDiagnosticoConcepto
             let dataObjectDiagnostic = {
-              "conceptoRehabilitacionId": this.dataConcept['conceptoRehabilitacionId'],
+              "conceptoRehabilitacionId": this.dataConceptForm['iIDConcepto'],
               "cie10Id": selectPatientDiagnostics['iIdcie10'],
               "fechaIncapacidad": (moment(patientDiagnosticDate).format('YYYY-MM-DD')) + 'T' + (moment(patientDiagnosticDate).format('HH:mm:ss')), // 2022-04-22T21:52:54.177Z HH:mm:ss
-              "etiologia": selectPatientEtiology['value'],
+              "etiologia": selectPatientEtiology['iIDMultivalor'],
             };
             this.fnSaveConceptDiagnostic(this.token, dataObjectDiagnostic).then((response) => {
               if (response) {
                 this.utilitiesService.showToast('bottom-right', 'success', 'Diagnostico agegado satisfactoriamente!', 'nb-check');
+                this.fnUpdateConcept();
                 this.fnGetPercentaje();
               } else {
                 this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando el diagnóstico', 'nb-alert');
@@ -610,10 +635,10 @@ export class EditComponent implements OnInit {
     // const date_unix = moment(patientInputDiagnosticDate).unix();
     const patientSequelDate = moment().valueOf();
     this.listSequelsPatient.push({
-      'idTypeSequel': selectPatientTypeSequel['value'],
-      'nameTypeSequel': selectPatientTypeSequel['name'],
-      'idMedicalPrognosis': selectPatientMedicalPrognosis['value'],
-      'nameMedicalPrognosis': selectPatientMedicalPrognosis['name'],
+      'idTypeSequel': selectPatientTypeSequel['iIDMultivalor'],
+      'nameTypeSequel': selectPatientTypeSequel['tDescripcion'],
+      'idMedicalPrognosis': selectPatientMedicalPrognosis['iIDMultivalor'],
+      'nameMedicalPrognosis': selectPatientMedicalPrognosis['tDescripcion'],
       'sequelDescription': patientInputSequelDescription,
       'dateSequel': patientSequelDate,
     });
@@ -621,14 +646,15 @@ export class EditComponent implements OnInit {
     this.selectPatientMedicalPrognosis = '';
     this.patientInputSequelDescription = '';
     let dataObjectSequel = {
-      "conceptoRehabilitacionId": this.dataConcept['conceptoRehabilitacionId'],
-      "tipo": selectPatientTypeSequel['value'],
+      "conceptoRehabilitacionId": this.dataConceptForm['iIDConcepto'],
+      "tipo": selectPatientTypeSequel['iIDMultivalor'],
       "descripcion": patientInputSequelDescription,
-      "pronostico": selectPatientMedicalPrognosis['value'],
+      "pronostico": selectPatientMedicalPrognosis['iIDMultivalor'],
     };
     this.fnSaveConceptSequels(this.token, dataObjectSequel).then((response) => {
       if (response) {
         this.utilitiesService.showToast('bottom-right', 'success', 'Secuela agegada satisfactoriamente!', 'nb-check');
+        this.fnUpdateConcept();
         this.fnGetPercentaje();
       } else {
         this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando la secuela', 'nb-alert');
@@ -638,7 +664,6 @@ export class EditComponent implements OnInit {
   }
 
   fnGetListMedicalConcept(token) {
-
     return new Promise((resolve, reject) => {
       this.rehabilitationConceptService.fnHttpGetDataMedicalConceptEnum(token).subscribe(response => {
         if (response.status == 200) {
@@ -650,25 +675,7 @@ export class EditComponent implements OnInit {
         reject(false);
       });
     });
-
-    // Instancia de conexion servicio
-    // this.rehabilitationConceptService.fnHttpGetDataMedicalConceptEnum(token).subscribe(response => {
-    //   if (response.status == 200) {
-    //     // this.collection_medical_concept = response['body'];
-    //     this.dataCollectionConcepts = response['body'];
-    //     // this.collection_medical_concept = this.collection_medical_concept.concat(response['body']);
-    //     // this.object_data_patient['medical_concept'] = {
-    //     //   'pronosticoConceptoId': 1,
-    //     //   'descripcionPronostico': 'Favorable',
-    //     //   'texto': 'Es posible que la incapacidad actual se prolongue más de 180 días y tiene un pronóstico favorable',
-    //     // };
-    //   } else {
-    //     // this.collection_medical_concept = response['body'];
-    //   }
-    // }, err => {
-    // });
   }
-
 
   fnSetMedicalConcept(data_concept) {
     if (data_concept) {
@@ -720,36 +727,43 @@ export class EditComponent implements OnInit {
     // this.patientData = data['patientData'];
     // this.patientConcept = data['patientConcept'];
 
-    this.submitted = true;
-    let dataObjectSend = {
-      "id": this.patientConcept['idpacienteporemitir'],
-      "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
-      "finalidadTratamientos": (this.selectPatientTypeSequel) ? this.selectPatientTypeSequel['value'] : 0,
-      "esFarmacologico": (this.checkPharmacological) ? this.checkPharmacological : false,
-      "esTerapiaOcupacional": (this.checkOccupationalTherapy) ? this.checkOccupationalTherapy : false,
-      "esFonoaudiologia": (this.checkSpeechTherapy) ? this.checkSpeechTherapy : false,
-      "esQuirurgico": (this.checkSurgical) ? this.checkSurgical : false,
-      "esTerapiaFisica": (this.checkPhysicalTherapy) ? this.checkPhysicalTherapy : false,
-      "esOtrosTratamientos": (this.checkOtherTherapy) ? this.checkOtherTherapy : false,
-      "descripcionOtrosTratamientos": (this.patientInputOtherTreatments) ? this.patientInputOtherTreatments : '',
-      "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
-      "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
-      "concepto": (this.selectMedicalConcept) ? this.selectMedicalConcept['value'] : 0,
-      "remisionAdministradoraFondoPension": (this.selectMedicalConcept['value'] == 1) ? this.descriptionMedicalConcept : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '' ,
-      "progreso": 10,
-      "diagnosticosConcepto": (this.listDiagnosticsPatient.length > 0) ? this.listDiagnosticsPatient : [],
-      "secuelasConcepto": (this.listSequelsPatient.length > 0) ? this.listSequelsPatient : [],
-      "usuario": (this.dataDoctor) ? this.dataDoctor : {} , 
-      "paciente": (this.patientData) ? this.patientData : {} ,
-      "datosConcepto": (this.dataConcept) ? this.dataConcept : {},
-    };
-    this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + this.patientConcept['idpacienteporemitir']);
+    // this.submitted = true;
+    // let dataObjectSend = {
+    //   "id": this.dataConceptForm['iIDConcepto'],
+    //   // "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
+    //   "resumenHistoriaClinica": (this.dataConceptForm['ResumenHistoriaClinica']) ? this.dataConceptForm['ResumenHistoriaClinica'] : '',
+    //   "finalidadTratamientos": (this.dataConceptForm['FinalidadTratamientos']) ? this.dataConceptForm['FinalidadTratamientos'] : 0,
+    //   "esFarmacologico": (this.dataConceptForm['EsFarmacologico']) ? this.dataConceptForm['EsFarmacologico'] : false,
+    //   "esTerapiaOcupacional": (this.dataConceptForm['EsTerapiaOcupacional']) ? this.dataConceptForm['EsTerapiaOcupacional'] : false,
+    //   "esFonoaudiologia": (this.dataConceptForm['EsFonoaudiologia']) ? this.dataConceptForm['EsFonoaudiologia'] : false,
+    //   "esQuirurgico": (this.dataConceptForm['EsQuirurgico']) ? this.dataConceptForm['EsQuirurgico'] : false,
+    //   "esTerapiaFisica": (this.dataConceptForm['EsTerapiaFisica']) ? this.dataConceptForm['EsTerapiaFisica'] : false,
+    //   "esOtrosTratamientos": (this.dataConceptForm['EsOtrosTratamientos']) ? this.dataConceptForm['EsOtrosTratamientos'] : false,
+    //   "descripcionOtrosTratamientos": (this.dataConceptForm['DescripcionOtrosTratamientos']) ? this.dataConceptForm['DescripcionOtrosTratamientos'] : '',
+    //   "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
+    //   "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
+    //   "concepto": 0,
+    //   "remisionAdministradoraFondoPension": '',
+    //   "progreso": this.percentajeConcept,
+    //   "idAfp": (this.dataConceptForm['iIDAfp']) ? this.dataConceptForm['iIDAfp'] :  this.patientData['IDafp'],
+    //   "tAsunto": (this.dataConceptForm['tAsunto']) ? this.dataConceptForm['tAsunto'] : '',
+    //   "tDireccionPaciente": (this.patientData['direccion']) ? this.patientData['direccion'] : '',
+    //   "tTelefonoPaciente": (this.patientData['telefono']) ? this.patientData['telefono'] : '',
+    //   "iIDCiudad": (this.patientData['iIDCiudad']) ? this.patientData['iIDCiudad'] : 1,
+    //   "tEmailPaciente": (this.patientData['email']) ? this.patientData['email'] : '',
+    // };
+    // if (this.selectMedicalConcept) {
+    //   dataObjectSend['concepto'] = (this.selectMedicalConcept == 1) ? 1 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
+    //   dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept == 1) ? this.collectionMedicalConcept[0]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
+    // } 
+    // this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
+    this.router.navigate(['/pages/concepto-de-rehabilitacion/certificado-emitido/', this.idCaso, this.dataConceptForm['PacienteId']], { skipLocationChange: false });
+    // this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-emitido/' + this.idCaso + '/' + this.dataConceptForm['PacienteId']);
   }
 
-  fnGetDataConcept(token, id_user) {
+  fnGetDataConcept(token, id_task) {
     return new Promise((resolve, reject) => {
-      this.conceptoRehabilitacionService.fnHttpGetDataConcept(token, id_user).subscribe(respList => {
+      this.conceptoRehabilitacionService.fnHttpGetConceptByTask(token, id_task).subscribe(respList => {
         if (respList.status == 200) {
           resolve(respList);
         } else {
@@ -784,77 +798,95 @@ export class EditComponent implements OnInit {
     let valueProgress = 0;
     // Valor por diagnosticos = 20
     valueProgress = (this.listDiagnosticsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
+    console.log('valueProgress 1: ', valueProgress);
     // Valor por secuelas = 20
     valueProgress = (this.listSequelsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
+    console.log('valueProgress 2: ', valueProgress);
     // Valor por historia clinica = 20
-    valueProgress = (this.patientInputClinicHistorySummary) ? valueProgress + 20 : valueProgress + 0;
+    valueProgress = (this.dataConceptForm['ResumenHistoriaClinica']) ? valueProgress + 20 : valueProgress + 0;
+    console.log('valueProgress 3: ', valueProgress);
     // Valor por finalidad tratamiento = 10
-    valueProgress = (this.selectPatientTypeSequel) ? valueProgress + 10 : valueProgress + 0;
+    valueProgress = (this.dataConceptForm['FinalidadTratamientos']) ? valueProgress + 10 : valueProgress + 0;
+    console.log('valueProgress 4: ', valueProgress);
     // Valor por tipo de tratamiento (si no esta chequeado otros tramientos su peso sera de 10 pero si esta chequeado otros tratamientos su valor sera de 5)
-    valueProgress = ((this.checkPharmacological || 
-        this.checkOccupationalTherapy || 
-        this.checkSpeechTherapy || 
-        this.checkSurgical || 
-        this.checkPhysicalTherapy) && 
-      (!this.checkOtherTherapy)) ? valueProgress + 10 : 
-      ((this.checkPharmacological || 
-        this.checkOccupationalTherapy || 
-        this.checkSpeechTherapy || 
-        this.checkSurgical || 
-        this.checkPhysicalTherapy) && (this.checkOtherTherapy)) ? valueProgress + 5 : 
-      ((!this.checkPharmacological || 
-        !this.checkOccupationalTherapy || 
-        !this.checkSpeechTherapy || 
-        !this.checkSurgical || 
-        !this.checkPhysicalTherapy) && (this.checkOtherTherapy)) ? valueProgress + 5 : valueProgress + 0;
+    valueProgress = ((this.dataConceptForm['EsFarmacologico'] || 
+        this.dataConceptForm['EsTerapiaOcupacional'] || 
+        this.dataConceptForm['EsFonoaudiologia'] || 
+        this.dataConceptForm['EsQuirurgico'] || 
+        this.dataConceptForm['EsTerapiaFisica']) && 
+      (!this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 10 : 
+      ((this.dataConceptForm['EsFarmacologico'] || 
+        this.dataConceptForm['EsTerapiaOcupacional'] || 
+        this.dataConceptForm['EsFonoaudiologia'] || 
+        this.dataConceptForm['EsQuirurgico'] || 
+        this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 5 : 
+      ((!this.dataConceptForm['EsFarmacologico'] || 
+        !this.dataConceptForm['EsTerapiaOcupacional'] || 
+        !this.dataConceptForm['EsFonoaudiologia'] || 
+        !this.dataConceptForm['EsQuirurgico'] || 
+        !this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 5 : valueProgress + 0;
     // Otros tratamientos y descripcion de otros tratamientos = 5
+    console.log('valueProgress 5: ', valueProgress);
     valueProgress = (
-      this.checkOtherTherapy && this.patientInputOtherTreatments) ? valueProgress + 5 : 
-      (this.checkOtherTherapy && (!this.patientInputOtherTreatments || this.patientInputOtherTreatments == '' || this.patientInputOtherTreatments == null)) ? valueProgress + 0 : valueProgress + 0;
+      this.dataConceptForm['EsOtrosTratamientos'] && this.dataConceptForm['DescripcionOtrosTratamientos']) ? valueProgress + 5 : 
+      (this.dataConceptForm['EsOtrosTratamientos'] && (!this.dataConceptForm['DescripcionOtrosTratamientos'] || this.dataConceptForm['DescripcionOtrosTratamientos'] == '' || this.dataConceptForm['DescripcionOtrosTratamientos'] == null)) ? valueProgress + 0 : valueProgress + 0;
+    console.log('valueProgress 6: ', valueProgress);
     // Corto plazo = 5
     valueProgress = (this.patientGoodShortTerm) ? valueProgress + 5 : (this.patientRegularShortTerm) ? valueProgress + 5 : (this.patientBadShortTerm) ? valueProgress + 5 : valueProgress + 0;
+    console.log('valueProgress 7: ', valueProgress);
     // Mediano plazo = 5
     valueProgress = (this.patientGoodMediumTerm) ? valueProgress + 5 : (this.patientRegularMediumTerm) ? valueProgress + 5 : (this.patientBadMediumTerm) ? valueProgress + 5 : valueProgress + 0;
+    console.log('valueProgress 8: ', valueProgress);
     // Concepto - Remision fondo de pensiones = 10
     if (this.selectMedicalConcept) {
-      valueProgress = (this.selectMedicalConcept['value'] == 1) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? valueProgress + 10 : (this.selectMedicalConcept['value'] == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + 10 : valueProgress + 0;
+      valueProgress = (this.selectMedicalConcept == 1) ? valueProgress + 10 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? valueProgress + 10 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + 10 : valueProgress + 0;
     } else {
       valueProgress = valueProgress + 0;
     }
+    console.log('valueProgress 9: ', valueProgress);
     this.percentajeConcept = valueProgress;
+    console.log('this.percentajeConcept: ', this.percentajeConcept);
     // return valueProgress;
   }
 
   fnUpdateConcept() {
     this.submitted = true;
     this.textLoading = 'Guardando información del concepto';
+    
     // this.dataConcept
-    // this.selectMedicalConcept['value']
+    // this.selectMedicalConcept
     // this.dataCollectionConcepts
 
     this.fnGetPercentaje();
     // this.percentajeConcept
     // return false;
     let dataObjectSend = {
-      "id": this.dataConcept['conceptoRehabilitacionId'],
-      "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
-      "finalidadTratamientos": (this.selectPatientTypeSequel) ? this.selectPatientTypeSequel['value'] : 0,
-      "esFarmacologico": (this.checkPharmacological) ? this.checkPharmacological : false,
-      "esTerapiaOcupacional": (this.checkOccupationalTherapy) ? this.checkOccupationalTherapy : false,
-      "esFonoaudiologia": (this.checkSpeechTherapy) ? this.checkSpeechTherapy : false,
-      "esQuirurgico": (this.checkSurgical) ? this.checkSurgical : false,
-      "esTerapiaFisica": (this.checkPhysicalTherapy) ? this.checkPhysicalTherapy : false,
-      "esOtrosTratamientos": (this.checkOtherTherapy) ? this.checkOtherTherapy : false,
-      "descripcionOtrosTratamientos": (this.patientInputOtherTreatments) ? this.patientInputOtherTreatments : '',
+      "id": this.dataConceptForm['iIDConcepto'],
+      // "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
+      "resumenHistoriaClinica": (this.dataConceptForm['ResumenHistoriaClinica']) ? this.dataConceptForm['ResumenHistoriaClinica'] : '',
+      "finalidadTratamientos": (this.dataConceptForm['FinalidadTratamientos']) ? this.dataConceptForm['FinalidadTratamientos'] : 0,
+      "esFarmacologico": (this.dataConceptForm['EsFarmacologico']) ? this.dataConceptForm['EsFarmacologico'] : false,
+      "esTerapiaOcupacional": (this.dataConceptForm['EsTerapiaOcupacional']) ? this.dataConceptForm['EsTerapiaOcupacional'] : false,
+      "esFonoaudiologia": (this.dataConceptForm['EsFonoaudiologia']) ? this.dataConceptForm['EsFonoaudiologia'] : false,
+      "esQuirurgico": (this.dataConceptForm['EsQuirurgico']) ? this.dataConceptForm['EsQuirurgico'] : false,
+      "esTerapiaFisica": (this.dataConceptForm['EsTerapiaFisica']) ? this.dataConceptForm['EsTerapiaFisica'] : false,
+      "esOtrosTratamientos": (this.dataConceptForm['EsOtrosTratamientos']) ? this.dataConceptForm['EsOtrosTratamientos'] : false,
+      "descripcionOtrosTratamientos": (this.dataConceptForm['DescripcionOtrosTratamientos']) ? this.dataConceptForm['DescripcionOtrosTratamientos'] : '',
       "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
       "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
       "concepto": 0,
       "remisionAdministradoraFondoPension": '',
-      "progreso": this.percentajeConcept  ,
+      "progreso": this.percentajeConcept,
+      "idAfp": (this.dataConceptForm['iIDAfp']) ? this.dataConceptForm['iIDAfp'] :  this.patientData['IDafp'],
+      "tAsunto": (this.dataConceptForm['tAsunto']) ? this.dataConceptForm['tAsunto'] : '',
+      "tDireccionPaciente": (this.patientData['direccion']) ? this.patientData['direccion'] : '',
+      "tTelefonoPaciente": (this.patientData['telefono']) ? this.patientData['telefono'] : '',
+      "iIDCiudad": (this.patientData['iIDCiudad']) ? this.patientData['iIDCiudad'] : 1,
+      "tEmailPaciente": (this.patientData['email']) ? this.patientData['email'] : '',
     };
     if (this.selectMedicalConcept) {
-      dataObjectSend['concepto'] = (this.selectMedicalConcept['value'] == 1) ? 1 : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept['value'] == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
-      dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept['value'] == 1) ? this.descriptionMedicalConcept : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept['value'] == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
+      dataObjectSend['concepto'] = (this.selectMedicalConcept == 1) ? 1 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
+      dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept == 1) ? this.collectionMedicalConcept[0]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
     } 
     // /api/K2ConceptoRehabilitacion/ActualizarConcepto // fnHttpSetUpdateConcept(guid_user, data_object)
     this.fnSetUpdateConceptCase(this.token, dataObjectSend).then((response) => {
@@ -874,9 +906,78 @@ export class EditComponent implements OnInit {
     });
   }
 
+  fnEmmitConcept() {
+    this.submitted = true;
+    this.textLoading = 'Guardando información del concepto';
+    
+    // this.dataConcept
+    // this.selectMedicalConcept
+    // this.dataCollectionConcepts
+
+    this.fnGetPercentaje();
+    // this.percentajeConcept
+    // return false;
+    let dataObjectSend = {
+      "id": this.dataConceptForm['iIDConcepto'],
+      // "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
+      "resumenHistoriaClinica": (this.dataConceptForm['ResumenHistoriaClinica']) ? this.dataConceptForm['ResumenHistoriaClinica'] : '',
+      "finalidadTratamientos": (this.dataConceptForm['FinalidadTratamientos']) ? this.dataConceptForm['FinalidadTratamientos'] : 0,
+      "esFarmacologico": (this.dataConceptForm['EsFarmacologico']) ? this.dataConceptForm['EsFarmacologico'] : false,
+      "esTerapiaOcupacional": (this.dataConceptForm['EsTerapiaOcupacional']) ? this.dataConceptForm['EsTerapiaOcupacional'] : false,
+      "esFonoaudiologia": (this.dataConceptForm['EsFonoaudiologia']) ? this.dataConceptForm['EsFonoaudiologia'] : false,
+      "esQuirurgico": (this.dataConceptForm['EsQuirurgico']) ? this.dataConceptForm['EsQuirurgico'] : false,
+      "esTerapiaFisica": (this.dataConceptForm['EsTerapiaFisica']) ? this.dataConceptForm['EsTerapiaFisica'] : false,
+      "esOtrosTratamientos": (this.dataConceptForm['EsOtrosTratamientos']) ? this.dataConceptForm['EsOtrosTratamientos'] : false,
+      "descripcionOtrosTratamientos": (this.dataConceptForm['DescripcionOtrosTratamientos']) ? this.dataConceptForm['DescripcionOtrosTratamientos'] : '',
+      "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
+      "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
+      "concepto": 0,
+      "remisionAdministradoraFondoPension": '',
+      "progreso": this.percentajeConcept,
+      "idAfp": (this.dataConceptForm['iIDAfp']) ? this.dataConceptForm['iIDAfp'] :  this.patientData['IDafp'],
+      "tAsunto": (this.dataConceptForm['tAsunto']) ? this.dataConceptForm['tAsunto'] : '',
+      "tDireccionPaciente": (this.patientData['direccion']) ? this.patientData['direccion'] : '',
+      "tTelefonoPaciente": (this.patientData['telefono']) ? this.patientData['telefono'] : '',
+      "iIDCiudad": (this.patientData['iIDCiudad']) ? this.patientData['iIDCiudad'] : 1,
+      "tEmailPaciente": (this.patientData['email']) ? this.patientData['email'] : '',
+    };
+    if (this.selectMedicalConcept) {
+      dataObjectSend['concepto'] = (this.selectMedicalConcept == 1) ? 1 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
+      dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept == 1) ? this.collectionMedicalConcept[0]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
+    } 
+    // /api/K2ConceptoRehabilitacion/ActualizarConcepto // fnHttpSetUpdateConcept(guid_user, data_object)
+    this.fnSetEmmitConceptCase(this.token, dataObjectSend).then((response) => {
+      if (response) {
+        this.utilitiesService.showToast('top-right', 'success', 'Concepto se ha emitido satisfactoriamente!');
+        this.submitted = false;
+        this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+      } else {
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        this.submitted = false;
+        this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+      }
+    }).catch((err) => {
+      this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      this.submitted = false;
+      this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+    });
+  }
+
   fnSetUpdateConceptCase(token, dataUpdate) {
     return new Promise((resolve, reject) => {
       this.conceptoRehabilitacionService.fnHttpSetUpdateConcept(token, dataUpdate).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
+  fnSetEmmitConceptCase(token, dataEmmit) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpSetEmmitConceptCase(token, dataEmmit).subscribe((response) => {
         if (response['status'] == 200) {
           resolve(response);
         } else {
@@ -959,6 +1060,25 @@ export class EditComponent implements OnInit {
     });
   }
 
+  fnGetDataSelectors(token) {
+    return new Promise ((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetDataSelectors(token).subscribe(result => {
+        if (result.status == 200) {
+          let collectionList = JSON.parse(JSON.stringify(result.body));
+          resolve(collectionList);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error consultando las sintomatologias', 'nb-alert');
+          reject(false);
+        }
+        // this.submitted = false;
+      }, error => {
+        this.utilitiesService.showToast('bottom-right', 'danger', error, 'nb-alert');
+        reject(error);
+        // this.submitted = false;
+      });
+    })
+  }
+
   fnGetCie10(token, typeCie10) {
     // this.errors = [];
     // this.submitted = true;
@@ -982,21 +1102,37 @@ export class EditComponent implements OnInit {
     })
   }
 
-  fnGetLateralities(token) {
-    this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-      this.collectionLateralities = response['body'];
-    }, (error) => {
-    })
-  }
-
-  fnRemovePatientSign(item, index, collectionPatientSigns) {
+  fnRemovePatientDiagnostic(item, index, collectionPatientSigns) {
+    this.submitted = true;
+    this.textLoading = 'Eliminando diagnostico del concepto...';
     let collection = [];
     collectionPatientSigns.forEach((element, key) => {
-      if (key != index) {
+      if (element.idDiagnosticoConcepto == item.idDiagnosticoConcepto) {
         collection.push(element);
+        let idCie10 = item.idDiagnosticoConcepto;
+        this.fnDeleteDiagnostic(this.token, idCie10).then((response) => {
+          this.submitted = false;
+          this.textLoading = '';
+          collection = collectionPatientSigns.filter((resp) => { return resp.idDiagnosticoConcepto !== item.idDiagnosticoConcepto });
+          this.listDiagnosticsPatient = collection;
+          this.fnUpdateConcept();
+          this.percentajeConcept();
+        });
       }
     });
-    this.patientData['diagnostic']['patientSigns'] = collection;
+    // this.listDiagnosticsPatient = collection;
+    // this.fnDeleteDiagnostic(this.token, element.)
+  }
+
+  fnDeleteDiagnostic(token, idCie10) {
+    // Instancia de conexion servicio
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpDeletePatientDiagnostic(token, idCie10).subscribe(response => {
+          resolve(response);
+      }, err => {
+          reject(err);
+      });
+    });
   }
 
   fnRemovePatientSymptom(item, index, collectionPatientSymptoms) {
@@ -1019,18 +1155,8 @@ export class EditComponent implements OnInit {
     this.patientData['diagnostic']['patientConditionKeywords'] = collection;
   }
 
-  fnRemovePatientDiagnostic(item, index, collectionPatientDiagnostic) {
-    let collection = [];
-    collectionPatientDiagnostic.forEach((element, key) => {
-      if (key != index) {
-        collection.push(element);
-      }
-    });
-    this.patientData['diagnostic']['patientDiagnostic'] = collection;
-  }
-
   fnSetPatientCityCondition(item_depto) {
-    this.patientData['diagnostic']['patientCityCondition'] = [];
+    // this.patientData['diagnostic']['patientCityCondition'] = [];
     this.collectionCities = [];
     if (item_depto['ciudades'].length > 0) {
       let dataCollectionCities = [];
@@ -1056,248 +1182,12 @@ export class EditComponent implements OnInit {
     });
   }
 
-  fnSetPatientDaysGranted(event) {
-    if(this.patientIBC[0] != '' && this.patientIBC[0] != null && this.patientDaysAccum[0] != '' && this.patientDaysAccum[0] != null) {
-      this.fnCalcValueIncapacity(this.patientDaysAccum[0], this.patientIBC[0], 0, this.patientData.diagnostic.patientDaysGranted, this.dataDiagnosticCorrelation);
-    }
-  }
-
   showModalHelp(moduleName?, columnName?, title?, description?) {
     // this.utilitiesService.fnShowModalHelp(moduleName, columnName, title, description);
     let dataSend = {};
     // dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
     // this.dialogService.open(AyudaComponent, { context: dataSend }).onClose.subscribe((res) => {
     // });
-  }
-
-  fnShowPreviewIncapacityCertificate(itemEmployer, i) {
-    this.patientData['employer'] = itemEmployer;
-    this.utilitiesService.fnSetDataShare({ 
-      patientData: this.patientData, 
-      patientIncapacities: this.patientIncapacities, 
-      dataDiagnosticCorrelation: this.dataDiagnosticCorrelation,
-    });
-    this.utilitiesService.fnNavigateByUrl('pages/incapacidad/vista-previa-certificado');
-  }
-
-  fnGenerateNewIncapacityCertificate() {
-    return new Promise((resolve, reject) => {
-  
-      const dateNowUnix = moment(new Date()).unix();
-      const dateNowValueOf = moment(new Date()).valueOf();
-      const date_incapcatity = moment(moment(new Date()).add(this.patientData['diagnostic']['patientDaysGranted'], 'days')).valueOf();
-      
-
-      
-      // this.dataIPS = dataIPS;
-  
-      let object_data = null;
-      // const fechaActual = new Date();
-      // const data_ips = JSON.parse(sessionStorage.getItem('ips'));
-      // const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
-      // // this.lateralidad
-      object_data = {
-        "bProrroga": (this.dataDiagnosticCorrelation['bProrroga']) ? this.dataDiagnosticCorrelation['bProrroga'] : false,
-        "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
-        "cie10": (this.patientData['diagnostic']['patientDiagnostics']) ? [this.patientData['diagnostic']['patientDiagnostics']] : [],
-        "dtFechaCreacion": new Date(),
-        "dtFechaFin": new Date(),
-        "esTranscripcion": false,
-        "fechaEmisionIncapacidad": new Date(),
-        "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
-        "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
-        "iIddiagnosticoIncapacidad": (this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion']) ? this.dataDiagnosticCorrelation['iIddiagnosticoCorrelacion'] : '',
-        "iIdips": (this.dataIPS['iIdips']) ? this.dataIPS['iIdips'] : '',
-        "iIdEps": (this.patientData['eps']['iIdeps']) ? this.patientData['eps']['iIdeps'] : '',
-        "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : '',
-        "iIdUsuarioCreador": (this.dataDoctor['userId']) ? this.dataDoctor['userId'] : '',
-        "lugarExpedicion": {
-          "iIdDane": 0,
-          "iIdDepartamento": 0,
-          "iIdMunicipio": 0,
-          "iIdPais": 0,
-          "tCodigoDANE": "string",
-          "tNombreDepartamento": "string",
-          "tNombreMunicipio": "string",
-          "tNombrePais": "string",
-          "tNombrePoblacion": "string"
-        },
-        "numeroIncapacidadIPSTranscripcion": null,
-        "origenCalificadoIncapacidad": {
-          "iIdOrigenIncapacidad": 0,
-          "tOrigenIncapacidad": "string"
-        },
-        "presuntoOrigenIncapacidad": (this.patientData['diagnostic']['incapacityType']) ? this.patientData['diagnostic']['incapacityType'] : '',
-        "tCodigoCorto": null,
-        "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
-        "tipoAtencion": (this.patientData['diagnostic']['attentionTypes']) ? this.patientData['diagnostic']['attentionTypes'] : '',
-        "tipoEmision": {
-          "iid": 0,
-          "nombreEmision": "string"
-        },
-        "tLugar": (this.patientData['diagnostic']['patientCountryCondition']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
-        "tLugarExpedicion": (this.patientData['diagnostic']['patientCountryCondition']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
-        "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
-        "tTiempo": (this.patientData['diagnostic']['dateStartPatientCondition']) ? this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'] : '',
-        "uiCodigoDiagnostico": null,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : '',
-        "eps": (this.patientData['eps']) ? this.patientData['eps'] : '',
-        "ips": (this.dataIPS) ? this.dataIPS : '',
-      };
-  
-      const object_data_test = {
-        'iIddiagnosticoIncapacidad': 0,
-        'uiCodigoDiagnostico': null,
-        'tCodigoCorto': '',
-        "iIdpaciente": (this.patientData['iIdpaciente']) ? this.patientData['iIdpaciente'] : '',
-        "iIdips": (this.dataIPS['iIdips']) ? this.dataIPS['iIdips'] : '',
-        "cie10": (this.patientData['diagnostic']['patientDiagnostics']) ? [this.patientData['diagnostic']['patientDiagnostics']] : [],
-        "tTiempo": this.patientData['diagnostic']['dateStartPatientCondition'] + ' - ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute']  + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['second'],
-        "tModo": (this.patientData['diagnostic']['patientModeDescription']) ? this.patientData['diagnostic']['patientModeDescription'] : '',
-        "tLugar": (this.patientData['diagnostic']['patientCountryCondition']['name']) ? this.patientData['diagnostic']['patientCountryCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientDepartamentCondition']['departamento'] + ' - ' + this.patientData['diagnostic']['patientCityCondition']['name'] + ' - ' + this.patientData['diagnostic']['patientAddressCondition'] + ' - ' + this.patientData['diagnostic']['patientAddressPlaceCondition'] : '',
-        "presuntoOrigenIncapacidad": (this.patientData['diagnostic']['incapacityType']) ? this.patientData['diagnostic']['incapacityType'] : '',
-        'origenCalificadoIncapacidad': null,
-        "tipoAtencion": (this.patientData['diagnostic']['attentionTypes']) ? this.patientData['diagnostic']['attentionTypes'] : '',
-        "tDescripcionSintomatologica": (this.patientData['diagnostic']['patientConditionMedicalDescription']) ? this.patientData['diagnostic']['patientConditionMedicalDescription'] : '',
-        "iDiasIncapacidad": (this.patientData['diagnostic']['patientDaysGranted']) ? this.patientData['diagnostic']['patientDaysGranted'] : '',
-        "iDiasAcumuladosPorroga": (this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga']) ? this.dataDiagnosticCorrelation['iDiasAcumuladosPorroga'] : '',
-        "dtFechaCreacion": moment(dateNowValueOf).format(),
-        "dtFechaFin": moment(dateNowValueOf).add(this.patientData['diagnostic']['patientDaysGranted'], 'days').format(),
-        "bProrroga": (this.patientData['diagnostic']['extensionIncapacity']) ? this.patientData['diagnostic']['extensionIncapacity'] : false,
-        "bsoat": (this.patientData['diagnostic']['soatInsurance']) ? this.patientData['diagnostic']['soatInsurance'] : false,
-        "iIDLateralidad": (this.patientData['diagnostic']['laterality']) ? this.patientData['diagnostic']['laterality']['iIDLateralidad'] : 0,
-      };
-      // return false;
-      // this.submitted = true;
-      this.incapacityService.fnHttpPostDiagnosticosIncapacidad(this.token, object_data_test).subscribe(response => {
-        if (response.status == 200) {
-          // this.patientData['diagnostic'] = {
-          //   'soatInsurance': false,
-          //   'timeStartPatientCondition': { 'hour': 12, 'minute': 0 },
-          //   'laterality': null,
-          //   'patientDaysGranted': 1,
-          // };
-          // this.applyLaterality = false;
-
-          let dataResolve = {
-            'dates': {
-              'dateNowUnix': dateNowUnix,
-              'dateNowValueOf': dateNowValueOf,
-              'dateIncapcatity': date_incapcatity,
-              'dateObjectSend': new Date(),
-            },
-            'objectDataSend': object_data_test,
-            'dataResponse': response
-          }
-
-          // Consumir API que envia correo
-          resolve(dataResolve);
-        }
-        if (response.status == 206) {
-          // this.submitted = false;
-          let error = this.utilitiesService.fnSetErrors(response.body.codMessage)[0];
-          this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
-        }
-      }, err => {
-        reject(false);
-        // this.submitted = false;
-      });
-    });
-
-  }
-
-  fnGetContabilidad(token, value) {
-    // this.loading_state = true;
-    this.parameterizationService.fnHttpGetAccountingDetail(token, value).subscribe(r => {
-      if (r.status == 200) {
-        this.dataAccountingBasicInfo['claseDocumento'] = r.body['claseDocumentoPorDefecto'];
-        this.dataAccountingBasicInfo['descripcionFicha'] = r.body['descripcionMovimientoPorDefecto'];
-        this.dataAccountingBasicInfo['subcuenta'] = r.body['codigo'] + " - " + r.body['descripcion'];
-        this.idContabilidad = r.body['id'];
-      }
-    }, err => {
-      // this.collection_accounting = [];
-    });
-
-  }
-
-  fnGenerateNewAccountingRegistry(dataIncapacityCreated, dataEmployer, dataAccountingBasicInfo, token, idContabilidad) {
-
-    let datesDataIncapacityCreated = dataIncapacityCreated['dates'];
-    let objectDataSend = dataIncapacityCreated['objectDataSend'];
-    let dataResponse = dataIncapacityCreated['dataResponse']['body'];
-
-    let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY/MM/DD');
-    let monthDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('MM');
-    let dayDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('DD');
-    let yearDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY');
-
-    // this.submitted = true;
-    return new Promise((resolve, reject) => {
-
-      let object_send = {
-        "EstadoId": 1,
-        // "descripcionFicha": "Comprobante de emisión - Nueva incapacidad",
-        "situacionEncontrada": `IEGA-${dataResponse['uiCodigoDiagnostico']}-NI-${dataEmployer['nit']}-CC-${this.patientData['tNumeroDocumento']}-${monthDateIncapacity}/${yearDateIncapacity}`,
-        "usuarioCreacionId": this.dataDoctor['userId'],
-        "contabilidadId": idContabilidad,
-        // "claseDocumentoId": "5313F263-F8A0-4801-7CC9-08D8274C56E5",
-        "entidadId": 1,
-        "nroIncapacidad": dataResponse['uiCodigoDiagnostico'],
-        "nitEmpleador": dataEmployer['nit'],
-        "valor": Math.round(this.totalPatientValueToPay),
-      };
-      this.auditService.fnHttpPostCrearMovimientoContable(token, dataResponse['uiCodigoDiagnostico'], object_send).subscribe( r => {
-        resolve(true);
-        // if (r.status == 201) {
-        //   resolve(true);
-        //   this.utilitiesService.showToast('top-right', 'success', 'Se ha creado la depuracion con exito');
-        //   // this.submitted = false;
-        // }
-      }, err => {
-        reject(false);
-      });
-    });
-  }
-
-  fnGenerateIncapacity() {
-    this.submitted = true;
-    // this.fnSendMailPatientAlert();
-    if (this.dataDiagnosticCorrelation['bProrroga']) {
-      // Envio de mail -  Alerta Paciente con prórroga acumulada
-      // 1 - Alerta Paciente con prórroga acumulada
-      this.fnSendMailPatientAlert(1);
-    }
-
-    if(this.patientData["diagnostic"]["patientDaysGranted"] > this.patientData["diagnostic"]["patientDiagnostics"]["iDiasMaxConsulta"]) {
-      // Envio de mail -  Alerta Incapacidad con días en exceso
-      // 2 - Alerta Incapacidad con días en exceso
-      this.fnSendMailPatientAlert(2);
-    }
-
-    if(this.flagShowAlertUser == true) {
-      // Envio de mail -  Alerta Incapacidad generada por personal no autorizado
-      // 3 - Alerta Incapacidad generada por personal no autorizado
-      this.fnSendMailPatientAlert(3);
-    }
-
-  }
-
-  fnAfectionType(event) {
-    this.patientData['diagnostic']['incapacityType'] = null;
-    this.collectionIncapacityType = [];
-    if (event['id'] == 1) {
-      this.collectionIncapacityType = [
-        { 'iIdOrigenIncapacidad': 3549 ,'tOrigenIncapacidad': 'Accidente laboral' },
-        { 'iIdOrigenIncapacidad': 2 ,'tOrigenIncapacidad': 'Accidente de tránsito' },
-      ];
-    } else {
-      this.collectionIncapacityType = [
-        { 'iIdOrigenIncapacidad': 3551 ,'tOrigenIncapacidad': 'Enfermedad laboral' },
-        { 'iIdOrigenIncapacidad': 3550 ,'tOrigenIncapacidad': 'Enfermedad general' },
-      ];
-    }
-
   }
 
   fnAddNewEmployerPatient(collectionDataEmployers) {
@@ -1309,17 +1199,17 @@ export class EditComponent implements OnInit {
 
   fnBuildAddress($event) {
     let addressPlaceBuilded = 
-      ((this.patientData.diagnostic.addressPlace.patientAddressWayType) ? this.patientData.diagnostic.addressPlace.patientAddressWayType.name : '') +' '+ 
-      ((this.patientData.diagnostic.addressPlace.patientAddressFirstNumber) ? this.patientData.diagnostic.addressPlace.patientAddressFirstNumber : '') +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressFirstLetter) ? this.patientData.diagnostic.addressPlace.patientAddressFirstLetter.name : '') +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressSufixBis) ? this.patientData.diagnostic.addressPlace.patientAddressSufixBis.name : '')  +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressSecondLetter) ? this.patientData.diagnostic.addressPlace.patientAddressSecondLetter.name : '')  +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressFirstCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressFirstCardinalSufix.name : '')  +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressSecondNumber) ? this.patientData.diagnostic.addressPlace.patientAddressSecondNumber : '') +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressThirdLetter) ? this.patientData.diagnostic.addressPlace.patientAddressThirdLetter.name : '')  +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressThirdNumber) ? this.patientData.diagnostic.addressPlace.patientAddressThirdNumber : '') +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix) ? this.patientData.diagnostic.addressPlace.patientAddressSecondCardinalSufix.name : '')  +' '+
-      ((this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition) ? this.patientData.diagnostic.addressPlace.patientAddressPlaceCondition : '' );
+      ((this.patientAddressWayType) ? this.patientAddressWayType.name : '') +' '+ 
+      ((this.patientAddressFirstNumber) ? this.patientAddressFirstNumber : '') +' '+
+      ((this.patientAddressFirstLetter) ? this.patientAddressFirstLetter.name : '') +' '+
+      ((this.patientAddressSufixBis) ? this.patientAddressSufixBis.name : '')  +' '+
+      ((this.patientAddressSecondLetter) ? this.patientAddressSecondLetter.name : '')  +' '+
+      ((this.patientAddressFirstCardinalSufix) ? this.patientAddressFirstCardinalSufix.name : '')  +' '+
+      ((this.patientAddressSecondNumber) ? this.patientAddressSecondNumber : '') +' '+
+      ((this.patientAddressThirdLetter) ? this.patientAddressThirdLetter.name : '')  +' '+
+      ((this.patientAddressThirdNumber) ? this.patientAddressThirdNumber : '') +' '+
+      ((this.patientAddressSecondCardinalSufix) ? this.patientAddressSecondCardinalSufix.name : '')  +' '+
+      ((this.patientAddressPlaceCondition) ? this.patientAddressPlaceCondition : '' );
     this.addressPlaceBuilded = addressPlaceBuilded
 }
 
@@ -1460,281 +1350,16 @@ export class EditComponent implements OnInit {
     });
   }
 
-  fnCalcValueIncapacity(patientDaysAccum, dataIBC, index, patientDaysGranted, dataDiagnosticCorrelation) {
-
-    if(patientDaysAccum != '' && patientDaysAccum != null && dataIBC != '' && dataIBC != null) {
-      this.inputValueIBCPatient = dataIBC;
-      // let diasAcumulados = dataDiagnosticCorrelation['iDiasAcumuladosPorroga'];
-      let diasAcumulados = patientDaysAccum;
-      // let prorroga = dataDiagnosticCorrelation['bProrroga'];
-      let prorroga = this.patientData['diagnostic']['extensionIncapacity'];
-  
-      let daysAccumulated = parseInt(diasAcumulados);
-      let totalDaysAccumulated = parseInt(patientDaysGranted) + parseInt(diasAcumulados);
-      let totalDays = parseInt(patientDaysGranted);
-      let valueDayJob = parseInt(this.inputValueIBCPatient) / 30;
-      this.valueDayJob = valueDayJob;
-      let daysEPSToPay = 0;
-      let daysEPSToFirstPay = 0;
-      let daysEPSToSecondPay = 0;
-      let daysAFPToPay = 0;
-      let AFPValueToPay = 0;
-      let EPSValuePay = 0;
-      let EPSValueFirstPay = 0;
-      let EPSValueSecondPay = 0;
-      let daysEmployerToPay = 0;
-      let employerValuePay = 0;
-      let totalPatientDaysToPay = 0;
-      let totalPatientValueToPay = 0;
-      let formulaFamisanar = (2*(1/3));
-      let salarioMinimo = 1000000;
-      let valorSalarioMinimoDia = salarioMinimo / 30;
-  
-      if(prorroga == false) {
-  
-        if(totalDays <= 30 && totalDays > 0) {
-            // Si los dias son superiores a 2 entonces la incapacidad la paga la EPS
-  
-            daysEPSToPay = totalDays - 2;
-            EPSValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
-            this.daysEPSToPay = daysEPSToPay;
-            this.EPSValuePay = EPSValuePay;
-  
-            this.daysAFPToPay = daysAFPToPay;
-            this.AFPValueToPay = AFPValueToPay;
-  
-            daysEmployerToPay = totalDays - daysEPSToPay;
-            employerValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) * daysEmployerToPay) : valorSalarioMinimoDia * daysEmployerToPay;
-            this.daysEmployerToPay = daysEmployerToPay;
-            this.employerValuePay = employerValuePay;
-  
-            totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay;
-            totalPatientValueToPay = EPSValuePay + employerValuePay;
-            this.totalPatientDaysToPay = totalPatientDaysToPay;
-            this.totalPatientValueToPay = totalPatientValueToPay;
-  
-        }
-  
+  fnShowModalAddAddress() {
+    let dataSend = {};
+    dataSend['data'] = this.patientData;
+    dataSend['typeAddress'] = 1;
+    this.dialogService.open(BuildAddressComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+      if (res) {
+        this.patientData['dataAddress'] = res;
+        this.patientData['direccion'] = ((res['address'] + ', ' + res['aditionalDataAddress'] + ' - ' + res['userCity']['name'] + ', ' + res['userDepartament']['departamento'] + ', ' + res['userCountry']['name']).toUpperCase()).trim();
       }
-  
-      if (prorroga == true) {
-        
-        
-        if (daysAccumulated <= 90 && daysAccumulated > 0) {
-            if (totalDaysAccumulated <= 90) {
-  
-                daysEPSToPay = totalDays;
-                EPSValuePay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
-                daysEPSToPay = daysEPSToPay;
-                EPSValuePay = EPSValuePay;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                daysEmployerToPay = totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = daysEmployerToPay;
-                this.employerValuePay = employerValuePay;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            } else {
-  
-                let data1 = totalDaysAccumulated - 90;
-                let data2 = totalDays - data1;
-  
-                daysEPSToFirstPay = data2;
-                EPSValueFirstPay = ((valueDayJob * formulaFamisanar) > valorSalarioMinimoDia) ? ((valueDayJob * formulaFamisanar) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-  
-                daysEPSToSecondPay = data1;
-                EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-  
-                daysEPSToPay = data1 + data2;
-  
-                EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                daysEmployerToPay = totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = daysEmployerToPay;
-                this.employerValuePay = employerValuePay;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            }
-        }
-  
-        if (daysAccumulated <= 180 && daysAccumulated > 90) {
-            if (totalDaysAccumulated <= 180 && totalDaysAccumulated > 90) {
-  
-                daysEPSToPay = totalDays;
-                EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
-                daysEPSToPay = daysEPSToPay;
-                EPSValuePay = EPSValuePay;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                daysEmployerToPay = totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = 0;
-                this.employerValuePay = 0;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            } else {
-  
-                let data1 = totalDaysAccumulated - 180;
-                let data2 = totalDays - data1;
-  
-                daysEPSToFirstPay = data2;
-                EPSValueFirstPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-                
-                daysEPSToSecondPay = 0;
-                EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-                
-                daysAFPToPay = data1;
-                AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia * daysAFPToPay;
-  
-                // daysEPSToPay = data1 + data2;
-                daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                // EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                daysEmployerToPay = 0 // totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = 0;
-                this.employerValuePay = 0;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            }
-        }
-  
-        if (daysAccumulated <= 540 && daysAccumulated > 180) {
-            if (totalDaysAccumulated <= 540 && totalDaysAccumulated > 180) {
-                // Paga el Fondo de Pensiones
-                daysAFPToPay = totalDays;
-                AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia *  daysAFPToPay;
-                // daysEPSToPay = daysEPSToPay;
-                // EPSValuePay = EPSValuePay;
-                daysEPSToPay = 0;
-                EPSValuePay = 0;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                daysEmployerToPay = 0; // totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = 0;
-                this.employerValuePay = 0;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            } else {
-  
-                let data1 = totalDaysAccumulated - 540;
-                let data2 = totalDays - data1;
-  
-                daysEPSToFirstPay = 0;
-                EPSValueFirstPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToFirstPay) : valorSalarioMinimoDia *  daysEPSToFirstPay;
-  
-                daysEPSToSecondPay = data1;
-                EPSValueSecondPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToSecondPay) : valorSalarioMinimoDia * daysEPSToSecondPay;
-  
-                daysAFPToPay = data2;
-                AFPValueToPay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysAFPToPay) : valorSalarioMinimoDia * daysAFPToPay;
-  
-                // daysEPSToPay = data1 + data2;
-                daysEPSToPay = daysEPSToFirstPay + daysEPSToSecondPay;
-                // daysAFPToPay = daysAFPToPay;
-  
-                EPSValuePay = EPSValueFirstPay + EPSValueSecondPay;
-                // EPSValuePay = EPSValueFirstPay;
-                // AFPValueToPay = AFPValueToPay;
-                
-                // daysEPSToPay = 0;
-                // EPSValuePay = 0;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                daysEmployerToPay = totalDays - (daysEPSToPay + daysAFPToPay);
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = 0;
-                this.employerValuePay = 0;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            }
-        }
-  
-        if (daysAccumulated > 540) {
-            if (totalDaysAccumulated > 540) {
-  
-                daysEPSToPay = totalDays;
-                EPSValuePay = ((valueDayJob * 0.50) > valorSalarioMinimoDia) ? ((valueDayJob * 0.50) *  daysEPSToPay) : valorSalarioMinimoDia *  daysEPSToPay;
-                daysEPSToPay = daysEPSToPay;
-                EPSValuePay = EPSValuePay;
-                this.daysEPSToPay = daysEPSToPay;
-                this.EPSValuePay = EPSValuePay;
-  
-                daysEmployerToPay = 0; // totalDays - daysEPSToPay;
-                employerValuePay = valueDayJob * daysEmployerToPay;
-                this.daysEmployerToPay = 0;
-                this.employerValuePay = 0;
-  
-                this.daysAFPToPay = daysAFPToPay;
-                this.AFPValueToPay = AFPValueToPay;
-  
-                totalPatientDaysToPay = daysEPSToPay + daysEmployerToPay + daysAFPToPay;
-                totalPatientValueToPay = EPSValuePay + employerValuePay + AFPValueToPay;
-                this.totalPatientDaysToPay = totalPatientDaysToPay;
-                this.totalPatientValueToPay = totalPatientValueToPay;
-  
-            }
-        }
-  
-  
-      } 
-    }
-
+    });
   }
 
   fnShowDiagnostics(flagShowDiagnostics) {
@@ -1749,6 +1374,24 @@ export class EditComponent implements OnInit {
       this.flagShowSequels = !this.flagShowSequels;
 
     });
+  }
+
+  fnShowContent(nameClass) {
+    $('.' + nameClass).slideToggle();
+  }
+
+  fnClickStep(step_num){
+    console.log('step_num: ', step_num);
+    let child = (step_num == 1) ? 1 : (step_num == 2) ? 3 : (step_num == 3) ? 5 : (step_num == 4) ? 7 : null;;
+    console.log('child: ', child);
+    if (child) {
+      // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+      $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+      $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red").click((resp) => {
+        console.log('resp: ', resp);
+        alert("Alert!");
+      });
+    } 
   }
   
 

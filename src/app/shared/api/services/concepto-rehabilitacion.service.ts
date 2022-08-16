@@ -88,8 +88,19 @@ export class ConceptoRehabilitacionService {
     });
   }
 
+  fnHttpGetConceptByTask(token, id_task): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
+    this.urlGetDataConcept = '/api/K2ConceptoRehabilitacion/ConsultarConcepto?IdTarea=' + id_task;
+    return this.http.get(this.utility.fnGetHost() + this.urlGetDataConcept,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
   fnHttpSetUpdateConcept(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetUpdateConcept = '/api/K2ConceptoRehabilitacion/ActualizarConcepto';
     return this.http.put(this.utility.fnGetHost() + this.urlSetUpdateConcept, data_object,
       {
@@ -99,8 +110,19 @@ export class ConceptoRehabilitacionService {
       });
   }
 
+  fnHttpSetEmmitConceptCase(token, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
+    this.urlSetUpdateConcept = '/api/K2ConceptoRehabilitacion/EmitirConcepto';
+    return this.http.put(this.utility.fnGetHost() + this.urlSetUpdateConcept, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
   fnHttpSetAssignCase(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetAssignCase = '/api/K2ConceptoRehabilitacion/AsignarTarea';
     return this.http.put(this.utility.fnGetHost() + this.urlSetAssignCase, data_object,
       {
@@ -111,7 +133,7 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetReAssignCase(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetAssignCase = '/api/K2ConceptoRehabilitacion/ReasignarTarea';
     return this.http.put(this.utility.fnGetHost() + this.urlSetAssignCase, data_object,
       {
@@ -122,7 +144,7 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetCancelCase(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetCancelCase = '/api/K2ConceptoRehabilitacion/AnularTarea';
     return this.http.put(this.utility.fnGetHost() + this.urlSetCancelCase, data_object,
       {
@@ -133,9 +155,8 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetNoApplyCase(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
-    // let urlSetNoApplyCase = '/api/K2ConceptoRehabilitacion/NoAplicaTarea';
-    let urlSetNoApplyCase = '/api/K2ConceptoRehabilitacion/NoAlicaTarea';
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
+    let urlSetNoApplyCase = '/api/K2ConceptoRehabilitacion/NoAplicaTarea';
     return this.http.put(this.utility.fnGetHost() + urlSetNoApplyCase, data_object,
       {
         observe: 'response',
@@ -145,7 +166,7 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetSaveConceptDiagnostic(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetSaveConceptDiagnostic = '/api/K2ConceptoRehabilitacion/AgregarDiagnosticoConcepto';
     return this.http.post(this.utility.fnGetHost() + this.urlSetSaveConceptDiagnostic, data_object,
       {
@@ -156,7 +177,7 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetSaveConceptSequels(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetSaveConceptSequels = '/api/K2ConceptoRehabilitacion/AgregarSecuelaConcepto';
     return this.http.post(this.utility.fnGetHost() + this.urlSetSaveConceptSequels, data_object,
       {
@@ -167,7 +188,7 @@ export class ConceptoRehabilitacionService {
   }
 
   fnHttpSetCreateNewCase(token, data_object): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(token);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetCreateNewCase = '/api/K2ConceptoRehabilitacion/CrearTarea';
     return this.http.post(this.utility.fnGetHost() + this.urlSetCreateNewCase, data_object,
       {
@@ -185,6 +206,29 @@ export class ConceptoRehabilitacionService {
     return this.http.get(this.utility.fnGetHost() + urlGetListDoctorsCases,
     {
       // params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+  fnHttpGetDataSelectors(guid_user): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // const object_params = object_data;
+    let urlGetDataSelectors = '/api/K2ConceptoRehabilitacion/ConsultarSelectores';
+    return this.http.get(this.utility.fnGetHost() + urlGetDataSelectors,
+    {
+      // params: object_params,
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpDeletePatientDiagnostic(guid_user, id_diagnostic_user) {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    let urlDeletePatientDiagnostic = '/api/K2ConceptoRehabilitacion/EliminarDiagnosticoConcepto/' + id_diagnostic_user;
+    return this.http.delete(this.utility.fnGetHost() + urlDeletePatientDiagnostic, 
+    {
       observe: 'response',
       headers: headers,
       reportProgress: true,

@@ -99,13 +99,10 @@ export class ListEmailComponent implements OnInit {
 
   ngOnInit() {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
-      console.log('token: ', token);
       if (token.isValid()) {
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
         this.token = token["token"];
-        console.log('this.dataSession: ', this.dataSession);
-        console.log('this.token: ', this.token);
         this.fnBuildDataOriginQualification(this.token, this.currentPage, this.searchInput, '', '', '', false);
         // this.user['name'] = this.user['User']['tFirstName'] + ' ' + this.user['User']['tLastName'];
       }
@@ -184,9 +181,7 @@ export class ListEmailComponent implements OnInit {
         dateRange: (this.dataSearchAdvance['daterange']) ? this.dataSearchAdvance['daterange'] : '',
         statusInfo: (this.dataSearchAdvance['statusInfo']) ? this.dataSearchAdvance['statusInfo'] : {},
       };
-      console.log('dataSend: ', dataSend);
       this.dialogService.open(BusquedaAvanzadaComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
-        console.log('res: ', res);
         if (res) {
           this.dataSearchAdvance = res;
           this.searchInput = (res['textSearch']) ? res['textSearch'] : '';
@@ -205,9 +200,7 @@ export class ListEmailComponent implements OnInit {
     this.fnGetOriginQualificationList(token, currentPage, searchInput, state, startDate, endDate).then((resp) => {
       if(resp) {
         this.currentSearch = stateSearch;
-        console.log('resp: ', resp);
         this.listEmails = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
-        console.log('this.listEmails: ', this.listEmails);
         this.listEmailsOriginal = JSON.parse(JSON.stringify(resp['body']['correoOutputModel']));
         this.totalItems = resp['body']['paginacion']['totalItems'];
         this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
@@ -268,18 +261,11 @@ export class ListEmailComponent implements OnInit {
       stateSearch = true;
     }
 
-    console.log('searchInput: ', searchInput);
-    console.log('state: ', state);
-    console.log('dateStart: ', dateStart);
-    console.log('dateEnd: ', dateEnd);
-    console.log('stateSearch: ', stateSearch);
-    console.log('this.dataSearchAdvance["statusInfo"]: ', this.dataSearchAdvance['statusInfo']);
     
     this.fnBuildDataOriginQualification(this.token, this.currentPage, searchInput, state, dateStart, dateEnd, stateSearch);
   }
 
   fnSelectState(dataState) {
-    console.log('dataState: ', dataState);
 
     let searchInput = this.searchInput;
     let state;

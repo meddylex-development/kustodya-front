@@ -24,8 +24,6 @@ export class RethusService {
 
   fnHttpGetListDoctorsRethusByDNI(guid_user, document_type, document_number, first_name, last_name): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
-    //console.log(document_type);
-    //console.log(document_number);
     const object_params = {};
     (document_number != '' || document_number != null) ? object_params['documento'] = document_number : false;
     (document_type != '' || document_type != null) ? object_params['tipo'] = document_type : false;
@@ -71,7 +69,6 @@ export class RethusService {
     const headers = this.fnSetDefineTokenAuthorization(guid_user);
     const object_params = {};
     const url_medico = this.utility.fnGetHost() + '/api/Rethus/ExportarCargue/' + id_file;
-    console.log('url_medico: ', url_medico);
     return this.http.get(url_medico,
       {
         observe: 'response',

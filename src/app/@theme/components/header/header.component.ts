@@ -81,7 +81,6 @@ export class HeaderComponent implements OnInit {
 
     this.utilitiesService.fnAuthValidUser().then(response => {
       if (response) {
-        console.log('response: ', response);
         this.token = response['token'];
         this.user = response['user'];
         this.user['name'] = `${response['user']['given_name']} ${response['user']['family_name']}`;
@@ -89,17 +88,14 @@ export class HeaderComponent implements OnInit {
         // this.user['picture'] = 'https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png';
 
         this.fnGetUserIPSList(this.token, { 'idUsuario': this.user['UserId'] }).then((response) => {
-          console.log('response: ', response);
           if (response) {
             this.collectionIPSUser = response['body'];
             this.collectionIPSUser.forEach(element => {
               element['name'] = this.titlecase.transform(element['tNombre']);
               // this.collectionIPSUser.push(element);
             });
-            console.log('this.collectionIPSUser: ', this.collectionIPSUser);
             this.ipsSelected = this.collectionIPSUser[0]['TblIpsId'];
             this.onChangeIPS(this.collectionIPSUser[0]);
-            console.log('this.ipsSelected: ', this.ipsSelected);
           } else {
             this.collectionIPSUser = []
           }
@@ -302,10 +298,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onChangeIPS = async($event) => {
-    console.log('$event: ', $event);
     if (this.ipsSelected > 0) {
       let data = await this.utilitiesService.fnSetDataShareIps($event);
-      console.log('data: ', data);
     }
     // if (this.Idips < 0 || this.Idips == null) {
     //   this.utilitiesService.showToast('bottom-right', 'danger', 'IPS requerida', 'nb-alert');

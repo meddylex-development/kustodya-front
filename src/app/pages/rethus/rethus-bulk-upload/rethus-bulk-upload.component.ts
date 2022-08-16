@@ -101,10 +101,8 @@ export class RethusBulkUploadComponent implements OnInit {
     const self = this;
     // return false;
     self.fileToUpload = files.item(0);
-    console.log('self.fileToUpload: ', self.fileToUpload);
 
     const data_name = self.utilitiesService.fnSpliceString(self.fileToUpload['name'], '.');
-    console.log('data_name: ', data_name);
 
     const max_size_file = 100000000;
 
@@ -114,7 +112,6 @@ export class RethusBulkUploadComponent implements OnInit {
       self.data_file['historia_clinica']['data_file'] = self.fileToUpload;
       self.data_response_upload_file = null;
       self.uploadFile(function(params) {
-        console.log('params: ', params);
         if (params) {
           self.data_response_upload_file = params;
           // self.fnValidStateFileResponse(self.data_response_upload_file);
@@ -137,14 +134,11 @@ export class RethusBulkUploadComponent implements OnInit {
     self.file_create_state = true;
     // self.utilitiesService.fnShowLoading(true, 0);
     self.bulkUploadService.fnHttpSetUploadFileDoctors(self.current_payload, fileToUpload).subscribe(function(event: HttpEvent<any>) {
-      console.log('event.type: ', event.type);
-      console.log('HttpEventType.UploadProgress: ', HttpEventType.UploadProgress);
       switch (event.type) {
         case HttpEventType.UploadProgress:
           // return self.obj_file_uploadProgress(event);
           const percentDone = Math.round(100 * event.loaded / event.total);
           self.percentaje_status_bar = Math.round(100 * event.loaded / event.total);
-          console.log('self.percentaje_status_bar: ', self.percentaje_status_bar);
           // return { status: 'progress', message: percentDone };
           self.obj_file_upload = { 'status': 'progress', 'message': self.percentaje_status_bar, 'filePath': '' };
       break;
@@ -154,14 +148,12 @@ export class RethusBulkUploadComponent implements OnInit {
         case HttpEventType.Response:
           self.state_file_clinic_history = false;
           const response_upload = event.body;
-          console.log('response_upload: ', response_upload);
           // self.obj_file_upload = { 'status': 'success', 'message': response_upload, 'filePath': '' };
           callback(true);
           // return this.apiResponse(event);
       break;
         case HttpEventType.Sent:
           self.obj_file_upload = { 'status': 'progress', 'message': self.percentaje_status_bar, 'filePath': '' };
-          console.log('self.obj_file_upload: ', self.obj_file_upload);
           // return this.apiResponse(event);
       break;
       }

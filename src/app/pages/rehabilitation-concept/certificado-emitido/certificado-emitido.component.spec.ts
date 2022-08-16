@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CertificadoCrhbComponent } from './certificado-crhb.component';
+import { CertificadoEmitidoComponent } from './certificado-emitido.component';
 
-describe('CertificadoCrhbComponent', () => {
-  let component: CertificadoCrhbComponent;
-  let fixture: ComponentFixture<CertificadoCrhbComponent>;
+describe('CertificadoEmitidoComponent', () => {
+  let component: CertificadoEmitidoComponent;
+  let fixture: ComponentFixture<CertificadoEmitidoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CertificadoCrhbComponent ]
+      declarations: [ CertificadoEmitidoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CertificadoCrhbComponent);
+    fixture = TestBed.createComponent(CertificadoEmitidoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

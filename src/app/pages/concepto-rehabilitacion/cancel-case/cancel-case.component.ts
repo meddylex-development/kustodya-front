@@ -41,7 +41,6 @@ export class CancelCaseComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      console.log('this.dataCase: ', this.dataCase);
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
@@ -52,12 +51,10 @@ export class CancelCaseComponent implements OnInit {
 
   fnCancelCase(dataCaseCancel) {
     this.submitted = true;
-    console.log('dataCaseCancel: ', dataCaseCancel);
     let dataUpdate = {
       "id": this.dataCase['idpacienteporemitir'],
       "causalAnulacion": dataCaseCancel,
     };
-    console.log('dataUpdate: ', dataUpdate);
     this.fnSetCancelCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {
         this.submitted = false;
@@ -88,7 +85,6 @@ export class CancelCaseComponent implements OnInit {
   }
 
   fnSelectCancelType(event) {
-    console.log('event: ', event);
   }
 
   dismiss(res?) {

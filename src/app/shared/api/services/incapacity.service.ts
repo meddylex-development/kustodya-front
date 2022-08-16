@@ -101,7 +101,6 @@ export class IncapacityService {
   }
 
   fnHttpPostDiagnosticosIncapacidad(guid_user, data_object): Observable<any> {
-    console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHost() + this.urlfnHttpPostDiagnosticosIncapacidad, data_object,
@@ -198,7 +197,6 @@ export class IncapacityService {
   }
 
   fnHttpPostSendAlertMail(guid_user, data_object): Observable<any> {
-    console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email', data_object,
@@ -210,7 +208,6 @@ export class IncapacityService {
   }
   
   fnHttpPostSendReportMail(data_object): Observable<any> {
-    console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report', data_object,
@@ -222,7 +219,6 @@ export class IncapacityService {
   }
   
   fnHttpPostSendMailReportIncapacities(data_object): Observable<any> {
-    console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.post(this.utility.fnGetHostMiddlewareMails() + '/api/send-email-report-incapacities', data_object,
@@ -234,7 +230,6 @@ export class IncapacityService {
   }
 
   fnHttpGetDataHistoryPatientDaysExced(): Observable<any> {
-    // console.log('data_object: ', data_object);
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     // this.urlfnHttpPostDiagnosticosIncapacidad = '/api/DiagnosticoIncapacidad/PostDiagnosticosIncapacidad';
     return this.http.get(this.utility.fnGetHostSite4() + '/api/Reporte',
@@ -320,7 +315,6 @@ export class IncapacityService {
   }
 
   fnHttpPostAddNewIncapacity(guid_user, data_object): Observable<any> {
-    console.log('data_object: ', data_object);
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     let urlPostAddNewIncapacity = '/api/K2Incapacidad/CrearIncapacidad';
     return this.http.post(this.utility.fnGetHost() + urlPostAddNewIncapacity, data_object,

@@ -109,7 +109,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
       this.fnGetDataHistoryPatientDaysExced().then((resp) => {
-        console.log('resp: ', resp);
       });
       if (data) {
         this.search = false;
@@ -132,8 +131,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
         // this.fnClearFormSearchPatient();
         this.fnGetDocumentTypes(this.token);
       }
-      console.log('data: ', data);
-      console.log('this.token: ', this.token);
       this.html = `<span class="btn-block btn-danger well-sm">Never trust not sanitized HTML!!!</span>`;
     } else {
       // self.router.navigateByUrl('');
@@ -156,12 +153,10 @@ export class ReporteIncapacidadesComponent implements OnInit {
   }
 
   fnShowContent(nameClass) {
-    console.log('test');
     $('.' + nameClass).slideToggle();
   }
 
   fnSearchPatient($event) {
-    console.log('$event: ', $event);
     this.utilitiesService.fnSetDataShare(null);
     this.totalItems = 0;
     if (this.documentNumberPatient != undefined &&
@@ -172,9 +167,7 @@ export class ReporteIncapacidadesComponent implements OnInit {
         this.fnGetPatientByDocumentNumber(this.token, this.documentNumberPatient, this.documentTypePatient).then((resp) => {
           if(resp) {
             this.patientData = resp;
-            console.log('this.patientData["iIdpaciente"]: ', this.patientData['iIdpaciente']);
             // this.patientData;
-            // console.log('this.patientData;: ', this.patientData);
             this.fnGetDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIdpaciente']);
 
             this.utilitiesService.fnSetDataShare({ 
@@ -189,7 +182,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
             this.patientData = [];
           }
         }).catch((error) => {
-          console.log('error: ', error);
           this.patientData = [];
         })
 
@@ -197,14 +189,10 @@ export class ReporteIncapacidadesComponent implements OnInit {
   }
 
   fnGetPatientByDocumentNumber(token, documentNumberPatient, documentTypePatient) {
-    console.log('documentNumberPatient: ', documentNumberPatient);
-    console.log('documentTypePatient: ', documentTypePatient);
-    console.log('token: ', token);
     return new Promise ((resolve,reject) => {
       // const self = this;
       this.patientData = null;
       this.incapacityService.fnHttpGetPacienteByNumeroDocumento(token, documentNumberPatient.trim(), documentTypePatient).subscribe(r => {
-        console.log('r: ', r);
         if (r.status == 200) {
           if (r.body != null) {
             this.utilitiesService.showToast('bottom-right', 'success', 'Se han encontrado los datos del paciente', '');
@@ -213,7 +201,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
             this.search = false;
             this.showTitleSearch = true;
             this.patientData = JSON.parse(JSON.stringify(r.body));
-            console.log('this.patientData: ', this.patientData);
             resolve(this.patientData);
           } else {
             resolve(false);
@@ -232,7 +219,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
           // this.utilitiesService.showToast('top-right', 'warning', error, 'nb-alert');
         }
       }, err => {
-        console.log('err: ', err);
         reject(false);
         this.search = false;
         this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
@@ -245,10 +231,8 @@ export class ReporteIncapacidadesComponent implements OnInit {
       // const self = this;
       this.patientData = null;
       this.incapacityService.fnHttpGetDataHistoryPatientDaysExced().subscribe(r => {
-        console.log('r: ', r);
         resolve(r)
       }, err => {
-        console.log('err: ', err);
         reject(false);
         this.search = false;
         this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
@@ -274,7 +258,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
           this.patientIncapacities.push(value);
         });
         
-        console.log('this.patientIncapacities: ', this.patientIncapacities);
         this.totalItems = this.patientIncapacities.length;
       } else if (r.status == 206) {
         this.search = false;
@@ -308,7 +291,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
   }
 
   fnSelectDocumentType($event) {
-    console.log('$event: ', $event);
     this.documentTypeSelected = $event;
   }
   
@@ -325,7 +307,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
     let dataSend = {};
     dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
     this.dialogService.open(AyudaComponent, { context: dataSend }).onClose.subscribe((res) => {
-      console.log('res: ', res);
     });
   }
 
@@ -360,7 +341,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
   }
 
   fnFilterListByDaterange(dateRangeInput) {
-    console.log('dateRangeInput: ', dateRangeInput);
     this.statusSpinner = true;
     const dateStartUnix = moment(this.dateRangeReport[0]).unix();
     const dateStartValueof = (this.dateRangeReport.length > 0) ? moment(this.dateRangeReport[0]).valueOf() : '';
@@ -368,9 +348,7 @@ export class ReporteIncapacidadesComponent implements OnInit {
     const dateEndValueof = (this.dateRangeReport.length > 0) ? moment(this.dateRangeReport[1]).valueOf() : '';
 
     this.startDate = dateStartValueof;
-    console.log('this.startDate: ', this.startDate);
     this.endDate = dateEndValueof;
-    console.log('this.endDate: ', this.endDate);
 
     let objectSend = {
       'startDate': dateStartValueof,
@@ -408,7 +386,6 @@ export class ReporteIncapacidadesComponent implements OnInit {
     };
     // this.fnGetOriginQualificationList(this.current_payload, this.currentPage, this.search_input, this.status_list, date_start_valueof, date_end_valueof);
     this.incapacityService.fnHttpPostSendMailReportIncapacities(objectSend).subscribe(r => {
-      console.log('r: ', r);
       this.statusSpinner = false;
       this.utilitiesService.showToast('top-right', 'success', 'Archivo enviado', 'nb-check');
     });

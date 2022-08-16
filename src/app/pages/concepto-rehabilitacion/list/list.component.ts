@@ -372,19 +372,15 @@ export class ListComponent implements OnInit {
     this.submitted = true;
     // this.fnGetDataList(token, currentPage, searchInput, state, startDate, endDate, typeUser, idUser).then((resp) => {
     this.fnGetDataListTask(token, currentPage, searchInput, state, typeUser, idUser, this.itemsPerPage).then((resp) => {
-      console.log('resp: ', resp);
       if(resp) {
         this.currentSearch = stateSearch;
         if (resp['status'] == 200) {
           let dataListCollection = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
-          console.log('dataListCollection: ', dataListCollection);
           let dataListCollectionOriginal = JSON.parse(JSON.stringify(resp['body']['listadoPacientes']));
 
           let dataStatusBadges = JSON.parse(JSON.stringify(resp['body']['registrosEstados']));
-          console.log('dataStatusBadges: ', dataStatusBadges);
           this.dataStatusBadges = {};
           dataStatusBadges.forEach(element => {
-            console.log('element: ', element);
             switch (element.estado) {
               case 1:
                 this.dataStatusBadges['PorAsignar'] = (element.registros) ? element.registros : 0;
@@ -406,9 +402,7 @@ export class ListComponent implements OnInit {
                 break;
             }
           });
-          console.log('dataStatusBadges: ', dataStatusBadges);
           // this.dataStatusBadges = dataStatusBadges;
-          console.log('this.dataStatusBadges: ', this.dataStatusBadges);
           // return false;
           // this.totalItems = resp['body']['paginacion']['totalItems'];
           // this.numItemsPage = resp['body']['paginacion']['itemsPorPagina'];
@@ -798,7 +792,6 @@ export class ListComponent implements OnInit {
   }
 
   fnRedirectViewPatientIncapacitiesHistory(item, tabId) {
-    console.log('item: ', item);
     item['iIdpaciente'] = item['PacienteId']
     this.utilitiesService.fnSetDataShare({ 
       patientData: item, 
@@ -878,7 +871,6 @@ export class ListComponent implements OnInit {
   }
 
   fnStartCHRBConceptCase(item, tab_id) {
-    console.log('item: ', item);
     this.utilitiesService.fnSetDataShare({ 
       patientData: item, 
       patientConcept: item,
@@ -899,9 +891,16 @@ export class ListComponent implements OnInit {
       datosConcepto: item,
       tab: tab_id,
     });
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['Id'] + '/' + item['PacienteId']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-emitido/' + item['Id'] + '/' + item['PacienteId']);
   }
 
-
+  fnEditCRHBLetter(item, tab_id, i) {
+    this.utilitiesService.fnSetDataShare({ 
+      paciente: item, 
+      datosConcepto: item,
+      tab: tab_id,
+    });
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/carta-certificado-emitido/' + item['Id'] + '/' + item['PacienteId']);
+  }
 
 }

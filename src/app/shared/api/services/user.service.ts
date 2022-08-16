@@ -263,11 +263,8 @@ export class UserService {
       });
   }
   fnHttpSetUploadBlob(guid_user: any, user_id: any, fileToUpload: any): Observable<any> {
-    console.log('fileToUpload: ', fileToUpload);
-    console.log('fileToUpload.name: ', fileToUpload.name);
     // let name = (moment(new Date()).valueOf()).toString() + ".blob";
     let name = this.utility.generateUUID() + ".blob";
-    console.log('name: ', name);
     fileToUpload.name = name;
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');

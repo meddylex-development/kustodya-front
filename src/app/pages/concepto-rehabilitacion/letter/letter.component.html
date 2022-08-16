@@ -1,0 +1,257 @@
+<div class="row" accent="danger" size="tiny" [nbSpinner]="submitted" nbSpinnerStatus="info" nbSpinnerSize="large" [nbSpinnerMessage]="textLoading">
+  <div class="col-md-12">
+
+    <nb-card>
+      <nb-card-header>
+        <div class="row m-0 p-0">
+          <div class="col text-left">
+            <button type="button" (click)="fnReturnPage()" class="btn btn-link text-info cursor-pointer">
+              <i class="fas fa-arrow-left"></i>&nbsp;{{ 'Regresar' | titlecase }}
+            </button>
+          </div>
+          <div class="col text-center">
+            <h3 style="margin-top: 6px;">Carta concepto de rehabilitaci&oacute;n</h3>
+          </div>
+          <div class="col text-right">
+            <!-- <button 
+              type="button" 
+              class="btn btn-link text-info cursor-pointer" 
+              [useExistingCss]="true"
+              printSectionId="certificadoConceptoCRHB" 
+              ngxPrint>
+              {{ 'Imprimir Certificado' | titlecase }}&nbsp;
+              <i class="fas fa-print"></i>
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-link text-info cursor-pointer" 
+              [useExistingCss]="true"
+              printSectionId="CartaConceptoCRHB" 
+              ngxPrint>
+              {{ 'Imprimir Carta' | titlecase }}&nbsp;
+              <i class="fas fa-print"></i>
+            </button> -->
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="mt-2 mb-2 col-12">
+              <div class="card">
+                <div class="card-header">
+                  Datos paciente
+                </div>
+                
+                <div class="card-body">
+                  <div class="row">
+                    <!-- ********** START - Finalidad del tratamiento ********** -->
+                    <div class="col">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;nombre:&nbsp;</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.primerNombre">{{ (patientData?.primerNombre | titlecase) }}</h6>
+                        <small *ngIf="!patientData?.primerNombre">No registra dato</small>
+                      </div>
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="far fa-id-card"></i>&nbsp;Tipo de documento:</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.tipoDoc">{{ (patientData?.tipoDoc | titlecase) }}</h6>
+                        <small *ngIf="!patientData?.tipoDoc">No registra dato</small>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;nombre:&nbsp;</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.segundoNombre">{{ (patientData?.segundoNombre | titlecase) }}</h6>
+                        <small *ngIf="!patientData?.segundoNombre">No registra dato</small>
+                      </div>
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="far fa-id-card"></i>&nbsp;N&uacute;mero de documento:</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.numeroDocumento">{{ patientData?.numeroDocumento }}</h6>
+                        <small *ngIf="!patientData?.numeroDocumento">No registra dato</small>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-user"></i>&nbsp;Primer&nbsp;apellido:&nbsp;</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.primerApellido">{{ (patientData?.primerApellido | titlecase) }}</h6>
+                        <small *ngIf="!patientData?.primerApellido">No registra dato</small>
+                      </div>
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="far fa-calendar-alt"></i>&nbsp;Fecha de nacimiento:</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.fechaNacimiento">{{ patientData?.fechaNacimiento | date:'mediumDate' }}</h6>
+                        <small *ngIf="!patientData?.fechaNacimiento">No registra dato</small>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-user"></i>&nbsp;Segundo&nbsp;apellido:&nbsp;</span><br>
+                        <h6 style="color: #000;"*ngIf="patientData?.segundoApellido">{{ (patientData?.segundoApellido | titlecase) }}</h6>
+                        <small *ngIf="!patientData?.segundoApellido">No registra dato</small>
+                      </div>
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="far fa-calendar-alt"></i>&nbsp;Edad:</span><br>
+                        <h6 style="color: #000;" *ngIf="patientData?.edad">{{ patientData?.edad + ' años' }}</h6>
+                        <small *ngIf="!patientData?.edad">No registra dato</small>
+                      </div>
+                    </div>
+                    <!-- *********** END - Finalidad del tratamiento *********** -->
+                    <div class="col-12">
+                      <hr>
+                    </div>
+                    <div class="col-6">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span>
+                        <h6 style="color: #000;" *ngIf="patientData?.email && inputEmailPatient == false">
+                          {{ patientData?.email }}&nbsp;
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="inputEmailPatient = true"></i>
+                        </h6>&nbsp;
+                        <small *ngIf="!patientData?.email">No registra dato</small>
+                        <input 
+                          *ngIf="inputEmailPatient == true"
+                          class=""
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-emailPatient"  
+                          name="emailPatient" 
+                          [(ngModel)]="patientData.email" 
+                          (focusout)="inputEmailPatient = false"
+                          [status]="'info'"
+                          placeholder="Correo electronico paciente">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span>
+                        <h6 style="color: #000;" *ngIf="patientData?.telefono && inputPhonePatient == false">
+                          {{ patientData?.telefono }}
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="inputPhonePatient = true"></i>
+                        </h6>
+                        <small *ngIf="!patientData?.telefono">No registra dato</small>
+                        <input 
+                          *ngIf="inputPhonePatient == true"
+                          class=""
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-phonePatient"  
+                          name="phonePatient" 
+                          [(ngModel)]="patientData.telefono" 
+                          (focusout)="inputPhonePatient = false"
+                          [status]="'info'"
+                          placeholder="Número de teléfono paciente">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span>
+                        <h6 style="color: #000;" *ngIf="patientData?.direccion && inputPhonePatient == false">
+                          {{ patientData?.direccion }}
+                          <!-- <i class="fas fa-pencil-alt cursor-pointer" (click)="inputAddressPatient = true"></i> -->
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="fnShowModalAddAddress()"></i>
+                        </h6>
+                        <small *ngIf="!patientData?.direccion">No registra dato</small>
+                        <input 
+                          *ngIf="inputAddressPatient == true"
+                          class=""
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-phonePatient"  
+                          name="phonePatient" 
+                          [(ngModel)]="patientData.telefono" 
+                          (focusout)="inputAddressPatient = false"
+                          [status]="'info'"
+                          placeholder="Número de teléfono paciente">
+                      </div>
+                    </div>
+                  </div>    
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mt-2 mb-2 col-12">
+              <div class="card">
+                <div class="card-header">
+                  Datos paciente
+                </div>
+                
+                <div class="card-body">
+                  <div class="row">
+                    <!-- ********** START - Empleadores componente ********** -->
+                    <div class="mt-2 mb-2 col-12">
+                      <ngx-patient-employer-list 
+                        *ngIf="patientData"
+                        [idPaciente]="patientData?.iIDPaciente" 
+                        [patientData]="patientData" 
+                        [documentNumber]="patientData?.numeroDocumento" 
+                        [documentType]="patientData?.iIDTipoDoc" 
+                        [collectionEmployers]="null" 
+                        [typeList]="1"
+                      ></ngx-patient-employer-list>
+                    </div>
+                    <!-- *********** END - Empleadores componente *********** -->
+                  </div>    
+                </div>
+  
+              </div>
+            </div>
+          </div>
+                           
+          <div class="row mt-4">
+            <div class="col">
+              <div class="mb-4 pb-4 animated fadeIn d-flex justify-content-center align-items-center">
+                <button 
+                  nbButton 
+                  class="cursor-pointer" 
+                  shape="round" 
+                  size="small" 
+                  status="info" 
+                  (click)="fnShowPreviewLetterCRHB()" 
+                  [disabled]="false">
+                  <i class="fas fa-eye"></i>&nbsp;
+                  Vista preliminar
+                </button>
+                &nbsp;
+                <button 
+                  nbButton 
+                  class="cursor-pointer" 
+                  shape="round" 
+                  size="small" 
+                  status="info" 
+                  (click)="fnUpdateLetterCRHB()" 
+                  [disabled]="false">Guardar
+                </button>
+                &nbsp;
+                <button 
+                  nbButton 
+                  class="cursor-pointer" 
+                  shape="round" 
+                  size="small" 
+                  status="info" 
+                  (click)="fnEmmitLetterCRHB()"
+                  [disabled]="false">Emitir
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+</div>

@@ -57,11 +57,8 @@ export class EstadoIncapacidadComponent implements OnInit {
 
   ngOnInit(): void {
     // this.utilitiesService.fnAuthValidUser().then(response => {
-      console.log('dataIncapacity: ', this.dataIncapacity);
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      console.log('this.dataDoctor: ', this.dataDoctor);
       let data = this.utilitiesService.fnGetDataShare();
-      console.log('data: ', data);
 
       if (data) {
         this.fnGetContabilidad(this.token, "001");
@@ -121,11 +118,8 @@ export class EstadoIncapacidadComponent implements OnInit {
 
     let dateIncapacity = moment(this.dataIncapacity['dtFechaEmisionIncapacidad']).format('YYYY/MM/DD');
     let monthDateIncapacity =  moment(this.dataIncapacity['dtFechaEmisionIncapacidad']).format('MM');
-    console.log('monthDateIncapacity: ', monthDateIncapacity);
     let dayDateIncapacity =  moment(this.dataIncapacity['dtFechaEmisionIncapacidad']).format('DD');
-    console.log('dayDateIncapacity: ', dayDateIncapacity);
     let yearDateIncapacity =  moment(this.dataIncapacity['dtFechaEmisionIncapacidad']).format('YYYY');
-    console.log('yearDateIncapacity: ', yearDateIncapacity);
 
     // this.submitted = true;
     return new Promise((resolve, reject) => {
@@ -142,9 +136,7 @@ export class EstadoIncapacidadComponent implements OnInit {
         "nitEmpleador": dataEmployer['nit'],
         "valor": Math.round(this.dataIncapacity['valor']),
       };
-      console.log('object_send: ', object_send);
       this.auditService.fnHttpPostCrearMovimientoContable(token, dataResponse['uiCodigoDiagnostico'], object_send).subscribe( r => {
-        console.log('r: ', r);
         resolve(true);
         // if (r.status == 201) {
         //   resolve(true);
@@ -173,7 +165,6 @@ export class EstadoIncapacidadComponent implements OnInit {
   }
 
   fnChangeStatus(incapacityStatus, dataIncapacity, idContabilidad) {
-    console.log('incapacityStatus: ', incapacityStatus);
 
     let dataEmployer = { 
       'nit': '900365863', 
@@ -199,7 +190,6 @@ export class EstadoIncapacidadComponent implements OnInit {
     };
 
     this.fnGenerateNewAccountingRegistry(dataIncapacity, dataEmployer, '', idContabilidad, incapacityStatus).then((resp) => {
-      console.log('resp: ', resp);
       if (resp) {
         this.utilitiesService.showToast('top-right', 'success', 'Se ha cambiado de estado la incapacidad con exito');
         this.dismiss(true);
@@ -209,7 +199,6 @@ export class EstadoIncapacidadComponent implements OnInit {
       }
 
     }).catch((err) => {
-      console.log('err: ', err);
       this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error al cambiar de estado la incapacidad. Intentelo nuevamente!', 'nb-alert');
       this.dismiss(false);
     });
@@ -229,7 +218,6 @@ export class EstadoIncapacidadComponent implements OnInit {
   }
 
   fnSelectStatusIncapacity(data) {
-    console.log('data: ', data);
   }
 
 }

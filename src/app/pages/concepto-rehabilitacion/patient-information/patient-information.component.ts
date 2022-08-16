@@ -45,21 +45,16 @@ export class PatientInformationComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      console.log('this.dataCase: ', this.dataCase);
 
       let dataObject = {
         "idPaciente": this.dataCase['PacienteId'],
       };
 
       this.fnGetDataUser(this.token, dataObject).then((response) => {
-        console.log('response: ', response);
         if (response) {
           this.dataCase = response['body']['informacionPacientes'][0];
           this.dataEmployers = response['body']['empleador'];
           this.dataMettrics = response['body']['datosTotales'];
-          console.log('this.dataCase: ', this.dataCase);
-          console.log('this.dataEmployers: ', this.dataEmployers);
-          console.log('this.dataMettrics: ', this.dataMettrics);
           this.loading = false;
         } else {
           this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
@@ -151,7 +146,6 @@ export class PatientInformationComponent implements OnInit {
   }
 
   fnSelectEmployer(item, index) {
-    console.log('item: ', item);
     this.employerSelected = index;
   }
 

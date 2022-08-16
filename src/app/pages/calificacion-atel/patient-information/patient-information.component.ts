@@ -40,7 +40,6 @@ export class PatientInformationComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.dataCase
-      console.log('this.dataCase: ', this.dataCase);
       // let objDataSend = {
       //   //"entidadId": 1,
       //   //"busqueda": 1,

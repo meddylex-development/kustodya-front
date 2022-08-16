@@ -19,7 +19,7 @@ import { ReporteIncapacidadesComponent } from './incapacidad/reporte-incapacidad
 import { ReporteResolucionComponent } from './reporte/reporte-resolucion/reporte-resolucion.component';
 import { ListEmailComponent } from './calificacion-origen/list-email/list-email.component';
 import { TranscriptionComponent } from './calificacion-origen/transcription/transcription.component';
-// import { CertificadoCrhbComponent } from './rehabilitation-concept/certificado-crhb/certificado-crhb.component';
+// import { CertificadoEmitidoComponent } from './rehabilitation-concept/certificado-emitido/certificado-emitido.component';
 import { ConceptoRehabilitacionComponent } from './concepto-rehabilitacion/concepto-rehabilitacion.component';
 import { DictamenPericialComponent } from './dictamen-pericial/dictamen-pericial.component';
 import { AuditarCasoComponent } from './dictamen-pericial/auditar-caso/auditar-caso.component';
@@ -28,6 +28,7 @@ import { PrintPreviewComponent } from './concepto-rehabilitacion/print-preview/p
 import { CalificacionAtelComponent } from './calificacion-atel/calificacion-atel.component';
 import { EditAtelComponent } from './calificacion-atel/edit/edit.component';
 import { PrintPreviewAtelComponent } from './calificacion-atel/print-preview/print-preview.component';
+import { LetterComponent } from './concepto-rehabilitacion/letter/letter.component';
 
 const routes: Routes = [
   {
@@ -121,8 +122,12 @@ const routes: Routes = [
             component: EditComponent,
           }, 
           {
-            path: 'certificado-crhb/:idCaso/:idPaciente',
+            path: 'certificado-emitido/:idCaso/:idPaciente',
             component: PrintPreviewComponent,
+          },
+          {
+            path: 'carta-certificado-emitido/:idCaso/:idPaciente',
+            component: LetterComponent,
           },
         ]
       }, {

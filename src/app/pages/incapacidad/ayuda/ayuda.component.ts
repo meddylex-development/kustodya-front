@@ -30,7 +30,6 @@ export class AyudaComponent implements OnInit {
 
   ngOnInit(): void {
     // this.utilitiesService.fnAuthValidUser().then(response => {
-      console.log('data: ', this.data);
     //   this.token = response['token'];
     //   this.userData = response['user'];
     // }).catch(error => {

@@ -55,7 +55,6 @@ export class ValoresIncapacidadComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       // this.data
-      console.log('this.data: ', this.data);
       this.patientData = this.data['patientData'];
       this.patientDiagnostic = this.data['diagnostic'];
       this.patientEmployer = this.data['employer'];

@@ -78,32 +78,23 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
 
   ngOnInit() {
     // this.token = params.token;
-    // console.log('this.token: ', this.token);
     const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
-    console.log('data: ', data);
     let dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
-    console.log('dataIPS: ', dataIPS);
     this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
     
     if (data && this.dataDoctor && dataIPS) {
-      console.log('this.dataDoctor: ', this.dataDoctor);
       const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-      console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
       const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-      console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
       const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-      console.log('signature_doctor: ', signature_doctor);
       const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-      console.log('dataDoctorSignature: ', dataDoctorSignature);
       this.dataDoctor['especiality'] = dataDoctorEspeciality;
       this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
       this.dataDoctor['signature'] = dataDoctorSignature;
       this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
       this.patientData = data['patientData'];
       this.patientData['diagnostic']['correlation'] = data['dataDiagnosticCorrelation'];
-      console.log('this.patientData: ', this.patientData);
       this.fnSetDataPreview(dataIPS, this.patientData);
     } else {
       this.patientData = null;
@@ -117,12 +108,9 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
     let collectionLateralidad = [];
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-        console.log('response: ', response);
         collectionLateralidad = response['body'];
-        console.log('collectionLateralidad: ', collectionLateralidad);
         resolve(collectionLateralidad);
       }, (error) => {
-        console.log('error: ', error);
         resolve(collectionLateralidad);
       })
     });
@@ -133,36 +121,25 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
   }
 
   fnViewHistory() {
-    console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
   }
 
   fnSetLateralityForm(id_laterality) {
     this.fnGetLateralities(this.token).then(response => {
-      console.log('response: ', response);
       this.listLateralities = response;
-      console.log('listLateralities: ', this.listLateralities);
       let nameLaterality = this.listLateralities.filter(d => d.iIDLateralidad == id_laterality);
-      console.log('nameLaterality: ', nameLaterality);
       this.dataCertificate['nameLaterality'] = nameLaterality[0];
       // this.nameLaterality = nameLaterality[0];
-      // console.log('this.nameLaterality: ', this.nameLaterality);
     }).catch(error => {
-      console.log('error: ', error);
     });
   }
 
 
   fnSetDataPreview(data_ips, patient_data) {
-    console.log('patient_data: ', patient_data);
-    console.log('data_ips: ', data_ips);
 
     const date_collection_unix = moment(new Date()).unix();
-    console.log('date_collection_unix: ', date_collection_unix);
     const date_collection_valueof = moment(new Date()).valueOf();
-    console.log('date_collection_valueof: ', date_collection_valueof);
     const date_incapcatity = moment(moment(new Date()).add(patient_data['diagnostic']['patientDaysGranted'], 'days')).valueOf();
-    console.log('date_incapcatity: ', date_incapcatity);
 
     let dataCertificate = {
       "bProrroga": patient_data['diagnostic']['correlation']['bProrroga'],
@@ -202,7 +179,6 @@ export class VistaPreviaCertificadoIncapacidadComponent implements OnInit {
 
 
     this.dataCertificate = dataCertificate;
-    console.log('this.dataCertificate: ', this.dataCertificate);
 
   }
 

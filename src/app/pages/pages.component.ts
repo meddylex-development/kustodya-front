@@ -60,7 +60,6 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     this.utilitiesService.fnAuthValidUser().then(response => {
       if (response) {
-        console.log('response ---- Menu: ', response);
         this.token = response['token'];
         this.user = response['user'];
         // this.fnLoadMenu(this.token);
@@ -97,7 +96,6 @@ export class PagesComponent implements OnInit, OnDestroy {
   fnLoadMenu(token) {
     this.fnGetMenuDashboard(token, 1).then((response) => {
       // this.MENU_ITEMS = response;
-      console.log('response: ', response);
       if (response) {
         this.MENU_ITEMS = response['body'];
       } else {
@@ -194,6 +192,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           'cards': cards_access[0],
           'menu_items': this.MENU_ITEMS,
         };
+        console.log('object_return: ', object_return);
         observer(object_return);
       } else if (r.status == 206) {
         const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];

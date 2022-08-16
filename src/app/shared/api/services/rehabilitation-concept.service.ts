@@ -43,7 +43,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpCreateNewMedicalConcept(guid_user, object_send): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlHttpCreateNewMedicalConcept = '/api/ConceptoRehabilitacion';
     return this.http.post(this.utility.fnGetHost() + this.urlHttpCreateNewMedicalConcept, object_send,
     {
@@ -54,7 +54,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpGetDataEtiologiesEnum(guid_user): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataEtiologiesEnum = '/api/ConceptoRehabilitacion/Diagnostico/Etiologias';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataEtiologiesEnum,
     {
@@ -65,7 +65,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpGetDataTypeSequelsEnum(guid_user): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataTypeSequelsEnum = '/api/ConceptoRehabilitacion/Secuela/Tipos';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataTypeSequelsEnum,
     {
@@ -76,7 +76,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpGetDataMedicalPrognosisEnum(guid_user): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataMedicalPrognosisEnum = '/api/ConceptoRehabilitacion/Secuela/Pronosticos';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataMedicalPrognosisEnum,
     {
@@ -87,7 +87,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpGetDataMedicalTreatmentsEnum(guid_user): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataMedicalTreatmentsEnum = '/api/ConceptoRehabilitacion/FinalidadTratamientos';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataMedicalTreatmentsEnum,
     {
@@ -98,7 +98,7 @@ export class RehabilitationConceptService {
   }
 
   fnHttpGetDataMedicalConceptEnum(guid_user): Observable<any> {
-    const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetDataMedicalConceptEnum = '/api/ConceptoRehabilitacion/Conceptos';
     return this.http.get(this.utility.fnGetHost() + this.urlGetDataMedicalConceptEnum,
     {

@@ -73,7 +73,6 @@ export class AgregarEmpleadorComponent implements OnInit {
 
   ngOnInit(): void {
     // this.utilitiesService.fnAuthValidUser().then(response => {
-      console.log('data: ', this.data);
       this.fnGetDocumentTypes(this.token);
     //   this.token = response['token'];
     //   this.userData = response['user'];
@@ -105,7 +104,6 @@ export class AgregarEmpleadorComponent implements OnInit {
   }
 
   fnSelectDocumentType($event) {
-    console.log('$event: ', $event);
     this.documentTypeSelected = $event;
   }
 
@@ -134,7 +132,6 @@ export class AgregarEmpleadorComponent implements OnInit {
       'valorDiaIncapcidad': 45000 
     };
 
-    console.log('objEmployer: ', objEmployer);
 
   }
 
@@ -147,18 +144,13 @@ export class AgregarEmpleadorComponent implements OnInit {
   }
 
   fnSelectEconomicActivity($event) {
-    console.log('$event: ', $event);
   }
 
   fnChangeNextStep() {
     // this.selectedIndex
-    console.log('this.selectedIndex: ', this.selectedIndex);
     // this.showBtnPrev
-    console.log('this.showBtnPrev: ', this.showBtnPrev);
     // this.showBtnNext
-    console.log('this.showBtnNext: ', this.showBtnNext);
     // this.showBtnSave
-    console.log('this.showBtnSave: ', this.showBtnSave);
     // this.stepper.next();
     switch (this.selectedIndex) {
       case 1:
@@ -180,13 +172,9 @@ export class AgregarEmpleadorComponent implements OnInit {
   
   fnChangePrevStep() {
     // this.selectedIndex
-    console.log('this.selectedIndex: ', this.selectedIndex);
     // this.showBtnPrev
-    console.log('this.showBtnPrev: ', this.showBtnPrev);
     // this.showBtnNext
-    console.log('this.showBtnNext: ', this.showBtnNext);
     // this.showBtnSave
-    console.log('this.showBtnSave: ', this.showBtnSave);
     // this.stepper.next();
     switch (this.selectedIndex) {
       case 2:

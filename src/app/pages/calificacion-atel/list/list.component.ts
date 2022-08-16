@@ -189,14 +189,12 @@ export class ListComponent implements OnInit {
 
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
-        console.log('this.dataSession: ', this.dataSession);
         this.token = token["token"];
 
         this.fnGetInfoProfileById(token, this.dataSession['IdProfile']).then((respDataProfile) => {
           if (respDataProfile) {
             this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
             this.userIdSession = (this.dataSession['EsSuperAdmin'] == "True")? 112 : this.dataSession['UserId'];
-            console.log('this.userIdSession: ', this.userIdSession);
 
             this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
             this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
@@ -766,7 +764,7 @@ export class ListComponent implements OnInit {
       "datosConcepto": item,
     };
     this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + item['idpacienteporemitir']);
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-emitido/' + item['idpacienteporemitir']);
   }
 
 

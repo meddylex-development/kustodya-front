@@ -29,7 +29,7 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { deLocale } from 'ngx-bootstrap/locale';
-import { CertificadoCrhbComponent } from './certificado-crhb/certificado-crhb.component';
+import { CertificadoEmitidoComponent } from './certificado-emitido/certificado-emitido.component';
 
 defineLocale('de', deLocale);
 /* ************+ Import module ngx-bootstrap-datepicker ************ */
@@ -39,7 +39,7 @@ const ENTRY_COMPONENTS = [
 
 @NgModule({
   declarations: [
-    CertificadoCrhbComponent,
+    CertificadoEmitidoComponent,
   ],
   imports: [
     CommonModule,

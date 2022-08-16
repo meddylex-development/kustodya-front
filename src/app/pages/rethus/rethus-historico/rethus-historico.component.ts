@@ -90,7 +90,6 @@ export class RethusHistoricoComponent implements OnInit, OnDestroy {
         this.state_loading = true;
         this.text_loading = 'Cargando';
         this.bulkUploadService.fnHttpGetListFilesUploadedRethus(token, currentPage).subscribe(response => {
-            console.log('response: ', response);
             if(response.status == 200) {
 
                 this.collection_history_files = JSON.parse(JSON.stringify(response.body['cargueOutputModels']));
@@ -135,21 +134,17 @@ export class RethusHistoricoComponent implements OnInit, OnDestroy {
     }
 
     fnShowReport(data) {
-        console.log('data: ', data);
         if (data.estado == 'Terminado') {
             $('#kstdy-report').click();
         }
     }
 
     fnDownloadReportFile(data, index) {
-        console.log('data: ', data);
-        console.log('index: ', index);
         const self = this;
         self.state_loading = true;
         self.text_loading = 'Descargando archivo';
         if (data['taskId']) {
             self.rethusService.fnHttpGetFileDownloadRethusHistory(data['taskId'], true, self.token).subscribe(resp_export => {
-                console.log('resp_export: ', resp_export);
                 if (resp_export.status == 200) {
                     var blob = new Blob([resp_export.body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                     if (window.navigator.msSaveOrOpenBlob) {

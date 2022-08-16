@@ -27,7 +27,6 @@ export class BulkUploadService {
     const headers = this.fnSetDefineTokenAuthorization(guid_user);
     this.urlGetListFilesUploadedRethus = '/api/Rethus/ConsultarCargue?pagina=' + current_page;
     // return this.http.get(this.url_host_medicos + '/api/CargueMasivo?code=' + this.code_api_medicos + '&pagina=' + current_page,
-    console.log('url-peticion: ', this.utility.fnGetHost() + this.urlGetListFilesUploadedRethus);
     return this.http.get(this.utility.fnGetHost() + this.urlGetListFilesUploadedRethus,
       {
         observe: 'response',
@@ -74,7 +73,6 @@ export class BulkUploadService {
 
     // const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlPutCargueMasivo = '/api/Rethus/CargueMasivo';
-    console.log('this.utility.fnGetHost() + this.urlPutCargueMasivo: ', this.utility.fnGetHost() + this.urlPutCargueMasivo);
     return this.http.put(this.utility.fnGetHost() + this.urlPutCargueMasivo, formData,
     {
       observe: 'response',

@@ -89,13 +89,10 @@ export class EditUserComponent implements OnInit {
             self.fnGetListIdentificationTypes(self.token);
             self.fnGetListGenders(self.token);
             self.fnGetListProfiles(self.token).then((resProfiles) => {
-              console.log('resProfiles: ', resProfiles);
               if (resProfiles) {
                 this.collection_profiles = resProfiles['body'];
-                console.log('this.collection_profiles: ', this.collection_profiles);
               }
             }).catch((err) => {
-              console.log('err: ', err);
             });
             if (self.isSuperAdmin === 'true') {
               self.fnGetListEntitiesAdmin(self.token);

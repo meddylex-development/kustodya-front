@@ -90,20 +90,16 @@ export class HistoricoPacienteComponent implements OnInit {
     this.flagSpinner = true;
     this.textSpinner = "Cargando...";
     let data = this.utilitiesService.fnGetDataShare();
-    console.log('data: ', data);
     this.utilitiesService.fnAuthValidUser().then(response => {
       this.token = response['token'];
       this.userData = response['user'];
-      console.log('this.userData: ', this.userData);
 
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      console.log('this.dataDoctor: ', this.dataDoctor);
       const user_id = this.userData['UserId'];
       this.fnGetDataIPS();
       if (data) {
         this.dataUserSpecialist = data['dataUserSpecialist'];
         this.patientData = data['patientData'];
-        console.log('this.patientData: ', this.patientData);
         this.fnTaskDiagnosicosIncapacidadByPaciente(this.token, this.patientData['iIDPaciente']);
         // this.dataUserSpecialist = responseRethusDetail['body'];
         if(this.dataUserSpecialist) {
@@ -130,7 +126,6 @@ export class HistoricoPacienteComponent implements OnInit {
     const token = sessionStorage.getItem("token");
     this.token = token;
     let data = this.utilitiesService.fnGetDataShare();
-    console.log('data: ', data);
     if (data) {
       this.submitted = true;
       // this.patientData = data['patientData'];
@@ -140,7 +135,6 @@ export class HistoricoPacienteComponent implements OnInit {
       // this.submitted = true;
       let IdPaciente = data['patientData']['iIdpaciente'];
       this.fnGetDataUserByID(token, IdPaciente).then((respDataUser) => {
-        console.log('respDataUser: ', respDataUser);
         this.patientData = respDataUser['body'];;
       });
       this.fnGetDiagnosicosIncapacidadByPaciente(this.token, IdPaciente).then((response) => {

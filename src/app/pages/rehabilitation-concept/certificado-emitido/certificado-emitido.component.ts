@@ -9,11 +9,11 @@ import { RehabilitationConceptService } from '../../../shared/api/services/rehab
 import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
-  selector: 'ngx-certificado-crhb',
-  templateUrl: './certificado-crhb.component.html',
-  styleUrls: ['./certificado-crhb.component.scss']
+  selector: 'ngx-certificado-emitido',
+  templateUrl: './certificado-emitido.component.html',
+  styleUrls: ['./certificado-emitido.component.scss']
 })
-export class CertificadoCrhbComponent implements OnInit {
+export class CertificadoEmitidoComponent implements OnInit {
 
   public patientData: any = null;
   public patientIncapacities: any = null;
@@ -87,40 +87,31 @@ export class CertificadoCrhbComponent implements OnInit {
       if (token.isValid()) {
         this.dataSession = token.getPayload();
         this.token = token["token"];
-        console.log('this.token: ', this.token);
         let data = this.utilitiesService.fnGetDataShare();
-        console.log('data: ', data);
 
         this.route.params.subscribe(params => {
-          console.log('params: ', params);
           this.dataCertificate = {};
           
           if (params['idUser']) {
             this.idUser = params['idUser'];
-            console.log('this.idUser: ', this.idUser);
             
             this.dataCertificate['qrcode'] = "http://localhost:4200/#/auth/login";
-            console.log('this.dataCertificate: ', this.dataCertificate);
             
             this.fnGetDataPatientById(this.token, this.idUser).then((resp) => {
-              console.log('resp: ', resp);
               if (!resp) {
                 
               } else {
                 try {
                   if (resp['status'] == 200) {
                     this.dataConceptCRHB = resp['body'] || {};
-                    console.log('this.dataConceptCRHB: ', this.dataConceptCRHB);
                   }
                 } catch (error) {
                   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
                 }
               }
             }).catch((err) => {
-              console.log('err: ', err);
             });
             // this.token = params.token;
-            // console.log('this.token: ', this.token);
             // const token = sessionStorage.getItem("token");
             // this.token = token;
             // this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
@@ -128,22 +119,16 @@ export class CertificadoCrhbComponent implements OnInit {
             // this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
             
             // if (data && this.dataDoctor) {
-            //   console.log('this.dataDoctor: ', this.dataDoctor);
             //   const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-            //   console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
             //   const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-            //   console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
             //   const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-            //   console.log('signature_doctor: ', signature_doctor);
             //   const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-            //   console.log('dataDoctorSignature: ', dataDoctorSignature);
             //   this.dataDoctor['especiality'] = dataDoctorEspeciality;
             //   this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
             //   this.dataDoctor['signature'] = dataDoctorSignature;
             //   this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
     
             //   this.patientData = data['patientData'];
-            //   console.log('this.patientData: ', this.patientData);
             // } else {
             //   this.patientData = null;
             //   this.patientIncapacities = null;
@@ -170,7 +155,6 @@ export class CertificadoCrhbComponent implements OnInit {
       this.rehabilitationConceptService.fnHttpGetDataPatientById(token, user_id).subscribe(response => {
         resolve(response);
       }, (err) => {
-        console.log('err: ', err);
         reject(err);
       });
     });
@@ -185,12 +169,9 @@ export class CertificadoCrhbComponent implements OnInit {
     let collectionLateralidad = [];
     return new Promise((resolve, reject) => {
       this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-        console.log('response: ', response);
         collectionLateralidad = response['body'];
-        console.log('collectionLateralidad: ', collectionLateralidad);
         resolve(collectionLateralidad);
       }, (error) => {
-        console.log('error: ', error);
         resolve(collectionLateralidad);
       })
     });
@@ -201,30 +182,22 @@ export class CertificadoCrhbComponent implements OnInit {
   }
 
   fnViewHistory() {
-    console.log('this.flipped: ', this.flipped);
     this.flipped = (this.flipped) ? false : true;
   }
 
   fnGetDataDiagnosticByDNI(token, diagnosticCodeDNI) {
     this.incapacityService.fnHttpGetDiagnosicosIncapacidadByCodigoDiagnostico(token, diagnosticCodeDNI).subscribe(response => {
-      console.log('response: ', response);
       this.dataCertificate = response['body'];
       this.dataCertificate['qrcode'] = this.utilitiesService.fnGetSite() + '/#/incapacidad/certificado-incapacidad/' +  response['body']['uiCodigoDiagnostico'];
 
       this.fnGetLateralities(this.token).then(response => {
-        console.log('response: ', response);
         this.listLateralities = response;
-        console.log('listLateralities: ', this.listLateralities);
         let nameLaterality = this.listLateralities.filter(d => d.iIDLateralidad == this.dataCertificate['iIDLateralidad']);
-        console.log('nameLaterality: ', nameLaterality);
         this.dataCertificate['nameLaterality'] = nameLaterality[0];
         // this.nameLaterality = nameLaterality[0];
-        // console.log('this.nameLaterality: ', this.nameLaterality);
       }).catch(error => {
-        console.log('error: ', error);
       });
 
-      console.log('this.dataCertificate: ', this.dataCertificate);
     }, err => {
       // this.submitted = false;
       this.utilitiesService.showToast('top-right', '', 'Error consultado el diagnotico!');
@@ -236,13 +209,10 @@ export class CertificadoCrhbComponent implements OnInit {
     /// this.listCantidadDiagnoticosIncapacidad = [];
     let listCantidadDiagnoticosIncapacidad = [];
     let idPaciente = this.patientData['iIdpaciente'];
-    console.log('idPaciente: ', idPaciente);
     // let self = this;
     this.incapacityService.fnHttpGetCantidadDiagnoticosIncapacidadByPaciente(token, idPaciente).subscribe(r => {
-      console.log('r: ', r);
       if (r.status == 200) {
         this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-        console.log('this.listCantidadDiagnoticosIncapacidad: ', this.listCantidadDiagnoticosIncapacidad);
         let dataChart1 = [];
         let dataChart2 = [];
         this.listCantidadDiagnoticosIncapacidad.forEach(i => {
@@ -253,8 +223,6 @@ export class CertificadoCrhbComponent implements OnInit {
           dataChart2.push(itemIncapacidadesEmitidas);
           // this.char2_dataChart_gc.push(itemIncapacidadesEmitidas);
         });
-        console.log('dataChart1: ', dataChart1);
-        console.log('dataChart2: ', dataChart2);
         this.chart1.data = dataChart1;
         this.chart2.data = dataChart2;
 
@@ -264,7 +232,6 @@ export class CertificadoCrhbComponent implements OnInit {
       // if (r.status == 200) {
       //   this.submitted = false;
       //   this.listCantidadDiagnoticosIncapacidad = JSON.parse(JSON.stringify(r.body.slice(0, 10)));
-      //   console.log('self.listCantidadDiagnoticosIncapacidad: ', self.listCantidadDiagnoticosIncapacidad);
       //   self.listCantidadDiagnoticosIncapacidad.forEach(i => {
       //     let itemDiasIncapacidad = [i.tCie10, i.iDiasIncapacidad];
       //     self.char1_dataChart_gc.push(itemDiasIncapacidad);

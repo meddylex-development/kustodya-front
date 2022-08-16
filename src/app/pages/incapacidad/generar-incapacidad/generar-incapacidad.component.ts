@@ -240,14 +240,11 @@ export class GenerarIncapacidadComponent implements OnInit {
     this.flagSpinner = true;
     this.textSpinner = "Cargando...";
     let data = this.utilitiesService.fnGetDataShare();
-    console.log('data: ', data);
     this.utilitiesService.fnAuthValidUser().then(response => {
       this.token = response['token'];
       this.userData = response['user'];
-      console.log('this.userData: ', this.userData);
 
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-      console.log('this.dataDoctor: ', this.dataDoctor);
       const user_id = this.userData['UserId'];
       // this.dataIPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('ips'));
       this.fnGetDataIPS();
@@ -566,7 +563,6 @@ export class GenerarIncapacidadComponent implements OnInit {
     let idCIE10 = item_cie_10['iIdcie10'];
     this.incapacityService.fnHttpGetCorrelationDiagnostic(this.token, idCIE10, this.patientData['iIdpaciente']).subscribe(r => {
       this.dataDiagnosticCorrelation = JSON.parse(JSON.stringify(r.body));
-      console.log('this.dataDiagnosticCorrelation: ', this.dataDiagnosticCorrelation);
       this.patientData['diagnostic']['extensionIncapacity'] = this.dataDiagnosticCorrelation['bProrroga'];
       this.loadingData = true;
     }, err => {
@@ -608,9 +604,7 @@ export class GenerarIncapacidadComponent implements OnInit {
       
       
       // this.dataIPS = dataIPS;
-      console.log('this.dataIPS: ', this.dataIPS);
       let dataEPS = JSON.parse(this.utilitiesService.fnGetSessionStorage('eps'));
-      console.log('dataEPS: ', dataEPS);
 
       
       let object_data = null;
@@ -726,9 +720,7 @@ export class GenerarIncapacidadComponent implements OnInit {
         "ips": (this.dataIPS) ? this.dataIPS : '',
       }; */
       let fechaAfeccion = moment(moment(moment(this.patientData['diagnostic']['dateStartPatientCondition']).format('YYYY-MM-DD') + ' ' + this.patientData['diagnostic']['timeStartPatientCondition']['hour'] + ':' + this.patientData['diagnostic']['timeStartPatientCondition']['minute'] + ':00').valueOf()).format("YYYY-MM-DD HH:mm:ss");
-      console.log('fechaAfeccion: ', fechaAfeccion);
       let dateTest = moment(fechaAfeccion).toISOString();
-      console.log('dateTest: ', dateTest);
       object_data = {
         "iIDIPS": (this.dataIPS) ? this.dataIPS['TblIpsId'] : -1,
         "iIDPaciente": (this.patientData['iIDPaciente']) ? this.patientData['iIDPaciente'] : -1,
@@ -758,7 +750,6 @@ export class GenerarIncapacidadComponent implements OnInit {
         "numeroIncapacidadIPSTranscripcion": ""
       };
       
-      console.log('object_data: ', object_data);
       // return false;
       // const object_data_test = {
       //   'iIddiagnosticoIncapacidad': 0,
@@ -785,7 +776,6 @@ export class GenerarIncapacidadComponent implements OnInit {
       // return false;
       // this.submitted = true;
       this.incapacityService.fnHttpPostAddNewIncapacity(this.token, object_data).subscribe(response => {
-        console.log('response: ', response);
         if (response.status == 200) {
           // this.patientData['diagnostic'] = {
           //   'soatInsurance': false,
@@ -807,7 +797,6 @@ export class GenerarIncapacidadComponent implements OnInit {
           }
 
           // Consumir API que envia correo
-          console.log('dataResolve: ', dataResolve);
           resolve(dataResolve);
         }
         if (response.status == 206) {
@@ -842,9 +831,7 @@ export class GenerarIncapacidadComponent implements OnInit {
 
     let datesDataIncapacityCreated = dataIncapacityCreated['dates'];
     let objectDataSend = dataIncapacityCreated['objectDataSend'];
-    console.log('objectDataSend: ', objectDataSend);
     let dataResponse = dataIncapacityCreated['dataResponse']['body'][0];
-    console.log('dataResponse: ', dataResponse);
 
     let dateIncapacity = moment(datesDataIncapacityCreated['dateNowValueOf']).format('YYYY/MM/DD');
     let monthDateIncapacity =  moment(datesDataIncapacityCreated['dateNowValueOf']).format('MM');
@@ -866,7 +853,6 @@ export class GenerarIncapacidadComponent implements OnInit {
         "nitEmpleador": dataEmployer['nit'],
         "valor": Math.round(this.totalPatientValueToPay),
       };
-      console.log('object_send: ', object_send);
       this.auditService.fnHttpPostCrearMovimientoContable(token, dataResponse['uiCodigoDiagnostico'], object_send).subscribe( r => {
         resolve(true);
         // if (r.status == 201) {
@@ -1382,8 +1368,6 @@ export class GenerarIncapacidadComponent implements OnInit {
   }
 
   fnShowValuesIncapacity(item, index) {
-    console.log('item: ', item);
-    console.log('index: ', index);
     item['ibc'] = "2500000";
     item['patientDaysAccum'] = "185";
     let dataSend = {};
@@ -1398,7 +1382,6 @@ export class GenerarIncapacidadComponent implements OnInit {
     };
     dataSend['employer'] = item;
     this.dialogService.open(ValoresIncapacidadComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
-      console.log('res: ', res);
     });
   }
 

@@ -145,7 +145,6 @@ export class UtilitiesService {
     return sessionStorage.getItem('user');
   }
   fnSetToken(token) {
-    console.log('token: ', token);
     sessionStorage.setItem("token", token);
   }
   fnSetSessionStorage(nameVar, dataVal) {
@@ -679,7 +678,6 @@ export class UtilitiesService {
   //   let dataSend = {};
   //   dataSend['data'] = { module: moduleName, column: columnName, title:title, description: description };
   //   this.dialogService.open(HelpComponent, { context: dataSend }).onClose.subscribe((res) => {
-  //     console.log('res: ', res);
   //   });
   // }
 
@@ -798,7 +796,6 @@ export class UtilitiesService {
 
   fnGetDataCie10Json(file_name: string) {
     const urlFileJson = '../../../../app/shared/api/mock/' + file_name ;
-    console.log('urlFileJson: ', urlFileJson);
     return this.http.get(urlFileJson,
     {
       observe: 'response',

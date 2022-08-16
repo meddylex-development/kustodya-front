@@ -250,8 +250,6 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
       if (response.status == 200) {
         // this.collection_medical_concept = response['body'];
         this.dataCollectionConcepts = response['body'];
-        console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
-        console.log('this.collection_medical_concept: ', this.collection_medical_concept);
         // this.collection_medical_concept = this.collection_medical_concept.concat(response['body']);
         this.object_data_patient['medical_concept'] = {
           'pronosticoConceptoId': 1,
@@ -436,17 +434,13 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
   }
 
   fnSetMedicalConcept(data_concept) {
-    console.log('data_concept: ', data_concept);
     switch (data_concept["value"]) {
       case 1:
-        console.log("Favorable");
         // this.dataCollectionConcepts[0]; // Favorable
         this.object_data_patient['text_medical_concept'] = this.dataCollectionConcepts[0]['texto'];
         break;
       case 2:
-        console.log("Desfavorable");
         // this.dataCollectionConcepts
-        console.log('this.dataCollectionConcepts: ', this.dataCollectionConcepts);
         // this.dataCollectionConcepts[1]; // Desfavorable - con incapacidad
         // this.dataCollectionConcepts[2]; // Desfavorable - sin incapacidad
         break;
@@ -454,7 +448,6 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
   }
 
   fnCheckUnFavType(unfav_type) {
-    console.log('unfav_type: ', unfav_type);
     this.unfavType = unfav_type;
     switch (unfav_type) {
       case 1:
@@ -469,15 +462,13 @@ export class RehabilitationConceptBasicInfoComponent implements OnInit {
   fnShowPreview() {
     // let emailId = item['id'];
     // this.data_object_tab
-    console.log('this.data_object_tab: ', this.data_object_tab);
-    console.log('this.object_data_patient: ', this.object_data_patient);
     this.utilitiesService.fnSetDataShare({ 
       dataConcept: this.object_data_patient,
       dataPatient: this.data_object_tab,
     }, true);
     
-    // window.open('http://localhost:4200/#/pages/concepto-de-rehabilitacion/certificado-crhb/1234', "_blank");
-    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-crhb/' + this.data_object_tab['idpacienteporemitir']);
+    // window.open('http://localhost:4200/#/pages/concepto-de-rehabilitacion/certificado-emitido/1234', "_blank");
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-emitido/' + this.data_object_tab['idpacienteporemitir']);
   }
 
 }

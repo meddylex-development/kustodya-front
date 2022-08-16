@@ -207,7 +207,6 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
     const self = this;
     self.loading_state = true;
     self.originQualificationService.fnHttpGetOriginQualificationData(current_payload, guid_id).subscribe(resp_get_data => {
-      console.log('resp_get_data: ', resp_get_data);
       if (resp_get_data.status == 200) {
         self.data_transcription = resp_get_data['body'];
         // const full_name = this.capitalizePipe.transform(self.data_transcription['nombre']);
@@ -317,7 +316,6 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
   }
 
   fnShowPreview(item_file) {
-    console.log('item_file: ', item_file);
     const self = this;
     self.loading_state = true;
     self.show_preview_file = false;
@@ -325,11 +323,8 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
     const file_guiid = item_file['archivoId'];
 
     self.fnGetPDFAccountingAudit(self.current_payload, file_guiid, function (resp_data) {
-      console.log('resp_data: ', resp_data);
       self.show_preview_file = true;
-      console.log('resp_data.body.url: ', resp_data['body']['url']);
       self.url_extension = (resp_data['body']['url']).split(/[#?]/)[0].split('.').pop().trim();
-      console.log('self.url_extension: ', self.url_extension);
 
       
 
@@ -349,8 +344,6 @@ export class OriginQualificationTranscriptionComponent implements OnInit {
 
       
       // const url_file_preview = self.sanitizer.bypassSecurityTrustResourceUrl(resp_data['body']['url']);
-      // console.log('url_file_preview: ', url_file_preview);
-      console.log('self.url_file_preview: ', self.url_file_preview);
       self.loading_state = false;
     });
   }

@@ -225,7 +225,6 @@ export class IncapacityDiagnosticComponent implements OnInit {
     const data_ips = JSON.parse(sessionStorage.getItem('ips'));
     const data_cie10 = (this.collection_diagnosis_complete['symptom'].concat(this.collection_diagnosis_complete['signs'])).concat(this.collection_diagnosis_complete['diagnosis']);
     // this.lateralidad
-    console.log('this.lateralidad: ', this.lateralidad);
     const object_data = {
       'iIddiagnosticoIncapacidad': 0,
       'uiCodigoDiagnostico': null,
@@ -258,7 +257,6 @@ export class IncapacityDiagnosticComponent implements OnInit {
         this.diagnostigoGenerado = r.body;
         this.diagnostigoGenerado.paciente = this.paciente;
         this.diagnostigoGenerado.diagnostico = object_data.cie10;
-        console.log('this.diagnostigoGenerado: ', this.diagnostigoGenerado);
         this.showModalGeneratedDiagnostic();
       }
       if (r.status == 206) {
@@ -301,11 +299,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
 
   fnGetLateralities(token) {
     this.incapacityService.fnHttpGetListLateralities(token).subscribe(response => {
-      console.log('response: ', response);
       this.collectionLateralidad = response['body'];
-      console.log('this.collectionLateralidad: ', this.collectionLateralidad);
     }, (error) => {
-      console.log('error: ', error);
     })
   }
 
@@ -471,10 +466,8 @@ export class IncapacityDiagnosticComponent implements OnInit {
   }
 
   fnGetCorrelationDiagnostic(cie_10) {
-    console.log('cie_10: ', cie_10);
     this.submitted = true;
     this.applyLaterality =  cie_10['aplicaLateralidad'] || false;
-    console.log('this.applyLaterality: ', this.applyLaterality);
     this.data_correlation_diagnostic = null;
     let id_cie_10 = cie_10['iIdcie10'];
     this.incapacityService.fnHttpGetCorrelationDiagnostic(this.token, id_cie_10, this.paciente.iIdpaciente).subscribe(r => {

@@ -75,13 +75,10 @@ export class AddUserComponent implements OnInit {
         self.token = params.token;
         self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
         self.fnGetListProfiles(self.token).then((resProfiles) => {
-          console.log('resProfiles: ', resProfiles);
           if (resProfiles) {
             this.collection_profiles = resProfiles['body'];
-            console.log('this.collection_profiles: ', this.collection_profiles);
           }
         }).catch((err) => {
-          console.log('err: ', err);
         });
         self.fnGetListIdentificationTypes(self.token);
         self.fnGetListGenders(self.token);

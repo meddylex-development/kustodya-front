@@ -49,16 +49,12 @@ export class DatosOcrComponent implements OnInit {
     if (token && user_id) {
       this.token = token;
       let data = this.utilitiesService.fnGetDataShare();
-      console.log('data: ', data);
-      console.log('this.token: ', this.token);
 
       this.incapacityService.fnHttpGetDataOCRTranscription().subscribe((respDataOCR) => {
-        console.log('respDataOCR: ', respDataOCR);
         if (respDataOCR['status'] == 200) {
           this.dataOcr = respDataOCR['body']['response'];
           this.dataOcr.forEach(element => {
             let myArray = element['Texto'].split(":");
-            console.log('myArray: ', myArray);
           });
         }
       });

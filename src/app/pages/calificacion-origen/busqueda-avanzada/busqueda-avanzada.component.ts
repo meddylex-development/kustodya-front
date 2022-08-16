@@ -50,16 +50,12 @@ export class BusquedaAvanzadaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('data: ', this.data);
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
-      console.log('token: ', token);
       if (token.isValid()) {
         this.bsLocaleService.use('es');
         // here we receive a payload from the token and assigne it to our `dataSession` variable
         this.dataSession = token.getPayload();
         this.token = token["token"];
-        console.log('this.dataSession: ', this.dataSession);
-        console.log('this.token: ', this.token);
         this.dataAdavanceSearch['textSearch'] = this.data['textSearchInput']; 
         this.dataAdavanceSearch['state'] = this.data['statusAudit']; 
         this.dataAdavanceSearch['daterange'] = this.data['dateRange'];
@@ -67,9 +63,7 @@ export class BusquedaAvanzadaComponent implements OnInit {
         this.submitted = true;
         this.fnGetOriginQualificationListStates(this.token).then((resp) => {
           if(resp) {
-            console.log('resp: ', resp);
             this.collectionStates = resp;
-            console.log('this.collectionStates: ', this.collectionStates);
             this.submitted = false;
           } else {
             this.submitted = false;
@@ -98,12 +92,10 @@ export class BusquedaAvanzadaComponent implements OnInit {
   }
 
   fnSearch(dataAdavanceSearch) {
-    console.log('dataAdavanceSearch: ', dataAdavanceSearch);
     this.dismiss(dataAdavanceSearch);
   }
 
   fnSetStatusEmailSearch($event) {
-    console.log('$event: ', $event);
     this.dataAdavanceSearch['statusInfo'] = $event;
   }
 

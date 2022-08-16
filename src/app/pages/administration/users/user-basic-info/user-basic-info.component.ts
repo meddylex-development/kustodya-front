@@ -93,12 +93,12 @@ export class UserBasicInfoComponent implements OnInit {
               self.fnGetListEntities(self.token);
             }
           } else {
-            self.router.navigateByUrl('');
+            // self.router.navigateByUrl('');
             self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error obteniendo los datos del usuario!');
           }
         });
       } else {
-        self.router.navigateByUrl('');
+        // self.router.navigateByUrl('');
         self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error!');
       }
     });

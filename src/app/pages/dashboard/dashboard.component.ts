@@ -116,23 +116,18 @@ export class DashboardComponent implements OnInit {
 
     _this.utilitiesService.fnAuthValidUser().then(response => {
       if (response) {
-        console.log('response ---- dashboard: ', response);
         _this.token = response['token'];
         _this.user = response['user'];
         // _this.fnLoadMenu(_this.token);
 
         _this.fnGetMenuDashboard(_this.token, 1, null, null, function (resp) {
-          console.log('resp: ', resp);
             // _this.flag_find_rethus = 1;
             // _this.section_navigate = '1';
             // _this.enum_document_type = 9;
             // _this.document_number = 1111;
             // const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
-            // console.log('main_manu_collection: ', main_manu_collection);
             // main_manu_collection.forEach((value, index) => {
             //   if (value.children.length > 0) {
-            //     console.log('value: ', value);
-            //     console.log('#sub_menu_' + index);
             //     // $("#sub_menu_1").css('display', 'none');
             //   }
             // });
@@ -201,11 +196,8 @@ export class DashboardComponent implements OnInit {
   // }
 
   fnSetLevelData(level_menu, item_name, collection_level, item_childrens, index_menu) {
-    console.log('level_menu: ', level_menu);
-    console.log('item_name: ', item_name);
     console.log('collection_level: ', collection_level);
-    console.log('item_childrens: ', item_childrens);
-    console.log('index_menu: ', index_menu);
+    
     this.title_name_module = item_name;
     const data_collection_breadcrumbs = JSON.parse(JSON.stringify(this.collection_levels_menu));
     this.show_content = false;
@@ -225,7 +217,10 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    console.log("this.current_item['id']: ", this.current_item['id']);
+    if (this.current_item['id'] == 9) {
+      this.utilitiesService.fnNavigateByUrl('pages/admin/users');
+    }
+
     if (this.current_item['id'] == 572) {
       this.fnRedirectResolutionReport();
     }
@@ -388,9 +383,6 @@ export class DashboardComponent implements OnInit {
   }
 
   fnValidContentMenu(menu_sec, item_menu_sec, index_sec_menu) {
-    console.log('menu_sec: ', menu_sec);
-    console.log('item_menu_sec: ', item_menu_sec);
-    console.log('index_sec_menu: ', index_sec_menu);
     // this.items_second_menu = menu_sec['children'];
     this.fnSetLevelData(item_menu_sec['menuLevel'], item_menu_sec['title'], menu_sec, item_menu_sec['children'], index_sec_menu);
   }

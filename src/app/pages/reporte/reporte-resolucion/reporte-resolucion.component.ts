@@ -34,17 +34,13 @@ export class ReporteResolucionComponent implements OnInit {
     $(document).ready(function () {
       // $('.btn-show-search-form').click(); // Emulate click display right sidebar to hide
       window.onafterprint = () => {
-        console.log("Print finishhhh!!!");
         $("#content-header").slideToggle("slow", (respSlide) => {
-          console.log('respSlide: ', respSlide);
           $(".layout-container").css("padding-top", "4.75rem");
         });
       }
     });
     /* **** END - JQuery definition **** */
     this.dataMenu = JSON.parse(this.utilitiesService.fnGetSessionStorage('dataMenu'));
-    console.log('this.dataMenu: ', this.dataMenu);
-    console.log("Hola reporte resolucion");
     this.fnGetEmbedReport(this.current_payload);
   }
 
@@ -85,7 +81,6 @@ export class ReporteResolucionComponent implements OnInit {
 
   print() {
     $("#content-header").slideToggle("slow", (respSlide) => {
-      console.log('respSlide: ', respSlide);
       $(".layout-container").css("padding-top", 0);
       window.print();
     });

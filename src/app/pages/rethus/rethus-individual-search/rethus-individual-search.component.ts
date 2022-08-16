@@ -234,8 +234,6 @@ export class RethusIndividualSearchComponent implements OnInit {
         self.loading_state = false;
         self.state_search = (self.data_doctor_details.length < 1) ? true : false;
         self.show_list_doctors = false;
-        console.log(self.data_doctor_details.length);
-        console.log(data_doctor_info);
       } else if (resp_doctor.status == 202) {
         self.error_response = {
           'status': true,

@@ -10,6 +10,7 @@ import {
   NbSelectModule,
   NbUserModule, 
   NbStepperModule,
+  NbAccordionModule,
 } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
@@ -48,6 +49,11 @@ import { EmisionConfirmComponent } from './emision-confirm/emision-confirm.compo
 import { SendMailComponent } from './send-mail/send-mail.component';
 import { CancelCaseComponent } from './cancel-case/cancel-case.component';
 import { NoApplyCaseComponent } from './no-apply-case/no-apply-case.component';
+import { LetterComponent } from './letter/letter.component';
+
+import { PatientEmployerListComponent } from '../../common/patient-employer-list/patient-employer-list.component';
+import { BuildAddressComponent } from '../../common/build-address/build-address.component';
+
 import { ToolsModule } from '../../shared/modules/tools.module';
 
 const ENTRY_COMPONENTS = [
@@ -71,7 +77,10 @@ const ENTRY_COMPONENTS = [
     EmisionConfirmComponent, 
     SendMailComponent, 
     CancelCaseComponent,
+    PatientEmployerListComponent,
+    BuildAddressComponent,
     NoApplyCaseComponent,
+    LetterComponent,
   ],
   imports: [
     ToolsModule,
@@ -97,6 +106,7 @@ const ENTRY_COMPONENTS = [
     NgxDocViewerModule,
     TooltipModule.forRoot(), 
     NbStepperModule,
+    NbAccordionModule,
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,
@@ -114,6 +124,8 @@ const ENTRY_COMPONENTS = [
     PatientInformationComponent,
     SpecialistInformationComponent,
     CancelCaseComponent,
+    PatientEmployerListComponent,
+    BuildAddressComponent,
     NoApplyCaseComponent,
   ],
 })

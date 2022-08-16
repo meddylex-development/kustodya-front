@@ -39,14 +39,11 @@ export class AssignCaseComponent implements OnInit {
       this.token = response['token'];
       this.userData = response['user'];
       this.fnGetListDoctorsCases(this.token).then((response) => {
-        console.log('response: ', response);
         if (response) {
           let dataDoctors = response['body']['TareasMedicos'];
           dataDoctors.forEach(element => {
-            console.log('element: ', element);
             element['doctor'] = '(' + element['cantidad'] + ') - ' + element['numeroDocumento'] + ' - ' + element['nombres'];
             //this.collectionDoctors.push(element);
-            // console.log('this.collectionDoctors: ', this.collectionDoctors);
           });
           this.collectionDoctors = dataDoctors;
           // this.collectionDoctors = response['body']['TareasMedicos'];
@@ -95,13 +92,11 @@ export class AssignCaseComponent implements OnInit {
   }
 
   fnAssignCase(doctorAssign, priorityCase) {
-    console.log('doctorAssign: ', doctorAssign);
     let dataUpdate = {
       "id": this.dataCase['Id'],
       "usuarioAsignadoId": doctorAssign['iIDUsuario'],
       "prioridad": priorityCase,
     };
-    console.log('dataUpdate: ', dataUpdate);
     this.fnSetAssignCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {
         this.utilitiesService.showToast('top-right', 'success', 'Caso asignado satisfactoriamente!');

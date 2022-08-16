@@ -31,12 +31,9 @@ export class RegistroContableComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log('params: ', params);
       if (params['diagnosticCodeDNI']) {
         this.diagnosticCodeDNI = params['diagnosticCodeDNI'];
-        console.log('this.diagnosticCodeDNI: ', this.diagnosticCodeDNI);
         // this.token = params.token;
-        // console.log('this.token: ', this.token);
         const token = sessionStorage.getItem("token");
         this.token = token;
         // this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
@@ -44,24 +41,17 @@ export class RegistroContableComponent implements OnInit {
         this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
         
         if (data && this.dataDoctor) {
-          console.log('this.dataDoctor: ', this.dataDoctor);
           const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-          console.log('dataDoctorEspeciality: ', dataDoctorEspeciality);
           const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-          console.log('dataDoctorRegistroMedico: ', dataDoctorRegistroMedico);
           const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-          console.log('signature_doctor: ', signature_doctor);
           // const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-          // console.log('dataDoctorSignature: ', dataDoctorSignature);
           this.dataDoctor['especiality'] = dataDoctorEspeciality;
           this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
           // this.dataDoctor['signature'] = dataDoctorSignature;
           this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
 
           this.patientData = data['patientData'];
-          console.log('this.patientData: ', this.patientData);
           this.fnGetDetailAccountingRegistry(this.diagnosticCodeDNI).then((respDataDetail) => {
-            console.log('respDataDetail: ', respDataDetail);
             // this.dataDetailAccounting = respDataDetail['body'];
             this.dataDetailAccounting = respDataDetail;
           });
@@ -83,9 +73,7 @@ export class RegistroContableComponent implements OnInit {
     // this.submitted = true;
     return new Promise((resolve, reject) => {
       this.auditService.fnHttpGetDetalleMovimientoContable(idIncapacity).subscribe(respDetail => {
-        console.log('respDetail: ', respDetail);
         let collectionAccountingRegistry = respDetail['body'];
-        console.log('collectionAccountingRegistry: ', collectionAccountingRegistry);
         let dataRegitroRTCNoLiquidada = [];
         let dataRegitroRTCLiquidada = [];
         let dataRegitroRTCCancelacion = [];
@@ -94,7 +82,6 @@ export class RegistroContableComponent implements OnInit {
         let dataAccounting = [];
 
         collectionAccountingRegistry.forEach(element => {
-          console.log('element: ', element);
           if (element['Descripcion'] == "Registro RTC no liquidada\r\n") {
             dataRegitroRTCNoLiquidada.push(element);
             // element['dataRegitroRTCNoLiquidada'] = dataRegitroRTCNoLiquidada;
@@ -133,8 +120,6 @@ export class RegistroContableComponent implements OnInit {
         if(dataRTCCancelacionNoLiquidada.length > 0) {
           dataAccounting.push(dataRTCCancelacionNoLiquidada);
         }
-        console.log('dataAccounting: ', dataAccounting);
-        console.log('collectionAccountingRegistry: ', collectionAccountingRegistry);
         // this.collectionAttentionTypes = JSON.parse(JSON.stringify(r.body));
         // this.submitted = false;
         resolve(dataAccounting);

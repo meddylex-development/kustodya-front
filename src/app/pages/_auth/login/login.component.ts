@@ -84,7 +84,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
     this.user.tlanguage = 'en';
 
     this.utilitiesService.fnAuthValidUser().then(response => {
-      console.log('response: ', response);
       if (response) {
         this.redirect = 'pages/dashboard';
         this.utilitiesService.fnNavigateByUrl(this.redirect);
@@ -98,7 +97,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
     });
 
     // this.activatedRoute.params.subscribe(params => {
-    //   console.log('params: ', params);
     // });
   }
 
@@ -123,11 +121,9 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
         'user': this.user['tEmail'],
         'rememberMe': true,
       };
-      console.log('objUserSignIn: ', objUserSignIn);
       this.service.authenticate(this.strategy, objUserSignIn).subscribe((resultAuth: NbAuthResult) => {
         if (resultAuth.isSuccess()) {
           // this.messages = resultAuth.getMessages();
-          // console.log('this.messages: ', this.messages);
           // this.token = this.messages[0]['body']['token'];
           // this.utilitiesService.fnSetToken(this.token);
           // this.userId = this.messages[0]['body']['userId'];
@@ -143,7 +139,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
           // const data_payload = this.utilitiesService.fnDecodePayload(this.token);
 
           this.redirect = resultAuth.getRedirect();
-          console.log('this.redirect: ', this.redirect);
           this.utilitiesService.fnNavigateByUrl(this.redirect);
           // this.cd.detectChanges();
         } else {
