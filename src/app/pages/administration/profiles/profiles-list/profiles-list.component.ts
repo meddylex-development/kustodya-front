@@ -5,6 +5,7 @@ import { ProfilesService } from '../../../../shared/api/services/profiles.servic
 import { NbDialogService } from '@nebular/theme';
 
 import { DeleteProfilesComponent } from '../delete-profiles/delete-profiles.component';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-profiles-list',
@@ -13,6 +14,8 @@ import { DeleteProfilesComponent } from '../delete-profiles/delete-profiles.comp
 })
 export class ProfilesListComponent implements OnInit {
 
+  @Output() show_profiles_state = new EventEmitter<number>();
+  @Output() id_profile = new EventEmitter<number>();
   list_profiles: any = [];
   search_input: any = '';
   loading_state: Boolean = false;
@@ -21,9 +24,11 @@ export class ProfilesListComponent implements OnInit {
   currentPage: number = 1;
   totalItems: number = null;
   public current_payload: string = null;
-  @Output() show_profiles_state = new EventEmitter<number>();
-
-  @Output() id_profile = new EventEmitter<number>();
+  public entity_id: string = null;
+  public user_id: string = null;
+  public isSuperAdmin: any = null;
+  public token: any;
+  public dataSession;
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -31,16 +36,29 @@ export class ProfilesListComponent implements OnInit {
     private profilesService: ProfilesService,
     public router: Router,
     private route: ActivatedRoute,
+    private authService: NbAuthService,
   ) { }
 
   ngOnInit() {
-    const self = this;
-    self.route.params.subscribe(params => {
-      if (params.token && params.entity) {
-        self.current_payload = params.token;
-        self.fnGetProfilesList(self.current_payload, self.search_input, self.currentPage);
-      } else {
-        self.router.navigateByUrl('');
+    // const self = this;
+    // self.route.params.subscribe(params => {
+    //   if (params.token && params.entity) {
+    //     self.current_payload = params.token;
+    //     self.fnGetProfilesList(self.current_payload, self.search_input, self.currentPage);
+    //   } else {
+    //     self.router.navigateByUrl('');
+    //   }
+    // });
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.token = token["token"];
+        this.dataSession = token.getPayload();
+        
+        this.current_payload = this.token;
+        this.entity_id = this.dataSession['Entidad'];
+        this.user_id = this.dataSession['UserId'];
+        this.isSuperAdmin = (this.dataSession['EsSuperAdmin'] == "True") ? true : false;
+        this.fnGetProfilesList(this.current_payload, this.search_input, this.currentPage);
       }
     });
   }

@@ -91,7 +91,7 @@ export class ListComponent implements OnInit {
   public collectionEnProceso: any = [];
   public collectionGestionados: any = [];
   public collectionAnulados: any = [];
-  public collectionNotificados: any = [];
+  public collectionEnviados: any = [];
 
   public dataListCollection: any = [];
   public dataListCollectionOriginal: any = [];
@@ -151,7 +151,7 @@ export class ListComponent implements OnInit {
       'nextNext': null,
       'totalPaginas': null,
     },
-    'pagNotificados': {
+    'pagEnviados': {
       'totalItems': 0,
       'currentPage': 1,
       'itemsPerPage': 10,
@@ -201,11 +201,11 @@ export class ListComponent implements OnInit {
             if (data) {
               this.tabId = data['tab'];
             } else {
-              this.tabId = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
+              this.tabId = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : (respDataProfile['body']['nombre'] == "Notificador Concepto") ? 3 : null;
             }
-            this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : null;
+            this.profileUser = (respDataProfile['body']['nombre'] == "Emisor Concepto") ? 2 : ((respDataProfile['body']['nombre'] == "Administrador Concepto") || (this.dataSession['EsSuperAdmin'] == "True")) ? 1 : (respDataProfile['body']['nombre'] == "Notificador Concepto") ? 3 : null;
             this.userIdSession = (this.dataSession['EsSuperAdmin'] == "True")? 112 : this.dataSession['UserId'];
-
+            // this.fnBuildData(this.token, this.currentPage, this.searchInput, this.tabId, '', '', false, this.profileUser, this.userIdSession);
             // this.fnBuildData(this.token, this.currentPage, null, 2, null, null, null, this.profileUser, this.userIdSession);
             // this.fnBuildData(this.token, this.currentPage, null, 3, null, null, null, this.profileUser, this.userIdSession);
             // this.fnBuildData(this.token, this.currentPage, null, 4, null, null, null, this.profileUser, this.userIdSession);
@@ -305,7 +305,7 @@ export class ListComponent implements OnInit {
         break;
       case 6:
         state = 6;
-        this.currentPage = this.paginationTabs['pagNotificados']['currentPage'] = page;
+        this.currentPage = this.paginationTabs['pagEnviados']['currentPage'] = page;
         break;
     }
     this.searchInput = (this.dataSearchAdvance['textSearch']) ? this.dataSearchAdvance['textSearch'] : '';
@@ -398,7 +398,7 @@ export class ListComponent implements OnInit {
                 this.dataStatusBadges['Emitidos'] = (element.registros) ? element.registros : 0;
                 break;
               case 6:
-                this.dataStatusBadges['Notificados'] = (element.registros) ? element.registros : 0;
+                this.dataStatusBadges['Enviados'] = (element.registros) ? element.registros : 0;
                 break;
             }
           });
@@ -442,7 +442,7 @@ export class ListComponent implements OnInit {
                     // this.collectionEnProceso = collection;
                     // this.collectionGestionados = collection;
                     // this.collectionAnulados = collection;
-                    // this.collectionNotificados = collection;
+                    // this.collectionEnviados = collection;
                   break;
                 case 2:
                     this.collectionAsignados = collection;
@@ -521,8 +521,8 @@ export class ListComponent implements OnInit {
                   }
                   break;
                 case 6:
-                  this.collectionNotificados = collection;
-                  this.paginationTabs['pagNotificados'] = {
+                  this.collectionEnviados = collection;
+                  this.paginationTabs['pagEnviados'] = {
                     'totalItems': resp['body']['paginacion'][0]['totalItems'],
                     'currentPage': currentPage,
                     'itemsPerPage': this.itemsPerPage,
@@ -660,14 +660,13 @@ export class ListComponent implements OnInit {
         currentPage = this.paginationTabs['pagGestionados']['currentPage'];
         // this.dataSearchAdvance['statusInfo'] = { name: 'Gestionados', value: 4 };
         break;
-      case 'Notificados':
+      case 'Enviados':
         state = 6;
-        currentPage = this.paginationTabs['pagNotificados']['currentPage'];
+        currentPage = this.paginationTabs['pagEnviados']['currentPage'];
         // this.dataSearchAdvance['statusInfo'] = { name: 'Anulados', value: 5 };
         break;
     }
     // this.dataSearchAdvance['state'] = state;
-
     this.fnBuildData(this.token, currentPage, searchInput, state, dateStart, dateEnd, stateSearch, this.profileUser, this.userIdSession);
   }
 

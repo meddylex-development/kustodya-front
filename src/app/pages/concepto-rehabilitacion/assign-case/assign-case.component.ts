@@ -21,9 +21,12 @@ export class AssignCaseComponent implements OnInit {
   public state: any = {};
   public collectionDoctors: any = [];
   public collectionDoctorsOriginal: any = [];
+  public collectionAfp: any = [];
+  public afpPatient: any = null;
   public doctorAssign: any = null;
   public dataDoctor: any = null;
   public priorityCase: number = 1;
+  public collectionDataSelectors: any = null;
   
   constructor(
     protected ref: NbDialogRef<AssignCaseComponent>,
@@ -33,6 +36,7 @@ export class AssignCaseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.dataCase
     this.utilitiesService.fnAuthValidUser().then(response => {
       this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
       let data = this.utilitiesService.fnGetDataShare();
@@ -56,12 +60,40 @@ export class AssignCaseComponent implements OnInit {
         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
         this.dismiss(false);
       });
+      this.fnGetDataSelectors(this.token).then(response1 => {
+        if (response1) {
+          this.collectionDataSelectors = response1;
+          this.collectionAfp = response1['AFP'];
+          this.afpPatient = this.dataCase['idAFP'];
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+        } 
+      });
 
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
         this.utilitiesService.fnNavigateByUrl('auth/login');
       });
     });
+  }
+
+  fnGetDataSelectors(token) {
+    return new Promise ((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetDataSelectors(token).subscribe(result => {
+        if (result.status == 200) {
+          let collectionList = JSON.parse(JSON.stringify(result.body));
+          resolve(collectionList);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error consultando las sintomatologias', 'nb-alert');
+          reject(false);
+        }
+        // this.submitted = false;
+      }, error => {
+        this.utilitiesService.showToast('bottom-right', 'danger', error, 'nb-alert');
+        reject(error);
+        // this.submitted = false;
+      });
+    })
   }
 
   fnGetUsersEntity(token, id_entity, obj_data) {
@@ -96,6 +128,7 @@ export class AssignCaseComponent implements OnInit {
       "id": this.dataCase['Id'],
       "usuarioAsignadoId": doctorAssign['iIDUsuario'],
       "prioridad": priorityCase,
+      "iIdAFP": this.dataCase['idAFP'],
     };
     this.fnSetAssignCaseDoctor(this.token, dataUpdate).then((response) => {
       if (response) {

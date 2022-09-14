@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { UserService } from '../../../shared/api/services/user.service';
 import { BuildAddressComponent } from '../../../common/build-address/build-address.component';
 import { NbDialogService } from '@nebular/theme';
+import { parse } from 'querystring';
 
 @Component({
   selector: 'ngx-letter',
@@ -106,6 +107,16 @@ export class LetterComponent implements OnInit {
   public inputPhonePatient: boolean = false;
   public inputAddressPatient: boolean = false;
   
+  public collectionAfp: any = [];
+  public patientAfp: any = null;
+  public collectionDataSelectors: any = null;
+  public letterDataConcept: any = {
+    // 'emailPatient': null,
+  };
+  public bNotificacionbyEmailAFP: boolean = false;
+  public bNotificacionbyPmailAFP: boolean = false;
+  public bNotificacionbyEmailPaciente: boolean = false;
+  public bNotificacionbyPmailPaciente: boolean = false;
 
   constructor(
     private location: Location,
@@ -118,6 +129,7 @@ export class LetterComponent implements OnInit {
     private authService: NbAuthService,
     private userService: UserService, 
     private dialogService: NbDialogService, 
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -142,7 +154,6 @@ export class LetterComponent implements OnInit {
               this.dataConceptForm = response6['body']['Concepto'][0];
               // this.qrcodeConcept = this.utilitiesService.fnGetSite() + '/#/tes/certificado-concepto-de-rehabilitacion/123123123123';
               this.dataConceptForm['urlQRCode'] = "http://localhost:4200/#/auth/login";
-              console.log('this.qrcodeConcept: ', this.qrcodeConcept);
               this.idUserEmmiteConcept = this.dataConceptForm['UsuarioCreacionId'];
     
               this.dataConcept['DiagnosticosConcepto'].forEach((value, key) => {
@@ -181,6 +192,21 @@ export class LetterComponent implements OnInit {
                   this.patientFullName = (`${this.patientData['primerNombre']} ${this.patientData['segundoNombre']} ${this.patientData['primerApellido']} ${this.patientData['segundoApellido']}`).trim();
                   this.dataEmployers = response['body']['empleador'];
                   this.dataMettrics = response['body']['datosTotales'];
+
+                  // this.dataConceptForm['tEmailPaciente]
+                  this.letterDataConcept['idConcepto'] = (this.dataConceptForm['iIDConcepto'] != '' && this.dataConceptForm['iIDConcepto'] != null) ? this.dataConceptForm['iIDConcepto'] : 0;
+                  this.letterDataConcept['emailPatient'] = (this.dataConceptForm['tEmailPaciente'] != '' && this.dataConceptForm['tEmailPaciente'] != null) ? this.dataConceptForm['tEmailPaciente'] : this.patientData['email'];
+                  this.letterDataConcept['phonePatient'] = (this.dataConceptForm['tTelefonoPaciente'] != '' && this.dataConceptForm['tTelefonoPaciente'] != null) ? this.dataConceptForm['tTelefonoPaciente'] : this.patientData['telefono'];
+                  this.letterDataConcept['addressPatient'] = (this.dataConceptForm['tDireccionPaciente'] != '' && this.dataConceptForm['tDireccionPaciente'] != null) ? this.dataConceptForm['tDireccionPaciente'] : this.patientData['direccion'];
+                  this.letterDataConcept['afpPatient'] = (this.dataConceptForm['iIDAfp'] != '' && this.dataConceptForm['iIDAfp'] != null) ? this.dataConceptForm['iIDAfp'] : this.patientData['IDafp'];
+                  this.letterDataConcept['nombreAFPPatient'] = (this.dataConceptForm['nombreAFP'] != '' && this.dataConceptForm['nombreAFP'] != null) ? this.dataConceptForm['nombreAFP'] : 'No registra dato';
+                  this.letterDataConcept['subjectLetterPatient'] = (this.dataConceptForm['tAsunto'] != '' && this.dataConceptForm['tAsunto'] != null) ? this.dataConceptForm['tAsunto'] : '';
+                  this.letterDataConcept['idCity'] = (this.dataConceptForm['iIDCiudad'] != '' && this.dataConceptForm['iIDCiudad'] != null) ? this.dataConceptForm['iIDCiudad'] : 0;
+                  this.letterDataConcept['bNotificacionbyEmailAFP'] = (this.dataConceptForm['bNotificacionbyEmailAFP'] != '' && this.dataConceptForm['bNotificacionbyEmailAFP'] != null) ? this.dataConceptForm['bNotificacionbyEmailAFP'] : false;
+                  this.letterDataConcept['bNotificacionbyPmailAFP'] = (this.dataConceptForm['bNotificacionbyPmailAFP'] != '' && this.dataConceptForm['bNotificacionbyPmailAFP'] != null) ? this.dataConceptForm['bNotificacionbyPmailAFP'] : false;
+                  this.letterDataConcept['bNotificacionbyEmailPaciente'] = (this.dataConceptForm['bNotificacionbyEmailPaciente'] != '' && this.dataConceptForm['bNotificacionbyEmailPaciente'] != null) ? this.dataConceptForm['bNotificacionbyEmailPaciente'] : false;
+                  this.letterDataConcept['bNotificacionbyPmailPaciente'] = (this.dataConceptForm['bNotificacionbyPmailPaciente'] != '' && this.dataConceptForm['bNotificacionbyPmailPaciente'] != null) ? this.dataConceptForm['bNotificacionbyPmailPaciente'] : false;
+                  this.letterDataConcept['iCodigoPostal'] = (this.dataConceptForm['iCodigoPostal'] != '' && this.dataConceptForm['iCodigoPostal'] != null) ? this.dataConceptForm['iCodigoPostal'] : 0;
                 } else {
                   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
                   // this.dismiss(false);
@@ -194,7 +220,6 @@ export class LetterComponent implements OnInit {
                 "idUsuario": this.idUserEmmiteConcept
               };
               this.fnGetDataSpecialist(this.token, dataObjectEmmiter).then((response) => {
-                console.log('response: ', response);
                 if (response) {
                   this.objectDataUser = response['body']['informacionUsuarios'][0];
                   this.userFullName = (`${this.objectDataUser['primerNombre']} ${this.objectDataUser['segundoNombre']} ${this.objectDataUser['primerApellido']} ${this.objectDataUser['segunsoApellido']}`).trim(); // Porque sera disque segunso jaja
@@ -214,63 +239,18 @@ export class LetterComponent implements OnInit {
             }
           });
 
+          this.fnGetDataSelectors(this.token).then(response1 => {
+            if (response1) {
+              this.collectionDataSelectors = response1;
+              this.collectionAfp = response1['AFP'];
+              this.letterDataConcept['afpPatient'] = this.dataConceptForm['iIDAfp'];
+            } else {
+              this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+            } 
+          });
+
 
           this.dataCertificate = {};
-          
-          // if (params['idUser']) {
-          //   this.idUser = params['idUser'];
-            
-          //   this.dataCertificate['qrcode'] = "http://localhost:4200/#/auth/login";
-            
-          //   this.fnGetGetDataConcept(this.token, this.idUser).then((resp) => {
-          //     if (!resp) {
-                
-          //     } else {
-          //       try {
-          //         if (resp['status'] == 200) {
-          //           this.dataConceptCRHB = resp['body'] || {};
-          //           // 'fechaEmision':  moment(new Date()).valueOf(),
-          //           this.dataConceptCRHB['fechaEmision'] = moment(new Date()).valueOf();
-          //           this.dataConceptCRHB['paciente'] = data['paciente'];
-          //         }
-          //       } catch (error) {
-          //         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-          //       }
-          //     }
-          //   }).catch((err) => {
-          //   });
-          //   // this.token = params.token;
-          //   // const token = sessionStorage.getItem("token");
-          //   // this.token = token;
-          //   // this.fnGetDataDiagnosticByDNI(this.token, this.diagnosticCodeDNI)
-          //   // let data = this.utilitiesService.fnGetDataShare();
-          //   // this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
-            
-          //   // if (data && this.dataDoctor) {
-          //   //   const dataDoctorEspeciality = this.dataDoctor['usuario']['ocupacion']['tNombre'];
-          //   //   const dataDoctorRegistroMedico = this.dataDoctor['usuario']['ocupacion']['numeroRegistroProfesional'];
-          //   //   const signature_doctor = (this.dataDoctor['usuario']['documento']['imagen']) ? 'data:image/png;base64, ' + this.dataDoctor['usuario']['documento']['imagen'] : null;
-          //   //   const dataDoctorSignature = (signature_doctor) ? this.sanitizer.bypassSecurityTrustResourceUrl(signature_doctor) : null;
-          //   //   this.dataDoctor['especiality'] = dataDoctorEspeciality;
-          //   //   this.dataDoctor['medicalRegister'] = dataDoctorRegistroMedico;
-          //   //   this.dataDoctor['signature'] = dataDoctorSignature;
-          //   //   this.dataDoctor['dataDoctor'] = JSON.parse(sessionStorage.getItem('user_data'));
-    
-          //   //   this.patientData = data['patientData'];
-          //   // } else {
-          //   //   this.patientData = null;
-          //   //   this.patientIncapacities = null;
-          //   //   this.totalItems = null;
-          //   //   this.utilitiesService.fnNavigateByUrl('pages/incapacidad/home');
-          //   // }
-          // } else {
-            
-            // this.utilitiesService.fnSignOutUser().then(resp => {
-            //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            // }).catch((error) => {
-            //   this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!', 'nb-alert');
-            // })
-          // }
         });
 
       }
@@ -415,26 +395,120 @@ export class LetterComponent implements OnInit {
 
   fnShowModalAddAddress() {
     let dataSend = {};
-    dataSend['data'] = this.patientData;
+    dataSend['data'] = this.letterDataConcept;
     dataSend['typeAddress'] = 1;
     this.dialogService.open(BuildAddressComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       if (res) {
-        this.patientData['dataAddress'] = res;
-        this.patientData['direccion'] = ((res['address'] + ', ' + res['aditionalDataAddress'] + ' - ' + res['userCity']['name'] + ', ' + res['userDepartament']['departamento'] + ', ' + res['userCountry']['name']).toUpperCase()).trim();
+        this.letterDataConcept['dataAddress'] = res;
+        this.letterDataConcept['addressPatient'] = ((res['address'] + ', ' + res['aditionalDataAddress'] + ' - ' + res['cityInfo']['NOMBREMUNICIPIO'] + ', ' + res['deptoInfo']['NOMBREDEPTO'] + ', ' + res['countryInfo']['NOMBREPAIS']).toUpperCase()).trim();
+        // this.letterDataConcept['idCity'] = parseInt(res['cityInfo']['IDMUNICIPIO']);
+        this.letterDataConcept['idCity'] = parseInt(res['poblationInfo']['IDDIVIPOLA']);
+        this.letterDataConcept['postalCode'] = parseInt(res['postalCode']);
       }
     });
   }
 
   fnShowPreviewLetterCRHB() {
-
+    this.fnUpdateLetterCRHB();
+    this.router.navigate(['/pages/concepto-de-rehabilitacion/certificado-emitido/', this.idCaso, this.dataConceptForm['PacienteId']], { skipLocationChange: false });
   }
 
   fnUpdateLetterCRHB() {
+    this.submitted = true;
+    this.textLoading = 'Guardando información de la carta concepto...';
+     // {
+    //   "idConcepto": 0,
+    //   "tAsunto": "string",
+    //   "tDireccionPaciente": "string",
+    //   "iCodigoPostal": 0,
+    //   "tTelefonoPaciente": "string",
+    //   "iIDCiudad": 0,
+    //   "tEmailPaciente": "string",
+    //   "bNotificacionbyEmailAFP": true,
+    //   "bNotificacionbyPmailAFP": true,
+    //   "bNotificacionbyEmailPaciente": true,
+    //   "bNotificacionbyPmailPaciente": true
+    // }
+    let dataObjectSend = {
+      "idConcepto": this.dataConceptForm['iIDConcepto'],
+      "tAsunto": (this.letterDataConcept['subjectLetterPatient'] != '' && this.letterDataConcept['subjectLetterPatient'] != null) ? this.letterDataConcept['subjectLetterPatient'] : '',
+      "tDireccionPaciente": (this.letterDataConcept['addressPatient'] != '' && this.letterDataConcept['addressPatient'] != null) ? this.letterDataConcept['addressPatient'] : '',
+      "iCodigoPostal": (this.letterDataConcept['postalCode'] != '' && this.letterDataConcept['postalCode'] != null) ? this.letterDataConcept['postalCode'] : 0,
+      "tTelefonoPaciente": (this.letterDataConcept['phonePatient'] != '' && this.letterDataConcept['phonePatient'] != null) ? this.letterDataConcept['phonePatient'] : '',
+      "iIDCiudad": (this.letterDataConcept['idCity'] != '' && this.letterDataConcept['idCity'] != null) ? this.letterDataConcept['idCity'] : 0,
+      "tEmailPaciente": (this.letterDataConcept['emailPatient'] != '' && this.letterDataConcept['emailPatient'] != null) ? this.letterDataConcept['emailPatient'] : '',
+      "bNotificacionbyEmailAFP": (this.letterDataConcept['bNotificacionbyEmailAFP'] != '' && this.letterDataConcept['bNotificacionbyEmailAFP'] != null) ? this.letterDataConcept['bNotificacionbyEmailAFP'] : false,
+      "bNotificacionbyPmailAFP": (this.letterDataConcept['bNotificacionbyPmailAFP'] != '' && this.letterDataConcept['bNotificacionbyPmailAFP'] != null) ? this.letterDataConcept['bNotificacionbyPmailAFP'] : false,
+      "bNotificacionbyEmailPaciente": (this.letterDataConcept['bNotificacionbyEmailPaciente'] != '' && this.letterDataConcept['bNotificacionbyEmailPaciente'] != null) ? this.letterDataConcept['bNotificacionbyEmailPaciente'] : false,
+      "bNotificacionbyPmailPaciente": (this.letterDataConcept['bNotificacionbyPmailPaciente'] != '' && this.letterDataConcept['bNotificacionbyPmailPaciente'] != null) ? this.letterDataConcept['bNotificacionbyPmailPaciente'] : false,
+      // "idAfp": (this.letterDataConcept['afpPatient'] != '' && this.letterDataConcept['afpPatient'] != null) ? this.letterDataConcept['afpPatient'] : 0,
+      // "iCodigoPostal": (this.letterDataConcept['iCodigoPostal'] != '' && this.letterDataConcept['iCodigoPostal'] != null) ? this.letterDataConcept['iCodigoPostal'] : '',
+      // "iIDCiudad": 808,
+      // "fechaNotificacion": (new Date()).toString(),
+      // "fechaNotificacion": "2022-01-01",
+      // "medioNotificacion": 0
+    };
+    console.log('dataObjectSend: ', dataObjectSend);
+    // debugger;
+    // this.letterDataConcept
+    // this.dataConceptForm['tEmailPaciente']
+    this.fnSetUpdateLetterConceptCase(this.token, dataObjectSend).then((response) => {
+      if (response) {
+        this.utilitiesService.showToast('top-right', 'success', 'La carta concepto ha sido guardada satisfactoriamente!');
+        this.submitted = false;
+        this.textLoading = '';
+      } else {
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        this.submitted = false;
+        this.textLoading = '';
+      }
+    }).catch((err) => {
+      this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+      this.submitted = false;
+      this.textLoading = '';
+    });
+  }
+
+  fnSetUpdateLetterConceptCase(token, dataUpdate) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpSetUpdateLetterConcept(token, dataUpdate).subscribe((response) => {
+        if (response['status'] == 200) {
+          resolve(response);
+        } else {
+          reject(false);
+        }
+      });
+    });
+  }
+
+  fnGetDataSelectors(token) {
+    return new Promise ((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetDataSelectors(token).subscribe(result => {
+        if (result.status == 200) {
+          let collectionList = JSON.parse(JSON.stringify(result.body));
+          resolve(collectionList);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error consultando las sintomatologias', 'nb-alert');
+          reject(false);
+        }
+        // this.submitted = false;
+      }, error => {
+        this.utilitiesService.showToast('bottom-right', 'danger', error, 'nb-alert');
+        reject(error);
+        // this.submitted = false;
+      });
+    })
+  }
+
+  fnSelecPatientAfp($event: Event): void {
+  }
+
+  fnShowConfigSendMail(): void {
 
   }
 
-  fnEmmitLetterCRHB() {
+  // fnEmmitLetterCRHB() {
 
-  }
+  // }
 
 }

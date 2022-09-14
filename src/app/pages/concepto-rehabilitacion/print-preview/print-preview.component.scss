@@ -98,6 +98,11 @@
         padding: 4px 10px;
     }
 
+    .waterMark{
+        // visibility: hidden;
+        display: none;
+    }
+
     @media print {
 
         * {
@@ -107,6 +112,11 @@
             -moz-print-color-adjust: exact !important;
             -ms-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+        }
+
+        .waterMark{
+            // visibility: visible !important;
+            display: block !important;
         }
 
         .card {

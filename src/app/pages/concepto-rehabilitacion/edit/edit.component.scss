@@ -124,10 +124,15 @@
 
     ::ng-deep .step-border-red {
         border: 2px solid #ff6780 !important;
+        background-color: #fff !important;
     }
 
     ::ng-deep .step-color-red {
         color: #ff6780 !important;
+    }
+
+    ::ng-deep .bckgrnd-color-red {
+        background-color: #ff6780 !important;
     }
 
     .f-roboto {
@@ -187,6 +192,46 @@
     @keyframes example {
         from {border-color: #dc3545;}
         to {border-color: #d8d8d8;}
+    }
+
+    .badge-state-0 {
+        background-color: #6c757d !important;
+    }
+
+    .badge-state-1 {
+        background-color: #1e90ff !important;
+    }
+    
+    .badge-state-2 {
+        background-color: #14342B !important;
+    }
+    
+    .badge-state-3 {
+        background-color: #820263 !important;
+    }
+    
+    .badge-state-4 {
+        background-color: #6f42c1 !important;
+    }
+    
+    .badge-state-5 {
+        background-color: #ff5f5f !important;
+    }
+    
+    .badge-state-6 {
+        background-color: #ffce47 !important;
+    }
+    
+    .badge-state-7 {
+        background-color: #28a745 !important;
+    }
+    
+    .badge-state-8 {
+        background-color: #ff993a !important;
+    }
+    
+    .badge-state-9 {
+        background-color: #ff3a8c !important;
     }
 
 

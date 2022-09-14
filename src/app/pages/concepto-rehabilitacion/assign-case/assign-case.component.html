@@ -35,6 +35,30 @@
         </div>
         <div class="mt-2 mb-2 col-12">
           <div class="form-group">
+            <label for="input-selectListAfp">
+              <h6 class="m-0">
+                <i class="fas fa-user"></i>&nbsp;AFP paciente:&nbsp;
+                <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+              </h6>
+            </label>
+            <ng-select  
+              id="input-selectListAfp"
+              [items]="collectionAfp" 
+              bindLabel="tNombre" 
+              bindValue="iIDAFP" 
+              name="selectListAfp"
+              #selectListAfp="ngModel" 
+              status="basic" 
+              appendTo="body"
+              placeholder="Seleccione fondo de pensiones del paciente"
+              [ngModelOptions]="{standalone: true}" 
+              [(ngModel)]="afpPatient" 
+              required>
+            </ng-select>
+          </div>
+        </div>
+        <div class="mt-2 mb-2 col-12">
+          <div class="form-group">
             <label for="input-selectListDoctors">
               <h6 class="m-0">
                 <i class="fas fa-user"></i>&nbsp;M&eacute;dicos disponibles:&nbsp;
@@ -57,6 +81,7 @@
             </ng-select>
           </div>
         </div>
+        
         <div class="mt-2 mb-2 col-12">
           <div class="form-group">
             <label for="input-rangePriority">

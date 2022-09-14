@@ -110,6 +110,17 @@ export class ConceptoRehabilitacionService {
       });
   }
 
+  fnHttpSetUpdateLetterConcept(token, data_object): Observable<any> {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
+    this.urlSetUpdateConcept = '/api/K2ConceptoRehabilitacion/EditarCarta';
+    return this.http.put(this.utility.fnGetHost() + this.urlSetUpdateConcept, data_object,
+      {
+        observe: 'response',
+        headers: headers,
+        reportProgress: true,
+      });
+  }
+
   fnHttpSetEmmitConceptCase(token, data_object): Observable<any> {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + token);
     this.urlSetUpdateConcept = '/api/K2ConceptoRehabilitacion/EmitirConcepto';
@@ -228,6 +239,18 @@ export class ConceptoRehabilitacionService {
     const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     let urlDeletePatientDiagnostic = '/api/K2ConceptoRehabilitacion/EliminarDiagnosticoConcepto/' + id_diagnostic_user;
     return this.http.delete(this.utility.fnGetHost() + urlDeletePatientDiagnostic, 
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
+  fnHttpDeletePatientSequel(guid_user, id_sequel_user) {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // ​/api​/K2ConceptoRehabilitacion​/EliminarSecuelaConcepto​/{Id}
+    let urlDeletePatientSequel = '/api/K2ConceptoRehabilitacion/EliminarSecuelaConcepto/' + id_sequel_user;
+    return this.http.delete(this.utility.fnGetHost() + urlDeletePatientSequel, 
     {
       observe: 'response',
       headers: headers,

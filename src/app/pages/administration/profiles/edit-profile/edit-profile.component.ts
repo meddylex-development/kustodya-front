@@ -3,6 +3,7 @@ import { ProfilesService } from "../../../../shared/api/services/profiles.servic
 import { MenuService } from "../../../../shared/api/services/menu.service";
 import { UtilitiesService } from '../../../../shared/api/services/utilities.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-edit-profile',
@@ -10,45 +11,62 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
+  
   @Input() id_profile: any;
+  @Output() show_profiles_state = new EventEmitter<number>();
   items_menu: any = []
-
   menu_selected_data: any = [];
   menu_selected_data_id: any = [];
 
-  current_payload: any = null;
   entity: number = -1;
-
   show_second_level: any = 0;
   show_third_level: any = 0;
   show_fourth_level: any = 0;
   show_fifth_level: any = 0;
   profile_data: any = {};
-
   submitted: any = null;
-
   loading_state: Boolean = false;
+  public current_payload: string = null;
+  public entity_id: string = null;
+  public user_id: string = null;
+  public isSuperAdmin: any = null;
+  public token: any;
+  public dataSession;
 
-  @Output() show_profiles_state = new EventEmitter<number>();
-
-  constructor(private profilesService: ProfilesService,
+  constructor(
+    private profilesService: ProfilesService,
     private utilitiesService: UtilitiesService,
     private menuService: MenuService,
     public router: Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,
+    private authService: NbAuthService,
+    ) { }
 
   ngOnInit() {
-    const self = this;
-    self.route.params.subscribe(params => {
-      if (params.token) {
-        self.current_payload = params.token;
-        self.entity = params.entity;
-        self.fnGetMenus(self.current_payload, self.entity);
-        self.fnGetInfoProfile(self.current_payload, self.id_profile);
-      } else {
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.token = token["token"];
+        this.dataSession = token.getPayload();
+        
+        this.current_payload = this.token;
+        this.entity_id = this.dataSession['Entidad'];
+        this.entity = this.dataSession['Entidad'];
+        this.user_id = this.dataSession['UserId'];
+        this.isSuperAdmin = (this.dataSession['EsSuperAdmin'] == "True") ? true : false;
+        this.fnGetMenus(this.current_payload, this.entity_id);
+        this.fnGetInfoProfile(this.current_payload, this.id_profile);
       }
     });
+    // const self = this;
+    // self.route.params.subscribe(params => {
+    //   if (params.token) {
+    //     self.current_payload = params.token;
+    //     self.entity = params.entity;
+    //     self.fnGetMenus(self.current_payload, self.entity);
+    //     self.fnGetInfoProfile(self.current_payload, self.id_profile);
+    //   } else {
+    //   }
+    // });
   }
   
   fnGetMenus(current_payload, id_entity) {

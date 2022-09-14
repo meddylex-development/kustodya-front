@@ -196,7 +196,6 @@ export class DashboardComponent implements OnInit {
   // }
 
   fnSetLevelData(level_menu, item_name, collection_level, item_childrens, index_menu) {
-    console.log('collection_level: ', collection_level);
     
     this.title_name_module = item_name;
     const data_collection_breadcrumbs = JSON.parse(JSON.stringify(this.collection_levels_menu));

@@ -17,6 +17,7 @@ import { ProfilesService } from '../../../../shared/api/services/profiles.servic
 import { RethusService } from '../../../../shared/api/services/rethus.service';
 import { EntityService } from '../../../../shared/api/services/entity.service';
 import * as moment from 'moment';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 declare var $: any;
 
 @Component({
@@ -26,7 +27,6 @@ declare var $: any;
 })
 export class EditUserComponent implements OnInit {
 
-  token: any = null;
   required: boolean = true;
   data_user_basic_info: any = {};
   collection_document_types: any = [];
@@ -49,8 +49,14 @@ export class EditUserComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   maxDate = new Date();
   locale = 'es';
-  isSuperAdmin: any = false;
   user_edit_id: number = 0;
+
+  public current_payload: string = null;
+  public entity_id: string = null;
+  public user_id: string = null;
+  public isSuperAdmin: any = null;
+  public token: any;
+  public dataSession;
 
   constructor(
     public router: Router,
@@ -61,54 +67,87 @@ export class EditUserComponent implements OnInit {
     public entityService: EntityService,
     public utilitiesService: UtilitiesService,
     private bsLocaleService: BsLocaleService,
+    private authService: NbAuthService,
     // protected ref: NbDialogRef<AddUserComponent>,
   ) { }
 
   ngOnInit() {
     /* *** START - JQuery definition *** */
-    // JQuery ready
-
-    const self = this;
-    self.bsLocaleService.use('es');
-    // self.dataUser
-    self.user_edit_id = self.dataUser['id'];
-
     $(document).ready(function () {
     });
     /* **** END - JQuery definition **** */
-    self.route.params.subscribe(params => {
-      if (params.token && params.entity) {
-        self.token = params.token;
-        self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
-        self.loading_state = true;
-        self.fnGetDataUserToEdit(self.token, self.user_edit_id, response => {
+    // self.route.params.subscribe(params => {
+    //   if (params.token && params.entity) {
+    //     self.token = params.token;
+    //     self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
+    //     self.loading_state = true;
+    //     self.fnGetDataUserToEdit(self.token, self.user_edit_id, response => {
+    //       if (response['status'] === 200) {
+
+    //         self.fnFormatDataUser(response['body']);
+
+    //         self.fnGetListIdentificationTypes(self.token);
+    //         self.fnGetListGenders(self.token);
+    //         self.fnGetListProfiles(self.token).then((resProfiles) => {
+    //           if (resProfiles) {
+    //             this.collection_profiles = resProfiles['body'];
+    //           }
+    //         }).catch((err) => {
+    //         });
+    //         if (self.isSuperAdmin === 'true') {
+    //           self.fnGetListEntitiesAdmin(self.token);
+    //         } else {
+    //           self.fnGetListEntities(self.token);
+    //         }
+    //         self.loading_state = false;
+    //       } else {
+    //         self.loading_state = false;
+    //         self.router.navigateByUrl('');
+    //         self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error obteniendo los datos del usuario!');
+    //       }
+    //     });
+    //   } else {
+    //     self.router.navigateByUrl('');
+    //     self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error!');
+    //   }
+    // });
+    this.bsLocaleService.use('es');
+    this.user_edit_id = this.dataUser['id'];
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.token = token["token"];
+        this.dataSession = token.getPayload();
+        
+        this.current_payload = this.token;
+        this.entity_id = this.dataSession['Entidad'];
+        this.user_id = this.dataSession['UserId'];
+        this.loading_state = true;
+        this.isSuperAdmin = (this.dataSession['EsSuperAdmin'] == "True") ? true : false;
+        this.fnGetDataUserToEdit(this.token, this.user_edit_id, response => {
           if (response['status'] === 200) {
 
-            self.fnFormatDataUser(response['body']);
+            this.fnFormatDataUser(response['body']);
 
-            self.fnGetListIdentificationTypes(self.token);
-            self.fnGetListGenders(self.token);
-            self.fnGetListProfiles(self.token).then((resProfiles) => {
+            this.fnGetListIdentificationTypes(this.token);
+            this.fnGetListGenders(this.token);
+            this.fnGetListProfiles(this.token).then((resProfiles) => {
               if (resProfiles) {
                 this.collection_profiles = resProfiles['body'];
               }
             }).catch((err) => {
             });
-            if (self.isSuperAdmin === 'true') {
-              self.fnGetListEntitiesAdmin(self.token);
+            if (this.isSuperAdmin === 'true') {
+              this.fnGetListEntitiesAdmin(this.token);
             } else {
-              self.fnGetListEntities(self.token);
+              this.fnGetListEntities(this.token);
             }
-            self.loading_state = false;
+            this.loading_state = false;
           } else {
-            self.loading_state = false;
-            self.router.navigateByUrl('');
-            self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error obteniendo los datos del usuario!');
+            this.loading_state = false;
+            this.router.navigateByUrl('');
+            this.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error obteniendo los datos del usuario!');
           }
         });
-      } else {
-        self.router.navigateByUrl('');
-        self.utilitiesService.showToast('top-right', 'fas fa-circle-notch', 'Ocurrio un error!');
       }
     });
 

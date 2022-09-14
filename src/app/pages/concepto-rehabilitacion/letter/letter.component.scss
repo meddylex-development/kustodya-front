@@ -47,6 +47,11 @@
     ::ng-deep .btn {
         text-transform: none;
     }
+    ::ng-deep .input-state:focus {
+        outline: none;
+        background-color: #ffffff;
+        border-color: #a0ccf8 !important;
+    }
 
     nb-card-body {
         /* overflow: hidden !important; */
@@ -55,6 +60,15 @@
 
     nb-card-header {
         display: block !important;
+    }
+
+    ::ng-deep .ng-select .ng-select-container {
+        border-color: none !important;
+        height: 54px !important;
+    }
+  
+    ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input>input {
+        height: 44px;
     }
 
     .cursor-pointer {

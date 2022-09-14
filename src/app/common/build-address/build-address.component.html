@@ -18,11 +18,13 @@
           </label>
           <ng-select 
             [items]="collectionCountries" 
-            bindLabel="name" 
+            bindLabel="NOMBREPAIS" 
+            bindValue="IDPAIS" 
             id="input-userCountry" 
             name="userCountry" 
             #userCountryCRHB="ngModel"
             placeholder="Seleccione país" 
+            (change)="fnSelectDeptosByIdCountry($event)"
             [ngModelOptions]="{standalone: true}" 
             [(ngModel)]="dataAddressBuild.userCountry"
             required 
@@ -41,14 +43,15 @@
           </label>
           <ng-select 
             [items]="collectionDepartaments" 
-            bindLabel="departamento"
+            bindValue="IDDEPTO"
+            bindLabel="NOMBREDEPTO"
             id="input-userDepartament" 
             name="userDepartament" 
             #userDepartamentC="ngModel"
             placeholder="Seleccione departamento" 
             [ngModelOptions]="{standalone: true}" 
             [(ngModel)]="dataAddressBuild.userDepartament"
-            (change)="fnSetUserCityCondition($event)"
+            (change)="fnSelectCitiesByIdDepto($event)"
             required 
             [disabled]="!dataAddressBuild.userCountry || collectionDepartaments.length < 1" 
             [clearable]="false">
@@ -65,13 +68,15 @@
           </label>
           <ng-select 
             [items]="collectionCities" 
-            bindLabel="name"
+            bindValue="IDMUNICIPIO"
+            bindLabel="NOMBREMUNICIPIO"
             id="input-userCity" 
             name="userCity" 
             #userCityC="ngModel"
             placeholder="Seleccione ciudad" 
             [ngModelOptions]="{standalone: true}" 
-            [(ngModel)]="dataAddressBuild.userCity"
+            [(ngModel)]="dataAddressBuild.userCity" 
+            (change)="fnSelectPoblationsByCity($event)" 
             required 
             [disabled]="!dataAddressBuild.userDepartament || collectionCities.length < 1" 
             [clearable]="false">
@@ -98,7 +103,7 @@
             id="input-address">
         </div>
       </div>
-      <div class="col-12 p-0">
+      <!-- <div class="col-12 p-0">
         <div class="form-group">
           <label for="input-additionalDataAddress">
             <h5 class="m-0">
@@ -116,6 +121,26 @@
             type="text" 
             name="input-additionalDataAddress" 
             id="input-additionalDataAddress">
+        </div>
+      </div> -->
+      <div class="col-12 p-0">
+        <div class="form-group">
+          <label for="input-postalCode">
+            <h5 class="m-0">
+              <i class="fas fa-map-marker-alt"></i>&nbsp;C&oacute;digo postal:&nbsp;
+              <span class="text-danger cursor-pointer" tooltip="Campo obligatorio" placement="top" container="body">*</span>
+            </h5>
+          </label>
+          <input 
+            [(ngModel)]="dataAddressBuild.postalCode" 
+            nbInput 
+            status="basic" 
+            fullWidth 
+            fieldSize="large" 
+            placeholder="Ej: 110011"
+            type="text" 
+            name="input-postalCode" 
+            id="input-postalCode">
         </div>
       </div>
       <div class="col-12 p-0" *ngIf="typeAddress == 2">
@@ -138,7 +163,7 @@
             id="input-primaryPhone">
         </div>
       </div>
-      <div class="col-12 p-0" *ngIf="typeAddress == 2">
+      <!-- <div class="col-12 p-0" *ngIf="typeAddress == 2">
         <div class="form-group">
           <label for="input-primaryPhone">
             <h5 class="m-0">
@@ -157,7 +182,7 @@
             name="input-primaryPhone" 
             id="input-primaryPhone">
         </div>
-      </div>
+      </div> -->
       <br>
       <div class="col-12 p-0">
         <button 

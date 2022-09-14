@@ -6,6 +6,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { NbDialogService } from '@nebular/theme';
 
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-users-list',
@@ -30,6 +31,8 @@ export class UsersListComponent implements OnInit {
   public entity_id: string = null;
   public user_id: string = null;
   isSuperAdmin: any = null;
+  public token: any;
+  public dataSession;
 
   constructor(
     private utilitiesService: UtilitiesService,
@@ -37,25 +40,45 @@ export class UsersListComponent implements OnInit {
     private userService: UserService,
     public router: Router,
     private route: ActivatedRoute,
+    private authService: NbAuthService,
   ) { }
 
   ngOnInit() {
-    const self = this;
-    self.route.params.subscribe(params => {
-      if (params.token && params.entity) {
-        self.current_payload = params.token;
-        self.entity_id = params.entity;
-        self.user_id = JSON.parse(atob(self.current_payload.split(".")[1])).UserId;
-        self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
-        if (self.isSuperAdmin === 'true') {
-          self.fnGetUsersListAdmin(self.entity_id, self.current_payload, '', 1);
+
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.token = token["token"];
+        this.dataSession = token.getPayload();
+        
+        this.current_payload = this.token;
+        this.entity_id = this.dataSession['Entidad'];
+        this.user_id = this.dataSession['UserId'];
+        this.isSuperAdmin = (this.dataSession['EsSuperAdmin'] == "True") ? true : false;
+        if (this.isSuperAdmin) {
+          this.fnGetUsersListAdmin(this.entity_id, this.current_payload, '', 1);
         } else {
-          self.fnGetUsersList(self.entity_id, self.current_payload, '', 1);
+          this.fnGetUsersList(this.entity_id, this.current_payload, '', 1);
         }
-      } else {
-        self.router.navigateByUrl('');
       }
     });
+
+
+    // const self = this;
+    // self.route.params.subscribe(params => {
+    //   if (params.token && params.entity) {
+    //     self.current_payload = params.token;
+    //     self.entity_id = params.entity;
+    //     self.user_id = JSON.parse(atob(self.current_payload.split(".")[1])).UserId;
+    //     self.isSuperAdmin = self.utilitiesService.fnGetSessionStorage('isSuperAdmin');
+    //     if (self.isSuperAdmin === 'true') {
+    //       self.fnGetUsersListAdmin(self.entity_id, self.current_payload, '', 1);
+    //     } else {
+    //       self.fnGetUsersList(self.entity_id, self.current_payload, '', 1);
+    //     }
+    //   } else {
+    //     // self.router.navigateByUrl('');
+    //   }
+    // });
   }
 
   fnCreateUser(msg: number) {

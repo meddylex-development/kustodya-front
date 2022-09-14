@@ -83,6 +83,16 @@ export class PrintPreviewComponent implements OnInit {
   public idPaciente: any = null;
   public idCaso: any = null;
   public dataConcept: any = {};
+  public dataLetterConcept: any = {
+    'uiCodigoConcepto': '',
+    'tCodigoCorto': '',
+    'tAsunto': '',
+    'tDireccionPaciente': '',
+    'tEmailPaciente': '',
+    'tTelefonoPaciente': '',
+    'FechaAsignacion': '',
+    'FechaEmision': '',
+  };
   public dataConceptForm: any = {
     'ResumenHistoriaClinica': '',
     'FinalidadTratamientos': '',
@@ -130,9 +140,28 @@ export class PrintPreviewComponent implements OnInit {
               // this.collectionMedicalConcept = response6['body'];
               this.dataConcept = response6['body'];
               this.dataConceptForm = response6['body']['Concepto'][0];
-              // this.qrcodeConcept = this.utilitiesService.fnGetSite() + '/#/tes/certificado-concepto-de-rehabilitacion/123123123123';
-              this.dataConceptForm['urlQRCode'] = "http://localhost:4200/#/auth/login";
-              console.log('this.qrcodeConcept: ', this.qrcodeConcept);
+              if (this.dataConceptForm['uiCodigoConcepto'] == '' || this.dataConceptForm['uiCodigoConcepto'] == null) {
+                this.dataConceptForm['urlQRCode'] = null;
+              } else {
+                this.dataConceptForm['urlQRCode'] = this.utilitiesService.fnGetSite() + '/#/test/certificado-concepto-de-rehabilitacion/' + this.dataConceptForm['uiCodigoConcepto'];
+              }
+              this.dataLetterConcept = {
+                'uiCodigoConcepto': this.dataConceptForm['uiCodigoConcepto'],
+                'tCodigoCorto': this.dataConceptForm['tCodigoCorto'],
+                'tAsunto': this.dataConceptForm['tAsunto'],
+                'tDireccionPaciente': this.dataConceptForm['tDireccionPaciente'],
+                'tEmailPaciente': this.dataConceptForm['tEmailPaciente'],
+                'tTelefonoPaciente': this.dataConceptForm['tTelefonoPaciente'],
+                'FechaAsignacion': this.dataConceptForm['FechaAsignacion'],
+                'FechaEmision': this.dataConceptForm['FechaEmision'],
+                'nombreAFP': this.dataConceptForm['nombreAFP'],
+                'emailAFP': this.dataConceptForm['emailAFP'],
+                'direccionAFP': this.dataConceptForm['direccionAFP'],
+                'departamentoAFP': this.dataConceptForm['departamentoAFP'],
+                'CiudadAFP': this.dataConceptForm['CiudadAFP'],
+                'urlQRCode': this.dataConceptForm['urlQRCode'],
+              };
+              //this.dataConceptForm['urlQRCode'] = "http://localhost:4200/#/auth/login";
               this.idUserEmmiteConcept = this.dataConceptForm['UsuarioCreacionId'];
     
               this.dataConcept['DiagnosticosConcepto'].forEach((value, key) => {
@@ -184,7 +213,6 @@ export class PrintPreviewComponent implements OnInit {
                 "idUsuario": this.idUserEmmiteConcept
               };
               this.fnGetDataSpecialist(this.token, dataObjectEmmiter).then((response) => {
-                console.log('response: ', response);
                 if (response) {
                   this.objectDataUser = response['body']['informacionUsuarios'][0];
                   this.userFullName = (`${this.objectDataUser['primerNombre']} ${this.objectDataUser['segundoNombre']} ${this.objectDataUser['primerApellido']} ${this.objectDataUser['segunsoApellido']}`).trim(); // Porque sera disque segunso jaja

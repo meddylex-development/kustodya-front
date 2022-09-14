@@ -29,6 +29,7 @@ import { CalificacionAtelComponent } from './calificacion-atel/calificacion-atel
 import { EditAtelComponent } from './calificacion-atel/edit/edit.component';
 import { PrintPreviewAtelComponent } from './calificacion-atel/print-preview/print-preview.component';
 import { LetterComponent } from './concepto-rehabilitacion/letter/letter.component';
+import { UsersComponent } from './administration/users/users.component';
 
 const routes: Routes = [
   {
@@ -95,6 +96,14 @@ const routes: Routes = [
             path: 'reporte-incapacidades',
             component: ReporteIncapacidadesComponent,
           }, 
+        ],
+      }, {
+        path: 'admin',
+        children: [
+          {
+            path: 'users',
+            component: UsersComponent,
+          }
         ],
       }, 
         // {

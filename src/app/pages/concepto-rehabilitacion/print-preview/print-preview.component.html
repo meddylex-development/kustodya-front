@@ -79,6 +79,9 @@
               <div style="border: 1px solid #929292; padding: 2rem;" [ngStyle]="{'zoom': (zoomCartaConcepto) ? '0' : '0.5'}">
 
                 <div id="CartaConceptoCRHB" #CartaConceptoCRHB>
+                  <div class="waterMark">
+                    <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 80%;position: absolute;z-index: 2;left: 10%;top: 40%;opacity: 0.2;">
+                  </div>
                   <div class="d-flex">
                     <!-- <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset=""> -->
                     <span>
@@ -89,19 +92,20 @@
                     </span>
                   </div>
                   <div>
-                    <p style="margin-top: 5rem;margin-left: 4rem; font-size: 1.3rem;">Bogotá D.C, 24 de abril de 2020</p>
+                    <p style="margin-top: 5rem;margin-left: 4rem; font-size: 1.3rem;">Bogotá D.C, &nbsp;&nbsp; {{ dataLetterConcept?.FechaEmision | date:"fullDate" }}</p>
                   </div>
                   <div>
                     <p style="margin-top: 5rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">Señores:</p>
                   </div>
                   <div>
-                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; font-weight: 600; margin-bottom: 0;">COLFONDOS</p>
+                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; font-weight: 600; margin-bottom: 0;">{{ dataLetterConcept?.nombreAFP }}</p>
                   </div>
                   <div>
-                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; font-weight: bold; margin-bottom: 0;">Atn. Dirección de Medicina Laboral</p>
+                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; font-weight: bold; margin-bottom: 0;">Atn. Direcci&oacute;n de Medicina Laboral</p>
                   </div>
                   <div>
-                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">Calle 67 N° 7 – 94</p>
+                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">{{ dataLetterConcept?.direccionAFP }} - {{ dataLetterConcept?.departamentoAFP | uppercase }}, {{ dataLetterConcept?.CiudadAFP | uppercase }}</p>
+                    <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">{{ dataLetterConcept?.emailAFP }}</p>
                   </div>
                   <div class="row" style="margin-top: 5rem;">
                     <div class="col-2">
@@ -109,24 +113,26 @@
                     </div>
                     <div class="col-10">
                       <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">
-                        Respuesta requerimientos
+                        <!-- Respuesta requerimientos -->
+                        {{ dataLetterConcept?.tAsunto }} 
                       </p>
                       <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">
-                        Notificación Concepto de Rehabilitación
+                        Notificación Concepto de Rehabilitación: <strong>{{ dataLetterConcept?.tCodigoCorto }}</strong>
                       </p>
                       <p style="margin-top: 0rem;margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; font-weight: bold;">
-                        MARIA ADELFA POSADA C.C. No. 29842977
+                        {{ (patientFullName | uppercase) || '' }} C.C. No. {{ patientData?.numeroDocumento }}
+                        <!-- MARIA ADELFA POSADA C.C. No. 29842977 -->
                       </p>
                     </div>
                   </div>
                   <div>
-                    <p style="margin-top: 6rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">Respetados Señores:</p>
+                    <p style="margin-top: 8rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0;">Respetados Señores:</p>
                   </div>
                   <div>
                     <p style="margin-top: 1rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
                       <strong>MEDDYLEX EPS</strong>, en cumplimiento a lo dispuesto en el inciso 6 del Artículo 142 del Decreto Ley 019 de
                       2012, remite <strong>CONCEPTO DE REHABILITACIÓN</strong> del afiliado del asunto, con
-                      pronóstico laboral Desfavorable, quien cumplió incapacidad temporal prolongada.
+                      pronóstico laboral <strong>{{ dataConceptForm['nombreConcepto'] | lowercase }}</strong>, quien cumplió incapacidad temporal prolongada.
                     </p>
                   </div>
                   <div>
@@ -137,12 +143,12 @@
                     </p>
                   </div>
                   <div>
-                    <p style="margin-top: 3rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                    <p style="margin-top: 4rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
                       Cordialmente,
                     </p>
                   </div>
                   <div>
-                    <div style="margin-top: 3rem; min-height: 5rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                    <div style="margin-top: 5rem; min-height: 5rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
                       <img *ngIf="digitalSignDoctorCert1" src="../../../../assets/images/imgs/firmaConceptoRehabilitacion.png" alt="firma carta concepto de rehabilitacion">
                     </div>
                   </div>
@@ -157,8 +163,18 @@
                       <small>Elaboró: AMDJ</small>
                     </p>
                   </div>
+                  <div style="margin-top: 0rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                    <ngx-qrcode 
+                      id="qrCodeImageLetterCRHB" 
+                      class="col-12" 
+                      style="zoom: 0.5;"
+                      qrc-element-type="url"
+                      [qrc-value]="dataConceptForm?.urlQRCode">
+                    </ngx-qrcode>
+                    <!-- <h6 class="col-12">Código de Autenticación de Conceptos de rehabilitación</h6> -->
+                  </div>
                   <div>
-                    <p style="margin-top: 4rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                    <p style="margin-top: 0rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
                       <small>Folios: 1</small>
                     </p>
                   </div>
@@ -168,15 +184,43 @@
                     </p>
                   </div>
                   <div>
-                    <p style="margin-top: 4rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
-                      Señor(a) <strong>MARIA ADELFA POSADA</strong>, CALLE 11 No 10 - 17, Teléfono: 3351899, La Union - VALLE DEL CAUCA
-                    </p>
+                    <div style="margin-top: 1rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem;">
+                      <small>Señor(a):&nbsp;</small><strong>{{ (patientFullName | uppercase) || '' }}</strong>&nbsp;-&nbsp;
+                      <small>Direcci&oacute;n:&nbsp;</small>
+                      <strong>
+                        {{ (dataConceptForm?.tDireccionPaciente) | uppercase }}
+                      </strong>&nbsp;-&nbsp;
+                      <small>Tel&eacute;fono:&nbsp;</small>
+                      <strong>
+                        {{ dataConceptForm?.tTelefonoPaciente }}
+                      </strong>&nbsp;-&nbsp;
+                      <small>Correo electr&oacute;nico:&nbsp;</small>
+                      <strong>
+                        {{ (dataConceptForm?.tEmailPaciente | lowercase) }}
+                      </strong>
+                    </div>
+                    <!-- <div style="margin-top: 0rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                      <small>Direcci&oacute;n:&nbsp;</small>
+                      <strong>
+                        {{ (dataConceptForm?.tDireccionPaciente).toUpperCase() }}
+                      </strong>
+                      <small>Tel&eacute;fono:&nbsp;</small>
+                      <strong>
+                        {{ (dataConceptForm?.tTelefonoPaciente).toUpperCase() }}
+                      </strong>
+                    </div> -->
+                    <!-- <div style="margin-top: 0rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
+                      <small>Tel&eacute;fono:&nbsp;</small>
+                      <strong>
+                        {{ (dataConceptForm?.tTelefonoPaciente).toUpperCase() }}
+                      </strong>
+                    </div> -->
                   </div>
-                  <div>
+                  <!-- <div>
                     <p style="margin-top: 2rem; margin-left: 4rem; font-size: 1.3rem; margin-bottom: 0; margin-right: 3rem; text-align: justify; text-justify: inter-word;">
                       Empleador. <strong>HERMAN DUCUARA FORERO</strong>, CALLE 25. 23-30, 2249699, 12:00:00 AM. 
                     </p>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -221,7 +265,14 @@
               </div>
               <div style="border: 1px solid #929292; padding: 2rem;" [ngStyle]="{'zoom': (zoomConceptoRehabilitacion) ? '0' : '0.5'}">
                 <div id="certificadoConceptoCRHB" #certificadoConceptoCRHB>
-                  <!-- <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 90%;position: absolute;z-index: 2;left: 10%;top: 15%;opacity: 0.2;"> -->
+                  <div class="waterMark">
+                    <span *ngFor="let item of [1,1,1,1,1,1]; let i = index;">
+                      <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 80%;position: absolute;z-index: 2;left: 10%; opacity: 0.2;" [ngStyle]="{'top': (i ? (((i+1)*30)-15) + '%' : '15%')}">
+                      <!-- <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 80%;position: absolute;z-index: 2;left: 10%;top: 45%;opacity: 0.2;">
+                      <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 80%;position: absolute;z-index: 2;left: 10%;top: 75%;opacity: 0.2;">
+                      <img src="../../../../assets/images/imgs/KustodyYmeddylex.png" style="width: 80%;position: absolute;z-index: 2;left: 10%;top: 105%;opacity: 0.2;"> -->
+                    </span>
+                  </div>
                   <div class="d-flex">
                     <!-- <img src="../../../../assets/images/imgs/logo-concepto.png" style="width: 100%;" alt="" srcset=""> -->
                     <span>
@@ -242,8 +293,8 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>C&oacute;digo concepto:</small><br>
-                            <h6 *ngIf="dataConceptForm?.guid">{{ dataConceptForm?.guid }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataConceptForm?.guid">No registra dato</small>
+                            <h6 *ngIf="dataConceptForm?.tCodigoCorto">{{ dataConceptForm?.tCodigoCorto }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptForm?.tCodigoCorto">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">
@@ -760,8 +811,8 @@
                         <div class="col">
                           <div style="margin-bottom: 0.5rem;">
                             <small>C&oacute;digo concepto:</small><br>
-                            <h6 *ngIf="dataConceptForm?.guid">{{ dataConceptForm?.guid }}</h6>
-                            <small style="color: #ccc;" *ngIf="!dataConceptForm?.guid">No registra dato</small>
+                            <h6 *ngIf="dataConceptForm?.tCodigoCorto">{{ dataConceptForm?.tCodigoCorto }}</h6>
+                            <small style="color: #ccc;" *ngIf="!dataConceptForm?.tCodigoCorto">No registra dato</small>
                           </div>
                         </div>
                         <div class="col">

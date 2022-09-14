@@ -151,8 +151,12 @@
                 </div>
               </div>
             </div>
-
-            <nb-tabset *ngIf="profileUser == 1 || profileUser == 2" class="mb2" status="info" fullWidth (changeTab)="fnSelectState($event)">
+            <!-- <div class="row">
+              <pre>
+                {{ profileUser | json }} <-------------
+              </pre>
+            </div> -->
+            <nb-tabset *ngIf="profileUser == 1 || profileUser == 2 || profileUser == 3" class="mb2" status="info" fullWidth (changeTab)="fnSelectState($event)">
               <nb-tab tabId="1" *ngIf="profileUser == 1" tabTitle="Por asignar" tabIcon="fas fa-share-square" responsive badgeText="{{ dataStatusBadges?.PorAsignar || 0 }}" [active]="(dataSearchAdvance?.state == 1 || dataSearchAdvance?.state == '' || tabId == 1) ? true : false" style="overflow: hidden;">
                 
                 <!-- <div class="row mb-3 mb-2" *ngIf="checkBlockCases && collectionCheckedCases.length > 0">
@@ -349,7 +353,7 @@
                           </td>
                           <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              <small>{{ item?.afp | titlecase }}</small>
+                              <small>{{ item?.nombreAFP | titlecase }}</small>
                             </small>
                           </td>
                           <td class="align-middle text-center">{{ item?.regimenAfiliacion }}</td>
@@ -388,7 +392,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="2" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ dataStatusBadges?.Asignados || 0 }}" [active]="(dataSearchAdvance?.state == 2 || tabId == 2) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="2" *ngIf="profileUser != 3" tabTitle="Asignados" tabIcon="fas fa-hospital-user" responsive badgeText="{{ dataStatusBadges?.Asignados || 0 }}" [active]="(dataSearchAdvance?.state == 2 || tabId == 2) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionAsignados.length > 0">
                       <thead>
@@ -562,7 +566,7 @@
                           </td>
                           <td class="align-middle text-left">
                             <small style="font-size: 80%;">
-                              {{ item?.afp | titlecase }}
+                              {{ item?.nombreAFP | titlecase }}
                             </small>
                           </td>
 
@@ -607,7 +611,7 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ dataStatusBadges?.EnProceso || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 3) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="3" *ngIf="profileUser != 3" tabTitle="En proceso" tabIcon="fas fa-file-signature" responsive badgeText="{{ dataStatusBadges?.EnProceso || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 3) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
                   <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionEnProceso.length > 0">
                       <thead>
@@ -835,7 +839,7 @@
                                     <i class="fas cursor-pointer text-end" [ngClass]="{'fa-sort': typeSort[0]['state'] == 'DEFAULT', 'fa-sort-up': typeSort[0]['state'] == 'ASC', 'fa-sort-down': typeSort[0]['state'] == 'DESC'}"></i>
                                 </span> -->
                               </th>
-                              <th class="text-truncate">
+                              <th class="text-truncate" *ngIf="profileUser == 3 || profileUser == 1">
                                 &nbsp;
                                 <span tooltip="Ayuda" placement="top" container="body">
                                     <i class="far fa-question-circle cursor-pointer text-end text-primary"></i>
@@ -976,7 +980,7 @@
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
                             </span>
                           </td>
-                          <td class="align-middle text-center">
+                          <td class="align-middle text-center" *ngIf="profileUser == 3 || profileUser == 1">
                             <span (click)="fnEditCRHBLetter(item, 5, i);" tooltip="Editar carta CRHB" placement="top" container="body">
                                 <i class="fas fa-file-signature cursor-pointer text-info"></i>
                             </span>
@@ -1065,9 +1069,9 @@
                   </span>
                 </div>
               </nb-tab>
-              <nb-tab tabId="6" *ngIf="profileUser == 1" tabTitle="Notificados" tabIcon="fas fa-bell" responsive badgeText="{{ dataStatusBadges?.Notificados || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 6) ? true : false" style="overflow: hidden;">
+              <nb-tab tabId="6" *ngIf="profileUser == 1 || profileUser == 3" tabTitle="Enviados" tabIcon="fas fa-paper-plane" responsive badgeText="{{ dataStatusBadges?.Enviados || 0 }}" [active]="(dataSearchAdvance?.state == 3 || tabId == 6) ? true : false" style="overflow: hidden;">
                 <div class="row mt-3">
-                  <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionNotificados.length > 0">
+                  <table class="table table-striped table-bordered table-hover" style="margin: 0 15px;" *ngIf="collectionEnviados.length > 0">
                       <thead>
                         <tr>
                             <th class="text-truncate">
@@ -1199,7 +1203,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of collectionNotificados | paginate: { id: 'pagNotificados', itemsPerPage: paginationTabs['pagNotificados'].itemsPerPage, currentPage: paginationTabs['pagNotificados'].currentPage, totalItems: paginationTabs['pagNotificados'].totalItems }; let i = index;">
+                        <tr *ngFor="let item of collectionEnviados | paginate: { id: 'pagEnviados', itemsPerPage: paginationTabs['pagEnviados'].itemsPerPage, currentPage: paginationTabs['pagEnviados'].currentPage, totalItems: paginationTabs['pagEnviados'].totalItems }; let i = index;">
                           <td class="align-middle text-center">
                             <span (click)="fnShowPreviewCRHB(item, 6);" tooltip="Ver CRHB emitido" placement="top" container="body">
                                 <i class="fas fa-notes-medical cursor-pointer text-info"></i>
@@ -1255,31 +1259,31 @@
                       </tbody>
                   </table>
                 </div>
-                <div class="col-12 mt-2 mb-5" *ngIf="collectionNotificados.length > 0">
+                <div class="col-12 mt-2 mb-5" *ngIf="collectionEnviados.length > 0">
                   <div class="row justify-content-sm-between justify-content-md-between justify-content-lg-start justify-content-xl-start">
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                      <div class="text-center kstdy-font_paginator" *ngIf="collectionNotificados?.length > 0">
+                      <div class="text-center kstdy-font_paginator" *ngIf="collectionEnviados?.length > 0">
                         <div class="text-left kstdy-font_paginator">
-                          Mostrando {{ (((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) - ((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) / paginationTabs['pagNotificados'].currentPage)) + 1 ) }} -
-                          {{ ((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) >= collectionNotificados.length) ? (collectionNotificados.length) : (paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) }}
-                          <!-- {{ ((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) >= collectionNotificados.length) ? (collectionNotificados.length) + (((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) - ((paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) / paginationTabs['pagNotificados'].currentPage)) ) : (paginationTabs['pagNotificados'].currentPage * paginationTabs['pagNotificados'].itemsPerPage) }} -->
-                          de {{ paginationTabs['pagNotificados'].totalItems }}
+                          Mostrando {{ (((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) - ((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) / paginationTabs['pagEnviados'].currentPage)) + 1 ) }} -
+                          {{ ((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) >= collectionEnviados.length) ? (collectionEnviados.length) : (paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) }}
+                          <!-- {{ ((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) >= collectionEnviados.length) ? (collectionEnviados.length) + (((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) - ((paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) / paginationTabs['pagEnviados'].currentPage)) ) : (paginationTabs['pagEnviados'].currentPage * paginationTabs['pagEnviados'].itemsPerPage) }} -->
+                          de {{ paginationTabs['pagEnviados'].totalItems }}
                         </div>
                       </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                       <div class="text-center kstdy-font_paginator">
-                        <pagination-controls (pageChange)="getPage($event, 6)" id="pagNotificados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        <pagination-controls (pageChange)="getPage($event, 6)" id="pagEnviados" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 d-flex justify-content-center mt-4" *ngIf="collectionNotificados.length < 1 || !collectionNotificados">
+                <div class="col-12 d-flex justify-content-center mt-4" *ngIf="collectionEnviados.length < 1 || !collectionEnviados">
                   <span class="text-center">
                     <img src="../../../../assets/images/imgs/empty-inbox.png" width="150px" style="filter: grayscale(100%);opacity: 0.5;" alt="Imagen listado vacio">
                     <h4 class="mt-2" style="color: #9f9f9f">No se encontraron registros</h4>
                     <p class="mt-1" style="color: #9f9f9f">
-                      Es posible que no existan casos en estado <strong>Notificados</strong> para ti.
+                      Es posible que no existan casos en estado <strong>Enviados</strong> para ti.
                     </p>
                   </span>
                 </div>

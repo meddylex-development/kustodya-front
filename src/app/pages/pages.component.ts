@@ -192,7 +192,6 @@ export class PagesComponent implements OnInit, OnDestroy {
           'cards': cards_access[0],
           'menu_items': this.MENU_ITEMS,
         };
-        console.log('object_return: ', object_return);
         observer(object_return);
       } else if (r.status == 206) {
         const error = this.utilitiesService.fnSetErrors(r.body.codMessage)[0];

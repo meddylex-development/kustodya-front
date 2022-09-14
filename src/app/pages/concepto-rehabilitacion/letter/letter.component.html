@@ -36,7 +36,33 @@
       </nb-card-header>
       <nb-card-body>
         <div class="container-fluid">
-
+          <!-- <div class="row">
+            <div class="col text-end">
+              <button 
+                  nbButton 
+                  class="cursor-pointer" 
+                  shape="round" 
+                  size="small" 
+                  status="info" 
+                  (click)="fnShowConfigSendMail()" 
+                  [nbPopover]="templateRef"
+                  [disabled]="false">
+                  <i class="fas fa-cog"></i>
+                </button>
+                <ng-template #templateRef>
+                  <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">An item</li>
+                      <li class="list-group-item">A second item</li>
+                      <li class="list-group-item">A third item</li>
+                    </ul>
+                    <div class="card-footer">
+                      Card footer
+                    </div>
+                  </div>
+                </ng-template>
+            </div>
+          </div> -->
           <div class="row">
             <div class="mt-2 mb-2 col-12">
               <div class="card">
@@ -102,14 +128,105 @@
                     <div class="col-6">
                       <div style="margin-bottom: 0.5rem;">
                         <span><i class="fas fa-at"></i>&nbsp;Correo electr&oacute;nico:</span>
-                        <h6 style="color: #000;" *ngIf="patientData?.email && inputEmailPatient == false">
-                          {{ patientData?.email }}&nbsp;
+                        <h6 style="color: #000;" *ngIf="letterDataConcept.emailPatient && inputEmailPatient == false">
+                          {{ letterDataConcept.emailPatient }}&nbsp;
                           <i class="fas fa-pencil-alt cursor-pointer" (click)="inputEmailPatient = true"></i>
                         </h6>&nbsp;
-                        <small *ngIf="!patientData?.email">No registra dato</small>
+                        <small *ngIf="!letterDataConcept.emailPatient">No registra dato</small>
                         <input 
                           *ngIf="inputEmailPatient == true"
-                          class=""
+                          class="input-state"
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-emailPatient"  
+                          name="emailPatient" 
+                          [(ngModel)]="letterDataConcept.emailPatient" 
+                          (focusout)="inputEmailPatient = false"
+                          [status]="'basic'"
+                          placeholder="Correo electronico paciente">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span>
+                        <h6 style="color: #000;" *ngIf="letterDataConcept?.phonePatient && inputPhonePatient == false">
+                          {{ letterDataConcept?.phonePatient }}
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="inputPhonePatient = true"></i>
+                        </h6>
+                        <small *ngIf="!letterDataConcept?.phonePatient">No registra dato</small>
+                        <input 
+                          *ngIf="inputPhonePatient == true"
+                          class="input-state"
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-phonePatient"  
+                          name="phonePatient" 
+                          [(ngModel)]="letterDataConcept.phonePatient" 
+                          (focusout)="inputPhonePatient = false"
+                          [status]="'basic'"
+                          placeholder="Número de teléfono paciente">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span>
+                        <h6 style="color: #000;" *ngIf="letterDataConcept?.addressPatient && inputPhonePatient == false">
+                          {{ letterDataConcept?.addressPatient }}
+                          <!-- <i class="fas fa-pencil-alt cursor-pointer" (click)="inputAddressPatient = true"></i> -->
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="fnShowModalAddAddress()"></i>
+                        </h6>
+                        <small *ngIf="!letterDataConcept?.addressPatient">No registra dato</small>
+                        <input 
+                          *ngIf="inputAddressPatient == true"
+                          class="input-state"
+                          nbInput
+                          fullWidth 
+                          fieldSize="large"  
+                          type="text" 
+                          [readonly]="false" 
+                          [disabled]="false" 
+                          id="input-phonePatient"  
+                          name="phonePatient" 
+                          [(ngModel)]="letterDataConcept.addressPatient" 
+                          (focusout)="inputAddressPatient = false"
+                          [status]="'basic'"
+                          placeholder="Número de teléfono paciente">
+                      </div>
+                    </div>
+                    <div class="col-6" *ngIf="false">
+                      <div style="margin-bottom: 0.5rem;">
+                        <span><i class="fas fa-hand-holding-medical"></i>&nbsp;AFP paciente: </span>
+                        <h6 style="color: #000;" *ngIf="dataSession?.IdProfile != 1">
+                          {{ letterDataConcept.nombreAFPPatient }}&nbsp;
+                        </h6>&nbsp;
+                        <ng-select 
+                          *ngIf="dataSession?.IdProfile == 1"
+                          id="input-selectListAfp"
+                          [items]="collectionAfp" 
+                          bindLabel="tNombre" 
+                          bindValue="iIDAFP" 
+                          name="selectListAfp"
+                          #selectListAfp="ngModel" 
+                          status="basic" 
+                          appendTo="body"
+                          placeholder="Seleccione el médico"
+                          [ngModelOptions]="{standalone: true}" 
+                          [(ngModel)]="letterDataConcept.afpPatient" 
+                          (change)="fnSelecPatientAfp($event)"
+                          required>
+                        </ng-select>
+                        <!-- <small *ngIf="!patientData?.email">No registra dato</small>
+                        <input 
+                          *ngIf="inputEmailPatient == true"
+                          class="input-state"
                           nbInput
                           fullWidth 
                           fieldSize="large"  
@@ -121,58 +238,121 @@
                           [(ngModel)]="patientData.email" 
                           (focusout)="inputEmailPatient = false"
                           [status]="'info'"
-                          placeholder="Correo electronico paciente">
+                          placeholder="Correo electronico paciente"> -->
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div style="margin-bottom: 0.5rem;">
-                        <span><i class="fas fa-phone-square-alt"></i>&nbsp;T&eacute;lefono:</span>
-                        <h6 style="color: #000;" *ngIf="patientData?.telefono && inputPhonePatient == false">
-                          {{ patientData?.telefono }}
-                          <i class="fas fa-pencil-alt cursor-pointer" (click)="inputPhonePatient = true"></i>
-                        </h6>
-                        <small *ngIf="!patientData?.telefono">No registra dato</small>
-                        <input 
-                          *ngIf="inputPhonePatient == true"
-                          class=""
-                          nbInput
-                          fullWidth 
-                          fieldSize="large"  
-                          type="text" 
-                          [readonly]="false" 
-                          [disabled]="false" 
-                          id="input-phonePatient"  
-                          name="phonePatient" 
-                          [(ngModel)]="patientData.telefono" 
-                          (focusout)="inputPhonePatient = false"
-                          [status]="'info'"
-                          placeholder="Número de teléfono paciente">
+                    <!-- <div class="col-12">
+                      <hr>
+                    </div> -->
+                    <div class="col-12 mt-2">
+                      <div class="row m-0 p-0">
+                        <div class="col mt-2 mb-2">
+    
+                          <h6 class="text-center">
+                            Enviar notificaci&oacute;n a la AFP por correo electr&oacute;nico
+                          </h6>
+                          <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
+                            <!-- Rounded switch -->
+                            <h6>No</h6>&nbsp;
+                            <label class="switch" style="margin-top: 0.2rem;">
+                              <input 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="letterDataConcept.bNotificacionbyEmailAFP"
+                                type="checkbox" 
+                                [checked]="(letterDataConcept.bNotificacionbyEmailAFP)?'checked':false">
+                              <span class="slider round"></span>
+                            </label>
+                            &nbsp;
+                            <h6>Si</h6>
+                          </span>
+                          
+                        </div>
+                        <div class="col mt-2 mb-2">
+    
+                          <h6 class="text-center">
+                            Enviar notificaci&oacute;n a la AFP por correo postal
+                          </h6>
+                          <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
+                            <!-- Rounded switch -->
+                            <h6>No</h6>&nbsp;
+                            <label class="switch" style="margin-top: 0.2rem;">
+                              <input 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="letterDataConcept.bNotificacionbyPmailAFP"
+                                type="checkbox" 
+                                [checked]="(letterDataConcept.bNotificacionbyPmailAFP)?'checked':false">
+                              <span class="slider round"></span>
+                            </label>
+                            &nbsp;
+                            <h6>Si</h6>
+                          </span>
+                          
+                        </div>
+                        <div class="col mt-2 mb-2">
+    
+                          <h6 class="text-center">
+                            Enviar notificaci&oacute;n al paciente por correo electr&oacute;nico
+                          </h6>
+                          <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
+                            <!-- Rounded switch -->
+                            <h6>No</h6>&nbsp;
+                            <label class="switch" style="margin-top: 0.2rem;">
+                              <input 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="letterDataConcept.bNotificacionbyEmailPaciente"
+                                type="checkbox" 
+                                [checked]="(letterDataConcept.bNotificacionbyEmailPaciente)?'checked':false">
+                              <span class="slider round"></span>
+                            </label>
+                            &nbsp;
+                            <h6>Si</h6>
+                          </span>
+                          
+                        </div>
+                        <div class="col mt-2 mb-2">
+    
+                          <h6 class="text-center">
+                            Enviar notificaci&oacute;n al paciente por correo postal
+                          </h6>
+                          <span class="cursor-pointer m-1 d-flex align-items-center justify-content-center">
+                            <!-- Rounded switch -->
+                            <h6>No</h6>&nbsp;
+                            <label class="switch" style="margin-top: 0.2rem;">
+                              <input 
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="letterDataConcept.bNotificacionbyPmailPaciente"
+                                type="checkbox" 
+                                [checked]="(letterDataConcept.bNotificacionbyPmailPaciente)?'checked':false">
+                              <span class="slider round"></span>
+                            </label>
+                            &nbsp;
+                            <h6>Si</h6>
+                          </span>
+                          
+                        </div>
                       </div>
                     </div>
                     <div class="col-12">
                       <div style="margin-bottom: 0.5rem;">
-                        <span><i class="fas fa-map-marker"></i>&nbsp;Direcci&oacute;n:</span>
-                        <h6 style="color: #000;" *ngIf="patientData?.direccion && inputPhonePatient == false">
-                          {{ patientData?.direccion }}
-                          <!-- <i class="fas fa-pencil-alt cursor-pointer" (click)="inputAddressPatient = true"></i> -->
-                          <i class="fas fa-pencil-alt cursor-pointer" (click)="fnShowModalAddAddress()"></i>
-                        </h6>
-                        <small *ngIf="!patientData?.direccion">No registra dato</small>
+                        <span><i class="far fa-file-alt"></i>&nbsp;Asunto:</span>
+                        <!-- <h6 style="color: #000;" *ngIf="letterDataConcept?.subjectLetterPatient && inputEmailPatient == false">
+                          {{ letterDataConcept?.subjectLetterPatient }}&nbsp;
+                          <i class="fas fa-pencil-alt cursor-pointer" (click)="inputEmailPatient = true"></i>
+                        </h6>&nbsp;
+                        <small *ngIf="!letterDataConcept?.subjectLetterPatient">No registra dato</small> -->
                         <input 
-                          *ngIf="inputAddressPatient == true"
-                          class=""
+                          class="input-state"
                           nbInput
                           fullWidth 
                           fieldSize="large"  
                           type="text" 
                           [readonly]="false" 
                           [disabled]="false" 
-                          id="input-phonePatient"  
-                          name="phonePatient" 
-                          [(ngModel)]="patientData.telefono" 
-                          (focusout)="inputAddressPatient = false"
-                          [status]="'info'"
-                          placeholder="Número de teléfono paciente">
+                          id="input-subjectLetterPatient"  
+                          name="subjectLetterPatient" 
+                          [(ngModel)]="letterDataConcept.subjectLetterPatient" 
+                          [status]="'basic'"
+                          placeholder="Asunto carta concepto">
                       </div>
                     </div>
                   </div>    
@@ -186,7 +366,7 @@
             <div class="mt-2 mb-2 col-12">
               <div class="card">
                 <div class="card-header">
-                  Datos paciente
+                  Datos empleador(es)
                 </div>
                 
                 <div class="card-body">
@@ -222,8 +402,9 @@
                   status="info" 
                   (click)="fnShowPreviewLetterCRHB()" 
                   [disabled]="false">
-                  <i class="fas fa-eye"></i>&nbsp;
-                  Vista preliminar
+                  <!-- <i class="fas fa-eye"></i>&nbsp; -->
+                  <i class="fas fa-notes-medical"></i>&nbsp;
+                  Detalle Concepto
                 </button>
                 &nbsp;
                 <button 
@@ -233,9 +414,11 @@
                   size="small" 
                   status="info" 
                   (click)="fnUpdateLetterCRHB()" 
-                  [disabled]="false">Guardar
+                  [disabled]="false">
+                  <i class="fas fa-save"></i>&nbsp;
+                  Guardar
                 </button>
-                &nbsp;
+                <!-- &nbsp;
                 <button 
                   nbButton 
                   class="cursor-pointer" 
@@ -244,8 +427,16 @@
                   status="info" 
                   (click)="fnEmmitLetterCRHB()"
                   [disabled]="false">Emitir
-                </button>
+                </button> -->
               </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <pre>
+                {{ letterDataConcept | json }}
+              </pre>
             </div>
           </div>
 

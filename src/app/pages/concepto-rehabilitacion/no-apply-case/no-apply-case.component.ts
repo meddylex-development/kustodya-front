@@ -31,6 +31,7 @@ export class NoApplyCaseComponent implements OnInit {
     { 'id': 3588, 'name': 'SEGUIMIENTO' },
     { 'id': 3589, 'name': 'SIN AFP' },
   ];
+  public collectionDataSelectors: any = null;
   
   constructor(
     protected ref: NbDialogRef<NoApplyCaseComponent>,
@@ -47,11 +48,41 @@ export class NoApplyCaseComponent implements OnInit {
       this.userData = response['user'];
       // this.dataCase
 
+      this.fnGetDataSelectors(this.token).then(response1 => {
+        if (response1) {
+          this.collectionDataSelectors = response1;
+          console.log('this.collectionDataSelectors: ', this.collectionDataSelectors);
+          this.collectionCancelTypes = response1['CausalNoAplica'];
+          // this.letterDataConcept['afpPatient'] = this.dataConceptForm['iIDAfp'];
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+        } 
+      });
+
     }).catch(error => {
       this.utilitiesService.fnSignOutUser().then(resp => {
         this.utilitiesService.fnNavigateByUrl('auth/login');
       });
     });
+  }
+
+  fnGetDataSelectors(token) {
+    return new Promise ((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpGetDataSelectors(token).subscribe(result => {
+        if (result.status == 200) {
+          let collectionList = JSON.parse(JSON.stringify(result.body));
+          resolve(collectionList);
+        } else {
+          this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error consultando las sintomatologias', 'nb-alert');
+          reject(false);
+        }
+        // this.submitted = false;
+      }, error => {
+        this.utilitiesService.showToast('bottom-right', 'danger', error, 'nb-alert');
+        reject(error);
+        // this.submitted = false;
+      });
+    })
   }
 
   fnNoApplyCase(dataCaseCancel) {

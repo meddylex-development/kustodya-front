@@ -10,7 +10,8 @@ import {
   NbSelectModule,
   NbUserModule, 
   NbStepperModule,
-  NbAccordionModule,
+  NbAccordionModule, 
+  NbPopoverModule,
 } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
@@ -107,6 +108,7 @@ const ENTRY_COMPONENTS = [
     TooltipModule.forRoot(), 
     NbStepperModule,
     NbAccordionModule,
+    NbPopoverModule,
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,

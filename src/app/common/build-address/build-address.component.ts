@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { NbDialogRef } from '@nebular/theme';
+import { AdminService } from '../../shared/api/services/admin.service';
 import { UtilitiesService } from '../../shared/api/services/utilities.service';
 
 @Component({
@@ -90,6 +91,7 @@ export class BuildAddressComponent implements OnInit {
     'userCity': null,
     'address': '',
     'aditionalDataAddress': '',
+    'postalCode': '',
     'primaryPhone': '',
     'aditionalPhone': '',
   };
@@ -98,6 +100,7 @@ export class BuildAddressComponent implements OnInit {
     protected ref: NbDialogRef<BuildAddressComponent>,
     private authService: NbAuthService,
     private utilitiesService: UtilitiesService,
+    private adminService: AdminService,
   ) { }
 
   ngOnInit() {
@@ -107,6 +110,7 @@ export class BuildAddressComponent implements OnInit {
         this.token = token["token"];
         this.dataSession = token.getPayload();
 
+        console.log('this.data: ', this.data);
         if (this.data['dataAddress']) {
           this.dataAddressBuild = this.data['dataAddress'];
           // this.dataAddressBuild['userCountry'] = this.data['dataAddress']['userCountry'];
@@ -115,7 +119,7 @@ export class BuildAddressComponent implements OnInit {
           // this.dataAddressBuild['address'] = this.data['dataAddress']['address'];
           // this.dataAddressBuild['aditionalDataAddress'] = this.data['dataAddress']['aditionalDataAddress'];
         } else {
-          this.dataAddressBuild['address'] = this.data['direccion'];
+          this.dataAddressBuild['address'] = this.data['direccion'] || this.data['addressPatient'];
         }
 
         this.fnGetDataPlace();
@@ -125,21 +129,30 @@ export class BuildAddressComponent implements OnInit {
   }
 
   fnGetDataPlace() {
-    this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
-      const dataCountries = JSON.parse(JSON.stringify(response['body']));
-      let dataContry = [];
-      // dataCountries.forEach(element => {
-      //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
-      // });
-      dataContry = [{ id: 1, name: 'Colombia', flag: 'null', allDataCountry: {} }];
-      this.collectionCountries = dataContry;
-      // this.userData['diagnostic']['userCountryCondition'] = this.collectionCountries[34];
-    }, (error) => {
-    });
+    // this.utilitiesService.fnGetCountryDataAPI().subscribe(response => {
+    //   const dataCountries = JSON.parse(JSON.stringify(response['body']));
+    //   let dataContry = [];
+    //   // dataCountries.forEach(element => {
+    //   //   dataContry.push({ 'name': element['name']['common'], 'flag': element['flags'], 'allDataCountry': element })
+    //   // });
+    //   dataContry = [{ id: 1, name: 'Colombia', flag: 'null', allDataCountry: {} }];
+    //   this.collectionCountries = dataContry;
+    //   // this.userData['diagnostic']['userCountryCondition'] = this.collectionCountries[34];
+    // }, (error) => {
+    // });
 
-    let urlApi = this.utilitiesService.fnReturnUrlApiMapDivPolColombia();
-    this.utilitiesService.fnHttpGetDataJSONAPI(urlApi).then(response => {
-      this.collectionDepartaments = JSON.parse(JSON.stringify(response));
+    // let urlApi = this.utilitiesService.fnReturnUrlApiMapDivPolColombia();
+    // this.utilitiesService.fnHttpGetDataJSONAPI(urlApi).then(response => {
+    //   this.collectionDepartaments = JSON.parse(JSON.stringify(response));
+    // }, (error) => {
+    // });
+
+    // const data1 = this.adminService.fnHttpGetCountries(this.token);
+
+    this.adminService.fnHttpGetCountries(this.token).subscribe((resp) => {
+      if (resp['status'] == 200) {
+        this.collectionCountries = resp['body'];
+      }
     }, (error) => {
     });
   }
@@ -188,6 +201,45 @@ export class BuildAddressComponent implements OnInit {
 
   fnCloseModal() {
     this.dismiss(null);
+  }
+
+  fnSelectDeptosByIdCountry($event: Event): void {
+    let idCountry = $event['IDPAIS'];
+    this.dataAddressBuild['countryInfo'] = $event;
+    this.adminService.fnHttpGetDeptosCountry(this.token, idCountry).subscribe((resp) => {
+      if (resp['status'] == 200) {
+        this.collectionDepartaments = resp['body'];
+      }
+    }, (error) => {
+    });
+  }
+
+  fnSelectCitiesByIdDepto($event: Event): void {
+    let idDepto = $event['IDDEPTO'];
+    let idCountry = this.dataAddressBuild['userCountry'];
+    this.dataAddressBuild['deptoInfo'] = $event;
+    this.adminService.fnHttpGetCitiesDepto(this.token, idCountry, idDepto).subscribe((resp) => {
+      if (resp['status'] == 200) {
+        this.collectionCities = resp['body'];
+      }
+    }, (error) => {
+    });
+  }
+
+  fnSelectPoblationsByCity($event: Event): void {
+    this.dataAddressBuild['cityInfo'] = $event;
+    let idCity = $event['IDMUNICIPIO'];
+    let idDepto = this.dataAddressBuild['userDepartament'];
+    let idCountry = this.dataAddressBuild['userCountry'];
+    // this.dataAddressBuild['deptoInfo'] = $event;
+    this.adminService.fnHttpGetPoblationsCity(this.token, idCountry, idDepto, idCity).subscribe((resp) => {
+      if (resp['status'] == 200) {
+        let idPoblation = this.dataAddressBuild['userCountry'];
+        this.dataAddressBuild['poblationInfo'] = resp['body'][0];
+        // this.collectionCities = resp['body'];
+      }
+    }, (error) => {
+    });
   }
 
 }

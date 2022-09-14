@@ -25,6 +25,7 @@ import { ConceptoRehabilitacionService } from '../../../shared/api/services/conc
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BuildAddressComponent } from '../../../common/build-address/build-address.component';
+import { map } from 'rxjs/operators';
 defineLocale('es', esLocale);
 
 @Component({
@@ -232,7 +233,6 @@ export class EditComponent implements OnInit {
     $(document).ready(function () {
       // $("#stepper-crhb > .header > div:nth-child(5) > .label-index").css("border", "2px solid #ff6780");
       // $("#stepper-crhb > .header > div:nth-child(5) > div").css("color", "#ff6780").click((resp) => {
-      //   console.log('resp: ', resp);
       //   alert("Alert!");
       // });
 
@@ -259,15 +259,14 @@ export class EditComponent implements OnInit {
           // let service2 = this.fnGetDataConcept(this.token, params['idCaso']);
 
           // Promise.all([service1, service2]).then((response) => {
-          //   console.log('response: ', response);
           //   if (response.length > 0) {
               
           //   } else {
           //     this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
           //   }
           // });
-
-          this.fnGetDataConcept(this.token, params['idCaso']).then((response6) => {
+          this.bsLocaleService.use('es');
+          this.fnGetDataConcept(this.token, this.idCaso).then((response6) => {
             if (response6) {
               // this.collectionMedicalConcept = response6['body'];
               this.dataConcept = response6['body'];
@@ -329,7 +328,10 @@ export class EditComponent implements OnInit {
               this.fnGetDataUser(this.token, dataObject).then((response) => {
                 if (response) {
                   this.submitted = false;
+                  this.fnClickStep(1);
                   this.fnClickStep(2);
+                  this.fnClickStep(3);
+                  this.fnClickStep(4);
                   this.textLoading = '';
                   this.patientData = response['body']['informacionPacientes'][0];
                   this.patientFullName = (`${this.patientData['primerNombre']} ${this.patientData['segundoNombre']} ${this.patientData['primerApellido']} ${this.patientData['segundoApellido']}`).trim();
@@ -419,6 +421,7 @@ export class EditComponent implements OnInit {
               this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
             }
           });
+          // this.fnGetDataConceptAll(this.token, this.idCaso, this.idPaciente);
         });
 
       }
@@ -471,6 +474,8 @@ export class EditComponent implements OnInit {
   }
 
   fnAddNewDiagnostic(selectPatientDiagnostics, selectPatientEtiology, patientInputDiagnosticDate) {
+    this.submitted = true;
+    this.textLoading = 'Agregando nuevo diagnósitco concepto...';
     // const date_unix = moment(patientInputDiagnosticDate).unix();
     const patientDiagnosticDate = moment(patientInputDiagnosticDate).valueOf();
 
@@ -496,9 +501,20 @@ export class EditComponent implements OnInit {
       };
       this.fnSaveConceptDiagnostic(this.token, dataObjectDiagnostic).then((response) => {
         if (response) {
+          // this.listDiagnosticsPatient[this.listDiagnosticsPatient.length - 1]['idDiagnosticoConcepto'] = response['body']['idDiagnosticoConcepto'];
           this.utilitiesService.showToast('bottom-right', 'success', 'Diagnostico agegado satisfactoriamente!', 'nb-check');
-          this.fnUpdateConcept();
-          this.fnGetPercentaje();
+          this.fnUpdateConceptSilence().then((resp) => {
+            if (resp) {
+              this.fnGetPercentaje();
+              this.fnClickStep(1);
+              this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+              this.submitted = false;
+              this.textLoading = '';
+            } else {
+              this.submitted = false;
+              this.textLoading = '';
+            }
+          });
         } else {
           this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando el diagnóstico', 'nb-alert');
         }
@@ -557,9 +573,21 @@ export class EditComponent implements OnInit {
             };
             this.fnSaveConceptDiagnostic(this.token, dataObjectDiagnostic).then((response) => {
               if (response) {
+                // this.listDiagnosticsPatient[this.listDiagnosticsPatient.length - 1]['idDiagnosticoConcepto'] = response['body']['idDiagnosticoConcepto'];
                 this.utilitiesService.showToast('bottom-right', 'success', 'Diagnostico agegado satisfactoriamente!', 'nb-check');
-                this.fnUpdateConcept();
-                this.fnGetPercentaje();
+                this.fnUpdateConceptSilence().then((resp) => {
+                  if (resp) {
+                    this.fnGetPercentaje();
+                    this.fnClickStep(1);
+                    this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+                    this.submitted = false;
+                    this.textLoading = '';
+                  } else {
+                    this.submitted = false;
+                    this.textLoading = '';
+                  }
+                });
+                
               } else {
                 this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando el diagnóstico', 'nb-alert');
               }
@@ -632,6 +660,8 @@ export class EditComponent implements OnInit {
   }
   
   fnAddNewSequel(selectPatientTypeSequel, selectPatientMedicalPrognosis, patientInputSequelDescription) {
+    this.submitted = true;
+    this.textLoading = 'Agregando nueva secuela concepto...';
     // const date_unix = moment(patientInputDiagnosticDate).unix();
     const patientSequelDate = moment().valueOf();
     this.listSequelsPatient.push({
@@ -654,8 +684,18 @@ export class EditComponent implements OnInit {
     this.fnSaveConceptSequels(this.token, dataObjectSequel).then((response) => {
       if (response) {
         this.utilitiesService.showToast('bottom-right', 'success', 'Secuela agegada satisfactoriamente!', 'nb-check');
-        this.fnUpdateConcept();
-        this.fnGetPercentaje();
+        this.fnUpdateConceptSilence().then((resp) => {
+          if (resp) {
+            this.fnGetPercentaje();
+            this.fnClickStep(2);
+            this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+            this.submitted = false;
+            this.textLoading = '';
+          } else {
+            this.submitted = false;
+            this.textLoading = '';
+          }
+        });
       } else {
         this.utilitiesService.showToast('bottom-right', 'danger', 'Se presento un error agregando la secuela', 'nb-alert');
       }
@@ -757,7 +797,13 @@ export class EditComponent implements OnInit {
     //   dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept == 1) ? this.collectionMedicalConcept[0]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
     // } 
     // this.utilitiesService.fnSetSessionStorage('data-concept', JSON.stringify(dataObjectSend));
-    this.router.navigate(['/pages/concepto-de-rehabilitacion/certificado-emitido/', this.idCaso, this.dataConceptForm['PacienteId']], { skipLocationChange: false });
+    this.fnUpdateConceptSilence().then((resp) => {
+      if (resp) {
+        this.router.navigate(['/pages/concepto-de-rehabilitacion/certificado-emitido/', this.idCaso, this.dataConceptForm['PacienteId']], { skipLocationChange: false });
+      } else {
+        // Error al actualizar
+      }
+    });
     // this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/certificado-emitido/' + this.idCaso + '/' + this.dataConceptForm['PacienteId']);
   }
 
@@ -795,57 +841,63 @@ export class EditComponent implements OnInit {
   }
 
   fnGetPercentaje(): void {
+
+    let valPorDiagnosticos = 20;
+    let valPorSecuelas = 10;
+    let valPorResumenHistoriaClinica = 10;
+    let valPorFinalidadTratamientos = 10;
+    let valPorTratamientoSinOtros = 10;
+    let valPorTratamientoConOtros = 5;
+    let valPorOtrosTratamintos = 5;
+    let valPorDescOtrosTratamientos = 5;
+    let valPorCortoPlazo = 5;
+    let valPorMedianoPlazo = 5;
+    let valPorConcepto = 30;
+
+
     let valueProgress = 0;
     // Valor por diagnosticos = 20
-    valueProgress = (this.listDiagnosticsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
-    console.log('valueProgress 1: ', valueProgress);
+    valueProgress = (this.listDiagnosticsPatient.length > 0) ? valueProgress + valPorDiagnosticos : valueProgress + 0;
     // Valor por secuelas = 20
-    valueProgress = (this.listSequelsPatient.length > 0) ? valueProgress + 20 : valueProgress + 0;
-    console.log('valueProgress 2: ', valueProgress);
+    valueProgress = (this.listSequelsPatient.length > 0) ? valueProgress + valPorSecuelas : valueProgress + 0;
     // Valor por historia clinica = 20
-    valueProgress = (this.dataConceptForm['ResumenHistoriaClinica']) ? valueProgress + 20 : valueProgress + 0;
-    console.log('valueProgress 3: ', valueProgress);
+    valueProgress = (this.dataConceptForm['ResumenHistoriaClinica']) ? valueProgress + valPorResumenHistoriaClinica : valueProgress + 0;
     // Valor por finalidad tratamiento = 10
-    valueProgress = (this.dataConceptForm['FinalidadTratamientos']) ? valueProgress + 10 : valueProgress + 0;
-    console.log('valueProgress 4: ', valueProgress);
+    valueProgress = (this.dataConceptForm['FinalidadTratamientos']) ? valueProgress + valPorFinalidadTratamientos : valueProgress + 0;
     // Valor por tipo de tratamiento (si no esta chequeado otros tramientos su peso sera de 10 pero si esta chequeado otros tratamientos su valor sera de 5)
     valueProgress = ((this.dataConceptForm['EsFarmacologico'] || 
         this.dataConceptForm['EsTerapiaOcupacional'] || 
         this.dataConceptForm['EsFonoaudiologia'] || 
         this.dataConceptForm['EsQuirurgico'] || 
         this.dataConceptForm['EsTerapiaFisica']) && 
-      (!this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 10 : 
+      (!this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + valPorTratamientoSinOtros : 
       ((this.dataConceptForm['EsFarmacologico'] || 
         this.dataConceptForm['EsTerapiaOcupacional'] || 
         this.dataConceptForm['EsFonoaudiologia'] || 
         this.dataConceptForm['EsQuirurgico'] || 
-        this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 5 : 
+        this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + valPorTratamientoConOtros : 
       ((!this.dataConceptForm['EsFarmacologico'] || 
         !this.dataConceptForm['EsTerapiaOcupacional'] || 
         !this.dataConceptForm['EsFonoaudiologia'] || 
         !this.dataConceptForm['EsQuirurgico'] || 
-        !this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + 5 : valueProgress + 0;
+        !this.dataConceptForm['EsTerapiaFisica']) && (this.dataConceptForm['EsOtrosTratamientos'])) ? valueProgress + valPorOtrosTratamintos : valueProgress + 0;
     // Otros tratamientos y descripcion de otros tratamientos = 5
-    console.log('valueProgress 5: ', valueProgress);
     valueProgress = (
-      this.dataConceptForm['EsOtrosTratamientos'] && this.dataConceptForm['DescripcionOtrosTratamientos']) ? valueProgress + 5 : 
+      this.dataConceptForm['EsOtrosTratamientos'] && this.dataConceptForm['DescripcionOtrosTratamientos']) ? valueProgress + valPorDescOtrosTratamientos : 
       (this.dataConceptForm['EsOtrosTratamientos'] && (!this.dataConceptForm['DescripcionOtrosTratamientos'] || this.dataConceptForm['DescripcionOtrosTratamientos'] == '' || this.dataConceptForm['DescripcionOtrosTratamientos'] == null)) ? valueProgress + 0 : valueProgress + 0;
-    console.log('valueProgress 6: ', valueProgress);
     // Corto plazo = 5
-    valueProgress = (this.patientGoodShortTerm) ? valueProgress + 5 : (this.patientRegularShortTerm) ? valueProgress + 5 : (this.patientBadShortTerm) ? valueProgress + 5 : valueProgress + 0;
-    console.log('valueProgress 7: ', valueProgress);
+    // valueProgress = (this.patientGoodShortTerm) ? valueProgress + 5 : (this.patientRegularShortTerm) ? valueProgress + 5 : (this.patientBadShortTerm) ? valueProgress + 5 : valueProgress + 0;
+    valueProgress = (this.patientGoodShortTerm || this.patientRegularShortTerm || this.patientBadShortTerm) ? valueProgress + valPorCortoPlazo : valueProgress + 0;
     // Mediano plazo = 5
-    valueProgress = (this.patientGoodMediumTerm) ? valueProgress + 5 : (this.patientRegularMediumTerm) ? valueProgress + 5 : (this.patientBadMediumTerm) ? valueProgress + 5 : valueProgress + 0;
-    console.log('valueProgress 8: ', valueProgress);
+    // valueProgress = (this.patientGoodMediumTerm) ? valueProgress + 5 : (this.patientRegularMediumTerm) ? valueProgress + 5 : (this.patientBadMediumTerm) ? valueProgress + 5 : valueProgress + 0;
+    valueProgress = (this.patientGoodMediumTerm || this.patientRegularMediumTerm || this.patientBadMediumTerm) ? valueProgress + valPorMedianoPlazo : valueProgress + 0;
     // Concepto - Remision fondo de pensiones = 10
     if (this.selectMedicalConcept) {
-      valueProgress = (this.selectMedicalConcept == 1) ? valueProgress + 10 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? valueProgress + 10 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + 10 : valueProgress + 0;
+      valueProgress = (this.selectMedicalConcept == 1) ? valueProgress + valPorConcepto : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? valueProgress + valPorConcepto : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? valueProgress + valPorConcepto : valueProgress + 0;
     } else {
       valueProgress = valueProgress + 0;
     }
-    console.log('valueProgress 9: ', valueProgress);
     this.percentajeConcept = valueProgress;
-    console.log('this.percentajeConcept: ', this.percentajeConcept);
     // return valueProgress;
   }
 
@@ -906,6 +958,68 @@ export class EditComponent implements OnInit {
     });
   }
 
+  fnUpdateConceptSilence() {
+    return new Promise((resolve, reject) => {
+      // this.submitted = false;
+      // this.textLoading = '';
+      
+      // this.dataConcept
+      // this.selectMedicalConcept
+      // this.dataCollectionConcepts
+  
+      this.fnGetPercentaje();
+      // this.percentajeConcept
+      // return false;
+      let dataObjectSend = {
+        "id": this.dataConceptForm['iIDConcepto'],
+        // "resumenHistoriaClinica": (this.patientInputClinicHistorySummary) ? this.patientInputClinicHistorySummary : '',
+        "resumenHistoriaClinica": (this.dataConceptForm['ResumenHistoriaClinica']) ? this.dataConceptForm['ResumenHistoriaClinica'] : '',
+        "finalidadTratamientos": (this.dataConceptForm['FinalidadTratamientos']) ? this.dataConceptForm['FinalidadTratamientos'] : 0,
+        "esFarmacologico": (this.dataConceptForm['EsFarmacologico']) ? this.dataConceptForm['EsFarmacologico'] : false,
+        "esTerapiaOcupacional": (this.dataConceptForm['EsTerapiaOcupacional']) ? this.dataConceptForm['EsTerapiaOcupacional'] : false,
+        "esFonoaudiologia": (this.dataConceptForm['EsFonoaudiologia']) ? this.dataConceptForm['EsFonoaudiologia'] : false,
+        "esQuirurgico": (this.dataConceptForm['EsQuirurgico']) ? this.dataConceptForm['EsQuirurgico'] : false,
+        "esTerapiaFisica": (this.dataConceptForm['EsTerapiaFisica']) ? this.dataConceptForm['EsTerapiaFisica'] : false,
+        "esOtrosTratamientos": (this.dataConceptForm['EsOtrosTratamientos']) ? this.dataConceptForm['EsOtrosTratamientos'] : false,
+        "descripcionOtrosTratamientos": (this.dataConceptForm['DescripcionOtrosTratamientos']) ? this.dataConceptForm['DescripcionOtrosTratamientos'] : '',
+        "plazoCorto": (this.patientGoodShortTerm) ? 1 : (this.patientRegularShortTerm) ? 2 : (this.patientBadShortTerm) ? 3 : 0,
+        "plazoMediano": (this.patientGoodMediumTerm) ? 1 : (this.patientRegularMediumTerm) ? 2 : (this.patientBadMediumTerm) ? 3 : 0,
+        "concepto": 0,
+        "remisionAdministradoraFondoPension": '',
+        "progreso": this.percentajeConcept,
+        "idAfp": (this.dataConceptForm['iIDAfp']) ? this.dataConceptForm['iIDAfp'] :  this.patientData['IDafp'],
+        "tAsunto": (this.dataConceptForm['tAsunto']) ? this.dataConceptForm['tAsunto'] : '',
+        "tDireccionPaciente": (this.patientData['direccion']) ? this.patientData['direccion'] : '',
+        "tTelefonoPaciente": (this.patientData['telefono']) ? this.patientData['telefono'] : '',
+        "iIDCiudad": (this.patientData['iIDCiudad']) ? this.patientData['iIDCiudad'] : 1,
+        "tEmailPaciente": (this.patientData['email']) ? this.patientData['email'] : '',
+      };
+      if (this.selectMedicalConcept) {
+        dataObjectSend['concepto'] = (this.selectMedicalConcept == 1) ? 1 : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? 2 : (this.selectMedicalConcept == 2 && !this.unfavTypeWithIncapacity) ? 3 : 0;
+        dataObjectSend['remisionAdministradoraFondoPension'] = (this.selectMedicalConcept == 1) ? this.collectionMedicalConcept[0]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeWithIncapacity) ? this.collectionMedicalConcept[1]['texto'] : (this.selectMedicalConcept == 2 && this.unfavTypeNoIncapacity) ? this.collectionMedicalConcept[2]['texto'] : '';
+      } 
+      // /api/K2ConceptoRehabilitacion/ActualizarConcepto // fnHttpSetUpdateConcept(guid_user, data_object)
+      this.fnSetUpdateConceptCase(this.token, dataObjectSend).then((response) => {
+        if (response) {
+          // this.utilitiesService.showToast('top-right', 'success', 'Concepto guardado satisfactoriamente!');
+          // this.submitted = false;
+          // this.textLoading = '';
+          resolve(true);
+        } else {
+          this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+          // this.submitted = false;
+          // this.textLoading = '';
+          resolve(false);
+        }
+      }).catch((err) => {
+        this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
+        reject(err);
+        // this.submitted = false;
+        // this.textLoading = '';
+      });
+    });
+  }
+
   fnEmmitConcept() {
     this.submitted = true;
     this.textLoading = 'Guardando información del concepto';
@@ -950,16 +1064,19 @@ export class EditComponent implements OnInit {
       if (response) {
         this.utilitiesService.showToast('top-right', 'success', 'Concepto se ha emitido satisfactoriamente!');
         this.submitted = false;
-        this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+        this.textLoading = '';
+        setTimeout(() => {
+          this.fnReturnListCases();
+        }, 2000);
       } else {
         this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
         this.submitted = false;
-        this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+        this.textLoading = '';
       }
     }).catch((err) => {
       this.utilitiesService.showToast('top-right', 'danger', 'Ocurrio un error!');
       this.submitted = false;
-      this.textLoading = 'Obteniendo información del concepto de rehabilitación...';
+      this.textLoading = '';
     });
   }
 
@@ -990,19 +1107,38 @@ export class EditComponent implements OnInit {
   fnChangeShortTermsValid(event) {
     switch (event) {
       case 1:
-        this.patientGoodShortTerm = true;
-        this.patientRegularShortTerm = false;
-        this.patientBadShortTerm = false;
+        if (!this.patientGoodShortTerm && !this.patientRegularShortTerm && !this.patientBadShortTerm) {
+          this.patientGoodShortTerm = false;
+          this.patientRegularShortTerm = false;
+          this.patientBadShortTerm = false;
+        } else {
+          this.patientGoodShortTerm = true;
+          this.patientRegularShortTerm = false;
+          this.patientBadShortTerm = false;
+        }
         break;
       case 2:
-        this.patientGoodShortTerm = false;
-        this.patientRegularShortTerm = true;
-        this.patientBadShortTerm = false;
+        if (!this.patientGoodShortTerm && !this.patientRegularShortTerm && !this.patientBadShortTerm) {
+          this.patientGoodShortTerm = false;
+          this.patientRegularShortTerm = false;
+          this.patientBadShortTerm = false;
+        } else {
+          this.patientGoodShortTerm = false;
+          this.patientRegularShortTerm = true;
+          this.patientBadShortTerm = false;
+        }
         break;
       case 3:
-        this.patientGoodShortTerm = false;
-        this.patientRegularShortTerm = false;
-        this.patientBadShortTerm = true;
+        if (!this.patientGoodShortTerm && !this.patientRegularShortTerm && !this.patientBadShortTerm) {
+          this.patientGoodShortTerm = false;
+          this.patientRegularShortTerm = false;
+          this.patientBadShortTerm = false;
+        } else {
+          this.patientGoodShortTerm = false;
+          this.patientRegularShortTerm = false;
+          this.patientBadShortTerm = true;
+        }
+
         break;
     }
     
@@ -1011,19 +1147,38 @@ export class EditComponent implements OnInit {
   fnChangeMediumTermsValid(event) {
     switch (event) {
       case 1:
-        this.patientGoodMediumTerm = true;
-        this.patientRegularMediumTerm = false;
-        this.patientBadMediumTerm = false;
+        if (!this.patientGoodMediumTerm && !this.patientRegularMediumTerm && !this.patientBadMediumTerm) {
+          this.patientGoodMediumTerm = false;
+          this.patientRegularMediumTerm = false;
+          this.patientBadMediumTerm = false;
+        } else {
+          this.patientGoodMediumTerm = true;
+          this.patientRegularMediumTerm = false;
+          this.patientBadMediumTerm = false;
+        }
         break;
       case 2:
-        this.patientGoodMediumTerm = false;
-        this.patientRegularMediumTerm = true;
-        this.patientBadMediumTerm = false;
+        if (!this.patientGoodMediumTerm && !this.patientRegularMediumTerm && !this.patientBadMediumTerm) {
+          this.patientGoodMediumTerm = false;
+          this.patientRegularMediumTerm = false;
+          this.patientBadMediumTerm = false;
+        } else {
+          this.patientGoodMediumTerm = false;
+          this.patientRegularMediumTerm = true;
+          this.patientBadMediumTerm = false;
+        }
         break;
       case 3:
-        this.patientGoodMediumTerm = false;
-        this.patientRegularMediumTerm = false;
-        this.patientBadMediumTerm = true;
+        if (!this.patientGoodMediumTerm && !this.patientRegularMediumTerm && !this.patientBadMediumTerm) {
+          this.patientGoodMediumTerm = false;
+          this.patientRegularMediumTerm = false;
+          this.patientBadMediumTerm = false;
+        } else {
+          this.patientGoodMediumTerm = false;
+          this.patientRegularMediumTerm = false;
+          this.patientBadMediumTerm = true;
+        }
+
         break;
     }
     
@@ -1031,6 +1186,10 @@ export class EditComponent implements OnInit {
 
   fnReturnPage(): void {
     this.location.back();
+  }
+
+  fnReturnListCases(): void {
+    this.router.navigate(['/pages/concepto-de-rehabilitacion/listado-casos']);
   }
 
   fnViewHistory() {
@@ -1102,32 +1261,112 @@ export class EditComponent implements OnInit {
     })
   }
 
-  fnRemovePatientDiagnostic(item, index, collectionPatientSigns) {
+  fnRemoveDiagnostic(item, index, collectionPatientDiagnostics) {
     this.submitted = true;
-    this.textLoading = 'Eliminando diagnostico del concepto...';
-    let collection = [];
-    collectionPatientSigns.forEach((element, key) => {
-      if (element.idDiagnosticoConcepto == item.idDiagnosticoConcepto) {
-        collection.push(element);
-        let idCie10 = item.idDiagnosticoConcepto;
-        this.fnDeleteDiagnostic(this.token, idCie10).then((response) => {
-          this.submitted = false;
-          this.textLoading = '';
-          collection = collectionPatientSigns.filter((resp) => { return resp.idDiagnosticoConcepto !== item.idDiagnosticoConcepto });
-          this.listDiagnosticsPatient = collection;
-          this.fnUpdateConcept();
-          this.percentajeConcept();
+    this.textLoading = 'Eliminando diagnostico concepto...';
+    this.fnRemovePatientDiagnostic(item, index, collectionPatientDiagnostics).then(resp => {
+      if (resp) {
+        this.utilitiesService.showToast('top-right', 'success', 'Diagnostico concepto eliminado satisfactoriamente!');
+        // this.fnUpdateConcept();
+        this.fnUpdateConceptSilence().then((resp) => {
+          if (resp) {
+            this.fnGetPercentaje();
+            this.fnClickStep(1);
+            this.submitted = false;
+            this.textLoading = '';
+            this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+          } else {
+            this.submitted = false;
+            this.textLoading = '';
+          }
         });
       }
     });
+  }
+  
+  fnRemoveSequel(item, index, collectionPatientSequels) {
+    this.submitted = true;
+    this.textLoading = 'Eliminando secuela concepto...';
+    this.fnRemovePatientSequel(item, index, collectionPatientSequels).then(resp => {
+      if (resp) {
+        this.utilitiesService.showToast('top-right', 'success', 'Secuela concepto eliminada satisfactoriamente!');
+        // this.fnUpdateConcept();
+        this.fnUpdateConceptSilence().then((resp) => {
+          if (resp) {
+            this.fnGetPercentaje();
+            this.fnClickStep(2);
+            this.submitted = false;
+            this.textLoading = '';
+            this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+          } else {
+            this.submitted = false;
+            this.textLoading = '';
+          }
+        });
+      }
+    });
+  }
+
+  fnRemovePatientDiagnostic(item, index, collectionPatientSigns) {
+    return new Promise((resolve, reject) => {
+      let collection = [];
+      collectionPatientSigns.forEach((element, key) => {
+        if (element.idDiagnosticoConcepto == item.idDiagnosticoConcepto) {
+          collection.push(element);
+          let idCie10 = item.idDiagnosticoConcepto;
+          this.fnDeleteDiagnostic(this.token, idCie10).then((response) => {
+
+            if (response['status'] == 200) {
+              collection = collectionPatientSigns.filter((resp) => { return resp.idDiagnosticoConcepto !== item.idDiagnosticoConcepto });
+              this.listDiagnosticsPatient = collection;
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          });
+        }
+      });
+    });
+
     // this.listDiagnosticsPatient = collection;
     // this.fnDeleteDiagnostic(this.token, element.)
   }
 
+  fnRemovePatientSequel(item, index, collectionPatientSequels) {
+    return new Promise((resolve, reject) => {
+      let collection = [];
+      collectionPatientSequels.forEach((element, key) => {
+        if (element.id == item.id) {
+          collection.push(element);
+          let idSequel = item.id;
+          this.fnDeleteSequel(this.token, idSequel).then((response) => {
+
+            if (response['status'] == 200) {
+              collection = collectionPatientSequels.filter((resp) => { return resp.id !== item.id });
+              this.listSequelsPatient = collection;
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          });
+        }
+      });
+    });
+  }
+
   fnDeleteDiagnostic(token, idCie10) {
-    // Instancia de conexion servicio
     return new Promise((resolve, reject) => {
       this.conceptoRehabilitacionService.fnHttpDeletePatientDiagnostic(token, idCie10).subscribe(response => {
+          resolve(response);
+      }, err => {
+          reject(err);
+      });
+    });
+  }
+
+  fnDeleteSequel(token, idSequel) {
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpDeletePatientSequel(token, idSequel).subscribe(response => {
           resolve(response);
       }, err => {
           reject(err);
@@ -1381,18 +1620,231 @@ export class EditComponent implements OnInit {
   }
 
   fnClickStep(step_num){
-    console.log('step_num: ', step_num);
-    let child = (step_num == 1) ? 1 : (step_num == 2) ? 3 : (step_num == 3) ? 5 : (step_num == 4) ? 7 : null;;
-    console.log('child: ', child);
-    if (child) {
-      // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
-      $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
-      $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red").click((resp) => {
-        console.log('resp: ', resp);
-        alert("Alert!");
-      });
-    } 
+    
+    let child = (step_num == 1) ? 1 : (step_num == 2) ? 3 : (step_num == 3) ? 5 : (step_num == 4) ? 7 : null;
+    
+    switch (step_num) {
+      case 1:
+        if (this.listDiagnosticsPatient.length < 1) {
+          // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").addClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconClose = '<i class="icon nb-close"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconClose);
+          // }, 0);
+        
+        } else {
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").removeClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").removeClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").removeClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconCheck = '<i class="icon nb-checkmark" style="color: #fff;"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconCheck);
+          // }, 0);
+        }
+        break;
+      case 2:
+        if (this.listSequelsPatient.length < 1 || this.dataConceptForm['ResumenHistoriaClinica'] == '' || this.dataConceptForm['ResumenHistoriaClinica'] == null) {
+          // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").addClass("bckgrnd-color-red");
+           // $("#stepper-crhb > .header > div:nth-child(2)").addClass("step-border-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconClose = '<i class="icon nb-close"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconClose);
+          // }, 0);
+        
+        } else {
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").removeClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").removeClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").removeClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconCheck = '<i class="icon nb-checkmark" style="color: #fff;"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconCheck);
+          // }, 0);
+        }
+        break;
+      case 3:
+        if (
+            this.dataConceptForm['FinalidadTratamientos'] == '' || 
+            this.dataConceptForm['FinalidadTratamientos'] == null || 
+            this.dataConceptForm['FinalidadTratamientos'] == 0 || 
+            (
+              !this.dataConceptForm['EsFarmacologico'] && 
+              !this.dataConceptForm['EsTerapiaOcupacional'] && 
+              !this.dataConceptForm['EsFonoaudiologia'] && 
+              !this.dataConceptForm['EsQuirurgico'] && 
+              !this.dataConceptForm['EsTerapiaFisica'] && 
+              !this.dataConceptForm['EsOtrosTratamientos'] 
+            ) || 
+            (
+              !this.dataConceptForm['EsFarmacologico'] && 
+              !this.dataConceptForm['EsTerapiaOcupacional'] && 
+              !this.dataConceptForm['EsFonoaudiologia'] && 
+              !this.dataConceptForm['EsQuirurgico'] && 
+              !this.dataConceptForm['EsTerapiaFisica'] && 
+              this.dataConceptForm['EsOtrosTratamientos'] && 
+              (this.dataConceptForm['DescripcionOtrosTratamientos'] == '' || this.dataConceptForm['DescripcionOtrosTratamientos'] == null)
+            )
+          ) {
+          // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").addClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconClose = '<i class="icon nb-close"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconClose);
+          // }, 0);
+        
+        } else {
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").removeClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").removeClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").removeClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconCheck = '<i class="icon nb-checkmark" style="color: #fff;"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconCheck);
+          // }, 0);
+        }
+        break;
+      case 4:
+        if (
+            (this.patientGoodShortTerm == false && 
+            this.patientRegularShortTerm == false && 
+            this.patientBadShortTerm == false) ||   
+            (this.patientGoodMediumTerm == false && 
+            this.patientRegularMediumTerm == false && 
+            this.patientBadMediumTerm == false) ||  
+            (this.selectMedicalConcept == null || this.selectMedicalConcept == '')
+          ) {
+          // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").addClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconClose = '<i class="icon nb-close"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconClose);
+          // }, 0);
+        
+        } else {
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").removeClass("step-border-red");
+          $("#stepper-crhb > .header > div:nth-child("+ child +") > div").removeClass("step-color-red");
+          $("#stepper-crhb > .header > div:nth-child("+ (child + 1) +")").removeClass("bckgrnd-color-red");
+          // setTimeout(() => {
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").removeClass("nb-ckeckmark");
+          //   // $("#stepper-crhb > .header > .completed > .label-index > .icon").addClass("nb-close");
+          //   let iconCheck = '<i class="icon nb-checkmark" style="color: #fff;"></i>';
+          //   $("#stepper-crhb > .header > .completed > .label-index").text("").append(iconCheck);
+          // }, 0);
+        }
+        break;
+    }
+    // if (child) {
+    //   // $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").css("border", "2px solid #ff6780");
+    //   $("#stepper-crhb > .header > div:nth-child("+ child +") > .label-index").addClass("step-border-red");
+    //   $("#stepper-crhb > .header > div:nth-child("+ child +") > div").addClass("step-color-red").click((resp) => {
+    //     alert("Alert!");
+    //   });
+    // } 
   }
-  
+
+  fnGetDataConceptSilence(token: string, id_caso: number, idPaciente: number): void {
+    // this.submitted = true;
+    this.fnGetDataConcept(token, id_caso).then((response6) => {
+      if (response6) {
+        // this.collectionMedicalConcept = response6['body'];
+        this.dataConcept = response6['body'];
+        this.dataConceptForm = response6['body']['Concepto'][0];
+        this.listDiagnosticsPatient = [];
+        this.dataConcept['DiagnosticosConcepto'].forEach((value, key) => {
+          this.listDiagnosticsPatient.push({
+            'idDiagnosticoConcepto': value['id'],
+            'aplicaLateralidad': null,
+            'iDiasMaxAcumulados': null,
+            'iDiasMaxConsulta': null,
+            'iIdcie10': value['Cie10Id'],
+            'iIdtipoCie': null,
+            'tCie10': value['tCIE10'],
+            'tDescripcion': value['tDescripcion'],
+            'tFullDescripcion': `${ value['tCIE10'] } ${ value['tDescripcion'] }`,
+            'fechaIncapacidad': value['FechaIncapacidad'],
+            'etiologia': value['Etiologia'],
+            'nombreEtiologia': value['nombreEtiologia'],
+          });
+        });
+        this.listSequelsPatient = [];
+        this.dataConcept['SecuelasConcepto'].forEach((value, key) => {
+          this.listSequelsPatient.push({
+            'id': value['Id'],
+            'idTypeSequel': value['Tipo'],
+            'nameTypeSequel': value['nombreSecuela'],
+            'idMedicalPrognosis': value['Pronostico'],
+            'nameMedicalPrognosis': value['nombrePronostico'],
+            'sequelDescription': value['Descripcion'],
+            'dateSequel': null,
+          });
+        });
+        this.checkPharmacological = this.dataConceptForm['farmacologico'];
+        this.checkOccupationalTherapy = this.dataConceptForm['terapiaOcupacional'];
+        this.checkSpeechTherapy = this.dataConceptForm['fonoAudiologia'];
+        this.checkSurgical = this.dataConceptForm['quirurgico'];
+        this.checkPhysicalTherapy = this.dataConceptForm['terapiaFisica'];
+        this.checkOtherTherapy = this.dataConceptForm['otrosTramites'];
+
+        this.patientInputOtherTreatments = this.dataConceptForm['otrosTratamientos'];
+
+        this.patientGoodShortTerm = (this.dataConceptForm['PlazoCorto'] == 1) ? true : false;
+        this.patientRegularShortTerm = (this.dataConceptForm['PlazoCorto'] == 2) ? true : false;
+        this.patientBadShortTerm = (this.dataConceptForm['PlazoCorto'] == 3) ? true : false;
+
+        this.patientGoodMediumTerm = (this.dataConceptForm['PlazoMediano'] == 1) ? true : false;
+        this.patientRegularMediumTerm = (this.dataConceptForm['PlazoMediano'] == 2) ? true : false;
+        this.patientBadMediumTerm = (this.dataConceptForm['PlazoMediano'] == 3) ? true : false;
+
+
+
+        // let dataType = ((this.dataConceptForm['Concepto'] < 3) ? (this.dataCollectionConcepts.filter((el) => { return el.pronosticoConceptoId == this.dataConceptForm['Concepto'] }))[0] : (this.dataCollectionConcepts.filter((el) => { return el.pronosticoConceptoId == 2 }))[0]) || 0;
+        let dataType = (this.dataConceptForm['Concepto'] == 1) ? 1 : (this.dataConceptForm['Concepto'] == 2 || this.dataConceptForm['Concepto'] == 3) ? 2 : 0;
+        // this.selectMedicalConcept = (dataType < 3) ? dataType : dataType;
+        this.selectMedicalConcept = dataType;
+        this.unfavTypeWithIncapacity = (this.dataConceptForm['Concepto'] == 2) ? true : false;
+        this.unfavTypeNoIncapacity = (this.dataConceptForm['Concepto'] == 3) ? true : false;
+        // this.submitted = false;
+      } else {
+        // this.submitted = false;
+        this.utilitiesService.showToast('bottom-right', 'danger', 'Ocurrio un error!', 'nb-alert');
+      }
+    });
+  }
+
+  fnValidInput(step: number): void {
+    this.fnUpdateConceptSilence().then((resp) => {
+      if (resp) {
+        this.fnGetPercentaje(); 
+        this.fnClickStep(step); 
+        this.fnGetDataConceptSilence(this.token, this.idCaso, this.idPaciente);
+      } else {
+        this.submitted = false;
+        this.textLoading = '';
+      }
+    });
+    
+  }
 
 }
