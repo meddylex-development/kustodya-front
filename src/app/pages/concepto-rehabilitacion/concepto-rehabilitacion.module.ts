@@ -16,6 +16,8 @@ import {
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { RouterModule } from '@angular/router';
 
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -56,6 +58,10 @@ import { PatientEmployerListComponent } from '../../common/patient-employer-list
 import { BuildAddressComponent } from '../../common/build-address/build-address.component';
 
 import { ToolsModule } from '../../shared/modules/tools.module';
+import { BalanceCasesComponent } from './balance-cases/balance-cases.component';
+import { ImportFileComponent } from './import-file/import-file.component';
+import { ExportDataComponent } from './export-data/export-data.component';
+import { ReAssignListCasesComponent } from './re-assign-list-cases/re-assign-list-cases.component';
 
 const ENTRY_COMPONENTS = [
   BsDatepickerModule,
@@ -82,6 +88,10 @@ const ENTRY_COMPONENTS = [
     BuildAddressComponent,
     NoApplyCaseComponent,
     LetterComponent,
+    BalanceCasesComponent,
+    ImportFileComponent,
+    ExportDataComponent,
+    ReAssignListCasesComponent,
   ],
   imports: [
     ToolsModule,
@@ -109,6 +119,8 @@ const ENTRY_COMPONENTS = [
     NbStepperModule,
     NbAccordionModule,
     NbPopoverModule,
+    PopoverModule.forRoot(),
+    RouterModule,
     // NgxEchartsModule,
     // NgxChartsModule,
     // ChartsModule,
@@ -129,6 +141,10 @@ const ENTRY_COMPONENTS = [
     PatientEmployerListComponent,
     BuildAddressComponent,
     NoApplyCaseComponent,
+    BalanceCasesComponent, 
+    ImportFileComponent,
+    ExportDataComponent,
+    ReAssignListCasesComponent,
   ],
 })
 export class ConceptoRehabilitacionModule { }

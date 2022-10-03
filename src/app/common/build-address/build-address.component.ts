@@ -13,6 +13,7 @@ export class BuildAddressComponent implements OnInit {
 
   @Input() data: any;
   @Input() typeAddress: any;
+  @Input() typeList: any;
   public dataSession;
   public token: any;
   public collectionCountries: any = [];

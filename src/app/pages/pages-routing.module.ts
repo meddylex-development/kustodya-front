@@ -30,6 +30,7 @@ import { EditAtelComponent } from './calificacion-atel/edit/edit.component';
 import { PrintPreviewAtelComponent } from './calificacion-atel/print-preview/print-preview.component';
 import { LetterComponent } from './concepto-rehabilitacion/letter/letter.component';
 import { UsersComponent } from './administration/users/users.component';
+import { BalanceCasesComponent } from './concepto-rehabilitacion/balance-cases/balance-cases.component';
 
 const routes: Routes = [
   {
@@ -138,6 +139,10 @@ const routes: Routes = [
             path: 'carta-certificado-emitido/:idCaso/:idPaciente',
             component: LetterComponent,
           },
+          {
+            path: 'administracion-de-casos',
+            component: BalanceCasesComponent,
+          },
         ]
       }, {
         path: 'calificacion-de-origen',
@@ -171,7 +176,7 @@ const routes: Routes = [
         path: 'reporte',
         children: [
           {
-            path: 'reporte-resolucion',
+            path: 'reporte-resolucion/:reporteGroupId/:reporteId',
             component: ReporteResolucionComponent,
           }
         ],

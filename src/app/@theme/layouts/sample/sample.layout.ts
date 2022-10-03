@@ -22,6 +22,7 @@ import { StateService } from '../../../@core/utils';
       </nb-layout-header>
 
       <nb-sidebar 
+        *ngIf="false"
         id="menu-sample" 
         class="menu-sidebar"
         tag="menu-sidebar"

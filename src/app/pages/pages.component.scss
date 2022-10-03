@@ -67,10 +67,14 @@
   //   height: calc(104vh - 4.75rem - 2rem) !important;
   // }
 
+  ::ng-deep nb-menu .menu-item .chevron {
+    font-size: 0.875rem;
+    color: #fff !important;
+  }
 
 
-::ng-deep nb-layout-column {
-  padding: 0rem !important;
-}
+  ::ng-deep nb-layout-column {
+    padding: 0rem !important;
+  }
 
 }

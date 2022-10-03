@@ -1,0 +1,48 @@
+<nb-card size="tiny" [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="large" nbSpinnerMessage="{{ textSpinner }}">
+  <nb-card-header style="display: flex !important; justify-content: space-between !important;">
+    Importar archivo de casos
+    <span class="cursor-pointer" (click)="fnCloseModal()">
+        <i class="fas fa-times cursor-pointer text-danger"></i>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row ml-0 mr-0">
+      <form style="width: 350px;" #helpForm="ngForm" aria-labelledby="title">
+        <div class="col-12 pl-0 pr-0">
+          <p>
+              En esta secci&oacute;n puedes cargar un archivo en formato xls el cual debe contener los registros con la informacion especifica. 
+          </p>
+          <p>Descargar archivo base con las columnas necesarias para crear casos:</p>
+          <small>
+            <a href="">Archivo fuente</a>
+          </small>
+        </div>
+        <!-- ********** START - Ocupación paciente ********** -->
+        
+        <!-- *********** END - Ocupación paciente *********** -->
+        <br>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button" 
+            (click)="fnSearchPatient(documentTypePatient, documentNumberPatient)"
+            [class.btn-pulse]="submitted" 
+            [disabled]="!documentTypePatient || !documentNumberPatient || documentNumberPatient == null || documentNumberPatient == ''" 
+            style="background-color: #3366ff; border-color: #3366ff; color: white; text-transform: none !important;">
+            Buscar paciente
+        </button>
+        <button 
+            class="cursor-pointer mb-2"
+            nbButton 
+            fullWidth 
+            type="button"
+            [class.btn-pulse]="submitted" 
+            (click)="fnCancelData()"
+            style="background-color: #9d9d9d; border-color: #9d9d9d; color: #fff; text-transform: none !important;">
+            Cancelar
+        </button>
+      </form>
+  </div>
+  </nb-card-body>
+</nb-card>

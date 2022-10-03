@@ -115,9 +115,17 @@
                     <i class="fas fa-tasks text-ligth"></i>
                   </button>
                 </span> -->
+                
                 &nbsp;
                 <span *ngIf="profileUser == 1" tooltip="Agregar nuevo caso" placement="top" container="body">
                   <button 
+                    nbButton 
+                    (click)="fnShowAddNewCase()"
+                    type="button" 
+                    class="btn btn-primary btn-lg d-inline-block btn-lh">
+                    <i class="fas fa-plus-circle"></i>
+                  </button>
+                  <!-- <button 
                     id="buttonAddNewCase"
                     class="d-inline-block" 
                     nbButton 
@@ -125,6 +133,53 @@
                     size="large" 
                     status="info">
                     <i class="fas fa-plus-circle text-ligth"></i>
+                  </button> -->
+                </span>
+                &nbsp;
+                <span *ngIf="profileUser == 1" tooltip="Configuración" placement="top" container="body">
+                  <!-- <button 
+                    nbContextMenuAdjustment="counterclockwise"
+                    [nbContextMenu]="userMenu" 
+                    class="d-inline-block" 
+                    type="button" 
+                    class="btn btn-primary btn-lg">
+                    <i class="fas fa-cog"></i>
+                  </button> -->
+
+                  <ng-template #popTemplate>
+                    <div class="text-center">
+                      <p class="m-0 p-0">Acciones:</p>
+                    </div>
+                    <!-- <div [innerHtml]="html"></div> -->
+                    <div>
+                      <ul class="list-group list-group-flush m-0 p-0">
+                        <li class="list-group-item item-config" (click)="fnShowModalImportFile()">
+                          <i class="fas fa-upload"></i>&nbsp; 
+                          <span>Importar</span>
+                        </li>
+                        <li class="list-group-item item-config">
+                          <i class="fas fa-download"></i>&nbsp; 
+                          <span>Exportar</span>
+                        </li>
+                        <li class="list-group-item item-config" (click)="fnRedirectBalanceCases()">
+                          <i class="fas fa-balance-scale"></i>&nbsp;
+                          <!-- <i class="fas fa-weight"></i>&nbsp; -->
+                          <span>Balancear</span>
+                        </li>
+                        <li class="list-group-item item-config">
+                          <i class="fas fa-chart-line"></i>&nbsp; 
+                          <span>Estadisticas</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                  <button 
+                    type="button" 
+                    class="btn btn-primary btn-lg btn-lh"
+                    [popover]="popTemplate" 
+                    placement="bottom">
+                    <!-- <i class="fas fa-cog"></i> -->
+                    <i class="fas fa-ellipsis-h"></i>
                   </button>
                 </span>
               </div>
@@ -1459,56 +1514,7 @@
             
           </nb-card-header>
           <nb-card-body>
-            <div>
-              Paciente: 
-              <h4><strong>
-                {{ patientData?.tPrimerNombre | titlecase }} 
-                {{ patientData?.tSegundoNombre | titlecase | titlecase }} 
-                {{ patientData?.tPrimerApellido | titlecase }} 
-                {{ patientData?.tSegundoApellido | titlecase }} 
-              </strong></h4>
-            </div>
-            <p class="mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat voluptas molestiae, rem, consequuntur dolorem quibusdam ex error sapiente facere quo, harum inventore quod voluptatibus hic! Repellat nobis architecto aperiam sit.
-            </p>
-            <div class="row">
-
-              <div class="col">
-                <div class="card">
-                  <h5 class="card-header text-center">
-                    {{ chart1.title }}
-                  </h5>
-                  <div class="card-body text-center">
-                    <google-chart #chart
-                      [title]="chart1.title"
-                      [type]="chart1.type"
-                      [data]="chart1.data"
-                      [columnNames]="chart1.columnNames"
-                      [options]="chart1.options">
-                    </google-chart>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="card">
-                  <h5 class="card-header text-center">
-                    {{ chart2.title }}
-                  </h5>
-                  <div class="card-body text-center">
-                    <google-chart #chart
-                      [title]="chart2.title"
-                      [type]="chart2.type"
-                      [data]="chart2.data"
-                      [columnNames]="chart2.columnNames"
-                      [options]="chart2.options">
-                    </google-chart>
-                  </div>
-                </div>
-              </div>
-              
-              
-            </div>
+            <h1>Hola</h1>
           </nb-card-body>
         </nb-card>
       </nb-card-back>

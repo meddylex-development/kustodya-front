@@ -65,7 +65,7 @@
     display: block;
   }
 
-  /deep/ .nb-theme-default nb-context-menu {
+  ::ng-deep .nb-theme-default nb-context-menu {
     border: none !important;
   }
 

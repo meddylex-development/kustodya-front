@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import * as pbi from 'powerbi-client';
 import { ReportsService } from '../../../shared/api/services/reports.service';
 import { UtilitiesService } from '../../../shared/api/services/utilities.service';
@@ -23,10 +25,14 @@ export class ReporteResolucionComponent implements OnInit {
   public embedReportConfig: any = {};
   public current_payload: string = null;
   public dataMenu: any = null;
+  public userData: any = null; 
+  public loading: boolean = false;
 
   constructor(
+    private route: ActivatedRoute,
     private reportsService: ReportsService,
-    private utilitiesService: UtilitiesService,
+    private utilitiesService: UtilitiesService, 
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -40,16 +46,40 @@ export class ReporteResolucionComponent implements OnInit {
       }
     });
     /* **** END - JQuery definition **** */
-    this.dataMenu = JSON.parse(this.utilitiesService.fnGetSessionStorage('dataMenu'));
-    this.fnGetEmbedReport(this.current_payload);
+    // this.dataMenu = JSON.parse(this.utilitiesService.fnGetSessionStorage('dataMenu'));
+    // this.fnGetEmbedReport(this.current_payload);
+    this.utilitiesService.fnAuthValidUser().then(response => {
+      console.log('response: ', response);
+      this.dataDoctor = JSON.parse(this.utilitiesService.fnGetUser());
+      this.token = response['token'];
+      this.userData = response['user'];
+      // this.dataCase
+      this.loading = true;
+
+      this.route.params.subscribe(params => {
+        console.log('params: ', params);
+        let reporteGroupId = params['reporteGroupId'];
+        let reporteId = params['reporteId'];
+        this.fnGetEmbedReport(this.token, reporteGroupId, reporteId);
+      });
+
+      // this.userService.fnHttpSetAuditUser(this.token, { 'descripcion': 'Ingreso ' + this.name_module, 'accion': 2 }).subscribe(resp => {
+      
+      // });
+      
+      
+
+    }).catch(error => {
+      // this.utilitiesService.fnSignOutUser().then(resp => {
+      //   this.utilitiesService.fnNavigateByUrl('auth/login');
+      // });
+    });
   }
 
-  fnGetEmbedReport(current_payload) {
-    const groupId = this.dataMenu['reporteGroupId'];
-    const reportId =  this.dataMenu['reporteId'];
+  fnGetEmbedReport(current_payload, reporteGroupId, reporteId) {
 
     this.embedReportConfig = null;
-    this.reportsService.fnHttpGetEmbedReport(current_payload, groupId, reportId).subscribe(r => {
+    this.reportsService.fnHttpGetEmbedReport(current_payload, reporteGroupId, reporteId).subscribe(r => {
       if (r.status == 200) {
         this.embedReportConfig = JSON.parse(JSON.stringify(r.body));
 
@@ -76,7 +106,7 @@ export class ReporteResolucionComponent implements OnInit {
   }
 
   fnReturnPage(): void {
-    // this.location.back();
+    this.location.back();
   }
 
   print() {

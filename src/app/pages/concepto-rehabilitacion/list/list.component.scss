@@ -139,11 +139,33 @@
         border-color: #1e90ff !important;
     }
 
-    ::ng-deep #buttonSearch, #buttonAdvanceSearch, #buttonClearSearch, #buttonAddNewCase {
+    ::ng-deep #buttonSearch, #buttonAdvanceSearch, #buttonClearSearch, #buttonAddNewCase, .btn-lh {
         cursor: pointer;
         line-height: 1.65 !important;
     }
 
+    // ::ng-deep .btn-secondary {
+    //     color: #fff !important;
+    //     background-color: #6c757d !important;
+    //     border-color: #6c757d !important;
+    // }
+    ::ng-deep .item-config {
+        cursor: pointer !important;
+        i {
+            color: #a4a4a4 !important;
+            font-size: 1.5rem !important;
+        }
+    }
+
+    ::ng-deep .item-config:hover{
+        background-color: #f0f0f0;
+        cursor: pointer !important;
+    }
+
+    nb-layout-header ::ng-deep nav {
+        justify-content: flex-end;
+    }
+    
     ::ng-deep .tabset {
         padding: 0;
         li.active {

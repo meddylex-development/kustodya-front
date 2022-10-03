@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { NbDialogService } from '@nebular/theme';
+import { ConceptoRehabilitacionService } from '../../shared/api/services/concepto-rehabilitacion.service';
 import { IncapacityService } from '../../shared/api/services/incapacity.service';
 import { UserService } from '../../shared/api/services/user.service';
 import { UtilitiesService } from '../../shared/api/services/utilities.service';
@@ -29,6 +30,7 @@ export class PatientEmployerListComponent implements OnInit {
     private userService: UserService, 
     private utilitiesService: UtilitiesService,
     private incapacityService: IncapacityService,
+    private conceptoRehabilitacionService: ConceptoRehabilitacionService,
     private dialogService: NbDialogService,
   ) { }
 
@@ -44,20 +46,25 @@ export class PatientEmployerListComponent implements OnInit {
           this.dataEmlployerPatient = this.collectionEmployers;
         } else {
           
-          this.fnGetDataEmployerPatient(this.token, this.documentType, this.documentNumber).then((response) => {
-            if (response) {
-              let dataEmlployerPatient = response['body'];
-              this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
-            } else {
-              this.dataEmlployerPatient =  [];
-            }
-          });
+          this.fnGetListData(this.token, this.documentType, this.documentNumber);
+
     
         }
 
       }
     });
 
+  }
+
+  fnGetListData(token, documentType, documentNumber) {
+    this.fnGetDataEmployerPatient(token, documentType, documentNumber).then((response) => {
+      if (response) {
+        let dataEmlployerPatient = response['body'];
+        this.dataEmlployerPatient = (dataEmlployerPatient.length > 0) ? dataEmlployerPatient : [];  
+      } else {
+        this.dataEmlployerPatient =  [];
+      }
+    });
   }
 
 
@@ -120,15 +127,48 @@ export class PatientEmployerListComponent implements OnInit {
   fnShowModalAddAddress(itemEmployer) {
     let dataSend = {};
     dataSend['data'] = itemEmployer;
+    dataSend['typeList'] = this.typeList;
     dataSend['typeAddress'] = 2;
     this.dialogService.open(BuildAddressComponent, { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
       if (res) {
         let dataAddres = res;
+        console.log('dataAddres: ', dataAddres);
         itemEmployer['dataAddress'] = dataAddres;
         itemEmployer['direccion'] = ((dataAddres['address'] + ', ' + dataAddres['aditionalDataAddress'] + ' - ' + dataAddres['userCity']['name'] + ', ' + dataAddres['userDepartament']['departamento'] + ', ' + dataAddres['userCountry']['name']).toUpperCase()).trim();
         itemEmployer['telefonoPrincipal'] = dataAddres['primaryPhone'];
         itemEmployer['telefonoSecundario'] = dataAddres['aditionalPhone'];
+        this.fnGetListData(this.token, this.documentType, this.documentNumber);
+        if (this.typeList == 1) {
+          let objectData = {
+            "tDireccion": "string",
+            "iCodigoPostal": 0,
+            "tTelefono": "string",
+            "iIDCiudad": 0,
+            "tEmail": "string",
+            "iIDEmpresaPaciente": 0,
+            "bNotificacionbyEmail": true,
+            "bNotificacionbyPmail": true
+          };
+          console.log('objectData: ', objectData);
+        }
       }
+    });
+  }
+
+  fnUpdateEmployerCHRB(token, objectData) {
+    // this.typeList
+    return new Promise((resolve, reject) => {
+      this.conceptoRehabilitacionService.fnHttpUpdateEmployerCHRB(token, objectData).subscribe(response => {
+        if (response.status == 200) {
+          resolve(response);
+        } else {
+          resolve(false);
+        }
+      }, err => {
+        reject(false);
+        // this.search = false;
+        // this.utilitiesService.showToast('top-right', '', 'Error consultando el paciente!');
+      });
     });
   }
 

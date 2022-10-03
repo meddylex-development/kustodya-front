@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="true">
   <!-- ********** START - Sidebar one ********** -->
   <nav id="sidebar" *ngIf="display_side_bar_one">
     <div class="sidebar-header">
@@ -281,7 +281,11 @@
             <div class="col-12" *ngIf="current_item.esReporte == true && current_item.reporteId && current_item.reporteGroupId">
               <div>
                 <div *ngIf="show_content" class="animated flipInX delay-1s">
-                  <ngx-powerbi-reports [name_module]="'Reporte ' + current_item.title" [group_id]="current_item.reporteGroupId" [report_id]="current_item.reporteId"></ngx-powerbi-reports>
+                  <ngx-powerbi-reports 
+                    [name_module]="'Reporte ' + current_item.title" 
+                    [group_id]="current_item.reporteGroupId" 
+                    [report_id]="current_item.reporteId">
+                  </ngx-powerbi-reports>
                 </div>
               </div>
             </div>

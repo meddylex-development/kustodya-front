@@ -258,4 +258,16 @@ export class ConceptoRehabilitacionService {
     });
   }
 
+  fnHttpUpdateEmployerCHRB(guid_user, data_object) {
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
+    // ​/api​/K2ConceptoRehabilitacion​/EliminarSecuelaConcepto​/{Id}
+    let urlUpdateEmployerCHRB = '/api/K2ConceptoRehabilitacion/EditarEmpleadorConcepto';
+    return this.http.put(this.utility.fnGetHost() + urlUpdateEmployerCHRB, data_object,
+    {
+      observe: 'response',
+      headers: headers,
+      reportProgress: true,
+    });
+  }
+
 }

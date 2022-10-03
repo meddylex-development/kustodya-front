@@ -56,13 +56,21 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.MENU_ITEMS_DATA = MENU_ITEMS_TEST;
+    // this.MENU_ITEMS_DATA = MENU_ITEMS_TEST;
+    // this.MENU_ITEMS = MENU_ITEMS_TEST;
 
     this.utilitiesService.fnAuthValidUser().then(response => {
       if (response) {
         this.token = response['token'];
         this.user = response['user'];
+        console.log("🚀 ~ file: pages.component.ts ~ line 66 ~ PagesComponent ~ this.utilitiesService.fnAuthValidUser ~ this.user", this.user)
+        console.log('this.user: ', this.user);
         // this.fnLoadMenu(this.token);
+        this.fnGetMainMenu(this.token, this.user['Entidad']).then((resp: NbMenuItem[]) => {
+          console.log('resp: ', resp);
+          this.MENU_ITEMS = resp;
+          console.log('this.MENU_ITEMS: ', this.MENU_ITEMS);
+        });
 
       } else {
         this.utilitiesService.fnSignOutUser().then(resp => {
@@ -90,6 +98,34 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     this.nbMenuService.getSelectedItem('left-menu').pipe(takeWhile(() => this.alive)).subscribe((menuBag) => {
       // this.selectedItem = menuBag.item.title;
+    });
+  }
+
+  fnGetMainMenu(token, id_entity) {
+    return new Promise((resolve, reject) => {
+      try {
+          this.menuService.fnHttpGetMenuDashboard(token, id_entity).subscribe(response => {
+            let objPromise = response;
+            console.log('objPromise: ', objPromise);
+            let collectionMenu = objPromise.body;
+            console.log('collectionMenu: ', collectionMenu);
+            collectionMenu.forEach(element => {
+              console.log('element: ', element);
+              if (element.children.length < 1) {
+                element.children = null;
+              } else {
+                let collectionSubMenus = element.children;
+                collectionSubMenus.forEach(elementSubMenu => {
+                  console.log('elementSubMenu: ', elementSubMenu);
+                  elementSubMenu.children = null;
+                });
+              }
+            });
+            resolve(collectionMenu);
+          });
+        } catch (error) {
+          reject(error);
+        }
     });
   }
 
@@ -181,6 +217,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.menuService.fnHttpGetMenuDashboard(current_payload, id_entity).subscribe(r => {
       if (r.status == 200) {
         const menuDashbord = r.body;
+        console.log('r.body: ', r.body);
         let copyMenuDashbord = [];
         const cards_access = [];
         copyMenuDashbord = menuDashbord;
@@ -188,6 +225,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         const finalMenuVersion: NbMenuItem[] = copyMenuDashbord;
         this.MENU_ITEMS = [];
         this.MENU_ITEMS = finalMenuVersion;
+        console.log('this.MENU_ITEMS: ', this.MENU_ITEMS);
         const object_return = {
           'cards': cards_access[0],
           'menu_items': this.MENU_ITEMS,

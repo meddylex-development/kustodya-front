@@ -79,72 +79,45 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     /* *** START - JQuery definition *** */
     // JQuery ready
-    const _this = this;
 
     $(document).ready(function () {
       // $('#pgp-btn_toogle_side_bar').click(); // Emulate click display right sidebar to hide
-      $('.menu-sidebar').removeClass('d-block').addClass('d-none');
+      // $('.menu-sidebar').removeClass('d-block').addClass('d-none');
       // $('#toggle-settings').removeClass('was-expanded').addClass('was-collapse'); // Hide right sidebar to this component
       // $('#toggle-settings').removeClass('d-block').addClass('d-none'); // Hide right sidebar to this component
     });
     /* **** END - JQuery definition **** */
-
-    _this.myAccountService.dataChangeMyAccount.subscribe((data) => {
-      if (data['showMyAccount']) {
-        _this.menu_items = _this.menu_items_original;
-        // _this.fnCollapse('sidebar');
-        $('#sidebar').toggleClass('active');
-        _this.collapse_side_bar_one = false;
-        $('.przss-content-child-menu').css('display', 'none');
-        _this.url_iframe_content = null;
-        _this.content_user_profile = true;
-        _this.content_terms_conditions = false;
-      } else if(data['showTermsConditions']) {
-        _this.menu_items = _this.menu_items_original;
-        $('#sidebar').toggleClass('active');
-        _this.collapse_side_bar_one = false;
-        $('.przss-content-child-menu').css('display', 'none');
-        _this.url_iframe_content = null;
-        _this.content_terms_conditions = true;
-        _this.content_user_profile = false;
-      } else {
-        _this.url_iframe_content = null;
-        _this.content_user_profile = false;
-        _this.content_terms_conditions = false;
-      }
-    });
-
-    _this.utilitiesService.fnAuthValidUser().then(response => {
+    this.utilitiesService.fnAuthValidUser().then(response => {
       if (response) {
-        _this.token = response['token'];
-        _this.user = response['user'];
-        // _this.fnLoadMenu(_this.token);
+        this.token = response['token'];
+        this.user = response['user'];
+        console.log('this.user: ', this.user);
+        // this.fnLoadMenu(this.token);
 
-        _this.fnGetMenuDashboard(_this.token, 1, null, null, function (resp) {
-            // _this.flag_find_rethus = 1;
-            // _this.section_navigate = '1';
-            // _this.enum_document_type = 9;
-            // _this.document_number = 1111;
+        this.fnGetMenuDashboard(this.token, 1, null, null, function (resp) {
+            // this.flag_find_rethus = 1;
+            // this.section_navigate = '1';
+            // this.enum_document_type = 9;
+            // this.document_number = 1111;
             // const main_manu_collection = JSON.parse(JSON.stringify(resp['menu_items']));
             // main_manu_collection.forEach((value, index) => {
             //   if (value.children.length > 0) {
             //     // $("#sub_menu_1").css('display', 'none');
             //   }
             // });
-            // _this.current_item = resp['menu_items'][3];
-            _this.section_navigate = null;
-            _this.flag_find_rethus = false;
-            _this.enum_document_type = null;
-            _this.document_number = null;
+            // this.current_item = resp['menu_items'][3];
+            this.section_navigate = null;
+            this.flag_find_rethus = false;
+            this.enum_document_type = null;
+            this.document_number = null;
         });
 
       } else {
-        _this.utilitiesService.fnSignOutUser().then(resp => {
-          _this.utilitiesService.fnNavigateByUrl('auth/login');
+        this.utilitiesService.fnSignOutUser().then(resp => {
+          this.utilitiesService.fnNavigateByUrl('auth/login');
         });
       }
     });
-
   }
 
   fnClickContainer() {
@@ -201,7 +174,10 @@ export class DashboardComponent implements OnInit {
     const data_collection_breadcrumbs = JSON.parse(JSON.stringify(this.collection_levels_menu));
     this.show_content = false;
     this.current_item = collection_level[index_menu];
+    console.log('this.current_item: ', this.current_item);
     if (collection_level[index_menu]['children'].length < 1) {
+      console.log('reporteGroupId: ', collection_level[index_menu]['reporteGroupId']);
+      console.log('reporteId: ', collection_level[index_menu]['reporteId']);
       if (collection_level[index_menu]['link'] == "" || collection_level[index_menu]['link'] == null || collection_level[index_menu]['link'] == undefined) {
         this.url_iframe_content = null;
         this.content_user_profile = false;
@@ -221,7 +197,7 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.current_item['id'] == 572) {
-      this.fnRedirectResolutionReport();
+      this.fnRedirectResolutionReport(this.current_item);
     }
 
         
@@ -389,9 +365,12 @@ export class DashboardComponent implements OnInit {
   fnGetDataAccounting(flag: any) {
   }
 
-  fnRedirectResolutionReport() {
-    this.utilitiesService.fnSetSessionStorage('dataMenu', JSON.stringify(this.current_item));
-    this.utilitiesService.fnNavigateByUrl('pages/reporte/reporte-resolucion');
+  fnRedirectResolutionReport(current_item) {
+    // console.log('current_item: ', current_item);
+    // current_item['reporteGroupId']
+    // current_item['reporteId']
+    // this.utilitiesService.fnSetSessionStorage('dataMenu', JSON.stringify(this.current_item));
+    this.utilitiesService.fnNavigateByUrl('pages/reporte/reporte-resolucion/' + current_item['reporteGroupId'] + '/' + current_item['reporteId']);
   }
 
 }

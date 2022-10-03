@@ -22,6 +22,7 @@ import { SpecialistInformationComponent } from '../specialist-information/specia
 import { CancelCaseComponent } from '../cancel-case/cancel-case.component';
 import { AddComponent } from '../add/add.component';
 import { NoApplyCaseComponent } from '../no-apply-case/no-apply-case.component';
+import { ImportFileComponent } from '../import-file/import-file.component';
 
 @Component({
   selector: 'ngx-list-concept-crhb',
@@ -173,6 +174,32 @@ export class ListComponent implements OnInit {
   public userIdSession: any = '';
   public tabId: number = 1;
   public dataStatusBadges: any = null;
+  userMenu = [
+    { title: 'Importar' },
+    { title: 'Exportar' },
+    { title: 'Balanceo de cargas' },
+  ];
+  html = `
+  <ul class="list-group list-group-flush m-0 p-0">
+    <li class="list-group-item item-config">
+      <i class="fas fa-upload"></i> 
+      <span>Importar</span>
+    </li>
+    <li class="list-group-item item-config">
+      <i class="fas fa-download"></i> 
+      <span>Exportar</span>
+    </li>
+    <li class="list-group-item item-config">
+      <i class="fas fa-balance-scale"></i>
+      <!-- <i class="fas fa-weight"></i> -->
+      <span>Balancear</span>
+    </li>
+    <li class="list-group-item item-config">
+      <i class="fas fa-chart-line"></i> 
+      <span>Estadisticas</span>
+    </li>
+  </ul>
+  `;
 
   constructor(
     private authService: NbAuthService,
@@ -222,6 +249,7 @@ export class ListComponent implements OnInit {
         
       }
     });
+
   }
 
   fnGetDataList(current_payload, current_page, search_input, status_list, start_date, end_date, type_user, id_user) {
@@ -900,6 +928,26 @@ export class ListComponent implements OnInit {
       tab: tab_id,
     });
     this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/carta-certificado-emitido/' + item['Id'] + '/' + item['PacienteId']);
+  }
+
+  fnRedirectBalanceCases() {
+    this.utilitiesService.fnNavigateByUrl('pages/concepto-de-rehabilitacion/administracion-de-casos');
+  }
+
+  fnShowModalImportFile() {
+    let dataSend = {};
+    dataSend['dataCase'] = {};
+    // let idDictamen = item['idDictamen'];
+    // this.utilitiesService.fnSetDataShare({ 
+    //   dataDictamen: item,
+    // }, true);
+    // this.utilitiesService.fnNavigateByUrl('pages/dictamen-pericial/auditar-caso/'+ idDictamen);
+    this.dialogService.open(ImportFileComponent , { context: dataSend, hasScroll: true }).onClose.subscribe((res) => {
+      if (res) {
+        this.collectionAsignados = [];
+        this.fnBuildData(this.token, this.currentPage, null, 1, null, null, null, this.profileUser, this.userIdSession);
+      }
+    });
   }
 
 }

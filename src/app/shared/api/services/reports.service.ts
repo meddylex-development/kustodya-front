@@ -24,12 +24,12 @@ export class ReportsService {
   }
 
   fnHttpGetEmbedReport(guid_user, groupid, reportid): Observable<any> {
-    //const headers = this.fnSetDefineTokenAuthorization(guid_user);
+    const headers = this.fnSetDefineTokenAuthorization('Bearer ' + guid_user);
     this.urlGetEmbedReport = '/api/PowerBI/EmbedReport?groupid=' + groupid + '&reportid=' + reportid;
     return this.http.get(this.utility.fnGetHost() + this.urlGetEmbedReport,
       {
         observe: 'response',
-        // headers: headers,
+        headers: headers,
         reportProgress: true,
       });
   }
