@@ -5,7 +5,8 @@
   */
  export const environment = {
   production: true,
-  apiUrl: 'http://meddylex-001-site1.itempurl.com', 
+  apiUrl: 'http://meddylex-001-site1.atempurl.com', 
+  // apiUrl: 'http://meddylex-001-site1.itempurl.com', 
   // apiUrl: 'https://localhost:5001', 
   apiUrlSite4: 'http://meddylex-001-site4.itempurl.com', 
   // apiUrlMiddlewareMails: 'http://localhost:3001',
@@ -13,7 +14,8 @@
   apiMedicos: 'https://kustodya-medicos.azurewebsites.net',
   codigoApiMedicos: 'clMLrHHJWiIleq2AjfZWDgVsLkkWUTSbbwH7KIq02l89tcnSm8ubpg==',
   codigoApiMedico: 'clMLrHHJWiIleq2AjfZWDgVsLkkWUTSbbwH7KIq02l89tcnSm8ubpg==',
-  siteUrl: 'http://meddylex-001-site1.itempurl.com',
+  siteUrl: 'http://meddylex-001-site1.atempurl.com',
+  // siteUrl: 'http://meddylex-001-site1.itempurl.com',
   // siteUrl: 'https://localhost:5001',
   timeExpireReport: 60000,
   reportsUrl: 'https://kustodya-reportes-develop.azurewebsites.net',
